@@ -1,4 +1,4 @@
-/* ERP Layout */
+/* Dashboard Layout */
 
 .layout{
     display:flex;
@@ -18,7 +18,6 @@
 
 .sidebar h2{
     text-align:center;
-    margin-bottom:30px;
 }
 
 
@@ -29,11 +28,9 @@
 
 
 .sidebar li{
-    padding:15px;
-    margin-bottom:10px;
-    background:rgba(255,255,255,0.1);
+    padding:14px;
+    margin:8px 0;
     border-radius:8px;
-    cursor:pointer;
 }
 
 
@@ -42,14 +39,61 @@
 }
 
 
-/* Main Area */
+/* Main Content */
 
 .main{
     flex:1;
     padding:30px;
+    background:#f5f5f5;
 }
 
 
-.main h1{
+/* Header */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+}
+
+
+/* Cards */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+    margin-top:25px;
+}
+
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+
+.card h2{
     color:#1b5e20;
+}
+
+
+/* Activity */
+
+.activity{
+    background:white;
+    margin-top:30px;
+    padding:25px;
+    border-radius:15px;
+}
+
+
+.activity li{
+    padding:10px;
 }
