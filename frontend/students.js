@@ -1,75 +1,53 @@
-// Student Search Function
 
-function searchStudent(){
-
-    let input = document.querySelector(".search-box input");
-    let filter = input.value.toLowerCase();
-
-    let rows = document.querySelectorAll("table tbody tr");
+// Final Student Management System
 
 
-    rows.forEach(row => {
+// Load Students
 
-        let text = row.innerText.toLowerCase();
+function getStudents(){
 
-        if(text.includes(filter)){
-            row.style.display = "";
-        }
-        else{
-            row.style.display = "none";
-        }
-
-    });
+    return JSON.parse(
+        localStorage.getItem("students")
+    ) || [];
 
 }
 
 
 
-// Delete Student Function
-
-function deleteStudent(){
-
-    let confirmDelete = confirm(
-        "Are you sure you want to delete this student?"
-    );
-
-
-    if(confirmDelete){
-
-        alert("Student deleted successfully");
-
-    }
-
-}
-
-
-
-// Edit Student Function
-
-function editStudent(){
-
-    alert("Edit student feature coming soon");
-
-}// Display Students in Table
+// Display Student List
 
 function displayStudents(){
 
-    let table = document.querySelector("table");
+    let students = getStudents();
+
+    let tbody = document.querySelector("#studentTableBody");
 
 
-    students.forEach(student=>{
-
-        let row = table.insertRow();
+    if(!tbody) return;
 
 
-        row.innerHTML = `
+    tbody.innerHTML = "";
+
+
+    students.forEach(student => {
+
+
+        let row = `
+
+        <tr>
 
         <td>${student.id}</td>
+
         <td>${student.name}</td>
+
         <td>${student.className}</td>
+
         <td>${student.father}</td>
+
         <td>${student.mobile}</td>
+
         <td>${student.feeStatus}</td>
+
 
         <td>
 
@@ -83,15 +61,119 @@ function displayStudents(){
         </a>
 
 
+        <button onclick="deleteStudent('${student.id}')">
+        🗑 Delete
+        </button>
+
+
         </td>
+
+
+        </tr>
 
         `;
 
 
+        tbody.innerHTML += row;
+
+
     });
+
 
 }
 
 
+
+
+// Search Student
+
+function searchStudent(){
+
+
+    let value =
+    document.getElementById("searchInput")
+    .value
+    .toLowerCase();
+
+
+    let rows =
+    document.querySelectorAll(
+        "#studentTableBody tr"
+    );
+
+
+    rows.forEach(row=>{
+
+
+        if(
+            row.innerText
+            .toLowerCase()
+            .includes(value)
+        ){
+
+            row.style.display="";
+
+        }
+
+        else{
+
+            row.style.display="none";
+
+        }
+
+
+    });
+
+
+}
+
+
+
+
+// Delete Student
+
+function deleteStudent(id){
+
+
+    let confirmDelete =
+    confirm(
+        "Delete this student?"
+    );
+
+
+    if(confirmDelete){
+
+
+        let students = getStudents();
+
+
+        students =
+        students.filter(
+            student => student.id !== id
+        );
+
+
+        localStorage.setItem(
+            "students",
+            JSON.stringify(students)
+        );
+
+
+        displayStudents();
+
+
+        alert(
+            "Student Deleted"
+        );
+
+    }
+
+
+}
+
+
+
+
+// Start
 
 displayStudents();
