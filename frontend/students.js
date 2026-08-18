@@ -1,8 +1,7 @@
-
 // Final Student Management System
 
 
-// Load Students
+// Get Student Data
 
 function getStudents(){
 
@@ -20,21 +19,26 @@ function displayStudents(){
 
     let students = getStudents();
 
-    let tbody = document.querySelector("#studentTableBody");
+    let tableBody = document.getElementById(
+        "studentTableBody"
+    );
 
 
-    if(!tbody) return;
+    if(!tableBody){
+        return;
+    }
 
 
-    tbody.innerHTML = "";
+    tableBody.innerHTML = "";
 
 
     students.forEach(student => {
 
 
-        let row = `
+        let row = document.createElement("tr");
 
-        <tr>
+
+        row.innerHTML = `
 
         <td>${student.id}</td>
 
@@ -51,30 +55,41 @@ function displayStudents(){
 
         <td>
 
+
         <a href="student-profile.html">
-        <button>👁 View</button>
+
+        <button>
+        👁 View
+        </button>
+
         </a>
+
 
 
         <a href="edit-student.html">
-        <button>✏ Edit</button>
+
+        <button>
+        ✏ Edit
+        </button>
+
         </a>
 
 
+
         <button onclick="deleteStudent('${student.id}')">
+
         🗑 Delete
+
         </button>
+
 
 
         </td>
 
-
-        </tr>
-
         `;
 
 
-        tbody.innerHTML += row;
+        tableBody.appendChild(row);
 
 
     });
@@ -90,10 +105,11 @@ function displayStudents(){
 function searchStudent(){
 
 
-    let value =
-    document.getElementById("searchInput")
-    .value
-    .toLowerCase();
+    let searchValue =
+    document.getElementById(
+        "searchInput"
+    ).value.toLowerCase();
+
 
 
     let rows =
@@ -102,14 +118,16 @@ function searchStudent(){
     );
 
 
+
     rows.forEach(row=>{
 
 
-        if(
-            row.innerText
-            .toLowerCase()
-            .includes(value)
-        ){
+        let data =
+        row.innerText.toLowerCase();
+
+
+
+        if(data.includes(searchValue)){
 
             row.style.display="";
 
@@ -130,6 +148,7 @@ function searchStudent(){
 
 
 
+
 // Delete Student
 
 function deleteStudent(id){
@@ -137,8 +156,9 @@ function deleteStudent(id){
 
     let confirmDelete =
     confirm(
-        "Delete this student?"
+        "Are you sure you want to delete this student?"
     );
+
 
 
     if(confirmDelete){
@@ -147,10 +167,12 @@ function deleteStudent(id){
         let students = getStudents();
 
 
+
         students =
         students.filter(
             student => student.id !== id
         );
+
 
 
         localStorage.setItem(
@@ -159,12 +181,15 @@ function deleteStudent(id){
         );
 
 
+
         displayStudents();
 
 
+
         alert(
-            "Student Deleted"
+            "Student deleted successfully"
         );
+
 
     }
 
@@ -174,6 +199,7 @@ function deleteStudent(id){
 
 
 
-// Start
+
+// Load Table
 
 displayStudents();
