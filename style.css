@@ -278,5 +278,40 @@ canvas{
 .admin-profile span{
     font-size:13px;
     color:#777;
+}/* Dashboard Cards */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-top:25px;
+}
+
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    transition:0.3s;
+    text-align:center;
+}
+
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+
+.card h2{
+    font-size:28px;
+    color:#1b5e20;
+    margin-bottom:10px;
+}
+
+
+.card p{
+    color:#666;
+    font-size:16px;
 }
 
