@@ -1,23 +1,27 @@
-// Add Student Function
+// Final Add Student System
 
 function addStudent(){
 
 
     let student = {
 
-        id: Date.now(),
+        id: "STD-" + Date.now(),
 
-        name: document.querySelector("#studentName").value,
+        name: document.getElementById("studentName").value,
 
-        father: document.querySelector("#fatherName").value,
+        father: document.getElementById("fatherName").value,
 
-        mother: document.querySelector("#motherName").value,
+        mother: document.getElementById("motherName").value,
 
-        className: document.querySelector("#className").value,
+        dob: document.getElementById("dob").value,
 
-        mobile: document.querySelector("#mobile").value,
+        className: document.getElementById("className").value,
 
-        address: document.querySelector("#address").value,
+        mobile: document.getElementById("mobile").value,
+
+        admissionDate: document.getElementById("admissionDate").value,
+
+        address: document.getElementById("address").value,
 
         feeStatus: "Due",
 
@@ -26,6 +30,21 @@ function addStudent(){
         result: "Not Available"
 
     };
+
+
+
+    if(
+        student.name === "" ||
+        student.father === "" ||
+        student.className === ""
+    ){
+
+        alert("Please fill required information");
+
+        return;
+
+    }
+
 
 
 
@@ -46,7 +65,10 @@ function addStudent(){
 
 
 
-    alert("Student Added Successfully");
+    alert(
+        "Student Added Successfully"
+    );
+
 
 
     window.location.href="students.html";
