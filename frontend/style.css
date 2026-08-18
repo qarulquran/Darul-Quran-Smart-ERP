@@ -86,4 +86,87 @@ table button:last-child{
 }
 
 
+}/* Add Student Form */
+
+.form-box{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    margin-top:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+
+.form-box h2{
+    color:#1b5e20;
+    margin-bottom:25px;
+}
+
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+
+.form-box label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+
+.form-box input,
+.form-box select,
+.form-box textarea{
+
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    outline:none;
+
+}
+
+
+.form-box textarea{
+    height:120px;
+    resize:none;
+    margin-top:10px;
+}
+
+
+.form-box button{
+
+    margin-top:25px;
+    background:#1b5e20;
+    color:white;
+    border:none;
+    padding:14px 30px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+
+}
+
+
+.form-box button:hover{
+
+    background:#2e7d32;
+
+}
+
+
+
+/* Mobile Form */
+
+@media(max-width:768px){
+
+.form-grid{
+
+    grid-template-columns:1fr;
+
+}
+
 }
