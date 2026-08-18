@@ -345,6 +345,48 @@ canvas{
     padding:20px;
     border-radius:15px;
     box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}/* Mobile Responsive */
+
+@media(max-width:768px){
+
+    .layout{
+        flex-direction:column;
+    }
+
+
+    .sidebar{
+        width:100%;
+        padding:15px;
+    }
+
+
+    .main{
+        width:100%;
+        padding:15px;
+    }
+
+
+    .dashboard-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+
+    .admin-profile{
+        width:100%;
+    }
+
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+
+    .chart-container{
+        grid-template-columns:1fr;
+    }
+
 }
 
 
