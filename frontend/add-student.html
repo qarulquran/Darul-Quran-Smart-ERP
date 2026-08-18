@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add Student - Darul Quran ERP</title>
+<title>Add Student - Darul Quran Smart ERP</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -46,38 +46,91 @@ Admin 👤
 
 <div>
 <label>Student Name</label>
-<input type="text" placeholder="Enter student name">
+
+<input 
+id="studentName"
+type="text"
+placeholder="Enter student name">
+
 </div>
+
 
 
 <div>
 <label>Father Name</label>
-<input id="fatherName" type="text" placeholder="Enter father name"></div>
+
+<input 
+id="fatherName"
+type="text"
+placeholder="Enter father name">
+
+</div>
+
 
 
 <div>
 <label>Mother Name</label>
-<input type="text" placeholder="Enter mother name">
+
+<input 
+id="motherName"
+type="text"
+placeholder="Enter mother name">
+
 </div>
+
 
 
 <div>
 <label>Date of Birth</label>
-<input type="date">
+
+<input 
+id="dob"
+type="date">
+
 </div>
+
 
 
 <div>
 <label>Class</label>
 
-<select>
+<select id="className">
 
-<option>Select Class</option>
-<option>Class 1</option>
-<option>Class 2</option>
-<option>Class 3</option>
-<option>Class 4</option>
-<option>Class 5</option>
+<option value="">
+Select Class
+</option>
+
+<option>
+Class 1
+</option>
+
+<option>
+Class 2
+</option>
+
+<option>
+Class 3
+</option>
+
+<option>
+Class 4
+</option>
+
+<option>
+Class 5
+</option>
+
+<option>
+Class 6
+</option>
+
+<option>
+Class 7
+</option>
+
+<option>
+Class 8
+</option>
 
 </select>
 
@@ -85,39 +138,64 @@ Admin 👤
 
 
 
+
 <div>
 <label>Mobile Number</label>
-<input type="number" placeholder="017XXXXXXXX">
+
+<input
+id="mobile"
+type="number"
+placeholder="017XXXXXXXX">
+
 </div>
 
 
 
 <div>
 <label>Admission Date</label>
-<input type="date">
+
+<input
+id="admissionDate"
+type="date">
+
 </div>
 
 
 
 <div>
 <label>Student Photo</label>
-<input type="file">
+
+<input
+id="photo"
+type="file">
+
 </div>
 
 
 </div>
+
 
 
 
 <div>
+
 <label>Address</label>
-<textarea placeholder="Enter address"></textarea>
+
+<textarea
+id="address"
+placeholder="Enter student address">
+</textarea>
+
 </div>
 
 
 
-<button type="submit">
+<button 
+type="button"
+onclick="addStudent()">
+
 Save Student
+
 </button>
 
 
@@ -130,6 +208,9 @@ Save Student
 
 
 </div>
+
+
+<script src="add-student.js"></script>
 
 
 </body>
