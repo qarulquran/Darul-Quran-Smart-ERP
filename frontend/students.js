@@ -50,4 +50,48 @@ function editStudent(){
 
     alert("Edit student feature coming soon");
 
+}// Display Students in Table
+
+function displayStudents(){
+
+    let table = document.querySelector("table");
+
+
+    students.forEach(student=>{
+
+        let row = table.insertRow();
+
+
+        row.innerHTML = `
+
+        <td>${student.id}</td>
+        <td>${student.name}</td>
+        <td>${student.className}</td>
+        <td>${student.father}</td>
+        <td>${student.mobile}</td>
+        <td>${student.feeStatus}</td>
+
+        <td>
+
+        <a href="student-profile.html">
+        <button>👁 View</button>
+        </a>
+
+
+        <a href="edit-student.html">
+        <button>✏ Edit</button>
+        </a>
+
+
+        </td>
+
+        `;
+
+
+    });
+
 }
+
+
+
+displayStudents();
