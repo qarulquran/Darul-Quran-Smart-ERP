@@ -254,4 +254,41 @@ table button:last-child{
 
 }
 
+}/* Student Search */
+
+.search-box{
+
+    display:flex;
+    gap:10px;
+    margin:20px 0;
+
+}
+
+
+.search-box input{
+
+    flex:1;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+
+}
+
+
+.search-box button{
+
+    background:#1b5e20;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:8px;
+    cursor:pointer;
+
+}
+
+
+.search-box button:hover{
+
+    background:#2e7d32;
+
 }
