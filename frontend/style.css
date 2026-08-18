@@ -169,4 +169,89 @@ table button:last-child{
 
 }
 
+}/* Student Profile */
+
+.profile-card{
+
+    display:flex;
+    gap:30px;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    margin-top:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+
+}
+
+
+.student-photo img{
+
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid #1b5e20;
+
+}
+
+
+.student-info h2{
+
+    color:#1b5e20;
+    margin-bottom:15px;
+
+}
+
+
+.student-info p{
+
+    margin:8px 0;
+    color:#555;
+
+}
+
+
+
+/* Status Cards */
+
+.status-cards{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin-top:25px;
+
+}
+
+
+.status-cards .card{
+
+    text-align:center;
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+
+}
+
+
+
+/* Mobile Responsive */
+
+@media(max-width:768px){
+
+.profile-card{
+
+    flex-direction:column;
+    text-align:center;
+
+}
+
+
+.status-cards{
+
+    grid-template-columns:1fr;
+
+}
+
 }
