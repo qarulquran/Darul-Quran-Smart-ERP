@@ -1,35 +1,63 @@
+
 // Final Add Student System
+
 
 function addStudent(){
 
 
     let student = {
 
-        id: "STD-" + Date.now(),
 
-        name: document.getElementById("studentName").value,
+        id:
+        "STD-" + Date.now(),
 
-        father: document.getElementById("fatherName").value,
 
-        mother: document.getElementById("motherName").value,
+        name:
+        document.getElementById("studentName").value,
 
-        dob: document.getElementById("dob").value,
 
-        className: document.getElementById("className").value,
+        father:
+        document.getElementById("fatherName").value,
 
-        mobile: document.getElementById("mobile").value,
 
-        admissionDate: document.getElementById("admissionDate").value,
+        mother:
+        document.getElementById("motherName").value,
 
-        address: document.getElementById("address").value,
 
-        feeStatus: "Due",
+        dob:
+        document.getElementById("dob").value,
 
-        attendance: "0%",
 
-        result: "Not Available"
+        className:
+        document.getElementById("className").value,
+
+
+        mobile:
+        document.getElementById("mobile").value,
+
+
+        admissionDate:
+        document.getElementById("admissionDate").value,
+
+
+        address:
+        document.getElementById("address").value,
+
+
+        feeStatus:
+        "Due",
+
+
+        attendance:
+        "0%",
+
+
+        result:
+        "Not Available"
 
     };
+
+
 
 
 
@@ -39,7 +67,9 @@ function addStudent(){
         student.className === ""
     ){
 
-        alert("Please fill required information");
+        alert(
+        "Please fill required fields"
+        );
 
         return;
 
@@ -48,13 +78,22 @@ function addStudent(){
 
 
 
-    let students = JSON.parse(
+
+
+    let students =
+    JSON.parse(
         localStorage.getItem("students")
     ) || [];
 
 
 
+
+
+
     students.push(student);
+
+
+
 
 
 
@@ -65,13 +104,22 @@ function addStudent(){
 
 
 
+
+
+
+
     alert(
-        "Student Added Successfully"
+    "Student Added Successfully"
     );
 
 
 
-    window.location.href="students.html";
+
+
+
+    window.location.href =
+    "students.html";
+
 
 
 }
