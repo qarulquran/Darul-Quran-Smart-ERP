@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,23 +31,42 @@ Admin 👤
 
 
 
+
 <div class="student-header">
 
-<h2>Students List</h2><div class="search-box">
+<h2>Students List</h2>
 
-<input type="text" placeholder="Search Student">
 
-<button onclick="searchStudent()">
-Search
-</button>
-
-</div>
+<a href="add-student.html">
 
 <button>
 + Add Student
 </button>
 
+</a>
+
+
 </div>
+
+
+
+
+<div class="search-box">
+
+<input 
+id="searchInput"
+type="text"
+placeholder="Search Student">
+
+
+<button onclick="searchStudent()">
+Search
+</button>
+
+
+</div>
+
+
 
 
 
@@ -58,67 +76,36 @@ Search
 <table>
 
 
+<thead>
+
 <tr>
 
 <th>ID</th>
+
 <th>Name</th>
+
 <th>Class</th>
+
 <th>Father Name</th>
+
 <th>Mobile</th>
+
 <th>Status</th>
+
 <th>Action</th>
 
-</tr>
-
-
-
-<tr>
-
-<td>001</td>
-<td>Ahmed Rahman</td>
-<td>Class 5</td>
-<td>Md. Rahman</td>
-<td>017XXXXXXXX</td>
-<td>Active</td>
-<td>
-
-<a href="student-profile.html">
-<button>👁 View</button>
-</a>
-
-<a href="edit-student.html">
-
-<button>
-✏ Edit
-</button>
-
-</a>
-
-<button onclick="deleteStudent()">
-🗑 Delete
-</button>
-
-</td>
 
 </tr>
 
+</thead>
 
 
-<tr>
 
-<td>002</td>
-<td>Abdullah</td>
-<td>Class 6</td>
-<td>Karim Ali</td>
-<td>018XXXXXXXX</td>
-<td>Active</td>
+<tbody id="studentTableBody">
 
-<td>
-<button>Edit</button>
-<button>View</button>
-</td>
 
-</tr>
+</tbody>
+
 
 
 </table>
@@ -128,7 +115,13 @@ Search
 
 
 
-</div><script src="students.js"></script>
+</div>
+
+
+
+
+
+<script src="students.js"></script>
 
 
 </body>
