@@ -1,4 +1,3 @@
-/* ===== BANGLADESH LOCATION DATABASE START ===== */
 
 const bangladeshLocation = {
 
@@ -90,6 +89,3 @@ const bangladeshLocation = {
 
 
 };
-
-
-/* ===== BANGLADESH LOCATION DATABASE END ===== */
