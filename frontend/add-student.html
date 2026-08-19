@@ -1,4 +1,4 @@
-<!-- ===== ADD STUDENT HTML PART 1/3 START ===== -->
+/* ===== ADD STUDENT HTML FINAL PART 1/2 START ===== */
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +9,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add New Student</title>
+<title>Student Admission</title>
 
 <link rel="stylesheet" href="add-student.css">
 
@@ -19,12 +19,15 @@
 <body>
 
 
-
 <div class="header">
 
-<button id="menuBtn">☰</button>
+<button id="menuBtn">
+☰
+</button>
 
-<h2>Add New Student</h2>
+<h2>
+Student Admission
+</h2>
 
 </div>
 
@@ -38,7 +41,7 @@
 <div class="title-card">
 
 <h1>
-🧑‍🎓 Student Admission Form
+🧑‍🎓 New Student Admission
 </h1>
 
 <p>
@@ -50,25 +53,32 @@ Darul Quran Smart ERP
 
 
 
-<!-- Student Information -->
+
+
+<!-- Student Personal Information -->
 
 
 <div class="form-card">
 
 
 <h2>
-📌 Student Personal Information
+👤 Student Personal Information
 </h2>
 
 
 <div class="form-grid">
 
 
+
 <div class="field">
 
-<label>Student Name</label>
+<label>
+Student Name *
+</label>
 
-<input type="text" placeholder="Enter student name">
+<input type="text"
+placeholder="Enter student name"
+name="studentName">
 
 </div>
 
@@ -76,7 +86,9 @@ Darul Quran Smart ERP
 
 <div class="field">
 
-<label>Date of Birth</label>
+<label>
+Date of Birth *
+</label>
 
 <input type="date">
 
@@ -86,11 +98,29 @@ Darul Quran Smart ERP
 
 <div class="field">
 
-<label>Blood Group</label>
+<label>
+Birth Registration Number *
+</label>
+
+<input type="text"
+placeholder="Enter birth registration number">
+
+</div>
+
+
+
+<div class="field">
+
+<label>
+Blood Group
+</label>
+
 
 <select>
 
-<option>Select Blood Group</option>
+<option>
+Select Blood Group
+</option>
 
 <option>A+</option>
 <option>A-</option>
@@ -103,25 +133,20 @@ Darul Quran Smart ERP
 
 </select>
 
-</div>
-
-
-
-<div class="field">
-
-<label>Nationality</label>
-
-<input type="text" value="Bangladeshi">
 
 </div>
 
 
 
+
 <div class="field">
 
-<label>Birth Registration Number</label>
+<label>
+Nationality
+</label>
 
-<input type="text" placeholder="Enter birth registration number">
+<input type="text"
+value="Bangladeshi">
 
 </div>
 
@@ -129,83 +154,118 @@ Darul Quran Smart ERP
 
 <div class="field">
 
-<label>Student Photo</label>
+<label>
+Student Photo
+</label>
 
-<input type="file" accept="image/*">
-
-</div>
-
-
-
-</div>
+<input type="file"
+accept="image/*">
 
 
 </div>
 
 
 
+</div>
+
+
+</div>
 
 
 
-<!-- Parent Information -->
+
+
+
+
+
+<!-- Parents Information -->
 
 
 <div class="form-card">
 
 
 <h2>
-👨‍👩‍👦 Parent Information
+👨‍👩‍👦 Parents Information
 </h2>
+
 
 
 <div class="form-grid">
 
 
-<div class="field">
-
-<label>Father Name</label>
-
-<input type="text" placeholder="Enter father name">
-
-</div>
-
-
 
 <div class="field">
 
-<label>Father NID Number</label>
+<label>
+Father Name *
+</label>
 
-<input type="text" placeholder="Enter father NID">
+
+<input type="text"
+placeholder="Enter father name">
 
 </div>
+
 
 
 
 <div class="field">
 
-<label>Mother Name</label>
+<label>
+Father NID Number
+</label>
 
-<input type="text" placeholder="Enter mother name">
+
+<input type="text"
+placeholder="Enter father NID">
 
 </div>
+
+
 
 
 
 <div class="field">
 
-<label>Mother NID Number</label>
+<label>
+Mother Name *
+</label>
 
-<input type="text" placeholder="Enter mother NID">
+
+<input type="text"
+placeholder="Enter mother name">
 
 </div>
+
+
 
 
 
 <div class="field">
 
-<label>Guardian Mobile Number</label>
+<label>
+Mother NID Number
+</label>
 
-<input type="number" placeholder="Enter mobile number">
+
+<input type="text"
+placeholder="Enter mother NID">
+
+</div>
+
+
+
+
+
+<div class="field">
+
+<label>
+Guardian Mobile Number
+</label>
+
+
+<input type="number"
+placeholder="Enter mobile number">
 
 </div>
 
@@ -218,10 +278,11 @@ Darul Quran Smart ERP
 
 
 
-<!-- ===== ADD STUDENT HTML PART 1/3 END ===== --><!-- ===== ADD STUDENT HTML PART 2/3 START ===== -->
+<!-- ===== PART 1/2 END ===== -->/* ===== ADD STUDENT HTML FINAL PART 2/2 START ===== */
 
 
-<!-- Previous Education -->
+
+<!-- Previous Education Information -->
 
 
 <div class="form-card">
@@ -237,39 +298,87 @@ Darul Quran Smart ERP
 
 <div class="field">
 
-<label>Previous Institution Name</label>
+<label>
+Previous Institution Name
+</label>
 
-<input type="text" placeholder="Enter previous institution name">
+<input type="text"
+placeholder="Enter previous institution name">
+
 
 </div>
+
 
 
 
 <div class="field">
 
-<label>Previous Class</label>
+
+<label>
+Previous Class
+</label>
+
 
 <select>
 
-<option>Select Previous Class</option>
 
-<option>Play</option>
-<option>Nursery</option>
-<option>Class 1</option>
-<option>Class 2</option>
-<option>Class 3</option>
-<option>Class 4</option>
-<option>Class 5</option>
-<option>Class 6</option>
-<option>Class 7</option>
-<option>Class 8</option>
-<option>Class 9</option>
-<option>Class 10</option>
+<option>
+Select Previous Class
+</option>
+
+<option>
+Play
+</option>
+
+<option>
+Nursery
+</option>
+
+<option>
+Class 1
+</option>
+
+<option>
+Class 2
+</option>
+
+<option>
+Class 3
+</option>
+
+<option>
+Class 4
+</option>
+
+<option>
+Class 5
+</option>
+
+<option>
+Class 6
+</option>
+
+<option>
+Class 7
+</option>
+
+<option>
+Class 8
+</option>
+
+<option>
+Class 9
+</option>
+
+<option>
+Class 10
+</option>
+
 
 </select>
 
-</div>
 
+</div>
 
 
 </div>
@@ -294,42 +403,84 @@ Darul Quran Smart ERP
 </h2>
 
 
-<div class="form-grid">
 
+<div class="form-grid">
 
 
 <div class="field">
 
-<label>Admission Class</label>
+
+<label>
+Admission Class *
+</label>
+
 
 <select>
 
 
-<option>Select Class</option>
+<option>
+Select Class
+</option>
 
-<option>Play</option>
 
-<option>Nursery</option>
+<option>
+Play
+</option>
 
-<option>Class 1</option>
 
-<option>Class 2</option>
+<option>
+Nursery
+</option>
 
-<option>Class 3</option>
 
-<option>Class 4</option>
+<option>
+Class 1
+</option>
 
-<option>Class 5</option>
 
-<option>Class 6</option>
+<option>
+Class 2
+</option>
 
-<option>Class 7</option>
 
-<option>Class 8</option>
+<option>
+Class 3
+</option>
 
-<option>Class 9</option>
 
-<option>Class 10</option>
+<option>
+Class 4
+</option>
+
+
+<option>
+Class 5
+</option>
+
+
+<option>
+Class 6
+</option>
+
+
+<option>
+Class 7
+</option>
+
+
+<option>
+Class 8
+</option>
+
+
+<option>
+Class 9
+</option>
+
+
+<option>
+Class 10
+</option>
 
 
 </select>
@@ -340,15 +491,20 @@ Darul Quran Smart ERP
 
 
 
+
 <div class="field">
 
 
-<label>Admission Date</label>
+<label>
+Admission Date
+</label>
+
 
 <input type="date">
 
 
 </div>
+
 
 
 </div>
@@ -369,7 +525,7 @@ Darul Quran Smart ERP
 
 
 <h2>
-📍 Address Information
+📍 Present Address
 </h2>
 
 
@@ -377,33 +533,24 @@ Darul Quran Smart ERP
 <div class="form-grid">
 
 
-
 <div class="field">
 
-<label>Division</label>
+
+<label>
+Division
+</label>
+
 
 <select id="division">
 
-<option>Select Division</option>
 
-<option>Dhaka</option>
-
-<option>Chattogram</option>
-
-<option>Rajshahi</option>
-
-<option>Khulna</option>
-
-<option>Barishal</option>
-
-<option>Sylhet</option>
-
-<option>Rangpur</option>
-
-<option>Mymensingh</option>
+<option>
+Select Division
+</option>
 
 
 </select>
+
 
 </div>
 
@@ -414,12 +561,18 @@ Darul Quran Smart ERP
 <div class="field">
 
 
-<label>District</label>
+<label>
+District
+</label>
 
 
 <select id="district">
 
-<option>Select District</option>
+
+<option>
+Select District
+</option>
+
 
 </select>
 
@@ -429,15 +582,22 @@ Darul Quran Smart ERP
 
 
 
+
 <div class="field">
 
 
-<label>Thana / Upazila</label>
+<label>
+Thana / Upazila
+</label>
 
 
 <select id="thana">
 
-<option>Select Thana</option>
+
+<option>
+Select Thana
+</option>
+
 
 </select>
 
@@ -451,12 +611,18 @@ Darul Quran Smart ERP
 <div class="field">
 
 
-<label>Union</label>
+<label>
+Union
+</label>
 
 
 <select id="union">
 
-<option>Select Union</option>
+
+<option>
+Select Union
+</option>
+
 
 </select>
 
@@ -470,12 +636,18 @@ Darul Quran Smart ERP
 <div class="field">
 
 
-<label>Ward</label>
+<label>
+Ward
+</label>
 
 
 <select id="ward">
 
-<option>Select Ward</option>
+
+<option>
+Select Ward
+</option>
+
 
 </select>
 
@@ -485,27 +657,34 @@ Darul Quran Smart ERP
 
 
 
-<div class="field">
-
-
-<label>Village / Area</label>
-
-
-<input type="text" placeholder="Enter village or area">
-
-
-</div>
-
-
-
 
 <div class="field">
 
 
-<label>House / Road / Landmark</label>
+<label>
+Village / Area
+</label>
 
 
-<textarea placeholder="Enter full address"></textarea>
+<input type="text"
+placeholder="Enter village name">
+
+
+</div>
+
+
+
+
+<div class="field">
+
+
+<label>
+House / Road / Landmark
+</label>
+
+
+<textarea
+placeholder="Enter full address"></textarea>
 
 
 </div>
@@ -521,7 +700,10 @@ Darul Quran Smart ERP
 
 
 
-<!-- ===== ADD STUDENT HTML PART 2/3 END ===== --><!-- ===== ADD STUDENT HTML PART 3/3 START ===== -->
+
+
+
+<!-- Permanent Address -->
 
 
 <div class="form-card">
@@ -532,123 +714,38 @@ Darul Quran Smart ERP
 </h2>
 
 
-<div class="same-address">
+<label class="check">
 
-<input type="checkbox" id="sameAddress">
 
-<label>
+<input type="checkbox"
+id="sameAddress">
+
+
 Same as Present Address
+
+
 </label>
 
-</div>
-
-
-
-<div class="form-grid">
-
 
 
 <div class="field">
 
-<label>Permanent Division</label>
 
-<select>
-
-<option>Select Division</option>
-
-<option>Dhaka</option>
-
-<option>Chattogram</option>
-
-<option>Rajshahi</option>
-
-<option>Khulna</option>
-
-<option>Barishal</option>
-
-<option>Sylhet</option>
-
-<option>Rangpur</option>
-
-<option>Mymensingh</option>
+<label>
+Permanent Address
+</label>
 
 
-</select>
-
-</div>
-
-
-
-<div class="field">
-
-<label>Permanent District</label>
-
-<select>
-
-<option>Select District</option>
-
-</select>
-
-</div>
-
-
-
-<div class="field">
-
-<label>Permanent Thana</label>
-
-<select>
-
-<option>Select Thana</option>
-
-</select>
-
-</div>
-
-
-
-<div class="field">
-
-<label>Permanent Union</label>
-
-<select>
-
-<option>Select Union</option>
-
-</select>
-
-</div>
-
-
-
-<div class="field">
-
-<label>Permanent Ward</label>
-
-<select>
-
-<option>Select Ward</option>
-
-</select>
-
-</div>
-
-
-
-<div class="field">
-
-<label>Permanent Address</label>
-
-<textarea placeholder="Enter permanent address"></textarea>
-
-</div>
-
+<textarea
+placeholder="Enter permanent address"></textarea>
 
 
 </div>
 
 
 </div>
+
+
 
 
 
@@ -669,6 +766,8 @@ Same as Present Address
 
 
 
+
+
 </div>
 
 
@@ -682,4 +781,5 @@ Same as Present Address
 </html>
 
 
-<!-- ===== ADD STUDENT HTML PART 3/3 END ===== -->
+
+/* ===== ADD STUDENT HTML FINAL COMPLETE ===== */
