@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Darul Quran Smart ERP Dashboard</title>
+<title>Darul Quran Smart ERP</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 <style>
 
@@ -20,8 +22,11 @@ font-family:Arial,sans-serif;
 
 
 body{
-background:#f4f7f6;
+
+background:#f3f6f5;
+
 }
+
 
 
 /* Header */
@@ -29,25 +34,32 @@ background:#f4f7f6;
 .header{
 
 height:75px;
+
 background:#0b6b3a;
+
 color:white;
 
 display:flex;
+
 align-items:center;
 
-padding:0 25px;
+padding:20px;
 
 font-size:30px;
+
 font-weight:bold;
 
 }
 
 
-.menu-btn{
+
+.menu{
 
 font-size:35px;
-cursor:pointer;
+
 margin-right:20px;
+
+cursor:pointer;
 
 }
 
@@ -60,22 +72,25 @@ margin-right:20px;
 position:fixed;
 
 top:0;
-left:-300px;
 
-width:300px;
+left:-320px;
+
 height:100%;
+
+width:320px;
 
 background:#075c32;
 
 color:white;
 
-padding:30px 20px;
+padding:30px;
 
 transition:.4s;
 
 z-index:10;
 
 }
+
 
 
 .sidebar.active{
@@ -88,6 +103,7 @@ left:0;
 .logo{
 
 font-size:30px;
+
 font-weight:bold;
 
 margin-bottom:40px;
@@ -95,22 +111,25 @@ margin-bottom:40px;
 }
 
 
+
 .sidebar a{
 
 display:block;
 
-color:white;
-text-decoration:none;
+padding:18px;
+
+margin:8px 0;
 
 font-size:22px;
 
-padding:18px;
+color:white;
+
+text-decoration:none;
 
 border-radius:12px;
 
-margin-bottom:8px;
-
 }
+
 
 
 .sidebar a:hover{
@@ -121,7 +140,6 @@ background:#064522;
 
 
 
-/* Overlay */
 
 .overlay{
 
@@ -129,10 +147,8 @@ position:fixed;
 
 display:none;
 
-top:0;
-left:0;
-
 width:100%;
+
 height:100%;
 
 background:rgba(0,0,0,.5);
@@ -140,6 +156,7 @@ background:rgba(0,0,0,.5);
 z-index:5;
 
 }
+
 
 
 .overlay.active{
@@ -154,44 +171,81 @@ display:block;
 
 .container{
 
-padding:30px;
+padding:25px;
 
 }
 
 
 
-.welcome{
+.top-card{
 
-font-size:35px;
-font-weight:bold;
+background:white;
+
+padding:25px;
+
+border-radius:25px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.12);
 
 margin-bottom:25px;
 
 }
 
 
+
+.top-card h1{
+
+font-size:32px;
+
+}
+
+
+
+.top-card p{
+
+color:#666;
+
+font-size:18px;
+
+margin-top:10px;
+
+}
+
+
+
+
 /* Cards */
+
 
 .cards{
 
 display:grid;
 
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
 
-gap:25px;
+gap:20px;
 
 }
+
 
 
 .card{
 
 background:white;
 
-padding:30px;
+padding:25px;
 
 border-radius:25px;
 
 box-shadow:0 10px 30px rgba(0,0,0,.12);
+
+}
+
+
+
+.icon{
+
+font-size:35px;
 
 }
 
@@ -200,35 +254,49 @@ box-shadow:0 10px 30px rgba(0,0,0,.12);
 
 color:#666;
 
-font-size:25px;
+margin-top:15px;
+
+font-size:22px;
 
 }
 
 
-.card h1{
+
+.number{
+
+font-size:45px;
+
+font-weight:bold;
 
 color:#0b6b3a;
 
-font-size:50px;
-
-margin-top:15px;
+margin-top:10px;
 
 }
 
 
-/* Chart */
 
-.chart-box{
+/* Charts */
 
-margin-top:35px;
+.chart{
 
 background:white;
 
-padding:30px;
+padding:25px;
 
 border-radius:25px;
 
 box-shadow:0 10px 30px rgba(0,0,0,.12);
+
+margin-top:25px;
+
+}
+
+
+
+.chart h2{
+
+margin-bottom:20px;
 
 }
 
@@ -238,26 +306,21 @@ box-shadow:0 10px 30px rgba(0,0,0,.12);
 
 .container{
 
-padding:20px;
+padding:15px;
 
 }
 
 
-.welcome{
+.number{
 
-font-size:28px;
-
-}
-
-
-.card h1{
-
-font-size:40px;
+font-size:38px;
 
 }
 
 
 }
+
+
 
 </style>
 
@@ -265,11 +328,12 @@ font-size:40px;
 </head>
 
 
+
 <body>
 
 
 
-<div class="sidebar" id="sidebar">
+<div class="sidebar" id="side">
 
 
 <div class="logo">
@@ -303,33 +367,32 @@ Smart ERP
 
 
 
-<div class="overlay" id="overlay"></div>
+<div class="overlay" id="over"></div>
 
 
 
 <div class="header">
 
-
-<div class="menu-btn" onclick="openMenu()">
-
-☰
-
-</div>
-
+<div class="menu" onclick="openMenu()">☰</div>
 
 Dashboard
 
-
 </div>
+
 
 
 
 <div class="container">
 
 
-<div class="welcome">
 
-Welcome Admin
+<div class="top-card">
+
+<h1>Welcome Admin 👋</h1>
+
+<p>Darul Quran Smart ERP Management System</p>
+
+<p id="date"></p>
 
 </div>
 
@@ -338,31 +401,38 @@ Welcome Admin
 <div class="cards">
 
 
+
 <div class="card">
+
+<div class="icon">👨‍🎓</div>
 
 <h3>Total Students</h3>
 
-<h1>500</h1>
+<div class="number" id="students">0</div>
 
 </div>
 
 
 
 <div class="card">
+
+<div class="icon">👨‍🏫</div>
 
 <h3>Total Teachers</h3>
 
-<h1>25</h1>
+<div class="number" id="teachers">0</div>
 
 </div>
 
 
 
 <div class="card">
+
+<div class="icon">💰</div>
 
 <h3>Monthly Fee</h3>
 
-<h1>৳75,000</h1>
+<div class="number">৳75,000</div>
 
 </div>
 
@@ -370,34 +440,56 @@ Welcome Admin
 
 <div class="card">
 
+<div class="icon">📅</div>
+
 <h3>Attendance</h3>
 
-<h1>95%</h1>
+<div class="number">95%</div>
 
 </div>
 
 
+
 </div>
 
 
 
 
-<div class="chart-box">
 
+<div class="chart">
 
 <h2>Student Growth</h2>
 
-<br>
-
 <canvas id="studentChart"></canvas>
 
+</div>
+
+
+
+
+<div class="chart">
+
+<h2>Attendance Report</h2>
+
+<canvas id="attendanceChart"></canvas>
+
+</div>
+
+
+
+
+
+<div class="chart">
+
+<h2>Monthly Income</h2>
+
+<canvas id="incomeChart"></canvas>
 
 </div>
 
 
 
 </div>
-
 
 
 
@@ -405,34 +497,71 @@ Welcome Admin
 <script>
 
 
+
 function openMenu(){
 
-document.getElementById("sidebar")
-.classList.add("active");
+document.getElementById("side").classList.add("active");
 
-
-document.getElementById("overlay")
-.classList.add("active");
+document.getElementById("over").classList.add("active");
 
 }
 
 
 
-document.getElementById("overlay")
-.onclick=function(){
+document.getElementById("over").onclick=function(){
 
-document.getElementById("sidebar")
-.classList.remove("active");
+document.getElementById("side").classList.remove("active");
 
-
-document.getElementById("overlay")
-.classList.remove("active");
-
+document.getElementById("over").classList.remove("active");
 
 }
 
 
 
+
+// Date
+
+document.getElementById("date").innerHTML =
+new Date().toDateString();
+
+
+
+
+// Counter
+
+function counter(id,target){
+
+let n=0;
+
+let x=setInterval(()=>{
+
+n++;
+
+document.getElementById(id).innerHTML=n;
+
+
+if(n>=target){
+
+clearInterval(x);
+
+}
+
+
+},5);
+
+
+}
+
+
+counter("students",500);
+
+counter("teachers",25);
+
+
+
+
+
+// Student Chart
 
 
 new Chart(
@@ -445,15 +574,12 @@ type:"bar",
 
 data:{
 
-
 labels:[
-
 "Class 1",
 "Class 2",
 "Class 3",
 "Class 4",
 "Class 5"
-
 ],
 
 
@@ -465,14 +591,95 @@ data:[80,120,100,150,50],
 
 backgroundColor:"#0b6b3a"
 
+}]
+
+}
+
+}
+
+);
+
+
+
+
+
+// Attendance Chart
+
+
+new Chart(
+
+document.getElementById("attendanceChart"),
+
+{
+
+type:"pie",
+
+data:{
+
+labels:[
+"Present",
+"Absent"
+],
+
+
+datasets:[{
+
+data:[95,5]
 
 }]
 
-
 }
 
 }
 
+);
+
+
+
+
+
+
+// Income Chart
+
+
+new Chart(
+
+document.getElementById("incomeChart"),
+
+{
+
+type:"line",
+
+data:{
+
+labels:[
+"Jan",
+"Feb",
+"Mar",
+"Apr",
+"May"
+],
+
+
+datasets:[{
+
+label:"Income",
+
+data:[
+30000,
+45000,
+50000,
+60000,
+75000
+],
+
+borderColor:"#0b6b3a"
+
+}]
+
+}
+
+}
 
 );
 
