@@ -1,4 +1,4 @@
-/* ===== ADD STUDENT CSS START ===== */
+/* ===== ADD STUDENT CSS FINAL PART 1/2 START ===== */
 
 
 *{
@@ -15,6 +15,8 @@ font-family:"Segoe UI",Arial,sans-serif;
 body{
 
 background:#f4f7f5;
+
+color:#333;
 
 }
 
@@ -39,7 +41,13 @@ align-items:center;
 
 padding:0 20px;
 
-box-shadow:0 5px 15px rgba(0,0,0,.2);
+box-shadow:0 5px 15px rgba(0,0,0,.18);
+
+position:sticky;
+
+top:0;
+
+z-index:10;
 
 }
 
@@ -65,7 +73,9 @@ margin-right:20px;
 
 .header h2{
 
-font-size:25px;
+font-size:24px;
+
+font-weight:600;
 
 }
 
@@ -73,10 +83,14 @@ font-size:25px;
 
 
 
-/* Main Container */
+/* Container */
 
 
 .container{
+
+max-width:1100px;
+
+margin:auto;
 
 padding:20px;
 
@@ -86,7 +100,9 @@ padding:20px;
 
 
 
-/* Title */
+
+
+/* Title Card */
 
 
 .title-card{
@@ -95,7 +111,7 @@ background:white;
 
 padding:25px;
 
-border-radius:20px;
+border-radius:22px;
 
 box-shadow:0 8px 25px rgba(0,0,0,.12);
 
@@ -107,9 +123,11 @@ margin-bottom:20px;
 
 .title-card h1{
 
+font-size:30px;
+
 color:#076b3a;
 
-font-size:30px;
+font-weight:700;
 
 }
 
@@ -117,9 +135,11 @@ font-size:30px;
 
 .title-card p{
 
-color:#666;
-
 margin-top:8px;
+
+color:#777;
+
+font-size:16px;
 
 }
 
@@ -138,21 +158,39 @@ padding:25px;
 
 border-radius:22px;
 
-box-shadow:0 8px 25px rgba(0,0,0,.12);
+box-shadow:0 8px 25px rgba(0,0,0,.10);
 
 margin-bottom:20px;
 
+transition:.3s;
+
 }
+
+
+
+.form-card:hover{
+
+transform:translateY(-2px);
+
+box-shadow:0 12px 30px rgba(0,0,0,.14);
+
+}
+
+
 
 
 
 .form-card h2{
 
-color:#076b3a;
-
 font-size:22px;
 
-margin-bottom:20px;
+color:#076b3a;
+
+margin-bottom:22px;
+
+border-left:5px solid #076b3a;
+
+padding-left:12px;
 
 }
 
@@ -160,7 +198,8 @@ margin-bottom:20px;
 
 
 
-/* Grid */
+
+/* Form Grid */
 
 
 .form-grid{
@@ -192,7 +231,7 @@ flex-direction:column;
 
 .field label{
 
-font-size:16px;
+font-size:15px;
 
 font-weight:600;
 
@@ -204,18 +243,23 @@ margin-bottom:8px;
 
 
 
+
 .field input,
 .field select,
 .field textarea{
 
 
-padding:13px;
+width:100%;
+
+padding:14px;
 
 border:1px solid #ddd;
 
-border-radius:12px;
+border-radius:14px;
 
 font-size:15px;
+
+background:#fff;
 
 outline:none;
 
@@ -225,9 +269,11 @@ transition:.3s;
 
 
 
+
+
 .field textarea{
 
-height:100px;
+height:110px;
 
 resize:none;
 
@@ -235,13 +281,20 @@ resize:none;
 
 
 
+
+
+
 .field input:focus,
 .field select:focus,
 .field textarea:focus{
 
+
 border-color:#076b3a;
 
-box-shadow:0 0 8px rgba(7,107,58,.2);
+box-shadow:
+
+0 0 0 3px rgba(7,107,58,.12);
+
 
 }
 
@@ -249,10 +302,28 @@ box-shadow:0 0 8px rgba(7,107,58,.2);
 
 
 
+/* File Input */
+
+
+.field input[type="file"]{
+
+padding:10px;
+
+background:#f8f8f8;
+
+}
+
+
+
+
+
+/* ===== PART 1/2 END ===== *//* ===== ADD STUDENT CSS FINAL PART 2/2 START ===== */
+
+
+
 /* Checkbox */
 
-
-.same-address{
+.check{
 
 display:flex;
 
@@ -260,9 +331,24 @@ align-items:center;
 
 gap:10px;
 
+font-size:16px;
+
+font-weight:600;
+
+color:#444;
+
 margin-bottom:20px;
 
-font-size:16px;
+}
+
+
+.check input{
+
+width:18px;
+
+height:18px;
+
+accent-color:#076b3a;
 
 }
 
@@ -270,20 +356,23 @@ font-size:16px;
 
 
 
-/* Button */
+
+
+/* Submit Button */
 
 
 .submit-area{
 
 text-align:center;
 
-margin:30px 0;
+margin:35px 0;
 
 }
 
 
 
 .submit-area button{
+
 
 background:#076b3a;
 
@@ -295,13 +384,16 @@ padding:15px 45px;
 
 font-size:18px;
 
+font-weight:600;
+
 border-radius:30px;
 
 cursor:pointer;
 
+box-shadow:0 10px 25px rgba(7,107,58,.25);
+
 transition:.3s;
 
-box-shadow:0 8px 20px rgba(0,0,0,.2);
 
 }
 
@@ -309,9 +401,13 @@ box-shadow:0 8px 20px rgba(0,0,0,.2);
 
 .submit-area button:hover{
 
+
 background:#054d2a;
 
-transform:translateY(-3px);
+transform:translateY(-4px);
+
+box-shadow:0 15px 30px rgba(7,107,58,.35);
+
 
 }
 
@@ -319,10 +415,56 @@ transform:translateY(-3px);
 
 
 
-/* Mobile */
+
+/* Loading Animation Feel */
+
+
+.form-card,
+.title-card{
+
+
+animation:fadeIn .5s ease;
+
+
+}
+
+
+
+@keyframes fadeIn{
+
+
+from{
+
+opacity:0;
+
+transform:translateY(15px);
+
+}
+
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+/* Mobile Responsive */
 
 
 @media(max-width:700px){
+
 
 
 .container{
@@ -332,18 +474,13 @@ padding:12px;
 }
 
 
-.form-grid{
 
-grid-template-columns:1fr;
-
-}
-
-
-.form-card{
+.title-card{
 
 padding:18px;
 
 }
+
 
 
 .title-card h1{
@@ -354,7 +491,83 @@ font-size:24px;
 
 
 
+.form-card{
+
+padding:18px;
+
+border-radius:18px;
+
 }
 
 
-/* ===== ADD STUDENT CSS END ===== */
+
+.form-grid{
+
+grid-template-columns:1fr;
+
+gap:15px;
+
+}
+
+
+
+.form-card h2{
+
+font-size:19px;
+
+}
+
+
+
+.field input,
+.field select,
+.field textarea{
+
+padding:12px;
+
+font-size:14px;
+
+}
+
+
+
+.submit-area button{
+
+width:100%;
+
+padding:14px;
+
+}
+
+
+
+}
+
+
+
+
+
+/* Small Mobile */
+
+@media(max-width:400px){
+
+
+.header h2{
+
+font-size:20px;
+
+}
+
+
+.title-card h1{
+
+font-size:21px;
+
+}
+
+
+}
+
+
+
+/* ===== ADD STUDENT CSS FINAL COMPLETE ===== */
