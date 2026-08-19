@@ -12,7 +12,234 @@
 <title>Darul Quran Smart ERP Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+/* ===== FINAL MOBILE POLISH ===== */
 
+
+/* Disable mobile text selection popup */
+
+*{
+
+-webkit-user-select:none;
+
+user-select:none;
+
+-webkit-touch-callout:none;
+
+-webkit-tap-highlight-color:transparent;
+
+}
+
+
+
+/* Better card spacing */
+
+.container{
+
+padding:12px;
+
+}
+
+
+.cards{
+
+gap:10px;
+
+}
+
+
+.card{
+
+padding:14px;
+
+border-radius:18px;
+
+transition:.3s ease;
+
+}
+
+
+
+.card:hover{
+
+transform:translateY(-5px);
+
+box-shadow:0 12px 25px rgba(0,0,0,.15);
+
+}
+
+
+
+/* Welcome compact */
+
+.welcome{
+
+padding:15px;
+
+margin-bottom:12px;
+
+}
+
+
+
+.welcome h2{
+
+font-size:24px;
+
+}
+
+
+
+.welcome p{
+
+font-size:16px;
+
+}
+
+
+
+/* Number size */
+
+.number{
+
+font-size:30px;
+
+}
+
+
+
+/* Icon size */
+
+.icon{
+
+font-size:25px;
+
+}
+
+
+
+/* Charts compact */
+
+.chart-box{
+
+margin-top:10px;
+
+padding:12px;
+
+border-radius:18px;
+
+}
+
+
+
+.chart-box h2{
+
+font-size:20px;
+
+margin-bottom:5px;
+
+}
+
+
+
+.chart-area{
+
+height:120px;
+
+}
+
+
+
+/* Doughnut chart smaller */
+
+canvas{
+
+max-height:120px;
+
+}
+
+
+
+/* Sidebar improvement */
+
+.sidebar a{
+
+transition:.25s;
+
+}
+
+
+
+.sidebar a:hover{
+
+background:rgba(255,255,255,.12);
+
+transform:translateX(5px);
+
+}
+
+
+
+/* Smooth loading */
+
+.card,
+.chart-box,
+.welcome{
+
+animation:dashboardFade .6s ease;
+
+}
+
+
+@keyframes dashboardFade{
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+
+
+/* Mobile */
+
+@media(max-width:600px){
+
+
+.header h1{
+
+font-size:24px;
+
+}
+
+
+.card h3{
+
+font-size:16px;
+
+}
+
+
+.chart-area{
+
+height:110px;
+
+}
+
+
+}
 
 <style>
 
