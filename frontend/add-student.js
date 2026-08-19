@@ -1,114 +1,68 @@
-/* ===== ADD STUDENT JS START ===== */
+/* ===== ADD STUDENT JS FINAL VERSION PART 1/2 START ===== */
 
 
-// Photo Preview
+// ===============================
+// Student Photo Preview
+// ===============================
 
 const photoInput = document.querySelector(
-'input[type="file"]'
+    'input[type="file"]'
 );
 
 
 if(photoInput){
 
-photoInput.addEventListener(
-"change",
-function(){
+    photoInput.addEventListener(
+        "change",
+        function(){
 
-const file = this.files[0];
+            const file = this.files[0];
 
-if(file){
+            if(file){
 
-const reader = new FileReader();
+                const reader = new FileReader();
 
+                reader.onload = function(e){
 
-reader.onload=function(e){
+                    console.log(
+                        "Student photo selected"
+                    );
 
-console.log("Photo Selected");
+                }
 
-}
+                reader.readAsDataURL(file);
 
+            }
 
-reader.readAsDataURL(file);
-
-}
-
-}
-
-);
-
-}
-
-
-
-
-// Bangladesh Location Data (Basic Structure)
-
-const locationData = {
-
-
-"Dhaka":{
-
-"Dhamrai":[
-"Union 1",
-"Union 2",
-"Union 3"
-],
-
-"Savar":[
-"Union 1",
-"Union 2",
-"Union 3"
-]
-
-
-},
-
-
-
-"Chattogram":{
-
-"Sitakunda":[
-"Union 1",
-"Union 2"
-],
-
-"Mirsharai":[
-"Union 1",
-"Union 2"
-]
-
-
-},
-
-
-
-"Barishal":{
-
-"Barishal Sadar":[
-"Union 1",
-"Union 2"
-]
+        }
+    );
 
 }
 
 
-};
 
 
 
+// ===============================
+// Smart Bangladesh Address System
+// ===============================
 
 
 const division =
 document.getElementById("division");
 
+
 const district =
 document.getElementById("district");
+
 
 const thana =
 document.getElementById("thana");
 
+
 const union =
 document.getElementById("union");
+
 
 const ward =
 document.getElementById("ward");
@@ -117,7 +71,38 @@ document.getElementById("ward");
 
 
 
-// Division Change
+
+
+// Load Division List
+
+if(division){
+
+
+    Object.keys(bangladeshLocation)
+    .forEach(function(item){
+
+
+        division.innerHTML +=
+
+        `
+        <option value="${item}">
+        ${item}
+        </option>
+        `;
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+// Division Select
 
 
 if(division){
@@ -128,27 +113,40 @@ division.addEventListener(
 function(){
 
 
-district.innerHTML =
-"<option>Select District</option>";
+    district.innerHTML =
+    "<option>Select District</option>";
 
-thana.innerHTML =
-"<option>Select Thana</option>";
+    thana.innerHTML =
+    "<option>Select Thana</option>";
 
-union.innerHTML =
-"<option>Select Union</option>";
+    union.innerHTML =
+    "<option>Select Union</option>";
 
-ward.innerHTML =
-"<option>Select Ward</option>";
+    ward.innerHTML =
+    "<option>Select Ward</option>";
 
 
 
-Object.keys(locationData[this.value] || {})
-.forEach(function(item){
+    let data =
+    bangladeshLocation[this.value];
 
-district.innerHTML +=
-`<option>${item}</option>`;
 
-});
+
+    Object.keys(data)
+    .forEach(function(item){
+
+
+        district.innerHTML +=
+
+        `
+        <option value="${item}">
+        ${item}
+        </option>
+        `;
+
+
+    });
+
 
 
 });
@@ -162,7 +160,7 @@ district.innerHTML +=
 
 
 
-// District Change
+// District Select
 
 
 if(district){
@@ -173,19 +171,39 @@ district.addEventListener(
 function(){
 
 
-thana.innerHTML =
-"<option>Select Thana</option>";
+    thana.innerHTML =
+    "<option>Select Thana</option>";
 
-union.innerHTML =
-"<option>Select Union</option>";
+    union.innerHTML =
+    "<option>Select Union</option>";
 
-ward.innerHTML =
-"<option>Select Ward</option>";
+    ward.innerHTML =
+    "<option>Select Ward</option>";
 
 
 
-thana.innerHTML +=
-`<option>${this.value}</option>`;
+    let data =
+
+    bangladeshLocation
+    [division.value]
+    [this.value];
+
+
+
+    Object.keys(data)
+    .forEach(function(item){
+
+
+        thana.innerHTML +=
+
+        `
+        <option value="${item}">
+        ${item}
+        </option>
+        `;
+
+
+    });
 
 
 });
@@ -197,9 +215,13 @@ thana.innerHTML +=
 
 
 
+// ===== PART 1 END =====/* ===== ADD STUDENT JS FINAL VERSION PART 2/2 START ===== */
 
 
-// Thana Change
+
+// ===============================
+// Thana Select
+// ===============================
 
 
 if(thana){
@@ -210,27 +232,37 @@ thana.addEventListener(
 function(){
 
 
-union.innerHTML =
-"<option>Select Union</option>";
+    union.innerHTML =
+    "<option>Select Union</option>";
 
-ward.innerHTML =
-"<option>Select Ward</option>";
-
-
-
-[
-"Union 1",
-"Union 2",
-"Union 3"
-]
-.forEach(function(item){
+    ward.innerHTML =
+    "<option>Select Ward</option>";
 
 
-union.innerHTML +=
-`<option>${item}</option>`;
+
+    let data =
+
+    bangladeshLocation
+    [division.value]
+    [district.value]
+    [this.value];
 
 
-});
+
+    Object.keys(data)
+    .forEach(function(item){
+
+
+        union.innerHTML +=
+
+        `
+        <option value="${item}">
+        ${item}
+        </option>
+        `;
+
+
+    });
 
 
 });
@@ -244,7 +276,9 @@ union.innerHTML +=
 
 
 
-// Union Change
+// ===============================
+// Union Select
+// ===============================
 
 
 if(union){
@@ -255,18 +289,35 @@ union.addEventListener(
 function(){
 
 
-ward.innerHTML =
-"<option>Select Ward</option>";
+    ward.innerHTML =
+    "<option>Select Ward</option>";
 
 
-for(let i=1;i<=9;i++){
+
+    let data =
+
+    bangladeshLocation
+    [division.value]
+    [district.value]
+    [thana.value]
+    [this.value];
 
 
-ward.innerHTML +=
-`<option>Ward ${i}</option>`;
+
+    data.forEach(function(item){
 
 
-}
+        ward.innerHTML +=
+
+        `
+        <option>
+        ${item}
+        </option>
+        `;
+
+
+    });
+
 
 
 });
@@ -280,7 +331,9 @@ ward.innerHTML +=
 
 
 
-// Same Address Option
+// ===============================
+// Same Address Copy
+// ===============================
 
 
 const sameAddress =
@@ -296,15 +349,13 @@ sameAddress.addEventListener(
 function(){
 
 
-if(this.checked){
+    if(this.checked){
 
+        alert(
+        "Present Address copied"
+        );
 
-alert(
-"Permanent address copied from present address"
-);
-
-
-}
+    }
 
 
 });
@@ -318,20 +369,48 @@ alert(
 
 
 
-// Save Button
+
+// ===============================
+// Form Validation
+// ===============================
 
 
-const saveBtn =
+const saveButton =
 document.querySelector(
 ".submit-area button"
 );
 
 
 
-if(saveBtn){
+if(saveButton){
 
 
-saveBtn.onclick=function(){
+saveButton.addEventListener(
+"click",
+function(){
+
+
+
+let name =
+document.querySelector(
+'input[placeholder="Enter student name"]'
+);
+
+
+
+if(name && name.value.trim()==""){
+
+
+alert(
+"Please enter student name"
+);
+
+
+return;
+
+
+}
+
 
 
 alert(
@@ -339,11 +418,15 @@ alert(
 );
 
 
-}
+
+});
 
 
 }
 
 
 
-/* ===== ADD STUDENT JS END ===== */
+
+
+
+/* ===== ADD STUDENT JS FINAL VERSION END ===== */
