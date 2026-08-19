@@ -187,7 +187,7 @@ let locationDatabase = {};
 
 
 
-fetch("data/bangladesh-location.json")
+fetch("bangladesh-location.json")
 
 .then(response => response.json())
 
