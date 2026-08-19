@@ -8,14 +8,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Student Admission</title>
+<title>Add Student</title>
+
 
 <link rel="stylesheet" href="add-student.css">
+
+<link rel="stylesheet" href="custom-dropdown.css">
+
 
 </head>
 
 
 <body>
+
 
 
 <div class="header">
@@ -25,7 +30,7 @@
 </button>
 
 <h2>
-Student Admission
+Add New Student
 </h2>
 
 </div>
@@ -40,7 +45,7 @@ Student Admission
 <div class="title-card">
 
 <h1>
-🧑‍🎓 New Student Admission
+🧑‍🎓 Student Admission Form
 </h1>
 
 <p>
@@ -54,15 +59,17 @@ Darul Quran Smart ERP
 
 
 
-<!-- Student Personal Information -->
+
+<!-- Student Information -->
 
 
 <div class="form-card">
 
 
 <h2>
-👤 Student Personal Information
+👤 Student Information
 </h2>
+
 
 
 <div class="form-grid">
@@ -75,36 +82,49 @@ Darul Quran Smart ERP
 Student Name *
 </label>
 
-<input type="text"
-placeholder="Enter student name"
-name="studentName">
+<input 
+type="text"
+name="studentName"
+placeholder="Enter student name">
+
 
 </div>
+
+
 
 
 
 <div class="field">
 
 <label>
-Date of Birth *
+Date of Birth
 </label>
+
 
 <input type="date">
 
+
 </div>
+
+
 
 
 
 <div class="field">
 
 <label>
-Birth Registration Number *
+Birth Registration Number
 </label>
 
-<input type="text"
+
+<input 
+type="text"
 placeholder="Enter birth registration number">
 
+
 </div>
+
+
 
 
 
@@ -116,6 +136,7 @@ Blood Group
 
 
 <select>
+
 
 <option>
 Select Blood Group
@@ -130,10 +151,13 @@ Select Blood Group
 <option>O+</option>
 <option>O-</option>
 
+
 </select>
 
 
 </div>
+
+
 
 
 
@@ -144,10 +168,16 @@ Select Blood Group
 Nationality
 </label>
 
-<input type="text"
+
+<input 
+type="text"
 value="Bangladeshi">
 
+
 </div>
+
+
+
 
 
 
@@ -157,7 +187,9 @@ value="Bangladeshi">
 Student Photo
 </label>
 
-<input type="file"
+
+<input 
+type="file"
 accept="image/*">
 
 
@@ -165,10 +197,12 @@ accept="image/*">
 
 
 
+
 </div>
 
 
 </div>
+
 
 
 
@@ -200,10 +234,13 @@ Father Name *
 </label>
 
 
-<input type="text"
+<input 
+type="text"
 placeholder="Enter father name">
 
+
 </div>
+
 
 
 
@@ -215,8 +252,10 @@ Father NID Number
 </label>
 
 
-<input type="text"
+<input 
+type="text"
 placeholder="Enter father NID">
+
 
 </div>
 
@@ -231,8 +270,10 @@ Mother Name *
 </label>
 
 
-<input type="text"
+<input 
+type="text"
 placeholder="Enter mother name">
+
 
 </div>
 
@@ -247,8 +288,10 @@ Mother NID Number
 </label>
 
 
-<input type="text"
+<input 
+type="text"
 placeholder="Enter mother NID">
+
 
 </div>
 
@@ -263,26 +306,27 @@ Guardian Mobile Number
 </label>
 
 
-<input type="number"
+<input 
+type="number"
 placeholder="Enter mobile number">
 
-</div>
-
-
 
 </div>
 
 
+
 </div>
 
-<!-- Previous Education Information -->
+
+
+<!-- Previous Education -->
 
 
 <div class="form-card">
 
 
 <h2>
-📚 Previous Education Information
+📚 Previous Education
 </h2>
 
 
@@ -295,7 +339,9 @@ placeholder="Enter mobile number">
 Previous Institution Name
 </label>
 
-<input type="text"
+
+<input 
+type="text"
 placeholder="Enter previous institution name">
 
 
@@ -303,9 +349,7 @@ placeholder="Enter previous institution name">
 
 
 
-
 <div class="field">
-
 
 <label>
 Previous Class
@@ -319,53 +363,29 @@ Previous Class
 Select Previous Class
 </option>
 
-<option>
-Play
-</option>
+<option>Play</option>
 
-<option>
-Nursery
-</option>
+<option>Nursery</option>
 
-<option>
-Class 1
-</option>
+<option>Class 1</option>
 
-<option>
-Class 2
-</option>
+<option>Class 2</option>
 
-<option>
-Class 3
-</option>
+<option>Class 3</option>
 
-<option>
-Class 4
-</option>
+<option>Class 4</option>
 
-<option>
-Class 5
-</option>
+<option>Class 5</option>
 
-<option>
-Class 6
-</option>
+<option>Class 6</option>
 
-<option>
-Class 7
-</option>
+<option>Class 7</option>
 
-<option>
-Class 8
-</option>
+<option>Class 8</option>
 
-<option>
-Class 9
-</option>
+<option>Class 9</option>
 
-<option>
-Class 10
-</option>
+<option>Class 10</option>
 
 
 </select>
@@ -396,7 +416,6 @@ Class 10
 </h2>
 
 
-
 <div class="form-grid">
 
 
@@ -416,71 +435,35 @@ Select Class
 </option>
 
 
-<option>
-Play
-</option>
+<option>Play</option>
 
+<option>Nursery</option>
 
-<option>
-Nursery
-</option>
+<option>Class 1</option>
 
+<option>Class 2</option>
 
-<option>
-Class 1
-</option>
+<option>Class 3</option>
 
+<option>Class 4</option>
 
-<option>
-Class 2
-</option>
+<option>Class 5</option>
 
+<option>Class 6</option>
 
-<option>
-Class 3
-</option>
+<option>Class 7</option>
 
+<option>Class 8</option>
 
-<option>
-Class 4
-</option>
+<option>Class 9</option>
 
-
-<option>
-Class 5
-</option>
-
-
-<option>
-Class 6
-</option>
-
-
-<option>
-Class 7
-</option>
-
-
-<option>
-Class 8
-</option>
-
-
-<option>
-Class 9
-</option>
-
-
-<option>
-Class 10
-</option>
+<option>Class 10</option>
 
 
 </select>
 
 
 </div>
-
 
 
 
@@ -499,11 +482,11 @@ Admission Date
 </div>
 
 
-
 </div>
 
 
 </div>
+
 
 
 
@@ -523,26 +506,33 @@ Admission Date
 
 
 
+
 <div class="form-grid">
 
 
-<div class="field">
 
+<div class="field">
 
 <label>
 Division
 </label>
 
 
-<select id="division">
+<div class="smart-select">
 
 
-<option>
-Select Division
-</option>
+<input 
+id="divisionSearch"
+placeholder="Search Division">
 
 
-</select>
+<div 
+id="divisionList"
+class="dropdown-list">
+</div>
+
+
+</div>
 
 
 </div>
@@ -551,23 +541,29 @@ Select Division
 
 
 
-<div class="field">
 
+<div class="field">
 
 <label>
 District
 </label>
 
 
-<select id="district">
+<div class="smart-select">
 
 
-<option>
-Select District
-</option>
+<input 
+id="districtSearch"
+placeholder="Search District">
 
 
-</select>
+<div 
+id="districtList"
+class="dropdown-list">
+</div>
+
+
+</div>
 
 
 </div>
@@ -576,23 +572,30 @@ Select District
 
 
 
-<div class="field">
 
+
+<div class="field">
 
 <label>
 Thana / Upazila
 </label>
 
 
-<select id="thana">
+<div class="smart-select">
 
 
-<option>
-Select Thana
-</option>
+<input 
+id="thanaSearch"
+placeholder="Search Thana">
 
 
-</select>
+<div 
+id="thanaList"
+class="dropdown-list">
+</div>
+
+
+</div>
 
 
 </div>
@@ -601,26 +604,35 @@ Select Thana
 
 
 
-<div class="field">
 
+
+<div class="field">
 
 <label>
 Union
 </label>
 
 
-<select id="union">
+<div class="smart-select">
 
 
-<option>
-Select Union
-</option>
+<input 
+id="unionSearch"
+placeholder="Search Union">
 
 
-</select>
+<div 
+id="unionList"
+class="dropdown-list">
+</div>
 
 
 </div>
+
+
+</div>
+
+
 
 
 
@@ -628,24 +640,31 @@ Select Union
 
 <div class="field">
 
-
 <label>
 Ward
 </label>
 
 
-<select id="ward">
+<div class="smart-select">
 
 
-<option>
-Select Ward
-</option>
+<input 
+id="wardSearch"
+placeholder="Search Ward">
 
 
-</select>
+<div 
+id="wardList"
+class="dropdown-list">
+</div>
 
 
 </div>
+
+
+</div>
+
+
 
 
 
@@ -659,11 +678,15 @@ Village / Area
 </label>
 
 
-<input type="text"
+<input 
+type="text"
 placeholder="Enter village name">
 
 
 </div>
+
+
+
 
 
 
@@ -695,7 +718,6 @@ placeholder="Enter full address"></textarea>
 
 
 
-
 <!-- Permanent Address -->
 
 
@@ -710,7 +732,8 @@ placeholder="Enter full address"></textarea>
 <label class="check">
 
 
-<input type="checkbox"
+<input 
+type="checkbox"
 id="sameAddress">
 
 
@@ -721,19 +744,8 @@ Same as Present Address
 
 
 
-<div class="field">
-
-
-<label>
-Permanent Address
-</label>
-
-
 <textarea
 placeholder="Enter permanent address"></textarea>
-
-
-</div>
 
 
 </div>
@@ -766,9 +778,16 @@ placeholder="Enter permanent address"></textarea>
 
 
 
+
 <script src="add-student.js"></script>
+
+<script src="custom-dropdown.js"></script>
+
 
 
 </body>
 
 </html>
+
+
+<!-
