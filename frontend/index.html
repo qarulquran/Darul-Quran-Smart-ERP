@@ -1,75 +1,160 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Darul Quran Smart ERP</title>
 
+
 <style>
+
 body{
-    margin:0;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#f5f5f5;
-    font-family:Arial,sans-serif;
+
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#f5f5f5;
+font-family:Arial,sans-serif;
+
 }
+
 
 .login-box{
-    width:320px;
-    padding:30px;
-    background:white;
-    border-radius:15px;
-    box-shadow:0 0 15px #ccc;
-    text-align:center;
+
+width:320px;
+padding:30px;
+background:white;
+border-radius:15px;
+box-shadow:0 0 15px #ccc;
+text-align:center;
+
 }
+
 
 h1{
-    color:#0b6b3a;
+
+color:#0b6b3a;
+
 }
+
 
 input{
-    width:90%;
-    padding:12px;
-    margin:10px;
-    border:1px solid #ccc;
-    border-radius:8px;
+
+width:90%;
+padding:12px;
+margin:10px;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:16px;
+
 }
 
+
 button{
-    width:95%;
-    padding:12px;
-    background:#0b6b3a;
-    color:white;
-    border:none;
-    border-radius:8px;
-    font-size:16px;
+
+width:95%;
+padding:12px;
+background:#0b6b3a;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+
 }
+
+
+button:hover{
+
+background:#09552e;
+
+}
+
 </style>
 
 </head>
 
+
 <body>
 
+
 <div class="login-box">
+
 
 <h1>
 Darul Quran<br>
 Smart ERP
 </h1>
 
-<input type="text" placeholder="Username">
 
-<input type="password" placeholder="Password">
+<input 
+type="text" 
+id="username"
+placeholder="Username">
 
-<button>
+
+<input 
+type="password"
+id="password"
+placeholder="Password">
+
+
+<button onclick="login()">
+
 Login
+
 </button>
+
 
 </div>
 
+
+
+<script>
+
+
+function login(){
+
+
+let username = document.getElementById("username").value;
+
+let password = document.getElementById("password").value;
+
+
+
+if(username === "admin" && password === "12345"){
+
+
+alert("Login Successful");
+
+
+window.location.href="dashboard.html";
+
+
+}
+
+else{
+
+
+alert("Invalid Username or Password");
+
+
+}
+
+
+}
+
+
+</script>
+
+
+
 </body>
+
 </html>
