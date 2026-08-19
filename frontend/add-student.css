@@ -1,1 +1,360 @@
+/* ===== ADD STUDENT CSS START ===== */
 
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI",Arial,sans-serif;
+
+}
+
+
+
+body{
+
+background:#f4f7f5;
+
+}
+
+
+
+
+
+/* Header */
+
+
+.header{
+
+height:70px;
+
+background:#076b3a;
+
+color:white;
+
+display:flex;
+
+align-items:center;
+
+padding:0 20px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+
+}
+
+
+
+.header button{
+
+background:none;
+
+border:none;
+
+color:white;
+
+font-size:32px;
+
+cursor:pointer;
+
+margin-right:20px;
+
+}
+
+
+
+.header h2{
+
+font-size:25px;
+
+}
+
+
+
+
+
+/* Main Container */
+
+
+.container{
+
+padding:20px;
+
+}
+
+
+
+
+
+/* Title */
+
+
+.title-card{
+
+background:white;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+margin-bottom:20px;
+
+}
+
+
+
+.title-card h1{
+
+color:#076b3a;
+
+font-size:30px;
+
+}
+
+
+
+.title-card p{
+
+color:#666;
+
+margin-top:8px;
+
+}
+
+
+
+
+
+/* Form Card */
+
+
+.form-card{
+
+background:white;
+
+padding:25px;
+
+border-radius:22px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+margin-bottom:20px;
+
+}
+
+
+
+.form-card h2{
+
+color:#076b3a;
+
+font-size:22px;
+
+margin-bottom:20px;
+
+}
+
+
+
+
+
+/* Grid */
+
+
+.form-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:20px;
+
+}
+
+
+
+
+
+/* Field */
+
+
+.field{
+
+display:flex;
+
+flex-direction:column;
+
+}
+
+
+
+.field label{
+
+font-size:16px;
+
+font-weight:600;
+
+color:#444;
+
+margin-bottom:8px;
+
+}
+
+
+
+.field input,
+.field select,
+.field textarea{
+
+
+padding:13px;
+
+border:1px solid #ddd;
+
+border-radius:12px;
+
+font-size:15px;
+
+outline:none;
+
+transition:.3s;
+
+}
+
+
+
+.field textarea{
+
+height:100px;
+
+resize:none;
+
+}
+
+
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+
+border-color:#076b3a;
+
+box-shadow:0 0 8px rgba(7,107,58,.2);
+
+}
+
+
+
+
+
+/* Checkbox */
+
+
+.same-address{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+margin-bottom:20px;
+
+font-size:16px;
+
+}
+
+
+
+
+
+/* Button */
+
+
+.submit-area{
+
+text-align:center;
+
+margin:30px 0;
+
+}
+
+
+
+.submit-area button{
+
+background:#076b3a;
+
+color:white;
+
+border:none;
+
+padding:15px 45px;
+
+font-size:18px;
+
+border-radius:30px;
+
+cursor:pointer;
+
+transition:.3s;
+
+box-shadow:0 8px 20px rgba(0,0,0,.2);
+
+}
+
+
+
+.submit-area button:hover{
+
+background:#054d2a;
+
+transform:translateY(-3px);
+
+}
+
+
+
+
+
+/* Mobile */
+
+
+@media(max-width:700px){
+
+
+.container{
+
+padding:12px;
+
+}
+
+
+.form-grid{
+
+grid-template-columns:1fr;
+
+}
+
+
+.form-card{
+
+padding:18px;
+
+}
+
+
+.title-card h1{
+
+font-size:24px;
+
+}
+
+
+
+}
+
+
+/* ===== ADD STUDENT CSS END ===== */
