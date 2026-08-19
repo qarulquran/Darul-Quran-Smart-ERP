@@ -1,27 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Darul Quran Smart ERP Dashboard</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
 *{
-margin:0;
-padding:0;
 box-sizing:border-box;
-font-family:Arial,sans-serif;
+font-family:Arial;
+}
+
+body{
+margin:0;
+background:#f5f5f5;
 }
 
 
-body{
+/* Top Bar */
 
-background:#f4f6f8;
+.topbar{
+
+height:60px;
+background:#0b6b3a;
+color:white;
+display:flex;
+align-items:center;
+padding:0 20px;
+
+}
+
+
+.menu-btn{
+
+font-size:30px;
+cursor:pointer;
+display:none;
 
 }
 
@@ -31,82 +47,56 @@ background:#f4f6f8;
 .sidebar{
 
 position:fixed;
-left:0;
 top:0;
-width:240px;
+left:-260px;
+width:250px;
 height:100vh;
 background:#0b6b3a;
 color:white;
 padding:20px;
+transition:.3s;
+
+}
+
+
+.sidebar.active{
+
+left:0;
 
 }
 
 
 .logo{
 
-font-size:22px;
+font-size:25px;
 font-weight:bold;
-margin-bottom:30px;
+margin-bottom:40px;
 
 }
 
 
-.menu a{
+.menu{
 
-display:block;
-color:white;
-text-decoration:none;
-padding:14px;
+font-size:18px;
+padding:15px;
 margin:8px 0;
-border-radius:8px;
+border-radius:10px;
 
 }
 
 
-.menu a:hover{
+.menu:hover{
 
-background:#09552e;
-
-}
-
-
-
-/* Main */
-
-.main{
-
-margin-left:240px;
-padding:25px;
+background:#07552e;
 
 }
 
 
-.header{
+/* Content */
 
-background:white;
-padding:20px;
-border-radius:12px;
-margin-bottom:20px;
-box-shadow:0 2px 8px #ddd;
+.content{
 
-}
-
-
-.header h1{
-
-color:#0b6b3a;
-
-}
-
-
-
-/* Cards */
-
-.cards{
-
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:20px;
+padding:30px;
 
 }
 
@@ -114,134 +104,80 @@ gap:20px;
 .card{
 
 background:white;
-padding:25px;
-border-radius:15px;
-box-shadow:0 2px 8px #ddd;
-
-}
-
-
-.card h3{
-
-color:#555;
-
-}
-
-
-.number{
-
-font-size:32px;
-color:#0b6b3a;
-font-weight:bold;
-margin-top:10px;
-
-}
-
-
-
-/* Tables */
-
-.box{
-
-background:white;
-margin-top:25px;
 padding:20px;
 border-radius:15px;
+margin-bottom:20px;
+box-shadow:0 0 10px #ccc;
 
 }
 
 
-table{
 
-width:100%;
-border-collapse:collapse;
-
-}
-
-
-th,td{
-
-padding:12px;
-border-bottom:1px solid #ddd;
-text-align:left;
-
-}
-
-
+/* Mobile */
 
 @media(max-width:800px){
 
+.menu-btn{
 
-.sidebar{
-
-width:100%;
-height:auto;
-position:relative;
+display:block;
 
 }
 
+.content{
 
-.main{
-
-margin-left:0;
-
-}
-
-
-.cards{
-
-grid-template-columns:1fr;
+padding:15px;
 
 }
 
 
 }
-
 
 
 </style>
 
-</head>
 
+</head>
 
 
 <body>
 
 
+<div class="topbar">
 
-<div class="sidebar">
+<span class="menu-btn" onclick="toggleMenu()">☰</span>
+
+<h2>Dashboard</h2>
+
+</div>
+
+
+
+<div class="sidebar" id="sidebar">
 
 
 <div class="logo">
-
 Darul Quran<br>
 Smart ERP
-
 </div>
 
 
-<div class="menu">
+<div class="menu">🏠 Dashboard</div>
 
-<a href="#">🏠 Dashboard</a>
+<div class="menu">👨‍🎓 Students</div>
 
-<a href="#">👨‍🎓 Students</a>
+<div class="menu">📝 Admission</div>
 
-<a href="#">📝 Admission</a>
+<div class="menu">💰 Fee Collection</div>
 
-<a href="#">💰 Fee Collection</a>
+<div class="menu">📅 Attendance</div>
 
-<a href="#">📅 Attendance</a>
+<div class="menu">📚 Result</div>
 
-<a href="#">📚 Result</a>
+<div class="menu">📜 Certificate</div>
 
-<a href="#">📜 Certificate</a>
+<div class="menu">👨‍🏫 Teachers</div>
 
-<a href="#">👨‍🏫 Teachers</a>
-
-<a href="#">⚙ Settings</a>
-
-
-</div>
+<div class="menu">⚙ Settings</div>
 
 
 </div>
@@ -249,30 +185,14 @@ Smart ERP
 
 
 
-<div class="main">
-
-
-<div class="header">
-
-<h1>Dashboard Overview</h1>
-
-<p>Welcome Admin</p>
-
-</div>
-
-
-
-
-<div class="cards">
+<div class="content">
 
 
 <div class="card">
 
-<h3>Total Students</h3>
+<h2>Welcome Admin</h2>
 
-<div class="number">
-250
-</div>
+<p>Darul Quran Smart ERP Dashboard</p>
 
 </div>
 
@@ -280,102 +200,31 @@ Smart ERP
 
 <div class="card">
 
-<h3>Total Teachers</h3>
+<h3>Student Statistics</h3>
 
-<div class="number">
-15
-</div>
+<p>Total Students : 500</p>
 
-</div>
+<p>Today's Attendance : 95%</p>
 
-
-
-
-<div class="card">
-
-<h3>Total Classes</h3>
-
-<div class="number">
-10
-</div>
 
 </div>
-
-
-
-
-<div class="card">
-
-<h3>Monthly Income</h3>
-
-<div class="number">
-৳85000
-</div>
-
-</div>
-
 
 
 </div>
 
 
 
+<script>
 
 
-<div class="box">
+function toggleMenu(){
 
-<h2>Recent Students</h2>
+document.getElementById("sidebar").classList.toggle("active");
 
-
-<table>
-
-
-<tr>
-
-<th>Name</th>
-<th>Class</th>
-<th>Status</th>
-
-</tr>
+}
 
 
-<tr>
-
-<td>Abdullah</td>
-<td>Class 5</td>
-<td>Active</td>
-
-</tr>
-
-
-<tr>
-
-<td>Rahman</td>
-<td>Class 3</td>
-<td>Active</td>
-
-</tr>
-
-
-<tr>
-
-<td>Hasan</td>
-<td>Class 2</td>
-<td>Active</td>
-
-</tr>
-
-
-
-</table>
-
-
-</div>
-
-
-
-</div>
-
+</script>
 
 
 
