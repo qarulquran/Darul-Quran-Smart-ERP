@@ -1,0 +1,95 @@
+/* ===== BANGLADESH LOCATION DATABASE START ===== */
+
+const bangladeshLocation = {
+
+    "Dhaka": {
+
+        "Dhaka": {
+
+            "Savar": {
+
+                "Aminbazar": [
+                    "Ward 1",
+                    "Ward 2",
+                    "Ward 3",
+                    "Ward 4",
+                    "Ward 5",
+                    "Ward 6",
+                    "Ward 7",
+                    "Ward 8",
+                    "Ward 9"
+                ],
+
+                "Yearpur": [
+                    "Ward 1",
+                    "Ward 2",
+                    "Ward 3",
+                    "Ward 4",
+                    "Ward 5",
+                    "Ward 6",
+                    "Ward 7",
+                    "Ward 8",
+                    "Ward 9"
+                ]
+
+            },
+
+
+            "Dhamrai": {
+
+                "Dhamrai Union": [
+                    "Ward 1",
+                    "Ward 2",
+                    "Ward 3",
+                    "Ward 4",
+                    "Ward 5",
+                    "Ward 6",
+                    "Ward 7",
+                    "Ward 8",
+                    "Ward 9"
+                ]
+
+            }
+
+        }
+
+    },
+
+
+
+    "Chattogram": {
+
+
+        "Chattogram": {
+
+
+            "Sitakunda": {
+
+
+                "Barabkunda": [
+
+                    "Ward 1",
+                    "Ward 2",
+                    "Ward 3",
+                    "Ward 4",
+                    "Ward 5",
+                    "Ward 6",
+                    "Ward 7",
+                    "Ward 8",
+                    "Ward 9"
+
+                ]
+
+            }
+
+
+        }
+
+
+    }
+
+
+};
+
+
+/* ===== BANGLADESH LOCATION DATABASE END ===== */
