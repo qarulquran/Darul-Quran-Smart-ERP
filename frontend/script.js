@@ -28,7 +28,6 @@ function login(){
 
 const studentChart = document.getElementById("studentChart");
 
-
 if(studentChart){
 
     new Chart(studentChart, {
@@ -45,20 +44,22 @@ if(studentChart){
                 "Class 5"
             ],
 
+            datasets: [
 
-            datasets: [{
+                {
+                    label: "Students",
 
-                label: "Students",
+                    data: [
+                        80,
+                        120,
+                        100,
+                        150,
+                        50
+                    ]
 
-                data: [
-                    80,
-                    120,
-                    100,
-                    150,
-                    50
-                ]
+                }
 
-            }]
+            ]
 
         }
 
@@ -71,7 +72,6 @@ if(studentChart){
 // ================= ATTENDANCE CHART =================
 
 const attendanceChart = document.getElementById("attendanceChart");
-
 
 if(attendanceChart){
 
@@ -86,15 +86,18 @@ if(attendanceChart){
                 "Absent"
             ],
 
+            datasets: [
 
-            datasets: [{
+                {
 
-                data: [
-                    90,
-                    10
-                ]
+                    data: [
+                        90,
+                        10
+                    ]
 
-            }]
+                }
+
+            ]
 
         }
 
@@ -107,7 +110,6 @@ if(attendanceChart){
 // ================= FINANCE CHART =================
 
 const financeChart = document.getElementById("financeChart");
-
 
 if(financeChart){
 
@@ -125,20 +127,23 @@ if(financeChart){
                 "May"
             ],
 
+            datasets: [
 
-            datasets: [{
+                {
 
-                label: "Income",
+                    label: "Income",
 
-                data: [
-                    30000,
-                    45000,
-                    50000,
-                    60000,
-                    70000
-                ]
+                    data: [
+                        30000,
+                        45000,
+                        50000,
+                        60000,
+                        70000
+                    ]
 
-            }]
+                }
+
+            ]
 
         }
 
