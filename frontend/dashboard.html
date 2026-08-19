@@ -1,18 +1,14 @@
-<!-- ===== COMPACT DASHBOARD PART 1 START ===== -->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Darul Quran Smart ERP Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 
 <style>
 
@@ -23,24 +19,21 @@ box-sizing:border-box;
 font-family:Arial,sans-serif;
 }
 
-
 body{
-
 background:#f4f7f5;
-
 }
 
 
-/* Header */
+/* HEADER */
 
 .header{
 
-height:65px;
+height:70px;
 background:#076b3a;
 color:white;
 display:flex;
 align-items:center;
-padding:0 18px;
+padding:0 20px;
 box-shadow:0 5px 15px rgba(0,0,0,.2);
 
 }
@@ -48,35 +41,34 @@ box-shadow:0 5px 15px rgba(0,0,0,.2);
 
 .menu-btn{
 
-font-size:30px;
+font-size:35px;
 cursor:pointer;
-margin-right:18px;
 
 }
 
 
 .header h1{
 
-font-size:26px;
+font-size:28px;
+margin-left:20px;
 
 }
 
 
-
-/* Sidebar */
+/* SIDEBAR */
 
 .sidebar{
 
 position:fixed;
 top:0;
-left:-280px;
+left:-290px;
+width:290px;
 height:100%;
-width:280px;
 background:#075c32;
 color:white;
-padding:22px;
-transition:.3s;
+padding:25px;
 z-index:1000;
+transition:.3s;
 box-shadow:5px 0 20px rgba(0,0,0,.3);
 
 }
@@ -89,12 +81,11 @@ left:0;
 }
 
 
-
 .logo{
 
-font-size:24px;
+font-size:28px;
 font-weight:bold;
-margin-bottom:25px;
+margin-bottom:35px;
 
 }
 
@@ -102,12 +93,11 @@ margin-bottom:25px;
 .sidebar a{
 
 display:block;
-padding:12px 8px;
-margin:5px 0;
 color:white;
-font-size:18px;
 text-decoration:none;
-border-radius:8px;
+font-size:20px;
+padding:15px 5px;
+border-radius:10px;
 
 }
 
@@ -119,18 +109,15 @@ background:#064522;
 }
 
 
-
-/* Overlay */
+/* OVERLAY */
 
 .overlay{
 
 position:fixed;
-display:none;
-top:0;
-left:0;
 width:100%;
 height:100%;
 background:rgba(0,0,0,.45);
+display:none;
 z-index:500;
 
 }
@@ -143,33 +130,32 @@ display:block;
 }
 
 
-
-/* Container */
+/* MAIN */
 
 .container{
 
-padding:18px;
+padding:20px;
 
 }
 
 
+/* WELCOME */
 
 .welcome{
 
 background:white;
 padding:20px;
-border-radius:18px;
-box-shadow:0 6px 20px rgba(0,0,0,.12);
+border-radius:22px;
+box-shadow:0 8px 25px rgba(0,0,0,.12);
 margin-bottom:18px;
-animation:show .5s;
+animation:fade .7s;
 
 }
 
 
-
 .welcome h2{
 
-font-size:28px;
+font-size:32px;
 color:#076b3a;
 
 }
@@ -177,65 +163,63 @@ color:#076b3a;
 
 .welcome p{
 
-font-size:17px;
+font-size:20px;
 color:#666;
-margin-top:8px;
+margin-top:10px;
 
 }
 
 
 
-/* Cards */
+/* CARDS */
 
 .cards{
 
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:15px;
+gap:18px;
 
 }
-
 
 
 .card{
 
 background:white;
 padding:18px;
-border-radius:18px;
-box-shadow:0 6px 18px rgba(0,0,0,.12);
+border-radius:22px;
+box-shadow:0 8px 25px rgba(0,0,0,.12);
 transition:.3s;
-animation:show .5s;
+animation:fade .7s;
 
 }
 
 
 .card:hover{
 
-transform:translateY(-5px);
+transform:translateY(-8px);
 
 }
 
 
-
 .icon{
 
-font-size:28px;
+font-size:35px;
 
 }
 
 
 .card h3{
 
-font-size:18px;
+font-size:20px;
 color:#666;
-margin-top:8px;
+margin-top:10px;
 
 }
 
 
 .number{
 
-font-size:34px;
+font-size:38px;
 font-weight:bold;
 color:#076b3a;
 margin-top:8px;
@@ -244,15 +228,16 @@ margin-top:8px;
 
 
 
-/* Chart */
+/* CHART CARD */
 
 .chart-box{
 
 background:white;
 margin-top:18px;
-padding:18px;
-border-radius:18px;
-box-shadow:0 6px 18px rgba(0,0,0,.12);
+padding:15px;
+border-radius:22px;
+box-shadow:0 8px 25px rgba(0,0,0,.12);
+animation:fade .7s;
 
 }
 
@@ -260,25 +245,24 @@ box-shadow:0 6px 18px rgba(0,0,0,.12);
 .chart-box h2{
 
 font-size:24px;
-margin-bottom:10px;
+margin-bottom:8px;
 
 }
 
 
-canvas{
+.chart-area{
 
-max-height:220px!important;
+height:170px;
 
 }
 
 
-
-@keyframes show{
+@keyframes fade{
 
 from{
 
 opacity:0;
-transform:translateY(15px);
+transform:translateY(20px);
 
 }
 
@@ -301,9 +285,7 @@ grid-template-columns:1fr;
 
 }
 
-
 }
-
 
 </style>
 
@@ -321,10 +303,8 @@ grid-template-columns:1fr;
 
 
 <div class="logo">
-
 Darul Quran<br>
 Smart ERP
-
 </div>
 
 
@@ -345,20 +325,13 @@ Smart ERP
 
 <div class="header">
 
-
 <div id="menuBtn" class="menu-btn">
-
 ☰
-
 </div>
 
-
 <h1>
-
 Dashboard
-
 </h1>
-
 
 </div>
 
@@ -386,11 +359,17 @@ Darul Quran Smart ERP Management System
 
 <div class="card">
 
-<div class="icon">👨‍🎓</div>
+<div class="icon">
+👨‍🎓
+</div>
 
-<h3>Total Students</h3>
+<h3>
+Total Students
+</h3>
 
-<div class="number">500</div>
+<div class="number">
+500
+</div>
 
 </div>
 
@@ -398,11 +377,34 @@ Darul Quran Smart ERP Management System
 
 <div class="card">
 
-<div class="icon">👨‍🏫</div>
+<div class="icon">
+👨‍🏫
+</div>
 
-<h3>Total Teachers</h3>
+<h3>
+Total Teachers
+</h3>
 
-<div class="number">25</div>
+<div class="number">
+25
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+💰
+</div>
+
+<h3>
+Monthly Fee
+</h3>
+
+<div class="number">
+৳75,000
+</div>
 
 </div>
 
@@ -410,28 +412,22 @@ Darul Quran Smart ERP Management System
 
 <div class="card">
 
-<div class="icon">💰</div>
+<div class="icon">
+📅
+</div>
 
-<h3>Monthly Fee</h3>
+<h3>
+Attendance
+</h3>
 
-<div class="number">৳75,000</div>
+<div class="number">
+95%
+</div>
 
 </div>
 
 
-
-<div class="card">
-
-<div class="icon">📅</div>
-
-<h3>Attendance</h3>
-
-<div class="number">95%</div>
-
-</div>
-
-
-</div><!-- ===== COMPACT DASHBOARD PART 2 START ===== -->
+</div><!-- CHART SECTION -->
 
 
 <div class="chart-box">
@@ -440,7 +436,11 @@ Darul Quran Smart ERP Management System
 Student Growth
 </h2>
 
+<div class="chart-area">
+
 <canvas id="studentChart"></canvas>
+
+</div>
 
 </div>
 
@@ -452,7 +452,11 @@ Student Growth
 Attendance Report
 </h2>
 
+<div class="chart-area">
+
 <canvas id="attendanceChart"></canvas>
+
+</div>
 
 </div>
 
@@ -464,7 +468,11 @@ Attendance Report
 Monthly Income
 </h2>
 
+<div class="chart-area">
+
 <canvas id="incomeChart"></canvas>
+
+</div>
 
 </div>
 
@@ -478,12 +486,13 @@ Monthly Income
 <script>
 
 
-const menuBtn = document.getElementById("menuBtn");
+// MENU
 
-const sidebar = document.getElementById("sidebar");
+const menuBtn=document.getElementById("menuBtn");
 
-const overlay = document.getElementById("overlay");
+const sidebar=document.getElementById("sidebar");
 
+const overlay=document.getElementById("overlay");
 
 
 menuBtn.onclick=function(){
@@ -493,7 +502,6 @@ sidebar.classList.toggle("active");
 overlay.classList.toggle("active");
 
 }
-
 
 
 overlay.onclick=function(){
@@ -507,7 +515,7 @@ overlay.classList.remove("active");
 
 
 
-// Student Growth Chart
+// STUDENT CHART
 
 new Chart(
 
@@ -520,14 +528,13 @@ type:"bar",
 data:{
 
 labels:[
-
 "Class 1",
 "Class 2",
 "Class 3",
 "Class 4",
 "Class 5"
-
 ],
+
 
 datasets:[{
 
@@ -545,6 +552,8 @@ backgroundColor:"#076b3a"
 options:{
 
 responsive:true,
+
+maintainAspectRatio:false,
 
 plugins:{
 
@@ -566,7 +575,8 @@ display:true
 
 
 
-// Attendance Compact Chart
+// ATTENDANCE CHART
+
 
 new Chart(
 
@@ -575,6 +585,7 @@ document.getElementById("attendanceChart"),
 {
 
 type:"doughnut",
+
 
 data:{
 
@@ -586,15 +597,17 @@ labels:[
 
 ],
 
+
 datasets:[{
 
 data:[95,5],
+
 
 backgroundColor:[
 
 "#076b3a",
 
-"#d9534f"
+"#e74c3c"
 
 ]
 
@@ -607,13 +620,43 @@ options:{
 
 responsive:true,
 
+maintainAspectRatio:false,
+
+
+cutout:"70%",
+
+
 plugins:{
+
 
 legend:{
 
+
 position:"bottom"
 
+
+},
+
+
+tooltip:{
+
+
+callbacks:{
+
+
+label:function(context){
+
+return context.label;
+
 }
+
+
+}
+
+
+}
+
+
 
 }
 
@@ -628,7 +671,7 @@ position:"bottom"
 
 
 
-// Income Chart
+// INCOME CHART
 
 
 new Chart(
@@ -637,9 +680,12 @@ document.getElementById("incomeChart"),
 
 {
 
+
 type:"line",
 
+
 data:{
+
 
 labels:[
 
@@ -654,7 +700,7 @@ labels:[
 
 datasets:[{
 
-label:"Income ৳",
+label:"Income ৳75,000",
 
 data:[
 
@@ -675,17 +721,22 @@ fill:true,
 
 tension:.4
 
-
 }]
+
 
 },
 
 
 options:{
 
-responsive:true
+
+responsive:true,
+
+maintainAspectRatio:false
+
 
 }
+
 
 }
 
@@ -696,10 +747,6 @@ responsive:true
 </script>
 
 
-
 </body>
 
 </html>
-
-
-<!-- ===== COMPACT DASHBOARD PART 2 END ===== -->
