@@ -1,8 +1,45 @@
 
-// Custom Dropdown Creator
+
+let bangladeshLocation = {};
 
 
-function createDropdown(
+// Load JSON Database
+
+fetch("bangladesh-location.json")
+
+.then(function(response){
+
+    return response.json();
+
+})
+
+
+.then(function(data){
+
+    bangladeshLocation = data;
+
+    loadDivision();
+
+})
+
+
+.catch(function(error){
+
+    console.log(
+        "Location data loading error:",
+        error
+    );
+
+});
+
+
+
+
+
+// Common Dropdown Function
+
+
+function setupDropdown(
 inputId,
 listId,
 items,
@@ -10,113 +47,58 @@ callback
 ){
 
 
-
-const input =
+let input =
 document.getElementById(inputId);
 
 
-
-const list =
+let list =
 document.getElementById(listId);
 
 
 
-if(!input || !list) return;
-
-
-
-input.addEventListener(
-"focus",
-function(){
-
-showItems(items);
-
-});
+if(!input || !list){
+    return;
+}
 
 
 
 
-
-input.addEventListener(
-"input",
-function(){
-
-
-let search =
-this.value.toLowerCase();
-
-
-
-let filtered =
-
-items.filter(function(item){
-
-
-return item
-.toLowerCase()
-.includes(search);
-
-
-});
-
-
-
-showItems(filtered);
-
-
-
-});
-
-
-
-
-
-
-
-function showItems(data){
+function showList(searchText=""){
 
 
 list.innerHTML="";
 
 
+let filtered =
+items.filter(function(item){
 
-if(data.length===0){
+return item
+.toLowerCase()
+.includes(
+searchText.toLowerCase()
+);
 
-
-list.innerHTML =
-
-`
-<div class="dropdown-empty">
-No result found
-</div>
-`;
-
-
-}
-
-else{
-
-
-data.forEach(function(item){
+});
 
 
 
-let div =
+filtered.forEach(function(item){
+
+
+let option =
 document.createElement("div");
 
 
-
-div.className =
+option.className =
 "dropdown-item";
 
 
-
-div.innerText =
+option.innerText =
 item;
 
 
 
-div.onclick=function(){
+option.onclick=function(){
 
 
 input.value=item;
@@ -138,8 +120,7 @@ callback(item);
 };
 
 
-
-list.appendChild(div);
+list.appendChild(option);
 
 
 
@@ -147,17 +128,40 @@ list.appendChild(div);
 
 
 
-}
-
-
+if(filtered.length > 0){
 
 list.classList.add(
 "active"
 );
 
+}
+
 
 
 }
+
+
+
+
+input.addEventListener(
+"focus",
+function(){
+
+showList();
+
+});
+
+
+input.addEventListener(
+"input",
+function(){
+
+showList(
+this.value
+);
+
+});
+
 
 
 
@@ -168,55 +172,38 @@ function(e){
 
 
 if(
-!input.contains(e.target)
-&&
+e.target !== input &&
 !list.contains(e.target)
 ){
-
 
 list.classList.remove(
 "active"
 );
 
-
-
-// Bangladesh Location Connection
-
-
-let locationDatabase = {};
-
-
-
-fetch("bangladesh-location.json")
-
-.then(response => response.json())
-
-.then(data => {
-
-
-locationDatabase = data;
-
-
-initializeAddress();
+}
 
 
 });
 
 
+}
 
 
 
+// Load Division
 
-function initializeAddress(){
 
+function loadDivision(){
 
 
 let divisions =
-Object.keys(locationDatabase);
+Object.keys(
+bangladeshLocation
+);
 
 
 
-createDropdown(
+setupDropdown(
 
 "divisionSearch",
 
@@ -237,7 +224,6 @@ division
 );
 
 
-
 }
 
 
@@ -246,18 +232,25 @@ division
 
 
 
-function loadDistrict(division){
+// Load District
+
+
+function loadDistrict(
+division
+){
 
 
 let districts =
 
 Object.keys(
-locationDatabase[division]
+
+bangladeshLocation[division]
+
 );
 
 
 
-createDropdown(
+setupDropdown(
 
 "districtSearch",
 
@@ -288,6 +281,9 @@ district
 
 
 
+// Load Thana
+
+
 function loadThana(
 division,
 district
@@ -298,7 +294,7 @@ let thanas =
 
 Object.keys(
 
-locationDatabase
+bangladeshLocation
 
 [division]
 
@@ -308,7 +304,7 @@ locationDatabase
 
 
 
-createDropdown(
+setupDropdown(
 
 "thanaSearch",
 
@@ -320,9 +316,13 @@ function(thana){
 
 
 loadUnion(
+
 division,
+
 district,
+
 thana
+
 );
 
 
@@ -338,12 +338,18 @@ thana
 
 
 
+
+
+// Load Union
 
 
 function loadUnion(
 division,
+
 district,
+
 thana
+
 ){
 
 
@@ -352,7 +358,7 @@ let unions =
 
 Object.keys(
 
-locationDatabase
+bangladeshLocation
 
 [division]
 
@@ -364,7 +370,7 @@ locationDatabase
 
 
 
-createDropdown(
+setupDropdown(
 
 "unionSearch",
 
@@ -376,10 +382,15 @@ function(union){
 
 
 loadWard(
+
 division,
+
 district,
+
 thana,
+
 union
+
 );
 
 
@@ -395,20 +406,29 @@ union
 
 
 
+
+
+
+// Load Ward
 
 
 function loadWard(
+
 division,
+
 district,
+
 thana,
+
 union
+
 ){
 
 
 
 let wards =
 
-locationDatabase
+bangladeshLocation
 
 [division]
 
@@ -420,13 +440,16 @@ locationDatabase
 
 
 
-createDropdown(
+
+setupDropdown(
 
 "wardSearch",
 
 "wardList",
 
-wards
+wards,
+
+null
 
 );
 
@@ -435,14 +458,5 @@ wards
 }
 
 
-
-
-
-
-});
-
-
-
-}
 
 
