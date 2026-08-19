@@ -6,6 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
 
 *{
@@ -15,20 +17,20 @@ font-family:Arial;
 
 body{
 margin:0;
-background:#f5f5f5;
+background:#f4f6f5;
 }
 
 
-/* Top Bar */
+/* Header */
 
-.topbar{
+.header{
 
-height:60px;
+height:65px;
 background:#0b6b3a;
 color:white;
 display:flex;
 align-items:center;
-padding:0 20px;
+padding:15px;
 
 }
 
@@ -37,9 +39,10 @@ padding:0 20px;
 
 font-size:30px;
 cursor:pointer;
-display:none;
+margin-right:15px;
 
 }
+
 
 
 /* Sidebar */
@@ -48,13 +51,14 @@ display:none;
 
 position:fixed;
 top:0;
-left:-260px;
-width:250px;
-height:100vh;
-background:#0b6b3a;
+left:-270px;
+width:260px;
+height:100%;
+background:#07552e;
 color:white;
 padding:20px;
 transition:.3s;
+z-index:10;
 
 }
 
@@ -70,33 +74,44 @@ left:0;
 
 font-size:25px;
 font-weight:bold;
-margin-bottom:40px;
+margin-bottom:30px;
 
 }
 
 
 .menu{
 
-font-size:18px;
-padding:15px;
+padding:14px;
 margin:8px 0;
 border-radius:10px;
+font-size:18px;
 
 }
 
 
 .menu:hover{
 
-background:#07552e;
+background:#064521;
 
 }
 
 
 /* Content */
 
-.content{
+.container{
 
-padding:30px;
+padding:20px;
+
+}
+
+
+/* Cards */
+
+.cards{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:20px;
 
 }
 
@@ -106,35 +121,41 @@ padding:30px;
 background:white;
 padding:20px;
 border-radius:15px;
-margin-bottom:20px;
-box-shadow:0 0 10px #ccc;
+box-shadow:0 5px 15px #ddd;
 
 }
 
 
+.card h3{
 
-/* Mobile */
-
-@media(max-width:800px){
-
-.menu-btn{
-
-display:block;
+margin:0;
+color:#555;
 
 }
 
-.content{
 
-padding:15px;
+.number{
+
+font-size:32px;
+font-weight:bold;
+color:#0b6b3a;
 
 }
 
+
+/* Chart */
+
+.chart-box{
+
+background:white;
+margin-top:25px;
+padding:20px;
+border-radius:15px;
 
 }
 
 
 </style>
-
 
 </head>
 
@@ -142,9 +163,9 @@ padding:15px;
 <body>
 
 
-<div class="topbar">
+<div class="header">
 
-<span class="menu-btn" onclick="toggleMenu()">☰</span>
+<div class="menu-btn" onclick="toggleMenu()">☰</div>
 
 <h2>Dashboard</h2>
 
@@ -156,27 +177,21 @@ padding:15px;
 
 
 <div class="logo">
+
 Darul Quran<br>
 Smart ERP
+
 </div>
 
 
 <div class="menu">🏠 Dashboard</div>
-
 <div class="menu">👨‍🎓 Students</div>
-
 <div class="menu">📝 Admission</div>
-
 <div class="menu">💰 Fee Collection</div>
-
 <div class="menu">📅 Attendance</div>
-
 <div class="menu">📚 Result</div>
-
 <div class="menu">📜 Certificate</div>
-
 <div class="menu">👨‍🏫 Teachers</div>
-
 <div class="menu">⚙ Settings</div>
 
 
@@ -185,14 +200,21 @@ Smart ERP
 
 
 
-<div class="content">
+<div class="container">
 
-
-<div class="card">
 
 <h2>Welcome Admin</h2>
 
-<p>Darul Quran Smart ERP Dashboard</p>
+
+
+<div class="cards">
+
+
+<div class="card">
+
+<h3>Total Students</h3>
+
+<div class="number">500</div>
 
 </div>
 
@@ -200,17 +222,52 @@ Smart ERP
 
 <div class="card">
 
-<h3>Student Statistics</h3>
+<h3>Total Teachers</h3>
 
-<p>Total Students : 500</p>
+<div class="number">25</div>
 
-<p>Today's Attendance : 95%</p>
+</div>
 
+
+
+<div class="card">
+
+<h3>Monthly Fee</h3>
+
+<div class="number">৳75,000</div>
+
+</div>
+
+
+
+<div class="card">
+
+<h3>Attendance</h3>
+
+<div class="number">95%</div>
 
 </div>
 
 
 </div>
+
+
+
+
+<div class="chart-box">
+
+<h3>Student Growth</h3>
+
+<canvas id="studentChart"></canvas>
+
+
+</div>
+
+
+
+</div>
+
+
 
 
 
@@ -224,10 +281,50 @@ document.getElementById("sidebar").classList.toggle("active");
 }
 
 
+
+new Chart(
+
+document.getElementById("studentChart"),
+
+{
+
+type:"bar",
+
+data:{
+
+labels:[
+"Class 1",
+"Class 2",
+"Class 3",
+"Class 4",
+"Class 5"
+],
+
+
+datasets:[{
+
+label:"Students",
+
+data:[
+80,
+120,
+100,
+150,
+50
+]
+
+}]
+
+}
+
+}
+
+);
+
+
 </script>
 
 
 
 </body>
-
 </html>
