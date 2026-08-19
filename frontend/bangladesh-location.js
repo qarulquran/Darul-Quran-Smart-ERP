@@ -1,7 +1,4 @@
-
-const bangladeshLocation = {
-
-    "Dhaka": {
+"Dhaka": {
 
         "Dhaka": {
 
