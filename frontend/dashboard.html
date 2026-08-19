@@ -1,14 +1,18 @@
+<!-- ===== DASHBOARD FINAL PART 1 START ===== -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Darul Quran Smart ERP Dashboard</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 <style>
 
@@ -19,21 +23,31 @@ box-sizing:border-box;
 font-family:Arial,sans-serif;
 }
 
+
 body{
+
 background:#f4f7f5;
+
 }
+
 
 
 /* HEADER */
 
 .header{
 
-height:70px;
+height:65px;
+
 background:#076b3a;
+
 color:white;
+
 display:flex;
+
 align-items:center;
-padding:0 20px;
+
+padding:0 18px;
+
 box-shadow:0 5px 15px rgba(0,0,0,.2);
 
 }
@@ -41,18 +55,21 @@ box-shadow:0 5px 15px rgba(0,0,0,.2);
 
 .menu-btn{
 
-font-size:35px;
+font-size:32px;
+
 cursor:pointer;
+
+margin-right:15px;
 
 }
 
 
 .header h1{
 
-font-size:28px;
-margin-left:20px;
+font-size:26px;
 
 }
+
 
 
 /* SIDEBAR */
@@ -60,16 +77,26 @@ margin-left:20px;
 .sidebar{
 
 position:fixed;
+
 top:0;
-left:-290px;
-width:290px;
-height:100%;
+
+left:-280px;
+
+width:280px;
+
+height:100vh;
+
 background:#075c32;
+
 color:white;
+
 padding:25px;
-z-index:1000;
+
 transition:.3s;
-box-shadow:5px 0 20px rgba(0,0,0,.3);
+
+z-index:1000;
+
+box-shadow:5px 0 25px rgba(0,0,0,.35);
 
 }
 
@@ -83,20 +110,30 @@ left:0;
 
 .logo{
 
-font-size:28px;
+font-size:25px;
+
 font-weight:bold;
-margin-bottom:35px;
+
+margin-bottom:30px;
 
 }
+
 
 
 .sidebar a{
 
 display:block;
+
+padding:13px;
+
+margin:6px 0;
+
 color:white;
+
 text-decoration:none;
-font-size:20px;
-padding:15px 5px;
+
+font-size:18px;
+
 border-radius:10px;
 
 }
@@ -109,15 +146,26 @@ background:#064522;
 }
 
 
+
+
 /* OVERLAY */
 
 .overlay{
 
-position:fixed;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.45);
 display:none;
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.45);
+
 z-index:500;
 
 }
@@ -130,32 +178,38 @@ display:block;
 }
 
 
+
 /* MAIN */
 
 .container{
 
-padding:20px;
+padding:18px;
+
+animation:fade .6s ease;
 
 }
 
 
-/* WELCOME */
 
 .welcome{
 
 background:white;
-padding:20px;
-border-radius:22px;
-box-shadow:0 8px 25px rgba(0,0,0,.12);
-margin-bottom:18px;
-animation:fade .7s;
+
+padding:18px;
+
+border-radius:18px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+margin-bottom:15px;
 
 }
 
 
 .welcome h2{
 
-font-size:32px;
+font-size:28px;
+
 color:#076b3a;
 
 }
@@ -163,9 +217,9 @@ color:#076b3a;
 
 .welcome p{
 
-font-size:20px;
 color:#666;
-margin-top:10px;
+
+margin-top:6px;
 
 }
 
@@ -176,8 +230,10 @@ margin-top:10px;
 .cards{
 
 display:grid;
+
 grid-template-columns:repeat(2,1fr);
-gap:18px;
+
+gap:15px;
 
 }
 
@@ -185,10 +241,15 @@ gap:18px;
 .card{
 
 background:white;
-padding:18px;
-border-radius:22px;
-box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+padding:16px;
+
+border-radius:18px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+
 transition:.3s;
+
 animation:fade .7s;
 
 }
@@ -196,55 +257,64 @@ animation:fade .7s;
 
 .card:hover{
 
-transform:translateY(-8px);
+transform:translateY(-6px);
 
 }
 
 
 .icon{
 
-font-size:35px;
+font-size:30px;
 
 }
 
 
 .card h3{
 
-font-size:20px;
+font-size:18px;
+
 color:#666;
-margin-top:10px;
+
+margin-top:8px;
 
 }
 
 
 .number{
 
-font-size:38px;
+font-size:34px;
+
 font-weight:bold;
+
 color:#076b3a;
-margin-top:8px;
+
+margin-top:5px;
 
 }
 
 
 
-/* CHART CARD */
+/* CHART */
 
 .chart-box{
 
 background:white;
-margin-top:18px;
+
+margin-top:15px;
+
 padding:15px;
-border-radius:22px;
-box-shadow:0 8px 25px rgba(0,0,0,.12);
-animation:fade .7s;
+
+border-radius:18px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.12);
 
 }
 
 
 .chart-box h2{
 
-font-size:24px;
+font-size:22px;
+
 margin-bottom:8px;
 
 }
@@ -252,9 +322,10 @@ margin-bottom:8px;
 
 .chart-area{
 
-height:170px;
+height:160px;
 
 }
+
 
 
 @keyframes fade{
@@ -262,13 +333,15 @@ height:170px;
 from{
 
 opacity:0;
-transform:translateY(20px);
+
+transform:translateY(15px);
 
 }
 
 to{
 
 opacity:1;
+
 transform:translateY(0);
 
 }
@@ -299,23 +372,34 @@ grid-template-columns:1fr;
 <div id="overlay" class="overlay"></div>
 
 
+
 <div id="sidebar" class="sidebar">
 
 
 <div class="logo">
+
 Darul Quran<br>
 Smart ERP
+
 </div>
 
 
 <a href="#">🏠 Dashboard</a>
+
 <a href="#">👨‍🎓 Students</a>
+
 <a href="#">📝 Admission</a>
+
 <a href="#">💰 Fee Collection</a>
+
 <a href="#">📅 Attendance</a>
+
 <a href="#">📚 Result</a>
+
 <a href="#">📜 Certificate</a>
+
 <a href="#">👨‍🏫 Teachers</a>
+
 <a href="#">⚙ Settings</a>
 
 
@@ -323,17 +407,26 @@ Smart ERP
 
 
 
+
 <div class="header">
 
+
 <div id="menuBtn" class="menu-btn">
+
 ☰
+
 </div>
+
 
 <h1>
+
 Dashboard
+
 </h1>
 
+
 </div>
+
 
 
 
@@ -354,18 +447,15 @@ Darul Quran Smart ERP Management System
 
 
 
+
 <div class="cards">
 
 
 <div class="card">
 
-<div class="icon">
-👨‍🎓
-</div>
+<div class="icon">👨‍🎓</div>
 
-<h3>
-Total Students
-</h3>
+<h3>Total Students</h3>
 
 <div class="number">
 500
@@ -377,13 +467,9 @@ Total Students
 
 <div class="card">
 
-<div class="icon">
-👨‍🏫
-</div>
+<div class="icon">👨‍🏫</div>
 
-<h3>
-Total Teachers
-</h3>
+<h3>Total Teachers</h3>
 
 <div class="number">
 25
@@ -392,15 +478,12 @@ Total Teachers
 </div>
 
 
+
 <div class="card">
 
-<div class="icon">
-💰
-</div>
+<div class="icon">💰</div>
 
-<h3>
-Monthly Fee
-</h3>
+<h3>Monthly Fee</h3>
 
 <div class="number">
 ৳75,000
@@ -412,13 +495,9 @@ Monthly Fee
 
 <div class="card">
 
-<div class="icon">
-📅
-</div>
+<div class="icon">📅</div>
 
-<h3>
-Attendance
-</h3>
+<h3>Attendance</h3>
 
 <div class="number">
 95%
@@ -427,7 +506,7 @@ Attendance
 </div>
 
 
-</div><!-- CHART SECTION -->
+</div><!-- ===== DASHBOARD FINAL PART 2 START ===== -->
 
 
 <div class="chart-box">
@@ -446,6 +525,7 @@ Student Growth
 
 
 
+
 <div class="chart-box">
 
 <h2>
@@ -459,6 +539,7 @@ Attendance Report
 </div>
 
 </div>
+
 
 
 
@@ -483,16 +564,18 @@ Monthly Income
 
 
 
+
 <script>
 
 
-// MENU
+// SIDEBAR MENU
 
-const menuBtn=document.getElementById("menuBtn");
+const menuBtn = document.getElementById("menuBtn");
 
-const sidebar=document.getElementById("sidebar");
+const sidebar = document.getElementById("sidebar");
 
-const overlay=document.getElementById("overlay");
+const overlay = document.getElementById("overlay");
+
 
 
 menuBtn.onclick=function(){
@@ -502,6 +585,7 @@ sidebar.classList.toggle("active");
 overlay.classList.toggle("active");
 
 }
+
 
 
 overlay.onclick=function(){
@@ -515,7 +599,9 @@ overlay.classList.remove("active");
 
 
 
-// STUDENT CHART
+
+// STUDENT GROWTH CHART
+
 
 new Chart(
 
@@ -528,11 +614,13 @@ type:"bar",
 data:{
 
 labels:[
+
 "Class 1",
 "Class 2",
 "Class 3",
 "Class 4",
 "Class 5"
+
 ],
 
 
@@ -546,6 +634,7 @@ backgroundColor:"#076b3a"
 
 }]
 
+
 },
 
 
@@ -555,21 +644,28 @@ responsive:true,
 
 maintainAspectRatio:false,
 
+
 plugins:{
 
-legend:{
 
-display:true
+tooltip:{
+
+enabled:false
+
+}
+
 
 }
 
-}
 
 }
+
 
 }
 
 );
+
+
 
 
 
@@ -586,8 +682,8 @@ document.getElementById("attendanceChart"),
 
 type:"doughnut",
 
-
 data:{
+
 
 labels:[
 
@@ -611,12 +707,15 @@ backgroundColor:[
 
 ]
 
+
 }]
+
 
 },
 
 
 options:{
+
 
 responsive:true,
 
@@ -629,27 +728,16 @@ cutout:"70%",
 plugins:{
 
 
-legend:{
+tooltip:{
 
-
-position:"bottom"
-
+enabled:false
 
 },
 
 
-tooltip:{
+legend:{
 
-
-callbacks:{
-
-
-label:function(context){
-
-return context.label;
-
-}
-
+position:"bottom"
 
 }
 
@@ -663,9 +751,10 @@ return context.label;
 
 }
 
-}
 
 );
+
+
 
 
 
@@ -680,12 +769,9 @@ document.getElementById("incomeChart"),
 
 {
 
-
 type:"line",
 
-
 data:{
-
 
 labels:[
 
@@ -700,7 +786,7 @@ labels:[
 
 datasets:[{
 
-label:"Income ৳75,000",
+label:"Income ৳",
 
 data:[
 
@@ -721,6 +807,7 @@ fill:true,
 
 tension:.4
 
+
 }]
 
 
@@ -732,7 +819,20 @@ options:{
 
 responsive:true,
 
-maintainAspectRatio:false
+maintainAspectRatio:false,
+
+
+plugins:{
+
+
+tooltip:{
+
+enabled:false
+
+}
+
+
+}
 
 
 }
@@ -750,3 +850,6 @@ maintainAspectRatio:false
 </body>
 
 </html>
+
+
+<!-- ===== DASHBOARD FINAL PART 2 END ===== -->
