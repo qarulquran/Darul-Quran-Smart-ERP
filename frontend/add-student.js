@@ -1,50 +1,42 @@
-/* ===== ADD STUDENT JS FINAL VERSION PART 1/2 START ===== */
+/* ===== ADD STUDENT FINAL JS PART 1/2 START ===== */
 
 
 // ===============================
-// Student Photo Preview
+// Bangladesh Location Database
 // ===============================
 
-const photoInput = document.querySelector(
-    'input[type="file"]'
-);
+let bangladeshLocation = {};
 
 
-if(photoInput){
+// Load JSON Database
 
-    photoInput.addEventListener(
-        "change",
-        function(){
+fetch("data/bangladesh-location.json")
 
-            const file = this.files[0];
+.then(response => response.json())
 
-            if(file){
+.then(data => {
 
-                const reader = new FileReader();
+    bangladeshLocation = data;
 
-                reader.onload = function(e){
+    loadDivision();
 
-                    console.log(
-                        "Student photo selected"
-                    );
+})
 
-                }
+.catch(error => {
 
-                reader.readAsDataURL(file);
-
-            }
-
-        }
+    console.log(
+        "Location database loading error:",
+        error
     );
 
-}
+});
 
 
 
 
 
 // ===============================
-// Smart Bangladesh Address System
+// Address Select Elements
 // ===============================
 
 
@@ -72,13 +64,25 @@ document.getElementById("ward");
 
 
 
+// ===============================
+// Load Division
+// ===============================
 
-// Load Division List
 
-if(division){
+function loadDivision(){
+
+
+    if(!division) return;
+
+
+    division.innerHTML =
+    `<option>
+    Select Division
+    </option>`;
 
 
     Object.keys(bangladeshLocation)
+
     .forEach(function(item){
 
 
@@ -102,7 +106,9 @@ if(division){
 
 
 
-// Division Select
+// ===============================
+// Division Change
+// ===============================
 
 
 if(division){
@@ -116,11 +122,14 @@ function(){
     district.innerHTML =
     "<option>Select District</option>";
 
+
     thana.innerHTML =
     "<option>Select Thana</option>";
 
+
     union.innerHTML =
     "<option>Select Union</option>";
+
 
     ward.innerHTML =
     "<option>Select Ward</option>";
@@ -133,6 +142,7 @@ function(){
 
 
     Object.keys(data)
+
     .forEach(function(item){
 
 
@@ -160,7 +170,9 @@ function(){
 
 
 
-// District Select
+// ===============================
+// District Change
+// ===============================
 
 
 if(district){
@@ -174,8 +186,10 @@ function(){
     thana.innerHTML =
     "<option>Select Thana</option>";
 
+
     union.innerHTML =
     "<option>Select Union</option>";
+
 
     ward.innerHTML =
     "<option>Select Ward</option>";
@@ -185,12 +199,15 @@ function(){
     let data =
 
     bangladeshLocation
+
     [division.value]
+
     [this.value];
 
 
 
     Object.keys(data)
+
     .forEach(function(item){
 
 
@@ -206,21 +223,19 @@ function(){
     });
 
 
+
 });
 
 
 }
 
 
-
-
-
-// ===== PART 1 END =====/* ===== ADD STUDENT JS FINAL VERSION PART 2/2 START ===== */
+/* ===== PART 1/2 END ===== *//* ===== ADD STUDENT FINAL JS PART 2/2 START ===== */
 
 
 
 // ===============================
-// Thana Select
+// Thana Change
 // ===============================
 
 
@@ -235,6 +250,7 @@ function(){
     union.innerHTML =
     "<option>Select Union</option>";
 
+
     ward.innerHTML =
     "<option>Select Ward</option>";
 
@@ -243,13 +259,17 @@ function(){
     let data =
 
     bangladeshLocation
+
     [division.value]
+
     [district.value]
+
     [this.value];
 
 
 
     Object.keys(data)
+
     .forEach(function(item){
 
 
@@ -277,7 +297,7 @@ function(){
 
 
 // ===============================
-// Union Select
+// Union Change
 // ===============================
 
 
@@ -297,9 +317,13 @@ function(){
     let data =
 
     bangladeshLocation
+
     [division.value]
+
     [district.value]
+
     [thana.value]
+
     [this.value];
 
 
@@ -310,14 +334,13 @@ function(){
         ward.innerHTML +=
 
         `
-        <option>
+        <option value="${item}">
         ${item}
         </option>
         `;
 
 
     });
-
 
 
 });
@@ -332,7 +355,7 @@ function(){
 
 
 // ===============================
-// Same Address Copy
+// Same Address Feature
 // ===============================
 
 
@@ -349,13 +372,15 @@ sameAddress.addEventListener(
 function(){
 
 
-    if(this.checked){
+if(this.checked){
 
-        alert(
-        "Present Address copied"
-        );
 
-    }
+console.log(
+"Present address copied"
+);
+
+
+}
 
 
 });
@@ -369,36 +394,36 @@ function(){
 
 
 
-
 // ===============================
-// Form Validation
+// Student Form Validation
 // ===============================
 
 
-const saveButton =
+const form =
+document.querySelector("form");
+
+
+
+if(form){
+
+
+form.addEventListener(
+"submit",
+function(e){
+
+
+
+const name =
 document.querySelector(
-".submit-area button"
-);
-
-
-
-if(saveButton){
-
-
-saveButton.addEventListener(
-"click",
-function(){
-
-
-
-let name =
-document.querySelector(
-'input[placeholder="Enter student name"]'
+'input[name="studentName"]'
 );
 
 
 
 if(name && name.value.trim()==""){
+
+
+e.preventDefault();
 
 
 alert(
@@ -413,12 +438,6 @@ return;
 
 
 
-alert(
-"Student information saved successfully"
-);
-
-
-
 });
 
 
@@ -429,4 +448,4 @@ alert(
 
 
 
-/* ===== ADD STUDENT JS FINAL VERSION END ===== */
+/* ===== ADD STUDENT FINAL JS COMPLETE END ===== */
