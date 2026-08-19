@@ -1,59 +1,220 @@
+<!-- ===== PART 1 START ===== -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Darul Quran Smart ERP Dashboard</title>
 
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
 
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
 
 body{
 
-    background:#f4f7f5;
+background:#f4f7f5;
 
 }
+
+
+/* Loading Animation */
+
+.container,
+.card,
+.chart-box{
+
+animation:fadeIn .6s ease;
+
+}
+
+
+@keyframes fadeIn{
+
+from{
+
+opacity:0;
+transform:translateY(20px);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+
 
 
 /* Header */
 
 .header{
 
-    background:#076b3a;
-    color:white;
-    padding:20px;
-    display:flex;
-    align-items:center;
-    gap:20px;
+height:70px;
+
+background:#076b3a;
+
+color:white;
+
+display:flex;
+
+align-items:center;
+
+padding:0 20px;
+
+box-shadow:0 5px 15px rgba(0,0,0,.2);
 
 }
 
 
-.menu{
 
-    font-size:35px;
-    cursor:pointer;
+.menu-btn{
+
+font-size:32px;
+
+cursor:pointer;
+
+margin-right:20px;
 
 }
+
 
 
 .header h1{
 
-    font-size:30px;
+font-size:28px;
 
 }
+
+
+
+
+
+/* Sidebar */
+
+.sidebar{
+
+position:fixed;
+
+top:0;
+
+left:-280px;
+
+width:280px;
+
+height:100vh;
+
+background:#075c32;
+
+color:white;
+
+padding:25px;
+
+transition:.3s;
+
+z-index:1000;
+
+box-shadow:5px 0 25px rgba(0,0,0,.35);
+
+}
+
+
+.sidebar.active{
+
+left:0;
+
+}
+
+
+
+.logo{
+
+font-size:25px;
+
+font-weight:bold;
+
+margin-bottom:35px;
+
+}
+
+
+
+.sidebar a{
+
+display:block;
+
+padding:14px;
+
+margin:8px 0;
+
+color:white;
+
+text-decoration:none;
+
+border-radius:10px;
+
+font-size:18px;
+
+}
+
+
+
+.sidebar a:hover{
+
+background:#064522;
+
+}
+
+
+
+/* Overlay */
+
+.overlay{
+
+display:none;
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.45);
+
+z-index:500;
+
+}
+
+
+.overlay.active{
+
+display:block;
+
+}
+
 
 
 
@@ -61,7 +222,7 @@ body{
 
 .container{
 
-    padding:25px;
+padding:25px;
 
 }
 
@@ -69,29 +230,39 @@ body{
 
 .welcome{
 
-    background:white;
-    padding:30px;
-    border-radius:25px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.12);
-    margin-bottom:25px;
+background:white;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+margin-bottom:25px;
 
 }
+
 
 
 .welcome h2{
 
-    font-size:35px;
-    margin-bottom:15px;
+font-size:32px;
+
+color:#075c32;
 
 }
+
 
 
 .welcome p{
 
-    font-size:20px;
-    color:#555;
+color:#666;
+
+margin-top:10px;
 
 }
+
+
 
 
 
@@ -99,110 +270,106 @@ body{
 
 .cards{
 
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+gap:20px;
 
 }
+
 
 
 .card{
 
-    background:white;
-    padding:25px;
-    border-radius:25px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.12);
+background:white;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.12);
+
+transition:.3s;
 
 }
+
+
+
+.card:hover{
+
+transform:translateY(-8px);
+
+box-shadow:0 15px 35px rgba(0,0,0,.22);
+
+}
+
+
+
+.icon{
+
+font-size:35px;
+
+}
+
 
 
 .card h3{
 
-    color:#666;
-    font-size:22px;
+margin-top:15px;
 
-}
-
-
-.card h1{
-
-    margin-top:15px;
-    font-size:45px;
-    color:#076b3a;
+color:#666;
 
 }
 
 
 
-/* Charts */
+.number{
+
+font-size:40px;
+
+font-weight:bold;
+
+color:#076b3a;
+
+margin-top:10px;
+
+}
+
+
+
+/* Chart */
 
 .chart-box{
 
-    background:white;
-    margin-top:25px;
-    padding:25px;
-    border-radius:25px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.12);
+background:white;
+
+margin-top:25px;
+
+padding:25px;
+
+border-radius:20px;
+
+box-shadow:0 8px 25px rgba(0,0,0,.12);
 
 }
+
 
 
 .chart-box h2{
 
-    margin-bottom:20px;
-    font-size:30px;
+margin-bottom:15px;
 
 }
+
 
 
 canvas{
 
-    max-height:300px;
+max-height:260px!important;
 
 }
 
-
-
-/* Mobile */
-
-@media(max-width:600px){
-
-.header h1{
-
-font-size:25px;
-
-}
-
-
-.container{
-
-padding:15px;
-
-}
-
-
-.welcome h2{
-
-font-size:28px;
-
-}
-
-
-.card h1{
-
-font-size:38px;
-
-}
-
-
-.chart-box h2{
-
-font-size:25px;
-
-}
-
-
-}
 
 
 </style>
@@ -214,16 +381,59 @@ font-size:25px;
 <body>
 
 
+<div class="overlay" id="overlay"></div>
+
+
+<div class="sidebar" id="sidebar">
+
+
+<div class="logo">
+
+Darul Quran<br>
+Smart ERP
+
+</div>
+
+
+<a href="#">🏠 Dashboard</a>
+
+<a href="#">👨‍🎓 Students</a>
+
+<a href="#">📝 Admission</a>
+
+<a href="#">💰 Fee Collection</a>
+
+<a href="#">📅 Attendance</a>
+
+<a href="#">📚 Result</a>
+
+<a href="#">📜 Certificate</a>
+
+<a href="#">👨‍🏫 Teachers</a>
+
+<a href="#">⚙ Settings</a>
+
+
+</div>
+
+
 
 <div class="header">
 
-<div class="menu">
+
+<div class="menu-btn" id="menuBtn">
+
 ☰
+
 </div>
 
+
 <h1>
+
 Dashboard
+
 </h1>
+
 
 </div>
 
@@ -235,12 +445,13 @@ Dashboard
 <div class="welcome">
 
 <h2>
-Welcome Admin
+Welcome Admin 👋
 </h2>
 
 <p>
-Darul Quran Smart ERP Dashboard
+Darul Quran Smart ERP Management System
 </p>
+
 
 </div>
 
@@ -251,39 +462,60 @@ Darul Quran Smart ERP Dashboard
 
 <div class="card">
 
+<div class="icon">👨‍🎓</div>
+
 <h3>Total Students</h3>
 
-<h1>500</h1>
+<div class="number">
+
+500
+
+</div>
 
 </div>
 
 
-
 <div class="card">
+
+<div class="icon">👨‍🏫</div>
 
 <h3>Total Teachers</h3>
 
-<h1>25</h1>
+<div class="number">
+
+25
+
+</div>
 
 </div>
 
 
-
 <div class="card">
+
+<div class="icon">💰</div>
 
 <h3>Monthly Fee</h3>
 
-<h1>৳75,000</h1>
+<div class="number">
+
+৳75,000
 
 </div>
 
+</div>
 
 
 <div class="card">
 
+<div class="icon">📅</div>
+
 <h3>Attendance</h3>
 
-<h1>95%</h1>
+<div class="number">
+
+95%
+
+</div>
 
 </div>
 
@@ -291,6 +523,7 @@ Darul Quran Smart ERP Dashboard
 </div>
 
 
+<!-- ===== PART 1 END ===== --><!-- ===== PART 2 START ===== -->
 
 
 <div class="chart-box">
@@ -336,12 +569,52 @@ Monthly Income
 
 
 
-
 <script>
 
 
+// Sidebar Menu
+
+const menuBtn = document.getElementById("menuBtn");
+
+const sidebar = document.getElementById("sidebar");
+
+const overlay = document.getElementById("overlay");
+
+
+
+menuBtn.onclick = function(){
+
+
+sidebar.classList.toggle("active");
+
+overlay.classList.toggle("active");
+
+
+}
+
+
+
+
+overlay.onclick = function(){
+
+
+sidebar.classList.remove("active");
+
+overlay.classList.remove("active");
+
+
+}
+
+
+
+
+// Student Growth Chart
+
+
 new Chart(
+
 document.getElementById("studentChart"),
+
 {
 
 type:"bar",
@@ -349,116 +622,254 @@ type:"bar",
 data:{
 
 labels:[
+
 "Class 1",
 "Class 2",
 "Class 3",
 "Class 4",
 "Class 5"
+
 ],
+
 
 datasets:[{
 
 label:"Students",
 
 data:[
+
 80,
 120,
 100,
 150,
 50
+
 ],
 
 backgroundColor:"#076b3a"
 
+
 }]
+
+
+},
+
+
+options:{
+
+
+responsive:true,
+
+
+plugins:{
+
+
+legend:{
+
+display:true
 
 }
 
-});
+
+}
+
+
+}
+
+
+}
+
+);
 
 
 
+
+
+// Attendance Chart Compact
 
 
 new Chart(
+
 document.getElementById("attendanceChart"),
+
 {
 
 type:"doughnut",
 
+
 data:{
 
+
 labels:[
-"Present",
-"Absent"
+
+"Present 95%",
+
+"Absent 5%"
+
 ],
+
 
 datasets:[{
 
+
 data:[
+
 95,
 5
+
 ],
 
+
 backgroundColor:[
+
 "#076b3a",
-"#e74c3c"
+
+"#d9534f"
+
 ]
+
 
 }]
 
+
+},
+
+
+
+options:{
+
+
+responsive:true,
+
+
+plugins:{
+
+
+legend:{
+
+
+position:"bottom"
+
+
 }
 
-});
+
+}
 
 
 
+}
+
+
+}
+
+);
+
+
+
+
+
+
+
+// Income Chart
 
 
 new Chart(
+
 document.getElementById("incomeChart"),
+
 {
+
 
 type:"line",
 
+
 data:{
 
+
 labels:[
+
 "Jan",
 "Feb",
 "Mar",
 "Apr",
 "May"
+
 ],
+
 
 datasets:[{
 
-label:"Income",
+
+label:"Income ৳",
+
 
 data:[
+
 30000,
 45000,
 50000,
 60000,
 75000
+
 ],
+
 
 borderColor:"#076b3a",
 
-tension:0.4
+
+backgroundColor:"rgba(7,107,58,0.15)",
+
+
+fill:true,
+
+
+tension:.4
+
 
 }]
 
+
+},
+
+
+
+options:{
+
+
+responsive:true,
+
+
+plugins:{
+
+
+legend:{
+
+
+display:true
+
+
 }
 
-});
+
+}
+
+
+}
+
+
+}
+
+);
 
 
 
 </script>
 
 
-
 </body>
 
 </html>
+
+
+<!-- ===== PART 2 END ===== -->
