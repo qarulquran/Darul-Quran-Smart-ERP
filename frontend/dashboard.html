@@ -1,4 +1,4 @@
-<!-- ===== DASHBOARD FINAL PART 1 START ===== -->
+<!-- ===== DASHBOARD HTML PART 1/3 START ===== -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,584 +11,7 @@
 
 <title>Darul Quran Smart ERP Dashboard</title>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-/* ===== FINAL MOBILE POLISH ===== */
-
-
-/* Disable mobile text selection popup */
-
-*{
-
--webkit-user-select:none;
-
-user-select:none;
-
--webkit-touch-callout:none;
-
--webkit-tap-highlight-color:transparent;
-
-}
-
-
-
-/* Better card spacing */
-
-.container{
-
-padding:12px;
-
-}
-
-
-.cards{
-
-gap:10px;
-
-}
-
-
-.card{
-
-padding:14px;
-
-border-radius:18px;
-
-transition:.3s ease;
-
-}
-
-
-
-.card:hover{
-
-transform:translateY(-5px);
-
-box-shadow:0 12px 25px rgba(0,0,0,.15);
-
-}
-
-
-
-/* Welcome compact */
-
-.welcome{
-
-padding:15px;
-
-margin-bottom:12px;
-
-}
-
-
-
-.welcome h2{
-
-font-size:24px;
-
-}
-
-
-
-.welcome p{
-
-font-size:16px;
-
-}
-
-
-
-/* Number size */
-
-.number{
-
-font-size:30px;
-
-}
-
-
-
-/* Icon size */
-
-.icon{
-
-font-size:25px;
-
-}
-
-
-
-/* Charts compact */
-
-.chart-box{
-
-margin-top:10px;
-
-padding:12px;
-
-border-radius:18px;
-
-}
-
-
-
-.chart-box h2{
-
-font-size:20px;
-
-margin-bottom:5px;
-
-}
-
-
-
-.chart-area{
-
-height:120px;
-
-}
-
-
-
-/* Doughnut chart smaller */
-
-canvas{
-
-max-height:120px;
-
-}
-
-
-
-/* Sidebar improvement */
-
-.sidebar a{
-
-transition:.25s;
-
-}
-
-
-
-.sidebar a:hover{
-
-background:rgba(255,255,255,.12);
-
-transform:translateX(5px);
-
-}
-
-
-
-/* Smooth loading */
-
-.card,
-.chart-box,
-.welcome{
-
-animation:dashboardFade .6s ease;
-
-}
-
-
-@keyframes dashboardFade{
-
-from{
-
-opacity:0;
-
-transform:translateY(20px);
-
-}
-
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-}
-
-
-
-/* Mobile */
-
-@media(max-width:600px){
-
-
-.header h1{
-
-font-size:24px;
-
-}
-
-
-.card h3{
-
-font-size:16px;
-
-}
-
-
-.chart-area{
-
-height:110px;
-
-}
-
-
-}
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-
-body{
-
-background:#f4f7f5;
-
-}
-
-
-
-/* HEADER */
-
-.header{
-
-height:65px;
-
-background:#076b3a;
-
-color:white;
-
-display:flex;
-
-align-items:center;
-
-padding:0 18px;
-
-box-shadow:0 5px 15px rgba(0,0,0,.2);
-
-}
-
-
-.menu-btn{
-
-font-size:32px;
-
-cursor:pointer;
-
-margin-right:15px;
-
-}
-
-
-.header h1{
-
-font-size:26px;
-
-}
-
-
-
-/* SIDEBAR */
-
-.sidebar{
-
-position:fixed;
-
-top:0;
-
-left:-280px;
-
-width:280px;
-
-height:100vh;
-
-background:#075c32;
-
-color:white;
-
-padding:25px;
-
-transition:.3s;
-
-z-index:1000;
-
-box-shadow:5px 0 25px rgba(0,0,0,.35);
-
-}
-
-
-.sidebar.active{
-
-left:0;
-
-}
-
-
-.logo{
-
-font-size:25px;
-
-font-weight:bold;
-
-margin-bottom:30px;
-
-}
-
-
-
-.sidebar a{
-
-display:block;
-
-padding:13px;
-
-margin:6px 0;
-
-color:white;
-
-text-decoration:none;
-
-font-size:18px;
-
-border-radius:10px;
-
-}
-
-
-.sidebar a:hover{
-
-background:#064522;
-
-}
-
-
-
-
-/* OVERLAY */
-
-.overlay{
-
-display:none;
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-width:100%;
-
-height:100%;
-
-background:rgba(0,0,0,.45);
-
-z-index:500;
-
-}
-
-
-.overlay.active{
-
-display:block;
-
-}
-
-
-
-/* MAIN */
-
-.container{
-
-padding:18px;
-
-animation:fade .6s ease;
-
-}
-
-
-
-.welcome{
-
-background:white;
-
-padding:18px;
-
-border-radius:18px;
-
-box-shadow:0 8px 20px rgba(0,0,0,.12);
-
-margin-bottom:15px;
-
-}
-
-
-.welcome h2{
-
-font-size:28px;
-
-color:#076b3a;
-
-}
-
-
-.welcome p{
-
-color:#666;
-
-margin-top:6px;
-
-}
-
-
-
-/* CARDS */
-
-.cards{
-
-display:grid;
-
-grid-template-columns:repeat(2,1fr);
-
-gap:15px;
-
-}
-
-
-.card{
-
-background:white;
-
-padding:16px;
-
-border-radius:18px;
-
-box-shadow:0 8px 20px rgba(0,0,0,.12);
-
-transition:.3s;
-
-animation:fade .7s;
-
-}
-
-
-.card:hover{
-
-transform:translateY(-6px);
-
-}
-
-
-.icon{
-
-font-size:30px;
-
-}
-
-
-.card h3{
-
-font-size:18px;
-
-color:#666;
-
-margin-top:8px;
-
-}
-
-
-.number{
-
-font-size:34px;
-
-font-weight:bold;
-
-color:#076b3a;
-
-margin-top:5px;
-
-}
-
-
-
-/* CHART */
-
-.chart-box{
-
-background:white;
-
-margin-top:15px;
-
-padding:15px;
-
-border-radius:18px;
-
-box-shadow:0 8px 20px rgba(0,0,0,.12);
-
-}
-
-
-.chart-box h2{
-
-font-size:22px;
-
-margin-bottom:8px;
-
-}
-
-
-.chart-area{
-
-height:160px;
-
-}
-
-
-
-@keyframes fade{
-
-from{
-
-opacity:0;
-
-transform:translateY(15px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-}
-
-
-
-@media(max-width:600px){
-
-.cards{
-
-grid-template-columns:1fr;
-
-}
-
-}
-
-</style>
-
+<link rel="stylesheet" href="dashboard.css">
 
 </head>
 
@@ -596,11 +19,12 @@ grid-template-columns:1fr;
 <body>
 
 
-<div id="overlay" class="overlay"></div>
+<div id="overlay"></div>
 
 
+<!-- Sidebar -->
 
-<div id="sidebar" class="sidebar">
+<div id="sidebar">
 
 
 <div class="logo">
@@ -611,11 +35,11 @@ Smart ERP
 </div>
 
 
-<a href="#">🏠 Dashboard</a>
+<a href="dashboard.html">🏠 Dashboard</a>
 
-<a href="#">👨‍🎓 Students</a>
+<a href="students.html">👨‍🎓 Students</a>
 
-<a href="#">📝 Admission</a>
+<a href="add-student.html">📝 Admission</a>
 
 <a href="#">💰 Fee Collection</a>
 
@@ -634,27 +58,38 @@ Smart ERP
 
 
 
+<!-- Header -->
+
 
 <div class="header">
 
 
-<div id="menuBtn" class="menu-btn">
+<button id="menuBtn">
 
 ☰
 
-</div>
+</button>
 
 
-<h1>
+<h2>
 
 Dashboard
 
-</h1>
+</h2>
+
+
+<div class="profile">
+
+Admin
+
+</div>
 
 
 </div>
 
 
+
+<!-- Main Content -->
 
 
 <div class="container">
@@ -662,416 +97,114 @@ Dashboard
 
 <div class="welcome">
 
-<h2>
+
+<h1>
+
 👋 Welcome Admin
-</h2>
+
+</h1>
+
 
 <p>
+
 Darul Quran Smart ERP Management System
+
 </p>
 
-</div>
 
+</div>
 
 
 
 <div class="cards">
 
-
 <div class="card">
 
-<div class="icon">👨‍🎓</div>
+<h3>👨‍🎓 Total Students</h3>
 
-<h3>Total Students</h3>
-
-<div class="number">
-500
-</div>
+<h1>500</h1>
 
 </div>
-
 
 
 <div class="card">
 
-<div class="icon">👨‍🏫</div>
+<h3>👨‍🏫 Total Teachers</h3>
 
-<h3>Total Teachers</h3>
-
-<div class="number">
-25
-</div>
+<h1>25</h1>
 
 </div>
-
 
 
 <div class="card">
 
-<div class="icon">💰</div>
+<h3>💰 Monthly Fee</h3>
 
-<h3>Monthly Fee</h3>
-
-<div class="number">
-৳75,000
-</div>
+<h1>৳75,000</h1>
 
 </div>
-
 
 
 <div class="card">
 
-<div class="icon">📅</div>
+<h3>📅 Attendance</h3>
 
-<h3>Attendance</h3>
-
-<div class="number">
-95%
-</div>
-
-</div>
+<h1>95%</h1><!-- ===== DASHBOARD HTML PART 2/3 START ===== -->
 
 
-</div><!-- ===== DASHBOARD FINAL PART 2 START ===== -->
+<div class="charts">
 
 
-<div class="chart-box">
+<div class="chart-card">
 
 <h2>
 Student Growth
 </h2>
 
-<div class="chart-area">
-
 <canvas id="studentChart"></canvas>
 
-</div>
 
 </div>
 
 
 
-
-<div class="chart-box">
+<div class="chart-card">
 
 <h2>
 Attendance Report
 </h2>
 
-<div class="chart-area">
-
 <canvas id="attendanceChart"></canvas>
 
-</div>
 
 </div>
 
 
 
-
-<div class="chart-box">
+<div class="chart-card">
 
 <h2>
 Monthly Income
 </h2>
 
-<div class="chart-area">
-
 <canvas id="incomeChart"></canvas>
 
-</div>
 
 </div>
 
 
+</div>
+
 
 </div>
 
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script>
+<script src="dashboard.js"></script>
 
-
-// SIDEBAR MENU
-
-const menuBtn = document.getElementById("menuBtn");
-
-const sidebar = document.getElementById("sidebar");
-
-const overlay = document.getElementById("overlay");
-
-
-
-menuBtn.onclick=function(){
-
-sidebar.classList.toggle("active");
-
-overlay.classList.toggle("active");
-
-}
-
-
-
-overlay.onclick=function(){
-
-sidebar.classList.remove("active");
-
-overlay.classList.remove("active");
-
-}
-
-
-
-
-
-// STUDENT GROWTH CHART
-
-
-new Chart(
-
-document.getElementById("studentChart"),
-
-{
-
-type:"bar",
-
-data:{
-
-labels:[
-
-"Class 1",
-"Class 2",
-"Class 3",
-"Class 4",
-"Class 5"
-
-],
-
-
-datasets:[{
-
-label:"Students",
-
-data:[80,120,100,150,50],
-
-backgroundColor:"#076b3a"
-
-}]
-
-
-},
-
-
-options:{
-
-responsive:true,
-
-maintainAspectRatio:false,
-
-
-plugins:{
-
-
-tooltip:{
-
-enabled:false
-
-}
-
-
-}
-
-
-}
-
-
-}
-
-);
-
-
-
-
-
-
-
-// ATTENDANCE CHART
-
-
-new Chart(
-
-document.getElementById("attendanceChart"),
-
-{
-
-type:"doughnut",
-
-data:{
-
-
-labels:[
-
-"Present 95%",
-
-"Absent 5%"
-
-],
-
-
-datasets:[{
-
-data:[95,5],
-
-
-backgroundColor:[
-
-"#076b3a",
-
-"#e74c3c"
-
-]
-
-
-}]
-
-
-},
-
-
-options:{
-
-
-responsive:true,
-
-maintainAspectRatio:false,
-
-
-cutout:"70%",
-
-
-plugins:{
-
-
-tooltip:{
-
-enabled:false
-
-},
-
-
-legend:{
-
-position:"bottom"
-
-}
-
-
-}
-
-
-
-}
-
-
-}
-
-
-);
-
-
-
-
-
-
-
-// INCOME CHART
-
-
-new Chart(
-
-document.getElementById("incomeChart"),
-
-{
-
-type:"line",
-
-data:{
-
-labels:[
-
-"Jan",
-"Feb",
-"Mar",
-"Apr",
-"May"
-
-],
-
-
-datasets:[{
-
-label:"Income ৳",
-
-data:[
-
-30000,
-45000,
-50000,
-60000,
-75000
-
-],
-
-
-borderColor:"#076b3a",
-
-backgroundColor:"rgba(7,107,58,.15)",
-
-fill:true,
-
-tension:.4
-
-
-}]
-
-
-},
-
-
-options:{
-
-
-responsive:true,
-
-maintainAspectRatio:false,
-
-
-plugins:{
-
-
-tooltip:{
-
-enabled:false
-
-}
-
-
-}
-
-
-}
-
-
-}
-
-);
-
-
-
-</script>
 
 
 </body>
@@ -1079,4 +212,12 @@ enabled:false
 </html>
 
 
-<!-- ===== DASHBOARD FINAL PART 2 END ===== -->
+<!-- ===== DASHBOARD HTML PART 2/3 END ===== -->
+
+</div>
+
+
+</div>
+
+
+<!-- ===== DASHBOARD HTML PART 1/3 END ===== -->
