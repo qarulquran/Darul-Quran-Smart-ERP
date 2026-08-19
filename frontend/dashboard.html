@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 <title>Darul Quran Smart ERP Dashboard</title>
@@ -8,16 +9,21 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+
 <style>
+
 
 *{
 box-sizing:border-box;
-font-family:Arial;
+font-family:Arial,sans-serif;
 }
 
+
 body{
+
 margin:0;
 background:#f4f6f5;
+
 }
 
 
@@ -28,8 +34,10 @@ background:#f4f6f5;
 height:65px;
 background:#0b6b3a;
 color:white;
+
 display:flex;
 align-items:center;
+
 padding:15px;
 
 }
@@ -44,21 +52,60 @@ margin-right:15px;
 }
 
 
+/* Overlay */
+
+.overlay{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,0.45);
+
+display:none;
+
+z-index:5;
+
+}
+
+
+.overlay.active{
+
+display:block;
+
+}
+
+
 
 /* Sidebar */
+
 
 .sidebar{
 
 position:fixed;
+
 top:0;
 left:-270px;
+
 width:260px;
-height:100%;
+
+height:100vh;
+
 background:#07552e;
+
 color:white;
+
 padding:20px;
+
 transition:.3s;
+
 z-index:10;
+
+box-shadow:5px 0 25px rgba(0,0,0,0.35);
 
 }
 
@@ -70,23 +117,32 @@ left:0;
 }
 
 
+
 .logo{
 
 font-size:25px;
 font-weight:bold;
-margin-bottom:30px;
+
+margin-bottom:35px;
 
 }
+
 
 
 .menu{
 
-padding:14px;
+padding:15px;
+
 margin:8px 0;
-border-radius:10px;
+
 font-size:18px;
 
+border-radius:10px;
+
+cursor:pointer;
+
 }
+
 
 
 .menu:hover{
@@ -96,7 +152,8 @@ background:#064521;
 }
 
 
-/* Content */
+
+/* Dashboard */
 
 .container{
 
@@ -105,57 +162,89 @@ padding:20px;
 }
 
 
-/* Cards */
 
 .cards{
 
 display:grid;
+
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
 gap:20px;
 
 }
 
 
+
 .card{
 
 background:white;
+
 padding:20px;
+
 border-radius:15px;
-box-shadow:0 5px 15px #ddd;
+
+box-shadow:0 5px 20px rgba(0,0,0,.12);
 
 }
+
 
 
 .card h3{
 
-margin:0;
 color:#555;
 
+margin:0;
+
 }
+
 
 
 .number{
 
 font-size:32px;
+
 font-weight:bold;
+
 color:#0b6b3a;
+
+margin-top:10px;
 
 }
 
 
-/* Chart */
 
 .chart-box{
 
 background:white;
+
 margin-top:25px;
+
 padding:20px;
+
 border-radius:15px;
+
+box-shadow:0 5px 20px rgba(0,0,0,.12);
 
 }
 
 
+
+@media(max-width:800px){
+
+
+.menu-btn{
+
+display:block;
+
+}
+
+
+}
+
+
+
 </style>
+
 
 </head>
 
@@ -163,14 +252,34 @@ border-radius:15px;
 <body>
 
 
+<!-- Overlay -->
+
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+
+
+<!-- Header -->
+
 <div class="header">
 
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
 
-<h2>Dashboard</h2>
+<div class="menu-btn" onclick="toggleMenu()">
+
+☰
 
 </div>
 
+
+<h2>Dashboard</h2>
+
+
+</div>
+
+
+
+
+
+<!-- Sidebar -->
 
 
 <div class="sidebar" id="sidebar">
@@ -179,25 +288,40 @@ border-radius:15px;
 <div class="logo">
 
 Darul Quran<br>
+
 Smart ERP
 
 </div>
 
 
+
 <div class="menu">🏠 Dashboard</div>
+
 <div class="menu">👨‍🎓 Students</div>
+
 <div class="menu">📝 Admission</div>
+
 <div class="menu">💰 Fee Collection</div>
+
 <div class="menu">📅 Attendance</div>
+
 <div class="menu">📚 Result</div>
+
 <div class="menu">📜 Certificate</div>
+
 <div class="menu">👨‍🏫 Teachers</div>
+
 <div class="menu">⚙ Settings</div>
+
 
 
 </div>
 
 
+
+
+
+<!-- Content -->
 
 
 <div class="container">
@@ -214,7 +338,11 @@ Smart ERP
 
 <h3>Total Students</h3>
 
-<div class="number">500</div>
+<div class="number">
+
+500
+
+</div>
 
 </div>
 
@@ -224,7 +352,11 @@ Smart ERP
 
 <h3>Total Teachers</h3>
 
-<div class="number">25</div>
+<div class="number">
+
+25
+
+</div>
 
 </div>
 
@@ -234,7 +366,11 @@ Smart ERP
 
 <h3>Monthly Fee</h3>
 
-<div class="number">৳75,000</div>
+<div class="number">
+
+৳75,000
+
+</div>
 
 </div>
 
@@ -244,19 +380,26 @@ Smart ERP
 
 <h3>Attendance</h3>
 
-<div class="number">95%</div>
+<div class="number">
+
+95%
+
+</div>
 
 </div>
 
 
 </div>
+
 
 
 
 
 <div class="chart-box">
 
+
 <h3>Student Growth</h3>
+
 
 <canvas id="studentChart"></canvas>
 
@@ -276,9 +419,17 @@ Smart ERP
 
 function toggleMenu(){
 
-document.getElementById("sidebar").classList.toggle("active");
+
+document.getElementById("sidebar")
+.classList.toggle("active");
+
+
+document.getElementById("overlay")
+.classList.toggle("active");
+
 
 }
+
 
 
 
@@ -288,16 +439,21 @@ document.getElementById("studentChart"),
 
 {
 
+
 type:"bar",
+
 
 data:{
 
+
 labels:[
+
 "Class 1",
 "Class 2",
 "Class 3",
 "Class 4",
 "Class 5"
+
 ],
 
 
@@ -306,20 +462,25 @@ datasets:[{
 label:"Students",
 
 data:[
+
 80,
 120,
 100,
 150,
 50
+
 ]
 
 }]
 
+
 }
+
 
 }
 
 );
+
 
 
 </script>
@@ -327,4 +488,5 @@ data:[
 
 
 </body>
+
 </html>
