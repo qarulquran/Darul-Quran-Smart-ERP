@@ -1,125 +1,349 @@
+/* ===== ADD STUDENT JS START ===== */
 
-// Final Add Student System
 
+// Photo Preview
 
-function addStudent(){
+const photoInput = document.querySelector(
+'input[type="file"]'
+);
 
 
-    let student = {
+if(photoInput){
 
+photoInput.addEventListener(
+"change",
+function(){
 
-        id:
-        "STD-" + Date.now(),
+const file = this.files[0];
 
+if(file){
 
-        name:
-        document.getElementById("studentName").value,
+const reader = new FileReader();
 
 
-        father:
-        document.getElementById("fatherName").value,
+reader.onload=function(e){
 
+console.log("Photo Selected");
 
-        mother:
-        document.getElementById("motherName").value,
+}
 
 
-        dob:
-        document.getElementById("dob").value,
+reader.readAsDataURL(file);
 
+}
 
-        className:
-        document.getElementById("className").value,
+}
 
+);
 
-        mobile:
-        document.getElementById("mobile").value,
+}
 
 
-        admissionDate:
-        document.getElementById("admissionDate").value,
 
 
-        address:
-        document.getElementById("address").value,
+// Bangladesh Location Data (Basic Structure)
 
+const locationData = {
 
-        feeStatus:
-        "Due",
 
+"Dhaka":{
 
-        attendance:
-        "0%",
+"Dhamrai":[
+"Union 1",
+"Union 2",
+"Union 3"
+],
 
+"Savar":[
+"Union 1",
+"Union 2",
+"Union 3"
+]
 
-        result:
-        "Not Available"
 
-    };
+},
 
 
 
+"Chattogram":{
 
+"Sitakunda":[
+"Union 1",
+"Union 2"
+],
 
-    if(
-        student.name === "" ||
-        student.father === "" ||
-        student.className === ""
-    ){
+"Mirsharai":[
+"Union 1",
+"Union 2"
+]
 
-        alert(
-        "Please fill required fields"
-        );
 
-        return;
+},
 
-    }
 
 
+"Barishal":{
 
+"Barishal Sadar":[
+"Union 1",
+"Union 2"
+]
 
+}
 
 
-    let students =
-    JSON.parse(
-        localStorage.getItem("students")
-    ) || [];
+};
 
 
 
 
 
+const division =
+document.getElementById("division");
 
-    students.push(student);
+const district =
+document.getElementById("district");
 
+const thana =
+document.getElementById("thana");
 
+const union =
+document.getElementById("union");
 
+const ward =
+document.getElementById("ward");
 
 
 
-    localStorage.setItem(
-        "students",
-        JSON.stringify(students)
-    );
 
 
+// Division Change
 
 
+if(division){
 
 
+division.addEventListener(
+"change",
+function(){
 
-    alert(
-    "Student Added Successfully"
-    );
 
+district.innerHTML =
+"<option>Select District</option>";
 
+thana.innerHTML =
+"<option>Select Thana</option>";
 
+union.innerHTML =
+"<option>Select Union</option>";
 
+ward.innerHTML =
+"<option>Select Ward</option>";
 
 
-    window.location.href =
-    "students.html";
 
+Object.keys(locationData[this.value] || {})
+.forEach(function(item){
+
+district.innerHTML +=
+`<option>${item}</option>`;
+
+});
+
+
+});
 
 
 }
+
+
+
+
+
+
+
+// District Change
+
+
+if(district){
+
+
+district.addEventListener(
+"change",
+function(){
+
+
+thana.innerHTML =
+"<option>Select Thana</option>";
+
+union.innerHTML =
+"<option>Select Union</option>";
+
+ward.innerHTML =
+"<option>Select Ward</option>";
+
+
+
+thana.innerHTML +=
+`<option>${this.value}</option>`;
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// Thana Change
+
+
+if(thana){
+
+
+thana.addEventListener(
+"change",
+function(){
+
+
+union.innerHTML =
+"<option>Select Union</option>";
+
+ward.innerHTML =
+"<option>Select Ward</option>";
+
+
+
+[
+"Union 1",
+"Union 2",
+"Union 3"
+]
+.forEach(function(item){
+
+
+union.innerHTML +=
+`<option>${item}</option>`;
+
+
+});
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// Union Change
+
+
+if(union){
+
+
+union.addEventListener(
+"change",
+function(){
+
+
+ward.innerHTML =
+"<option>Select Ward</option>";
+
+
+for(let i=1;i<=9;i++){
+
+
+ward.innerHTML +=
+`<option>Ward ${i}</option>`;
+
+
+}
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// Same Address Option
+
+
+const sameAddress =
+document.getElementById("sameAddress");
+
+
+
+if(sameAddress){
+
+
+sameAddress.addEventListener(
+"change",
+function(){
+
+
+if(this.checked){
+
+
+alert(
+"Permanent address copied from present address"
+);
+
+
+}
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// Save Button
+
+
+const saveBtn =
+document.querySelector(
+".submit-area button"
+);
+
+
+
+if(saveBtn){
+
+
+saveBtn.onclick=function(){
+
+
+alert(
+"Student information saved successfully"
+);
+
+
+}
+
+
+}
+
+
+
+/* ===== ADD STUDENT JS END ===== */
