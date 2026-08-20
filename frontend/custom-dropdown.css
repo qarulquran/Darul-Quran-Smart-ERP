@@ -1,99 +1,52 @@
 
+
+
 .smart-select{
-
-position:relative;
-
-width:100%;
-
+    position:relative;
+    width:100%;
 }
-
-
-
-.smart-select input{
-
-width:100%;
-
-padding:14px;
-
-border:1px solid #ddd;
-
-border-radius:14px;
-
-font-size:15px;
-
-outline:none;
-
-background:white;
-
-transition:.3s;
-
-}
-
-
-
-.smart-select input:focus{
-
-border-color:#076b3a;
-
-box-shadow:0 0 0 3px rgba(7,107,58,.12);
-
-}
-
-
 
 
 .dropdown-list{
 
-position:absolute;
+    position:absolute;
 
-top:100%;
+    top:100%;
 
-left:0;
+    left:0;
 
-right:0;
+    width:100%;
 
-background:white;
+    background:white;
 
-border-radius:12px;
+    border-radius:12px;
 
-box-shadow:0 10px 25px rgba(0,0,0,.15);
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
 
-max-height:250px;
+    max-height:250px;
 
-overflow-y:auto;
+    overflow-y:auto;
 
-margin-top:5px;
+    z-index:9999;
 
-z-index:999;
-
-display:none;
+    display:block;
 
 }
-
-
-
-
-.dropdown-list.active{
-
-display:block;
-
-}
-
 
 
 
 
 .dropdown-item{
 
-padding:12px 15px;
+    padding:14px 16px;
 
-font-size:15px;
+    font-size:16px;
 
-cursor:pointer;
+    cursor:pointer;
 
-transition:.2s;
+    border-bottom:1px solid #eee;
 
-border-bottom:1px solid #eee;
+    background:white;
 
 }
 
@@ -101,245 +54,15 @@ border-bottom:1px solid #eee;
 
 .dropdown-item:hover{
 
-background:#076b3a;
-
-color:white;
-
-}
-
-
-
-.dropdown-empty{
-
-padding:12px;
-
-color:#777;
-
-text-align:center;
+    background:#e8f5ee;
 
 }
 
 
 
 
-/* Mobile Optimization */
+.dropdown-list:empty{
 
-
-@media(max-width:700px){
-
-
-.smart-select input{
-
-font-size:14px;
-
-padding:12px;
-
-}
-
-
-
-
-// Custom Dropdown Creator
-
-
-function createDropdown(
-inputId,
-listId,
-items,
-callback
-){
-
-
-
-const input =
-document.getElementById(inputId);
-
-
-
-const list =
-document.getElementById(listId);
-
-
-
-if(!input || !list) return;
-
-
-
-input.addEventListener(
-"focus",
-function(){
-
-showItems(items);
-
-});
-
-
-
-
-
-input.addEventListener(
-"input",
-function(){
-
-
-let search =
-this.value.toLowerCase();
-
-
-
-let filtered =
-
-items.filter(function(item){
-
-
-return item
-.toLowerCase()
-.includes(search);
-
-
-});
-
-
-
-showItems(filtered);
-
-
-
-});
-
-
-
-
-
-
-
-function showItems(data){
-
-
-list.innerHTML="";
-
-
-
-if(data.length===0){
-
-
-list.innerHTML =
-
-`
-<div class="dropdown-empty">
-No result found
-</div>
-`;
-
-
-}
-
-else{
-
-
-data.forEach(function(item){
-
-
-
-let div =
-document.createElement("div");
-
-
-
-div.className =
-"dropdown-item";
-
-
-
-div.innerText =
-item;
-
-
-
-div.onclick=function(){
-
-
-input.value=item;
-
-
-list.classList.remove(
-"active"
-);
-
-
-
-if(callback){
-
-callback(item);
-
-}
-
-
-};
-
-
-
-list.appendChild(div);
-
-
-
-});
-
-
-
-}
-
-
-
-list.classList.add(
-"active"
-);
-
-
-
-}
-
-
-
-
-document.addEventListener(
-"click",
-function(e){
-
-
-if(
-!input.contains(e.target)
-&&
-!list.contains(e.target)
-){
-
-
-list.classList.remove(
-"active"
-);
-
-
-}
-
-
-
-});
-
-
-
-}
-
-
-
-
-
-.dropdown-item{
-
-font-size:14px;
-
-padding:11px;
-
-}
-
+    display:none;
 
 }
