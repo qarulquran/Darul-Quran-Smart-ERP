@@ -455,7 +455,15 @@ null
 
 
 
-}
+}document.addEventListener("DOMContentLoaded", function(){
+
+    if(Object.keys(bangladeshLocation).length > 0){
+
+        loadDivision();
+
+    }
+
+});
 
 
 
