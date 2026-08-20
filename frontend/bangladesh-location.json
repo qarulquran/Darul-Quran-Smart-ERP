@@ -60,19 +60,19 @@
   "Chattogram": {
     "Chattogram": {
       "Pahartali": {
-        "Pahartali Union": [
+        "Ward 1": [
           "Ward 1",
           "Ward 2",
           "Ward 3"
         ],
-        "South Pahartali Union": [
+        "Ward 2": [
           "Ward 1",
           "Ward 2"
         ]
       }
     }
-  }
-}{
+  },
+
   "Rajshahi": {
     "Rajshahi": {
       "Paba": {
@@ -94,6 +94,7 @@
         ]
       }
     },
+
     "Bogura": {
       "Bogura Sadar": {
         "Namuja": [
@@ -107,7 +108,8 @@
         ]
       }
     }
-  },
+  }
+      ,
 
   "Khulna": {
     "Khulna": {
@@ -123,6 +125,7 @@
         ]
       }
     },
+
     "Jashore": {
       "Jashore Sadar": {
         "Noapara": [
@@ -137,6 +140,7 @@
       }
     }
   },
+
 
   "Barishal": {
     "Barishal": {
@@ -154,6 +158,7 @@
     }
   },
 
+
   "Sylhet": {
     "Sylhet": {
       "Sylhet Sadar": {
@@ -170,6 +175,7 @@
     }
   },
 
+
   "Rangpur": {
     "Rangpur": {
       "Rangpur Sadar": {
@@ -184,6 +190,7 @@
         ]
       }
     },
+
     "Dinajpur": {
       "Dinajpur Sadar": {
         "Chehelgazi": [
@@ -193,6 +200,7 @@
       }
     }
   },
+
 
   "Mymensingh": {
     "Mymensingh": {
@@ -208,6 +216,7 @@
         ]
       }
     },
+
     "Jamalpur": {
       "Jamalpur Sadar": {
         "Sharifpur": [
@@ -217,4 +226,5 @@
       }
     }
   }
+
 }
