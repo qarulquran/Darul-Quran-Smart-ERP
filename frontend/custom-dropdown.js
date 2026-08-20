@@ -1,3 +1,5 @@
+alert("Custom Dropdown JS Loaded");
+
 let bangladeshLocation = {};
 
 
