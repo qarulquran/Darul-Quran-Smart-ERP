@@ -18,7 +18,7 @@ fetch("bangladesh-location.json")
 
     bangladeshLocation = data;
 
-    loadDivision();
+console.log("Location Loaded", bangladeshLocation);
 
 })
 
