@@ -1,45 +1,90 @@
 alert("Custom Dropdown JS Loaded");
 
+
 let bangladeshLocation = {};
 
 
-// Load JSON
+// ===============================
+// Load Bangladesh Location JSON
+// ===============================
 
-fetch("bangladesh-location.json")
+Promise.all([
 
-.then(response => response.json())
+    fetch("data/bangladesh-location-part1.json")
+        .then(response => response.json()),
 
-.then(data => {
+    fetch("data/bangladesh-location-part2.json")
+        .then(response => response.json())
 
-    bangladeshLocation = data;
+])
 
-    console.log("Location Loaded", bangladeshLocation);
+.then(([part1, part2]) => {
+
+
+    bangladeshLocation = {
+
+        ...part1,
+        ...part2
+
+    };
+
+
+    console.log(
+        "Location Loaded Successfully",
+        bangladeshLocation
+    );
+
 
     loadDivision();
+
 
 })
 
 .catch(error => {
 
-    console.log("JSON Loading Error:", error);
+
+    console.log(
+        "Location Loading Error:",
+        error
+    );
+
 
 });
 
 
 
 
-// Create Dropdown
+// ===============================
+// Create Search Dropdown
+// ===============================
 
-function createDropdown(inputId, listId, items, callback){
+function createDropdown(
+    inputId,
+    listId,
+    items,
+    callback
+){
 
 
-    const input = document.getElementById(inputId);
+    const input =
+    document.getElementById(inputId);
 
-    const list = document.getElementById(listId);
+
+    const list =
+    document.getElementById(listId);
+
 
 
     if(!input || !list){
+
+        console.log(
+            "Element Missing:",
+            inputId,
+            listId
+        );
+
         return;
+
     }
 
 
@@ -50,10 +95,15 @@ function createDropdown(inputId, listId, items, callback){
         list.innerHTML="";
 
 
-        let filtered = items.filter(item =>
 
-            item.toLowerCase()
-            .includes(search.toLowerCase())
+        let filtered =
+        items.filter(item =>
+
+            item
+            .toLowerCase()
+            .includes(
+                search.toLowerCase()
+            )
 
         );
 
@@ -62,11 +112,16 @@ function createDropdown(inputId, listId, items, callback){
         filtered.forEach(item => {
 
 
-            let option = document.createElement("div");
+            let option =
+            document.createElement("div");
 
-            option.className="dropdown-item";
 
-            option.innerText=item;
+            option.className =
+            "dropdown-item";
+
+
+            option.innerText =
+            item;
 
 
 
@@ -75,7 +130,9 @@ function createDropdown(inputId, listId, items, callback){
 
                 input.value=item;
 
+
                 list.innerHTML="";
+
 
 
                 if(callback){
@@ -84,7 +141,9 @@ function createDropdown(inputId, listId, items, callback){
 
                 }
 
+
             };
+
 
 
             list.appendChild(option);
@@ -98,19 +157,27 @@ function createDropdown(inputId, listId, items, callback){
 
 
 
-    input.addEventListener("focus",function(){
 
-        showList();
+    input.addEventListener(
+        "focus",
+        function(){
 
-    });
+            showList();
+
+        }
+    );
 
 
 
-    input.addEventListener("input",function(){
+    input.addEventListener(
+        "input",
+        function(){
 
-        showList(this.value);
+            showList(this.value);
 
-    });
+        }
+    );
+
 
 
 }
@@ -118,15 +185,18 @@ function createDropdown(inputId, listId, items, callback){
 
 
 
-
-// Division
+// ===============================
+// Load Division
+// ===============================
 
 function loadDivision(){
 
 
-    let divisions = Object.keys(
+    let divisions =
+    Object.keys(
         bangladeshLocation
     );
+
 
 
     createDropdown(
@@ -140,26 +210,33 @@ function loadDivision(){
 
         function(division){
 
-            loadDistrict(division);
+
+            loadDistrict(
+                division
+            );
+
 
         }
 
     );
+
 
 }
 
 
 
 
+// ===============================
+// Load District
+// ===============================
+
+function loadDistrict(
+    division
+){
 
 
-
-// District
-
-function loadDistrict(division){
-
-
-    let districts = Object.keys(
+    let districts =
+    Object.keys(
 
         bangladeshLocation[division]
 
@@ -178,35 +255,36 @@ function loadDistrict(division){
 
         function(district){
 
+
             loadThana(
+
                 division,
+
                 district
+
             );
+
 
         }
 
     );
 
 
-}
+}// ===============================
+// Load Thana / Upazila
+// ===============================
 
+function loadThana(
+    division,
+    district
+){
 
-
-
-
-
-
-// Thana
-
-function loadThana(division,district){
-
-
-    let thanas = Object.keys(
+    let thanas =
+    Object.keys(
 
         bangladeshLocation[division][district]
 
     );
-
 
 
     createDropdown(
@@ -220,16 +298,21 @@ function loadThana(division,district){
 
         function(thana){
 
+
             loadUnion(
+
                 division,
+
                 district,
+
                 thana
+
             );
+
 
         }
 
     );
-
 
 }
 
@@ -237,17 +320,23 @@ function loadThana(division,district){
 
 
 
-
-// Union
+// ===============================
+// Load Union
+// ===============================
 
 function loadUnion(
-division,
-district,
-thana
+
+    division,
+
+    district,
+
+    thana
+
 ){
 
 
-    let unions = Object.keys(
+    let unions =
+    Object.keys(
 
         bangladeshLocation
         [division]
@@ -269,12 +358,19 @@ thana
 
         function(union){
 
+
             loadWard(
+
                 division,
+
                 district,
+
                 thana,
+
                 union
+
             );
+
 
         }
 
@@ -288,14 +384,20 @@ thana
 
 
 
-
-// Ward
+// ===============================
+// Load Ward
+// ===============================
 
 function loadWard(
-division,
-district,
-thana,
-union
+
+    division,
+
+    district,
+
+    thana,
+
+    union
+
 ){
 
 
