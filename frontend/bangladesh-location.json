@@ -194,7 +194,28 @@
     "Bhola Sadar": {},
     "Borhanuddin": {},
     "Char Fasson": {},
-    "Daulatkhan": {},
+     "Daulatkhan": {
+       "Char Khalifa": {},
+       "Char Pata": {},
+       "Dakshin Joynagar": {},
+       "Hazipur": {},
+       "Madanpur": {},
+       "Medua": {},
+       "Saidpur": {
+          "Ward No-01": {},
+          "Ward No-02": {},
+          "Ward No-03": {},
+          "Ward No-04": {},
+          "Ward No-05": {},
+          "Ward No-06": {},
+          "Ward No-07": {},
+          "Ward No-08": {},
+          "Ward No-09": {}
+ },
+       "Uttar Joynagar": {},
+       "Bhabanipur": {}
+
+  },
     "Lalmohan": {},
     "Manpura": {},
     "Tazumuddin": {}
@@ -228,7 +249,7 @@
     "Zianagar": {}
   }
 
-}"Chattogram": {
+"Chattogram": {
 
   "Chattogram": {
     "Anwara": {},
