@@ -1,63 +1,281 @@
-{
-  "Dhaka": {
+"Dhaka": {
+
     "Dhaka": {
-      "Savar": {
-        "Aminbazar": [
-          "Ward 1",
-          "Ward 2",
-          "Ward 3",
-          "Ward 4",
-          "Ward 5",
-          "Ward 6",
-          "Ward 7",
-          "Ward 8",
-          "Ward 9"
-        ],
-        "Yearpur": [
-          "Ward 1",
-          "Ward 2",
-          "Ward 3",
-          "Ward 4",
-          "Ward 5"
-        ]
-      },
-      "Dhamrai": {
-        "Balia": [
-          "Ward 1",
-          "Ward 2",
-          "Ward 3"
-        ],
-        "Sutipara": [
-          "Ward 1",
-          "Ward 2",
-          "Ward 3"
-        ]
-      }
+        "Savar": {
+            "Aminbazar": [
+                "Ward 1",
+                "Ward 2",
+                "Ward 3"
+            ],
+            "Yearpur": [
+                "Ward 1",
+                "Ward 2",
+                "Ward 3"
+            ]
+        },
+        "Dhamrai": {
+            "Balia": [
+                "Ward 1",
+                "Ward 2",
+                "Ward 3"
+            ],
+            "Sutipara": [
+                "Ward 1",
+                "Ward 2",
+                "Ward 3"
+            ]
+        }
     },
 
     "Gazipur": {
-      "Gazipur Sadar": {
-        "Bhawal": [
-          "Ward 1",
-          "Ward 2",
-          "Ward 3"
-        ],
-        "Mirzapur": [
-          "Ward 1",
-          "Ward 2"
-        ]
-      },
-      "Tongi": {
-        "Arichpur": [
-          "Ward 1",
-          "Ward 2",
-          "Ward 3"
-        ]
-      }
+        "Gazipur Sadar": {
+            "Bhawal": [
+                "Ward 1",
+                "Ward 2",
+                "Ward 3"
+            ],
+            "Mirzapur": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        },
+        "Tongi": {
+            "Arichpur": [
+                "Ward 1",
+                "Ward 2",
+                "Ward 3"
+            ]
+        }
+    },
+
+    "Faridpur": {
+        "Faridpur Sadar": {
+            "Ambikapur": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+    "Gopalganj": {
+        "Gopalganj Sadar": {
+            "Ulpur": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+    "Kishoreganj": {
+        "Kishoreganj Sadar": {
+            "Rashidabad": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+    "Madaripur": {
+        "Madaripur Sadar": {
+            "Panchkhola": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+    "Manikganj": {
+        "Manikganj Sadar": {
+            "Betila": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+    "Munshiganj": {
+        "Munshiganj Sadar": {
+            "Mollakandi": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+    "Narayanganj": {
+        "Narayanganj Sadar": {
+            "Kashipur": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+    "Narsingdi": {
+        "Narsingdi Sadar": {
+            "Alokbali": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+    "Rajbari": {
+        "Rajbari Sadar": {
+            "Mizanpur": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+    "Shariatpur": {
+        "Shariatpur Sadar": {
+            "Tulasar": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+    "Tangail": {
+        "Tangail Sadar": {
+            "Katuli": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
     }
+
+},
   },
 
-  "Chattogram": {
+  "Chattogram": {,
+"Chattogram": {
+
+    "Chattogram": {
+        "Chattogram Sadar": {
+            "Pahartali": [
+                "Ward 1",
+                "Ward 2",
+                "Ward 3"
+            ]
+        },
+        "Hathazari": {
+            "Fatehabad": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+
+    "Cumilla": {
+        "Cumilla Sadar": {
+            "Panchthubi": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        },
+        "Burichong": {
+            "Bakshimul": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+
+    "Feni": {
+        "Feni Sadar": {
+            "Kazirbagh": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+
+    "Brahmanbaria": {
+        "Brahmanbaria Sadar": {
+            "Budhal": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+
+    "Noakhali": {
+        "Noakhali Sadar": {
+            "Noannai": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+
+    "Chandpur": {
+        "Chandpur Sadar": {
+            "Bishnupur": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+
+    "Lakshmipur": {
+        "Lakshmipur Sadar": {
+            "Amanullapur": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+
+    "Cox's Bazar": {
+        "Cox's Bazar Sadar": {
+            "Jhilongjha": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+
+    "Khagrachhari": {
+        "Khagrachhari Sadar": {
+            "Perachhara": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+
+    "Rangamati": {
+        "Rangamati Sadar": {
+            "Sapchhari": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    },
+
+
+    "Bandarban": {
+        "Bandarban Sadar": {
+            "Rajbila": [
+                "Ward 1",
+                "Ward 2"
+            ]
+        }
+    }
+
+}
     "Chattogram": {
       "Pahartali": {
         "Ward 1": [
