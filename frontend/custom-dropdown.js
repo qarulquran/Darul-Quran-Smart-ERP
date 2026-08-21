@@ -8,7 +8,7 @@ let bangladeshLocation = {};
 // Load Bangladesh Location JSON
 // =================================
 
-fetch("bangladesh-location.json")
+fetch("./bangladesh-location.json")
 
 .then(response => {
 
@@ -240,7 +240,14 @@ function loadDistrict(
     division
 ){
 
+document.getElementById("districtSearch").value="";
+document.getElementById("thanaSearch").value="";
+document.getElementById("unionSearch").value="";
+document.getElementById("wardSearch").value="";
 
+document.getElementById("thanaList").innerHTML="";
+document.getElementById("unionList").innerHTML="";
+document.getElementById("wardList").innerHTML="";
     let districts =
     Object.keys(
 
