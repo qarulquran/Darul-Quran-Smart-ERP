@@ -4,13 +4,20 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Student Management - Darul Quran ERP</title>
+
+<title>
+Student Management - Darul Quran ERP
+</title>
+
 
 <link rel="stylesheet" href="style.css">
 
+
 </head>
+
 
 
 <body>
@@ -19,48 +26,80 @@
 <div class="main">
 
 
+
 <header class="topbar">
 
-<h1>Student Management</h1>
+
+<h1>
+Student Management
+</h1>
+
 
 <div class="admin-profile">
+
 Admin 👤
+
 </div>
+
 
 </header>
 
 
 
 
-<div class="student-header">
 
-<h2>Students List</h2>
+
+
+
+<div class="container">
+
+
+
+<h2 class="page-title">
+
+Students List
+
+</h2>
+
+
+
+
+
 
 
 <a href="add-student.html">
 
-<button>
+<button class="add-btn">
+
 + Add Student
+
 </button>
 
 </a>
 
 
-</div>
+
+
 
 
 
 
 <div class="search-box">
 
-<input 
-id="searchInput"
+
+<input
+
 type="text"
-placeholder="Search Student">
+
+id="searchStudent"
+
+placeholder="Search by Name / Code / Mobile">
 
 
-<button onclick="searchStudent()">
+<button id="searchBtn">
+
 Search
+
 </button>
 
 
@@ -70,52 +109,104 @@ Search
 
 
 
-<div class="table-box">
+
+
+
+
+
+<div class="table-card">
+
 
 
 <table>
 
 
+
 <thead>
+
 
 <tr>
 
-<th>ID</th>
 
-<th>Name</th>
+<th>
+Photo
+</th>
 
-<th>Class</th>
 
-<th>Father Name</th>
+<th>
+Student Code
+</th>
 
-<th>Mobile</th>
 
-<th>Status</th>
+<th>
+Name
+</th>
 
-<th>Action</th>
+
+<th>
+Class
+</th>
+
+
+<th>
+Father Name
+</th>
+
+
+<th>
+Mobile
+</th>
+
+
+<th>
+Fee Status
+</th>
+
+
+<th>
+Action
+</th>
+
 
 
 </tr>
+
+
 
 </thead>
 
 
 
-<tbody id="studentTableBody">
+
+<tbody id="studentTable">
 
 
 </tbody>
 
 
 
+
 </table>
 
 
+
+</div>
+
+
+
+
+
+
+
 </div>
 
 
 
+
+
 </div>
+
+
 
 
 
@@ -125,5 +216,6 @@ Search
 
 
 </body>
+
 
 </html>
