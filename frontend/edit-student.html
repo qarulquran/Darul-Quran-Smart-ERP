@@ -4,121 +4,282 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Edit Student - Darul Quran ERP</title>
+
+<title>
+Edit Student - Darul Quran ERP
+</title>
+
 
 <link rel="stylesheet" href="style.css">
 
+
 </head>
+
 
 
 <body>
 
 
+
 <div class="main">
+
 
 
 <header class="topbar">
 
-<h1>Edit Student</h1>
+
+<h1>
+Edit Student
+</h1>
+
 
 <div class="admin-profile">
 Admin 👤
 </div>
 
+
 </header>
+
+
+
+
+
 
 
 
 <div class="form-box">
 
 
-<h2>Update Student Information</h2>
+<h2>
+Update Student Information
+</h2>
 
 
-<form>
+
+
+
+<form id="editForm">
+
 
 
 <div class="form-grid">
 
 
+
+
+
 <div>
-<label>Student Name</label>
-<input type="text" value="Ahmed Rahman">
+
+<label>
+Student Name
+</label>
+
+<input 
+id="studentName"
+type="text">
+
 </div>
 
 
+
+
+
 <div>
-<label>Father Name</label>
-<input type="text" value="Md. Rahman">
+
+<label>
+Father Name
+</label>
+
+<input 
+id="fatherName"
+type="text">
+
 </div>
 
 
+
+
+
 <div>
-<label>Mother Name</label>
-<input type="text" value="Fatema Begum">
+
+<label>
+Mother Name
+</label>
+
+<input 
+id="motherName"
+type="text">
+
 </div>
 
 
+
+
+
 <div>
-<label>Date of Birth</label>
-<input type="date">
+
+<label>
+Date of Birth
+</label>
+
+<input 
+id="dateOfBirth"
+type="date">
+
 </div>
 
 
+
+
+
+
 <div>
 
-<label>Class</label>
+<label>
+Class
+</label>
 
-<select>
 
-<option>Class 5</option>
-<option>Class 6</option>
-<option>Class 7</option>
+<select id="studentClass">
+
+
+<option>
+Play
+</option>
+
+<option>
+Class 1
+</option>
+
+<option>
+Class 2
+</option>
+
+<option>
+Class 3
+</option>
+
+<option>
+Class 4
+</option>
+
+<option>
+Class 5
+</option>
+
+<option>
+Class 6
+</option>
+
+<option>
+Class 7
+</option>
+
+<option>
+Class 8
+</option>
+
+<option>
+Class 9
+</option>
+
+<option>
+Class 10
+</option>
+
 
 </select>
 
-</div>
-
-
-
-<div>
-<label>Mobile Number</label>
-<input type="number" value="017XXXXXXXX">
-</div>
-
 
 </div>
+
+
+
+
 
 
 
 <div>
 
-<label>Address</label>
+<label>
+Mobile Number
+</label>
 
-<textarea>
-Dhaka, Bangladesh
-</textarea>
+
+<input 
+id="mobile"
+type="text">
+
 
 </div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<div>
+
+
+<label>
+Address
+</label>
+
+
+<textarea id="address"></textarea>
+
+
+</div>
+
+
+
+
+
 
 
 
 <button type="submit">
+
 Update Student
+
 </button>
+
+
+
 
 
 </form>
 
 
+
+
+
 </div>
 
 
+
+
+
 </div>
+
+
+
+
+
+<script src="edit-student.js"></script>
+
 
 
 </body>
+
 
 </html>
