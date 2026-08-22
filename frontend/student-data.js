@@ -1,68 +1,270 @@
-// Student Data Management
-
-let students = [
-
-{
-    id: "001",
-    name: "Ahmed Rahman",
-    father: "Md. Rahman",
-    mother: "Fatema Begum",
-    className: "Class 5",
-    mobile: "017XXXXXXXX",
-    address: "Dhaka, Bangladesh",
-    feeStatus: "Paid",
-    attendance: "95%",
-    result: "A+"
-},
+// ==========================================
+// Darul Quran Smart ERP
+// Student Data Management System
+// student-data.js
+// ==========================================
 
 
-{
-    id: "002",
-    name: "Abdullah",
-    father: "Karim Ali",
-    mother: "Ayesha Begum",
-    className: "Class 6",
-    mobile: "018XXXXXXXX",
-    address: "Chittagong, Bangladesh",
-    feeStatus: "Due",
-    attendance: "90%",
-    result: "A"
+
+// ===============================
+// Student Database
+// ===============================
+
+
+// এখানে আর কোনো Demo Student থাকবে না
+
+let students = [];
+
+
+
+
+// ===============================
+// Get Students
+// ===============================
+
+
+function getStudents(){
+
+
+    return JSON.parse(
+
+        localStorage.getItem("students")
+
+    ) || [];
+
+
 }
 
-];
 
 
 
-// Save Student Data
 
-function saveStudents(){
+
+// ===============================
+// Save Students
+// ===============================
+
+
+function saveStudents(data){
+
+
 
     localStorage.setItem(
+
         "students",
-        JSON.stringify(students)
+
+        JSON.stringify(data)
+
     );
+
 
 }
 
 
 
-// Load Student Data
+
+
+
+// ===============================
+// Load Students
+// ===============================
+
 
 function loadStudents(){
 
-    let data = localStorage.getItem("students");
+
+    let data =
+
+    localStorage.getItem("students");
+
 
 
     if(data){
 
+
         students = JSON.parse(data);
 
+
     }
+
+    else{
+
+
+        students = [];
+
+
+        saveStudents(students);
+
+
+    }
+
 
 }
 
 
-// Initialize
 
-saveStudents();
+
+
+
+// ===============================
+// Add New Student
+// ===============================
+
+
+function addStudent(student){
+
+
+
+    let students = getStudents();
+
+
+
+    students.push(student);
+
+
+
+    saveStudents(students);
+
+
+
+}
+
+
+
+
+
+
+// ===============================
+// Find Student By Code
+// ===============================
+
+
+function findStudent(code){
+
+
+
+    let students = getStudents();
+
+
+
+    return students.find(student => {
+
+
+
+        return (
+
+            student.studentCode === code ||
+
+            student.id === code
+
+        );
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+// ===============================
+// Delete Student
+// ===============================
+
+
+function removeStudent(code){
+
+
+
+    let students = getStudents();
+
+
+
+    students = students.filter(student => {
+
+
+
+        return (
+
+            student.studentCode !== code &&
+
+            student.id !== code
+
+        );
+
+
+    });
+
+
+
+    saveStudents(students);
+
+
+
+}
+
+
+
+
+
+
+// ===============================
+// Update Student
+// ===============================
+
+
+function updateStudent(updatedStudent){
+
+
+
+    let students = getStudents();
+
+
+
+    students = students.map(student => {
+
+
+
+        if(
+
+            student.studentCode === updatedStudent.studentCode
+
+        ){
+
+
+            return updatedStudent;
+
+
+        }
+
+
+        return student;
+
+
+
+    });
+
+
+
+
+    saveStudents(students);
+
+
+
+}
+
+
+
+
+
+
+// ===============================
+// Initialize
+// ===============================
+
+
 loadStudents();
