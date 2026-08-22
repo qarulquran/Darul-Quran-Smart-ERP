@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Fee Collection - Darul Quran ERP
+</title>
+
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+
+<body>
+
+
+
+<div class="main">
+
+
+
+<header class="topbar">
+
+<h1>
+Fee Collection
+</h1>
+
+
+<div class="admin-profile">
+Admin 👤
+</div>
+
+
+</header>
+
+
+
+
+
+
+
+<div class="form-card">
+
+
+<h2>
+💰 Search Student
+</h2>
+
+
+
+<div class="form-grid">
+
+
+<div class="field">
+
+
+<label>
+Student Code
+</label>
+
+
+<input
+
+type="text"
+
+id="studentCode"
+
+placeholder="Enter Student Code">
+
+
+</div>
+
+
+
+<div class="field">
+
+
+<button
+
+id="searchStudent">
+
+🔍 Search
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="profile-card" id="studentInfo" style="display:none;">
+
+
+
+<div class="student-photo">
+
+
+<img
+
+id="studentPhoto"
+
+src="https://via.placeholder.com/100"
+
+width="100">
+
+
+</div>
+
+
+
+
+
+
+<div class="student-info">
+
+
+<h2 id="studentName">
+-
+</h2>
+
+
+
+<p>
+
+<b>
+Father:
+</b>
+
+<span id="fatherName"></span>
+
+</p>
+
+
+
+
+<p>
+
+<b>
+Class:
+</b>
+
+<span id="studentClass"></span>
+
+</p>
+
+
+
+
+<p>
+
+<b>
+Mobile:
+</b>
+
+<span id="guardianMobile"></span>
+
+</p>
+
+
+
+<p>
+
+<b>
+Student Code:
+</b>
+
+<span id="showCode"></span>
+
+</p>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="form-card">
+
+
+<h2>
+📝 Payment Information
+</h2>
+
+
+
+
+
+<div class="form-grid">
+
+
+
+<div class="field">
+
+
+<label>
+Fee Type
+</label>
+
+
+<select id="feeType">
+
+
+<option>
+Monthly Fee
+</option>
+
+
+<option>
+Admission Fee
+</option>
+
+
+<option>
+Exam Fee
+</option>
+
+
+<option>
+Other
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="field">
+
+
+<label>
+Month
+</label>
+
+
+<input
+
+type="month"
+
+id="feeMonth">
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="field">
+
+
+<label>
+Amount
+</label>
+
+
+<input
+
+type="number"
+
+id="amount"
+
+placeholder="Enter amount">
+
+
+</div>
+
+
+
+
+
+
+
+<div class="field">
+
+
+<label>
+Payment Method
+</label>
+
+
+
+<select id="paymentMethod">
+
+
+<option>
+Cash
+</option>
+
+
+<option>
+Bkash
+</option>
+
+
+<option>
+Bank
+</option>
+
+
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="field">
+
+
+<label>
+Payment Date
+</label>
+
+
+<input
+
+type="date"
+
+id="paymentDate">
+
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="submit-area">
+
+
+<button id="savePayment">
+
+💾 Save Payment
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script src="fee.js"></script>
+
+
+
+</body>
+
+</html>
