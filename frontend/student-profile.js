@@ -1,13 +1,13 @@
 // ==========================================
 // Darul Quran ERP
-// Dynamic Student Profile System
-// Student Code Based
+// Student Profile System
+// Code Based Loading
 // ==========================================
 
 
 
 // ===============================
-// Get Students
+// Get Student Database
 // ===============================
 
 
@@ -37,7 +37,9 @@ function getStudents(){
 let studentCode =
 
 localStorage.getItem(
+
     "selectedStudent"
+
 );
 
 
@@ -55,18 +57,22 @@ let students = getStudents();
 
 
 
-let student = students.find(
+let student = students.find(function(item){
 
-    item =>
 
-    (
-        item.studentCode === studentCode ||
+
+    return (
+
+        item.studentCode === studentCode
+
+        ||
 
         item.id === studentCode
 
-    )
+    );
 
-);
+
+});
 
 
 
@@ -75,11 +81,13 @@ let student = students.find(
 
 
 // ===============================
-// Display Student
+// Load Profile
 // ===============================
 
 
 if(student){
+
+
 
 
 
@@ -134,6 +142,16 @@ student.dateOfBirth || "";
 
 
 document.getElementById(
+"bloodGroup"
+).innerText =
+
+student.bloodGroup || "";
+
+
+
+
+
+document.getElementById(
 "studentClass"
 ).innerText =
 
@@ -153,40 +171,64 @@ student.guardianMobile || student.mobile || "";
 
 
 
+document.getElementById(
+"admissionDate"
+).innerText =
+
+student.admissionDate || "";
 
 
-let address = "";
 
 
 
-if(student.address){
 
 
-address =
+// Address
+
+
+let fullAddress = "";
+
+
+
+if(student.address && typeof student.address === "object"){
+
+
+fullAddress =
 
 (student.address.division || "")
+
 +
+
 " "
+
 +
+
 (student.address.district || "")
+
 +
+
 " "
+
 +
+
 (student.address.thana || "")
+
 +
+
 " "
+
 +
+
 (student.address.details || "");
+
 
 
 }
 
-
-
 else{
 
 
-address = student.address || "";
+fullAddress = student.address || "";
 
 
 }
@@ -198,7 +240,33 @@ address = student.address || "";
 
 document.getElementById(
 "address"
-).innerText = address;
+).innerText =
+
+fullAddress;
+
+
+
+
+
+
+
+
+document.getElementById(
+"fatherNid"
+).innerText =
+
+student.fatherNid || "";
+
+
+
+
+
+document.getElementById(
+"motherNid"
+).innerText =
+
+student.motherNid || "";
+
 
 
 
@@ -228,12 +296,27 @@ student.feeStatus || "Due";
 
 
 
-
 document.getElementById(
 "result"
 ).innerText =
 
-student.result || "N/A";
+student.result || "-";
+
+
+
+
+
+// Photo
+
+if(student.photo){
+
+
+document.getElementById(
+"studentPhoto"
+).src = student.photo;
+
+
+}
 
 
 
@@ -245,7 +328,7 @@ else{
 
 
 alert(
-"Student not found"
+"Student Not Found"
 );
 
 
@@ -253,7 +336,6 @@ alert(
 window.location.href =
 
 "students.html";
-
 
 
 }
