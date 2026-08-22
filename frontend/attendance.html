@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Student Attendance - Darul Quran ERP
+</title>
+
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="main">
+
+
+
+<header class="topbar">
+
+
+<h1>
+Student Attendance
+</h1>
+
+
+<div class="admin-profile">
+Admin 👤
+</div>
+
+
+</header>
+
+
+
+
+
+
+
+
+<div class="form-card">
+
+
+<h2>
+📅 Attendance Entry
+</h2>
+
+
+
+<div class="form-grid">
+
+
+
+<div class="field">
+
+<label>
+Student Code
+</label>
+
+
+<input
+
+id="studentCode"
+
+placeholder="Enter Student Code">
+
+
+</div>
+
+
+
+
+
+<div class="field">
+
+<button id="searchStudent">
+
+🔍 Search
+
+</button>
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="profile-card" id="studentInfo" style="display:none;">
+
+
+
+<div class="student-photo">
+
+
+<img
+
+id="studentPhoto"
+
+src="https://via.placeholder.com/100"
+
+width="100">
+
+
+</div>
+
+
+
+
+
+<div class="student-info">
+
+
+<h2 id="studentName">
+-
+</h2>
+
+
+<p>
+
+<b>
+Class:
+</b>
+
+<span id="studentClass"></span>
+
+</p>
+
+
+
+<p>
+
+<b>
+Code:
+</b>
+
+<span id="showCode"></span>
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="form-card">
+
+
+<h2>
+Mark Attendance
+</h2>
+
+
+
+
+<div class="form-grid">
+
+
+
+<div class="field">
+
+
+<label>
+Date
+</label>
+
+
+<input
+
+type="date"
+
+id="attendanceDate">
+
+
+</div>
+
+
+
+
+
+
+<div class="field">
+
+
+<label>
+Status
+</label>
+
+
+<select id="status">
+
+
+<option>
+Present
+</option>
+
+
+<option>
+Absent
+</option>
+
+
+<option>
+Leave
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="submit-area">
+
+
+<button id="saveAttendance">
+
+💾 Save Attendance
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="form-card">
+
+
+<h2>
+Attendance History
+</h2>
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+Code
+</th>
+
+<th>
+Date
+</th>
+
+<th>
+Status
+</th>
+
+</tr>
+
+</thead>
+
+
+<tbody id="attendanceList">
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<script src="attendance.js"></script>
+
+
+
+</body>
+
+</html>
