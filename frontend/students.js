@@ -1,24 +1,39 @@
-// ==========================================
-// Darul Quran ERP
+// =====================================
+// Darul Quran Smart ERP
 // Student Management System
-// Student Code Based
-// ==========================================
+// students.js
+// =====================================
 
 
-
-// Get Students
+// Get Students Data
 
 function getStudents(){
 
-    return JSON.parse(
+    let data = localStorage.getItem("students");
 
-        localStorage.getItem("students")
+    if(data){
 
-    ) || [];
+        return JSON.parse(data);
+
+    }
+
+    return [];
 
 }
 
 
+
+
+// Save Students Data
+
+function saveStudents(students){
+
+    localStorage.setItem(
+        "students",
+        JSON.stringify(students)
+    );
+
+}
 
 
 
@@ -37,20 +52,19 @@ function displayStudents(){
     );
 
 
-
     if(!tableBody){
+
         return;
+
     }
 
 
 
-    tableBody.innerHTML="";
+    tableBody.innerHTML = "";
 
 
 
-
-
-    students.forEach(student=>{
+    students.forEach(student => {
 
 
 
@@ -61,92 +75,60 @@ function displayStudents(){
 
         row.innerHTML = `
 
-
         <td>
-
-        ${student.studentCode || ""}
-
+        ${student.studentCode || student.id}
         </td>
 
 
         <td>
-
         ${student.name || ""}
-
         </td>
 
 
-
         <td>
-
-        ${student.admissionClass || ""}
-
+        ${student.className || ""}
         </td>
 
 
-
-
         <td>
-
-        ${student.fatherName || ""}
-
+        ${student.father || ""}
         </td>
 
 
-
-
         <td>
-
-        ${student.guardianMobile || ""}
-
+        ${student.mobile || ""}
         </td>
 
 
-
-
         <td>
-
         ${student.feeStatus || "Due"}
-
         </td>
-
-
 
 
 
         <td>
 
 
-
-        <a href="student-profile.html?id=${student.studentCode}">
-
-        <button>
+        <button 
+        onclick="viewStudent('${student.studentCode || student.id}')">
 
         👁 View
 
         </button>
 
-        </a>
 
 
-
-
-
-        <a href="edit-student.html?id=${student.studentCode}">
-
-        <button>
+        <button
+        onclick="editStudent('${student.studentCode || student.id}')">
 
         ✏ Edit
 
         </button>
 
-        </a>
 
 
-
-
-
-        <button onclick="deleteStudent('${student.studentCode}')">
+        <button
+        onclick="deleteStudent('${student.studentCode || student.id}')">
 
         🗑 Delete
 
@@ -157,9 +139,7 @@ function displayStudents(){
         </td>
 
 
-
         `;
-
 
 
 
@@ -177,71 +157,55 @@ function displayStudents(){
 
 
 
-
-
-
+// =====================================
 // Search Student
+// =====================================
 
 
 function searchStudent(){
 
 
-
-let value =
-
-document.getElementById(
-"searchInput"
-)
-.value
-.toLowerCase();
+    let value =
+    document.getElementById(
+        "searchInput"
+    )
+    .value
+    .toLowerCase();
 
 
 
-
-
-let rows =
-
-document.querySelectorAll(
-"#studentTableBody tr"
-);
+    let rows =
+    document.querySelectorAll(
+        "#studentTableBody tr"
+    );
 
 
 
+    rows.forEach(row=>{
 
 
-rows.forEach(row=>{
-
-
-
-let text =
-
-row.innerText
-.toLowerCase();
+        let text =
+        row.innerText.toLowerCase();
 
 
 
+        if(
+            text.includes(value)
+        ){
 
+            row.style.display="";
 
-if(
-text.includes(value)
-){
+        }
 
-row.style.display="";
+        else{
 
+            row.style.display="none";
 
-}
-
-else{
-
-
-row.style.display="none";
-
-
-}
+        }
 
 
 
-});
+    });
 
 
 
@@ -251,78 +215,70 @@ row.style.display="none";
 
 
 
-
-
+// =====================================
 // Delete Student
+// =====================================
 
 
-function deleteStudent(studentCode){
-
-
-
-let confirmDelete =
-
-confirm(
-
-"Delete this student?"
-
-);
+function deleteStudent(code){
 
 
 
-if(confirmDelete){
+    let confirmDelete =
+    confirm(
+        "Delete this student?"
+    );
 
 
 
-let students =
-getStudents();
+    if(!confirmDelete){
+
+        return;
+
+    }
 
 
 
 
-
-students =
-
-students.filter(
-
-student =>
-
-student.studentCode !== studentCode
-
-);
+    let students =
+    getStudents();
 
 
 
+    students =
+    students.filter(student => {
 
 
-localStorage.setItem(
+        return (
 
-"students",
+            student.studentCode !== code
 
-JSON.stringify(students)
+            &&
 
-);
+            student.id !== code
+
+        );
+
+
+    });
 
 
 
 
 
-displayStudents();
+    saveStudents(students);
 
 
 
 
-
-alert(
-
-"Student deleted successfully"
-
-);
+    displayStudents();
 
 
 
-}
 
+    alert(
+        "Student deleted successfully"
+    );
 
 
 
@@ -332,9 +288,53 @@ alert(
 
 
 
+// =====================================
+// View Student
+// =====================================
+
+
+function viewStudent(code){
+
+
+    localStorage.setItem(
+        "viewStudentCode",
+        code
+    );
+
+
+    window.location.href =
+    "student-profile.html";
+
+
+}
 
 
 
-// Load Data
+
+// =====================================
+// Edit Student
+// =====================================
+
+
+function editStudent(code){
+
+
+    localStorage.setItem(
+        "editStudentCode",
+        code
+    );
+
+
+    window.location.href =
+    "edit-student.html";
+
+
+}
+
+
+
+
+
+// Load Table
 
 displayStudents();
