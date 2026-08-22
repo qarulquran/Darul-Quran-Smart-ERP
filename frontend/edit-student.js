@@ -1,13 +1,18 @@
 // ==========================================
 // Darul Quran ERP
-// Edit Student System
+// Dynamic Edit Student System
 // Student Code Based
 // ==========================================
 
 
+
+// ===============================
 // Get Students
+// ===============================
+
 
 function getStudents(){
+
 
     return JSON.parse(
 
@@ -15,113 +20,189 @@ function getStudents(){
 
     ) || [];
 
-}
-
-
-
-// Save Students
-
-function saveStudents(data){
-
-    localStorage.setItem(
-
-        "students",
-
-        JSON.stringify(data)
-
-    );
 
 }
 
 
 
-// Get Student Code From URL
 
-let params =
 
-new URLSearchParams(
 
-window.location.search
-
-);
+// ===============================
+// Selected Student Code
+// ===============================
 
 
 let studentCode =
 
-params.get("id");
+localStorage.getItem(
+
+    "editStudent"
+
+);
 
 
 
 
-// Load Student
+
+
+// ===============================
+// Get Student
+// ===============================
 
 
 let students = getStudents();
 
 
+
 let student = students.find(
 
-item =>
 
-item.studentCode === studentCode
+    item =>
+
+
+    (
+
+        item.studentCode === studentCode ||
+
+        item.id === studentCode
+
+
+    )
+
 
 );
 
 
 
 
-// If Student Found
+
+
+// ===============================
+// Load Student Data
+// ===============================
+
 
 if(student){
+
 
 
 document.getElementById(
 "studentName"
 ).value =
+
 student.name || "";
+
+
 
 
 
 document.getElementById(
 "fatherName"
 ).value =
-student.fatherName || "";
+
+student.fatherName || student.father || "";
+
+
 
 
 
 document.getElementById(
 "motherName"
 ).value =
-student.motherName || "";
+
+student.motherName || student.mother || "";
+
+
 
 
 
 document.getElementById(
 "dateOfBirth"
 ).value =
+
 student.dateOfBirth || "";
 
 
 
+
+
 document.getElementById(
-"admissionClass"
+"studentClass"
 ).value =
-student.admissionClass || "";
+
+student.admissionClass || student.className || "";
+
+
 
 
 
 document.getElementById(
 "mobile"
 ).value =
-student.guardianMobile || "";
+
+student.guardianMobile || student.mobile || "";
+
+
+
+
+
+
+let address = "";
+
+
+
+if(student.address){
+
+
+    address =
+
+    (student.address.division || "")
+
+    +
+
+    " "
+
+    +
+
+    (student.address.district || "")
+
+    +
+
+    " "
+
+    +
+
+    (student.address.thana || "")
+
+    +
+
+    " "
+
+    +
+
+    (student.address.details || "");
+
+
+
+}
+
+else{
+
+
+    address = student.address || "";
+
+
+}
+
+
 
 
 
 document.getElementById(
 "address"
-).value =
+).value = address;
 
-student.address?.details || "";
 
 
 
@@ -131,11 +212,14 @@ else{
 
 
 alert(
+
 "Student not found"
+
 );
 
 
 window.location.href =
+
 "students.html";
 
 
@@ -145,19 +229,21 @@ window.location.href =
 
 
 
+
+
+
+// ===============================
 // Update Student
+// ===============================
 
 
-const form =
+document.getElementById(
 
-document.querySelector("form");
+"editForm"
 
+)
 
-
-if(form){
-
-
-form.addEventListener(
+.addEventListener(
 
 "submit",
 
@@ -175,23 +261,26 @@ let students = getStudents();
 
 
 
-let index = students.findIndex(
 
-item =>
-
-item.studentCode === studentCode
-
-);
+students = students.map(student => {
 
 
 
+let code =
+
+student.studentCode ||
+
+student.id;
 
 
-if(index !== -1){
 
 
 
-students[index].name =
+if(code === studentCode){
+
+
+
+student.name =
 
 document.getElementById(
 "studentName"
@@ -200,7 +289,7 @@ document.getElementById(
 
 
 
-students[index].fatherName =
+student.fatherName =
 
 document.getElementById(
 "fatherName"
@@ -209,7 +298,7 @@ document.getElementById(
 
 
 
-students[index].motherName =
+student.motherName =
 
 document.getElementById(
 "motherName"
@@ -218,7 +307,7 @@ document.getElementById(
 
 
 
-students[index].dateOfBirth =
+student.dateOfBirth =
 
 document.getElementById(
 "dateOfBirth"
@@ -227,16 +316,16 @@ document.getElementById(
 
 
 
-students[index].admissionClass =
+student.admissionClass =
 
 document.getElementById(
-"admissionClass"
+"studentClass"
 ).value;
 
 
 
 
-students[index].guardianMobile =
+student.guardianMobile =
 
 document.getElementById(
 "mobile"
@@ -245,7 +334,7 @@ document.getElementById(
 
 
 
-students[index].address.details =
+student.address =
 
 document.getElementById(
 "address"
@@ -253,37 +342,50 @@ document.getElementById(
 
 
 
+}
 
-saveStudents(students);
+
+
+
+return student;
+
+
+
+});
+
+
+
+
+
+
+
+localStorage.setItem(
+
+"students",
+
+JSON.stringify(students)
+
+);
+
+
 
 
 
 
 alert(
 
-"Student Updated Successfully\n\nStudent Code:\n"
-
-+ studentCode
+"Student Updated Successfully"
 
 );
+
+
 
 
 
 window.location.href =
 
-"student-profile.html?id="
-
-+ studentCode;
+"students.html";
 
 
 
-}
-
-
-
-}
-
-);
-
-
-}
+});
