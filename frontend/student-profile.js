@@ -1,13 +1,18 @@
 // ==========================================
 // Darul Quran ERP
-// Student Profile System
+// Dynamic Student Profile System
 // Student Code Based
 // ==========================================
 
 
-// Get Student Database
+
+// ===============================
+// Get Students
+// ===============================
+
 
 function getStudents(){
+
 
     return JSON.parse(
 
@@ -15,42 +20,51 @@ function getStudents(){
 
     ) || [];
 
+
 }
 
 
 
 
 
-// Get Student Code From URL
 
-let urlParams =
-new URLSearchParams(
-window.location.search
-);
 
+// ===============================
+// Get Selected Student Code
+// ===============================
 
 
 let studentCode =
-urlParams.get("id");
+
+localStorage.getItem(
+    "selectedStudent"
+);
 
 
 
 
 
+
+
+// ===============================
 // Find Student
-
-let students =
-getStudents();
+// ===============================
 
 
+let students = getStudents();
 
-let student =
 
-students.find(
 
-item =>
+let student = students.find(
 
-item.studentCode === studentCode
+    item =>
+
+    (
+        item.studentCode === studentCode ||
+
+        item.id === studentCode
+
+    )
 
 );
 
@@ -60,7 +74,9 @@ item.studentCode === studentCode
 
 
 
-// Load Student Profile
+// ===============================
+// Display Student
+// ===============================
 
 
 if(student){
@@ -70,65 +86,122 @@ if(student){
 document.getElementById(
 "studentName"
 ).innerText =
+
 student.name || "";
+
+
 
 
 
 document.getElementById(
 "studentCode"
 ).innerText =
-student.studentCode || "";
+
+student.studentCode || student.id || "";
+
+
 
 
 
 document.getElementById(
 "fatherName"
 ).innerText =
-student.fatherName || "";
+
+student.fatherName || student.father || "";
+
+
 
 
 
 document.getElementById(
 "motherName"
 ).innerText =
-student.motherName || "";
+
+student.motherName || student.mother || "";
+
+
 
 
 
 document.getElementById(
-"dob"
+"dateOfBirth"
 ).innerText =
+
 student.dateOfBirth || "";
 
 
 
+
+
 document.getElementById(
-"className"
+"studentClass"
 ).innerText =
-student.admissionClass || "";
+
+student.admissionClass || student.className || "";
+
+
 
 
 
 document.getElementById(
 "mobile"
 ).innerText =
-student.guardianMobile || "";
+
+student.guardianMobile || student.mobile || "";
+
+
+
+
+
+
+
+let address = "";
+
+
+
+if(student.address){
+
+
+address =
+
+(student.address.division || "")
++
+" "
++
+(student.address.district || "")
++
+" "
++
+(student.address.thana || "")
++
+" "
++
+(student.address.details || "");
+
+
+}
+
+
+
+else{
+
+
+address = student.address || "";
+
+
+}
+
+
+
 
 
 
 document.getElementById(
 "address"
-).innerText =
+).innerText = address;
 
-(student.address?.division || "")
-+
-" "
-+
-(student.address?.district || "")
-+
-" "
-+
-(student.address?.thana || "");
+
+
 
 
 
@@ -136,7 +209,10 @@ document.getElementById(
 document.getElementById(
 "attendance"
 ).innerText =
+
 student.attendance || "0%";
+
+
 
 
 
@@ -144,7 +220,11 @@ student.attendance || "0%";
 document.getElementById(
 "feeStatus"
 ).innerText =
+
 student.feeStatus || "Due";
+
+
+
 
 
 
@@ -152,6 +232,7 @@ student.feeStatus || "Due";
 document.getElementById(
 "result"
 ).innerText =
+
 student.result || "N/A";
 
 
@@ -168,8 +249,11 @@ alert(
 );
 
 
+
 window.location.href =
+
 "students.html";
+
 
 
 }
