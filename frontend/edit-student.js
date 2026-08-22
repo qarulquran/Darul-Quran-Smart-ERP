@@ -1,7 +1,7 @@
 // ==========================================
 // Darul Quran ERP
-// Dynamic Edit Student System
-// Student Code Based
+// Edit Student System
+// Part 1/2
 // ==========================================
 
 
@@ -28,16 +28,17 @@ function getStudents(){
 
 
 
+
 // ===============================
 // Selected Student Code
 // ===============================
 
 
-let studentCode =
+let oldStudentCode =
 
 localStorage.getItem(
 
-    "editStudent"
+"editStudent"
 
 );
 
@@ -46,8 +47,9 @@ localStorage.getItem(
 
 
 
+
 // ===============================
-// Get Student
+// Load Students
 // ===============================
 
 
@@ -55,20 +57,114 @@ let students = getStudents();
 
 
 
-let student = students.find(
 
 
-    item =>
+let student = students.find(function(item){
 
 
-    (
+    return (
 
-        item.studentCode === studentCode ||
+        item.studentCode === oldStudentCode
 
-        item.id === studentCode
+    );
 
 
-    )
+});
+
+
+
+
+
+
+
+// ===============================
+// Generate New Student Code
+// ===============================
+
+
+function generateStudentCode(className){
+
+
+
+let students = getStudents();
+
+
+
+
+let classNumber = "";
+
+
+
+let match = className.match(/\d+/);
+
+
+
+
+
+if(match){
+
+
+    classNumber = match[0];
+
+
+}
+
+else if(className === "Play"){
+
+
+    classNumber = "0";
+
+
+}
+
+else if(className === "Nursery"){
+
+
+    classNumber = "N";
+
+
+}
+
+else{
+
+
+    classNumber = "0";
+
+
+}
+
+
+
+
+
+
+let year =
+
+new Date()
+
+.getFullYear();
+
+
+
+
+
+
+
+let sameClassStudents =
+
+students.filter(student=>
+
+
+
+student.studentCode &&
+
+
+student.studentCode.startsWith(
+
+`DQ-${classNumber}-${year}`
+
+)
+
 
 
 );
@@ -78,8 +174,46 @@ let student = students.find(
 
 
 
+let serial =
+
+sameClassStudents.length + 1;
+
+
+
+
+
+
+let serialNumber =
+
+String(serial)
+
+.padStart(5,"0");
+
+
+
+
+
+
+
+return (
+
+`DQ-${classNumber}-${year}-${serialNumber}`
+
+);
+
+
+
+}
+
+
+
+
+
+
+
+
 // ===============================
-// Load Student Data
+// Load Student Data Into Form
 // ===============================
 
 
@@ -87,8 +221,12 @@ if(student){
 
 
 
+
+
 document.getElementById(
+
 "studentName"
+
 ).value =
 
 student.name || "";
@@ -98,7 +236,9 @@ student.name || "";
 
 
 document.getElementById(
+
 "fatherName"
+
 ).value =
 
 student.fatherName || student.father || "";
@@ -107,8 +247,11 @@ student.fatherName || student.father || "";
 
 
 
+
 document.getElementById(
+
 "motherName"
+
 ).value =
 
 student.motherName || student.mother || "";
@@ -117,8 +260,11 @@ student.motherName || student.mother || "";
 
 
 
+
 document.getElementById(
+
 "dateOfBirth"
+
 ).value =
 
 student.dateOfBirth || "";
@@ -127,8 +273,11 @@ student.dateOfBirth || "";
 
 
 
+
 document.getElementById(
+
 "studentClass"
+
 ).value =
 
 student.admissionClass || student.className || "";
@@ -137,8 +286,11 @@ student.admissionClass || student.className || "";
 
 
 
+
 document.getElementById(
+
 "mobile"
+
 ).value =
 
 student.guardianMobile || student.mobile || "";
@@ -148,60 +300,22 @@ student.guardianMobile || student.mobile || "";
 
 
 
-let address = "";
-
-
-
-if(student.address){
-
-
-    address =
-
-    (student.address.division || "")
-
-    +
-
-    " "
-
-    +
-
-    (student.address.district || "")
-
-    +
-
-    " "
-
-    +
-
-    (student.address.thana || "")
-
-    +
-
-    " "
-
-    +
-
-    (student.address.details || "");
-
-
-
-}
-
-else{
-
-
-    address = student.address || "";
-
-
-}
-
-
-
-
-
 document.getElementById(
+
 "address"
-).value = address;
+
+).value =
+
+typeof student.address === "string"
+
+?
+
+student.address
+
+:
+
+"";
+
 
 
 
@@ -213,7 +327,7 @@ else{
 
 alert(
 
-"Student not found"
+"Student Not Found"
 
 );
 
@@ -225,25 +339,35 @@ window.location.href =
 
 }
 
-
-
-
-
+// ==========================================
+// Part 2/2
+// Update Student System
+// ==========================================
 
 
 
 // ===============================
-// Update Student
+// Update Form Submit
 // ===============================
 
+
+const editForm =
 
 document.getElementById(
 
 "editForm"
 
-)
+);
 
-.addEventListener(
+
+
+
+
+if(editForm){
+
+
+
+editForm.addEventListener(
 
 "submit",
 
@@ -262,83 +386,60 @@ let students = getStudents();
 
 
 
-students = students.map(student => {
-
-
-
-let code =
-
-student.studentCode ||
-
-student.id;
+students = students.map(function(item){
 
 
 
 
 
-if(code === studentCode){
-
-
-
-student.name =
-
-document.getElementById(
-"studentName"
-).value;
+if(item.studentCode === oldStudentCode){
 
 
 
 
-student.fatherName =
+
+// ===============================
+// Check Class Change
+// ===============================
+
+
+let oldClass =
+
+item.admissionClass || "";
+
+
+
+let newClass =
 
 document.getElementById(
-"fatherName"
-).value;
 
-
-
-
-student.motherName =
-
-document.getElementById(
-"motherName"
-).value;
-
-
-
-
-student.dateOfBirth =
-
-document.getElementById(
-"dateOfBirth"
-).value;
-
-
-
-
-student.admissionClass =
-
-document.getElementById(
 "studentClass"
+
 ).value;
 
 
 
 
-student.guardianMobile =
-
-document.getElementById(
-"mobile"
-).value;
 
 
 
+if(oldClass !== newClass){
 
-student.address =
 
-document.getElementById(
-"address"
-).value;
+
+item.studentCode =
+
+generateStudentCode(
+
+newClass
+
+);
+
+
+
+item.admissionClass =
+
+newClass;
 
 
 
@@ -347,7 +448,104 @@ document.getElementById(
 
 
 
-return student;
+
+
+
+
+// ===============================
+// Update Information
+// ===============================
+
+
+item.name =
+
+document.getElementById(
+
+"studentName"
+
+).value;
+
+
+
+
+
+
+item.fatherName =
+
+document.getElementById(
+
+"fatherName"
+
+).value;
+
+
+
+
+
+
+item.motherName =
+
+document.getElementById(
+
+"motherName"
+
+).value;
+
+
+
+
+
+
+item.dateOfBirth =
+
+document.getElementById(
+
+"dateOfBirth"
+
+).value;
+
+
+
+
+
+
+
+item.guardianMobile =
+
+document.getElementById(
+
+"mobile"
+
+).value;
+
+
+
+
+
+
+item.address =
+
+document.getElementById(
+
+"address"
+
+).value;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+return item;
+
+
 
 
 
@@ -359,13 +557,24 @@ return student;
 
 
 
+
+// ===============================
+// Save Updated Data
+// ===============================
+
+
 localStorage.setItem(
 
 "students",
 
-JSON.stringify(students)
+JSON.stringify(
+
+students
+
+)
 
 );
+
 
 
 
@@ -382,10 +591,19 @@ alert(
 
 
 
+
+
 window.location.href =
 
 "students.html";
 
 
 
-});
+
+
+}
+
+);
+
+
+}
