@@ -1,27 +1,41 @@
-// Final Student Management System
+// ==========================================
+// Darul Quran ERP
+// Student Management System
+// Student Code Based
+// ==========================================
 
 
-// Get Student Data
+
+// Get Students
 
 function getStudents(){
 
     return JSON.parse(
+
         localStorage.getItem("students")
+
     ) || [];
 
 }
 
 
 
-// Display Student List
+
+
+
+// Display Students
 
 function displayStudents(){
 
+
     let students = getStudents();
 
-    let tableBody = document.getElementById(
+
+    let tableBody =
+    document.getElementById(
         "studentTableBody"
     );
+
 
 
     if(!tableBody){
@@ -29,54 +43,110 @@ function displayStudents(){
     }
 
 
-    tableBody.innerHTML = "";
+
+    tableBody.innerHTML="";
 
 
-    students.forEach(student => {
 
 
-        let row = document.createElement("tr");
+
+    students.forEach(student=>{
+
+
+
+        let row =
+        document.createElement("tr");
+
 
 
         row.innerHTML = `
 
-        <td>${student.id}</td>
 
-        <td>${student.name}</td>
+        <td>
 
-        <td>${student.className}</td>
+        ${student.studentCode || ""}
 
-        <td>${student.father}</td>
+        </td>
 
-        <td>${student.mobile}</td>
 
-        <td>${student.feeStatus}</td>
+        <td>
+
+        ${student.name || ""}
+
+        </td>
+
+
+
+        <td>
+
+        ${student.admissionClass || ""}
+
+        </td>
+
+
+
+
+        <td>
+
+        ${student.fatherName || ""}
+
+        </td>
+
+
+
+
+        <td>
+
+        ${student.guardianMobile || ""}
+
+        </td>
+
+
+
+
+        <td>
+
+        ${student.feeStatus || "Due"}
+
+        </td>
+
+
+
 
 
         <td>
 
 
-        <a href="student-profile.html">
+
+        <a href="student-profile.html?id=${student.studentCode}">
 
         <button>
+
         👁 View
+
         </button>
 
         </a>
 
 
 
-        <a href="edit-student.html">
+
+
+        <a href="edit-student.html?id=${student.studentCode}">
 
         <button>
+
         ✏ Edit
+
         </button>
 
         </a>
 
 
 
-        <button onclick="deleteStudent('${student.id}')">
+
+
+        <button onclick="deleteStudent('${student.studentCode}')">
 
         🗑 Delete
 
@@ -86,64 +156,98 @@ function displayStudents(){
 
         </td>
 
+
+
         `;
+
+
 
 
         tableBody.appendChild(row);
 
 
+
     });
 
 
+
 }
+
+
+
+
 
 
 
 
 // Search Student
 
+
 function searchStudent(){
 
 
-    let searchValue =
-    document.getElementById(
-        "searchInput"
-    ).value.toLowerCase();
+
+let value =
+
+document.getElementById(
+"searchInput"
+)
+.value
+.toLowerCase();
 
 
 
-    let rows =
-    document.querySelectorAll(
-        "#studentTableBody tr"
-    );
+
+
+let rows =
+
+document.querySelectorAll(
+"#studentTableBody tr"
+);
 
 
 
-    rows.forEach(row=>{
 
 
-        let data =
-        row.innerText.toLowerCase();
+rows.forEach(row=>{
 
 
 
-        if(data.includes(searchValue)){
+let text =
 
-            row.style.display="";
-
-        }
-
-        else{
-
-            row.style.display="none";
-
-        }
+row.innerText
+.toLowerCase();
 
 
-    });
+
+
+
+if(
+text.includes(value)
+){
+
+row.style.display="";
 
 
 }
+
+else{
+
+
+row.style.display="none";
+
+
+}
+
+
+
+});
+
+
+
+}
+
+
 
 
 
@@ -151,47 +255,75 @@ function searchStudent(){
 
 // Delete Student
 
-function deleteStudent(id){
 
-
-    let confirmDelete =
-    confirm(
-        "Are you sure you want to delete this student?"
-    );
+function deleteStudent(studentCode){
 
 
 
-    if(confirmDelete){
+let confirmDelete =
 
+confirm(
 
-        let students = getStudents();
+"Delete this student?"
 
-
-
-        students =
-        students.filter(
-            student => student.id !== id
-        );
+);
 
 
 
-        localStorage.setItem(
-            "students",
-            JSON.stringify(students)
-        );
+if(confirmDelete){
 
 
 
-        displayStudents();
+let students =
+getStudents();
 
 
 
-        alert(
-            "Student deleted successfully"
-        );
 
 
-    }
+students =
+
+students.filter(
+
+student =>
+
+student.studentCode !== studentCode
+
+);
+
+
+
+
+
+localStorage.setItem(
+
+"students",
+
+JSON.stringify(students)
+
+);
+
+
+
+
+
+displayStudents();
+
+
+
+
+
+alert(
+
+"Student deleted successfully"
+
+);
+
+
+
+}
+
+
 
 
 }
@@ -200,6 +332,9 @@ function deleteStudent(id){
 
 
 
-// Load Table
+
+
+
+// Load Data
 
 displayStudents();
