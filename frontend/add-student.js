@@ -1,115 +1,91 @@
-/* ===== ADD STUDENT JS FINAL PART 1/2 START ===== */
+// ==========================================
+// Darul Quran ERP
+// Add Student System
+// Student Master Database
+// ==========================================
 
 
 // ===============================
-// Location Database Load
+// Location Database
 // ===============================
-
 
 let locationData = {};
 
 
-
 fetch("data/bangladesh-location.json")
-
 
 .then(response => response.json())
 
-
 .then(data => {
 
+    locationData = data;
 
-locationData = data;
-
-
-loadDivision();
-
+    loadDivision();
 
 })
 
-
 .catch(error=>{
 
-
-console.log(
-"Location Error:",
-error
-);
-
+    console.log(
+        "Location Error:",
+        error
+    );
 
 });
 
 
 
 
-
-
 // ===============================
-// Address Elements
+// Address Dropdown
 // ===============================
 
 
 const division =
-document.getElementById("division");
+document.getElementById("divisionSearch");
 
 
 const district =
-document.getElementById("district");
+document.getElementById("districtSearch");
 
 
 const thana =
-document.getElementById("thana");
+document.getElementById("thanaSearch");
 
 
 const union =
-document.getElementById("union");
+document.getElementById("unionSearch");
 
 
 const ward =
-document.getElementById("ward");
+document.getElementById("wardSearch");
 
 
 
-
-
-
-
-// ===============================
-// Load Division
-// ===============================
 
 
 function loadDivision(){
 
-
-if(!division) return;
-
+    if(!division) return;
 
 
-division.innerHTML =
-`
-<option>
-Select Division
-</option>
-`;
+    division.innerHTML="";
 
 
+    Object.keys(locationData)
 
-Object.keys(locationData)
-
-.forEach(item=>{
-
-
-division.innerHTML +=
-
-`
-<option value="${item}">
-${item}
-</option>
-`;
+    .forEach(item=>{
 
 
-});
+        division.innerHTML +=
+        `
+        <option>
+        ${item}
+        </option>
+        `;
+
+
+    });
 
 
 }
@@ -118,356 +94,43 @@ ${item}
 
 
 
-
-
-
 // ===============================
-// Division Change
+// Student Code Generator
 // ===============================
 
 
-if(division){
+function generateStudentCode(){
 
 
-division.addEventListener(
-"change",
-()=>{
+    let students = JSON.parse(
 
+        localStorage.getItem("students")
 
-district.innerHTML =
-"<option>Select District</option>";
-
-thana.innerHTML =
-"<option>Select Thana</option>";
-
-union.innerHTML =
-"<option>Select Union</option>";
-
-ward.innerHTML =
-"<option>Select Ward</option>";
+    ) || [];
 
 
 
-let data =
-locationData[division.value];
+    let number =
+    students.length + 1;
 
 
 
-Object.keys(data)
-
-.forEach(item=>{
-
-
-district.innerHTML +=
-
-`
-<option value="${item}">
-${item}
-</option>
-`;
-
-
-});
+    let code =
+    String(number)
+    .padStart(4,"0");
 
 
 
-});
+    let year =
+    new Date()
+    .getFullYear();
+
+
+
+    return `DQ-${year}-${code}`;
 
 
 }
-
-
-
-
-
-
-
-// ===============================
-// District Change
-// ===============================
-
-
-if(district){
-
-
-district.addEventListener(
-"change",
-()=>{
-
-
-thana.innerHTML =
-"<option>Select Thana</option>";
-
-union.innerHTML =
-"<option>Select Union</option>";
-
-ward.innerHTML =
-"<option>Select Ward</option>";
-
-
-
-let data =
-
-locationData
-
-[division.value]
-
-[district.value];
-
-
-
-Object.keys(data)
-
-.forEach(item=>{
-
-
-thana.innerHTML +=
-
-`
-<option value="${item}">
-${item}
-</option>
-`;
-
-
-
-});
-
-
-
-});
-
-
-}
-
-
-
-/* ===== PART 1/2 END ===== *//* ===== ADD STUDENT JS FINAL PART 2/2 START ===== */
-
-
-
-// ===============================
-// Thana Change
-// ===============================
-
-
-if(thana){
-
-
-thana.addEventListener(
-"change",
-()=>{
-
-
-union.innerHTML =
-"<option>Select Union</option>";
-
-ward.innerHTML =
-"<option>Select Ward</option>";
-
-
-
-let data =
-
-locationData
-
-[division.value]
-
-[district.value]
-
-[thana.value];
-
-
-
-Object.keys(data)
-
-.forEach(item=>{
-
-
-union.innerHTML +=
-
-`
-<option value="${item}">
-${item}
-</option>
-`;
-
-
-
-});
-
-
-});
-
-
-}
-
-
-
-
-
-
-
-// ===============================
-// Union Change
-// ===============================
-
-
-if(union){
-
-
-union.addEventListener(
-"change",
-()=>{
-
-
-ward.innerHTML =
-"<option>Select Ward</option>";
-
-
-
-let data =
-
-locationData
-
-[division.value]
-
-[district.value]
-
-[thana.value]
-
-[union.value];
-
-
-
-data.forEach(item=>{
-
-
-ward.innerHTML +=
-
-`
-<option>
-${item}
-</option>
-`;
-
-
-});
-
-
-
-});
-
-
-}
-
-
-
-
-
-
-
-// ===============================
-// Student Photo Preview
-// ===============================
-
-
-const photoInput =
-document.querySelector(
-'input[type="file"]'
-);
-
-
-
-if(photoInput){
-
-
-photoInput.addEventListener(
-"change",
-function(){
-
-
-const file =
-this.files[0];
-
-
-if(file){
-
-
-const reader =
-new FileReader();
-
-
-
-reader.onload=function(e){
-
-
-console.log(
-"Photo preview ready"
-);
-
-
-}
-
-
-
-reader.readAsDataURL(file);
-
-
-
-}
-
-
-});
-
-
-}
-
-
-
-
-
-
-
-// ===============================
-// Same Address
-// ===============================
-
-
-const sameAddress =
-document.getElementById(
-"sameAddress"
-);
-
-
-
-if(sameAddress){
-
-
-sameAddress.addEventListener(
-"change",
-function(){
-
-
-if(this.checked){
-
-
-alert(
-"Present address copied to permanent address"
-);
-
-
-
-}
-
-
-
-});
-
-
-}
-
-
 
 
 
@@ -490,27 +153,226 @@ if(saveButton){
 
 saveButton.addEventListener(
 "click",
+
 function(){
 
 
 
-const studentID =
+let students = JSON.parse(
 
-"STD-" +
+localStorage.getItem("students")
 
-Date.now()
-.toString()
-.slice(-6);
+) || [];
+
+
+
+
+
+let studentCode =
+generateStudentCode();
+
+
+
+
+
+let student = {
+
+
+studentCode:studentCode,
+
+
+name:
+document.getElementById(
+"studentName"
+)?.value || "",
+
+
+
+dateOfBirth:
+document.getElementById(
+"dateOfBirth"
+)?.value || "",
+
+
+
+birthRegistration:
+document.getElementById(
+"birthRegistration"
+)?.value || "",
+
+
+
+bloodGroup:
+document.getElementById(
+"bloodGroup"
+)?.value || "",
+
+
+
+nationality:
+document.getElementById(
+"nationality"
+)?.value || "Bangladeshi",
+
+
+
+
+
+fatherName:
+document.getElementById(
+"fatherName"
+)?.value || "",
+
+
+
+fatherNid:
+document.getElementById(
+"fatherNid"
+)?.value || "",
+
+
+
+
+motherName:
+document.getElementById(
+"motherName"
+)?.value || "",
+
+
+
+motherNid:
+document.getElementById(
+"motherNid"
+)?.value || "",
+
+
+
+
+guardianMobile:
+document.getElementById(
+"guardianMobile"
+)?.value || "",
+
+
+
+
+
+
+previousInstitution:
+document.getElementById(
+"previousInstitution"
+)?.value || "",
+
+
+
+previousClass:
+document.getElementById(
+"previousClass"
+)?.value || "",
+
+
+
+
+
+admissionClass:
+document.getElementById(
+"admissionClass"
+)?.value || "",
+
+
+
+admissionDate:
+document.getElementById(
+"admissionDate"
+)?.value || "",
+
+
+
+
+
+address:{
+
+
+division:
+division?.value || "",
+
+
+district:
+district?.value || "",
+
+
+thana:
+thana?.value || "",
+
+
+union:
+union?.value || "",
+
+
+ward:
+ward?.value || "",
+
+
+},
+
+
+
+
+feeStatus:"Due",
+
+
+attendance:"0%",
+
+
+result:"",
+
+
+createdAt:
+new Date()
+.toISOString()
+
+
+};
+
+
+
+
+
+
+students.push(student);
+
+
+
+
+
+localStorage.setItem(
+
+"students",
+
+JSON.stringify(students)
+
+);
+
+
+
+
 
 
 
 alert(
 
-"Student Saved Successfully\n\nStudent ID: "
+"Student Added Successfully\n\nStudent Code:\n"
 
-+ studentID
++ studentCode
 
 );
+
+
+
+
+window.location.href =
+"students.html";
+
 
 
 
@@ -518,9 +380,3 @@ alert(
 
 
 }
-
-
-
-
-
-/* ===== ADD STUDENT JS FINAL COMPLETE ===== */
