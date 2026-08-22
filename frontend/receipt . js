@@ -1,0 +1,348 @@
+// ==========================================
+// Darul Quran Smart ERP
+// Money Receipt System
+// receipt.js
+// ==========================================
+
+
+
+
+// ===============================
+// Get Data
+// ===============================
+
+
+function getFees(){
+
+
+return JSON.parse(
+
+localStorage.getItem("fees")
+
+) || [];
+
+
+}
+
+
+
+
+
+function getStudents(){
+
+
+return JSON.parse(
+
+localStorage.getItem("students")
+
+) || [];
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// Barcode Generate
+// ===============================
+
+
+function generateBarcode(code){
+
+
+
+let barcode = document.getElementById(
+
+"barcode"
+
+);
+
+
+
+if(barcode){
+
+
+
+barcode.innerHTML = "";
+
+
+
+
+let img = document.createElement("img");
+
+
+
+img.src =
+
+"https://barcode.tec-it.com/barcode.ashx?data="
+
++
+
+encodeURIComponent(code)
+
++
+
+"&code=Code128&translate-esc=on";
+
+
+
+
+img.style.width = "250px";
+
+
+
+barcode.appendChild(img);
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ===============================
+// Load Receipt
+// ===============================
+
+
+let fees = getFees();
+
+
+
+
+
+let receipt =
+
+fees[fees.length - 1];
+
+
+
+
+
+
+if(receipt){
+
+
+
+
+
+document.getElementById(
+
+"receiptNo"
+
+).innerText =
+
+receipt.receiptNo;
+
+
+
+
+
+
+document.getElementById(
+
+"paymentDate"
+
+).innerText =
+
+receipt.paymentDate;
+
+
+
+
+
+
+
+document.getElementById(
+
+"feeType"
+
+).innerText =
+
+receipt.feeType;
+
+
+
+
+
+
+
+document.getElementById(
+
+"feeMonth"
+
+).innerText =
+
+receipt.month;
+
+
+
+
+
+
+
+document.getElementById(
+
+"amount"
+
+).innerText =
+
+receipt.amount;
+
+
+
+
+
+
+
+document.getElementById(
+
+"paymentMethod"
+
+).innerText =
+
+receipt.paymentMethod;
+
+
+
+
+
+
+
+// Student Find
+
+
+let students = getStudents();
+
+
+
+
+
+let student = students.find(item =>
+
+
+
+item.studentCode === receipt.studentCode
+
+
+
+);
+
+
+
+
+
+
+
+if(student){
+
+
+
+
+
+document.getElementById(
+
+"studentName"
+
+).innerText =
+
+student.name || "";
+
+
+
+
+
+
+
+document.getElementById(
+
+"studentCode"
+
+).innerText =
+
+student.studentCode || "";
+
+
+
+
+
+
+
+document.getElementById(
+
+"studentClass"
+
+).innerText =
+
+student.admissionClass || "";
+
+
+
+
+
+
+
+document.getElementById(
+
+"fatherName"
+
+).innerText =
+
+student.fatherName || "";
+
+
+
+
+
+
+
+// Barcode
+
+generateBarcode(
+
+student.studentCode
+
+);
+
+
+
+
+
+}
+
+
+
+
+
+}
+
+else{
+
+
+alert(
+
+"No Receipt Found"
+
+);
+
+
+
+window.location.href =
+
+"fee.html";
+
+
+}
