@@ -4,13 +4,20 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Student Profile - Darul Quran ERP</title>
+
+<title>
+Student Profile - Darul Quran ERP
+</title>
+
 
 <link rel="stylesheet" href="style.css">
 
+
 </head>
+
 
 
 <body>
@@ -19,57 +26,193 @@
 <div class="main">
 
 
+
 <header class="topbar">
 
-<h1>Student Profile</h1>
+
+<h1>
+Student Profile
+</h1>
+
 
 <div class="admin-profile">
+
 Admin 👤
+
 </div>
 
+
 </header>
+
+
+
+
 
 
 
 <div class="profile-card">
 
 
+
+
+
 <div class="student-photo">
 
-<img src="https://via.placeholder.com/150"
+
+<img
+
+id="studentPhoto"
+
+src="https://via.placeholder.com/150"
+
 alt="Student Photo">
 
+
 </div>
+
+
+
+
 
 
 
 <div class="student-info">
 
 
-<h2>Ahmed Rahman</h2>
+
+<h2 id="studentName">
+
+Loading...
+
+</h2>
 
 
-<p><b>Student ID:</b> 001</p>
 
-<p><b>Father Name:</b> Md. Rahman</p>
 
-<p><b>Mother Name:</b> Fatema Begum</p>
 
-<p><b>Date of Birth:</b> 01 January 2015</p>
+<p>
 
-<p><b>Class:</b> Class 5</p>
+<b>
+Student Code:
+</b>
 
-<p><b>Mobile:</b> 017XXXXXXXX</p>
+<span id="studentCode"></span>
 
-<p><b>Admission Date:</b> 01 January 2026</p>
+</p>
 
-<p><b>Address:</b> Dhaka, Bangladesh</p>
+
+
+
+
+<p>
+
+<b>
+Father Name:
+</b>
+
+<span id="fatherName"></span>
+
+</p>
+
+
+
+
+
+<p>
+
+<b>
+Mother Name:
+</b>
+
+<span id="motherName"></span>
+
+</p>
+
+
+
+
+
+<p>
+
+<b>
+Date of Birth:
+</b>
+
+<span id="dateOfBirth"></span>
+
+</p>
+
+
+
+
+
+<p>
+
+<b>
+Class:
+</b>
+
+<span id="studentClass"></span>
+
+</p>
+
+
+
+
+
+<p>
+
+<b>
+Mobile:
+</b>
+
+<span id="mobile"></span>
+
+</p>
+
+
+
+
+
+<p>
+
+<b>
+Admission Date:
+</b>
+
+<span id="admissionDate"></span>
+
+</p>
+
+
+
+
+
+<p>
+
+<b>
+Address:
+</b>
+
+<span id="address"></span>
+
+</p>
+
+
+
 
 
 </div>
 
 
+
 </div>
+
+
+
+
+
+
 
 
 
@@ -77,44 +220,102 @@ alt="Student Photo">
 <div class="status-cards">
 
 
-<div class="card">
-
-<h2>📅 95%</h2>
-
-<p>Attendance</p>
-
-</div>
 
 
 
 <div class="card">
 
-<h2>💰 Paid</h2>
 
-<p>Fee Status</p>
+<h2 id="attendance">
+
+0%
+
+</h2>
+
+
+<p>
+
+Attendance
+
+</p>
+
 
 </div>
+
+
+
+
 
 
 
 <div class="card">
 
-<h2>🏆 A+</h2>
 
-<p>Last Result</p>
+<h2 id="feeStatus">
+
+Due
+
+</h2>
+
+
+<p>
+
+Fee Status
+
+</p>
+
 
 </div>
 
 
 
+
+
+
+
+<div class="card">
+
+
+<h2 id="result">
+
+-
+
+</h2>
+
+
+<p>
+
+Last Result
+
+</p>
+
+
 </div>
 
 
 
 
+
 </div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+<script src="student-profile.js"></script>
+
 
 
 </body>
+
 
 </html>
