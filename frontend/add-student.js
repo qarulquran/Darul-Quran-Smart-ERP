@@ -1,15 +1,18 @@
 // ==========================================
 // Darul Quran ERP
-// Add Student System
+// Add Student Final System
 // Student Master Database
 // ==========================================
 
 
+
 // ===============================
-// Location Database
+// Load Bangladesh Location Data
 // ===============================
 
+
 let locationData = {};
+
 
 
 fetch("data/bangladesh-location.json")
@@ -27,7 +30,7 @@ fetch("data/bangladesh-location.json")
 .catch(error=>{
 
     console.log(
-        "Location Error:",
+        "Location Loading Error:",
         error
     );
 
@@ -36,8 +39,9 @@ fetch("data/bangladesh-location.json")
 
 
 
+
 // ===============================
-// Address Dropdown
+// Address Elements
 // ===============================
 
 
@@ -64,12 +68,25 @@ document.getElementById("wardSearch");
 
 
 
+// ===============================
+// Load Division
+// ===============================
+
+
 function loadDivision(){
+
 
     if(!division) return;
 
 
-    division.innerHTML="";
+
+    division.innerHTML =
+    `
+    <option>
+    Select Division
+    </option>
+    `;
+
 
 
     Object.keys(locationData)
@@ -78,8 +95,9 @@ function loadDivision(){
 
 
         division.innerHTML +=
+
         `
-        <option>
+        <option value="${item}">
         ${item}
         </option>
         `;
@@ -94,43 +112,300 @@ function loadDivision(){
 
 
 
+
 // ===============================
-// Student Code Generator
+// Division Change
+// ===============================
+
+
+if(division){
+
+
+division.addEventListener(
+"change",
+
+()=>{
+
+
+district.innerHTML =
+"<option>Select District</option>";
+
+thana.innerHTML =
+"<option>Select Thana</option>";
+
+union.innerHTML =
+"<option>Select Union</option>";
+
+ward.innerHTML =
+"<option>Select Ward</option>";
+
+
+
+let data =
+locationData[division.value];
+
+
+
+Object.keys(data)
+
+.forEach(item=>{
+
+
+district.innerHTML +=
+
+`
+<option value="${item}">
+${item}
+</option>
+`;
+
+
+});
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// District Change
+// ===============================
+
+
+if(district){
+
+
+district.addEventListener(
+"change",
+
+()=>{
+
+
+thana.innerHTML =
+"<option>Select Thana</option>";
+
+union.innerHTML =
+"<option>Select Union</option>";
+
+ward.innerHTML =
+"<option>Select Ward</option>";
+
+
+
+let data =
+
+locationData
+
+[division.value]
+
+[district.value];
+
+
+
+Object.keys(data)
+
+.forEach(item=>{
+
+
+thana.innerHTML +=
+
+`
+<option value="${item}">
+${item}
+</option>
+`;
+
+
+});
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// Thana Change
+// ===============================
+
+
+if(thana){
+
+
+thana.addEventListener(
+"change",
+
+()=>{
+
+
+union.innerHTML =
+"<option>Select Union</option>";
+
+ward.innerHTML =
+"<option>Select Ward</option>";
+
+
+
+let data =
+
+locationData
+
+[division.value]
+
+[district.value]
+
+[thana.value];
+
+
+
+Object.keys(data)
+
+.forEach(item=>{
+
+
+union.innerHTML +=
+
+`
+<option value="${item}">
+${item}
+</option>
+`;
+
+
+});
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+// ===============================
+// Union Change
+// ===============================
+
+
+if(union){
+
+
+union.addEventListener(
+"change",
+
+()=>{
+
+
+ward.innerHTML =
+"<option>Select Ward</option>";
+
+
+
+let data =
+
+locationData
+
+[division.value]
+
+[district.value]
+
+[thana.value]
+
+[union.value];
+
+
+
+data.forEach(item=>{
+
+
+ward.innerHTML +=
+
+`
+<option>
+${item}
+</option>
+`;
+
+
+});
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+// ===============================
+// Generate Student Code
 // ===============================
 
 
 function generateStudentCode(){
 
 
-    let students = JSON.parse(
+let students =
 
-        localStorage.getItem("students")
+JSON.parse(
 
-    ) || [];
+localStorage.getItem("students")
 
-
-
-    let number =
-    students.length + 1;
+) || [];
 
 
 
-    let code =
-    String(number)
-    .padStart(4,"0");
+let number =
+
+students.length + 1;
 
 
 
-    let year =
-    new Date()
-    .getFullYear();
+let code =
+
+String(number)
+
+.padStart(4,"0");
 
 
 
-    return `DQ-${year}-${code}`;
+let year =
+
+new Date()
+
+.getFullYear();
+
+
+
+return `DQ-${year}-${code}`;
 
 
 }
+
+
+
 
 
 
@@ -142,9 +417,12 @@ function generateStudentCode(){
 
 
 const saveButton =
+
 document.querySelector(
 ".submit-area button"
 );
+
+
 
 
 
@@ -152,13 +430,18 @@ if(saveButton){
 
 
 saveButton.addEventListener(
+
 "click",
 
-function(){
+()=>{
 
 
 
-let students = JSON.parse(
+
+
+let students =
+
+JSON.parse(
 
 localStorage.getItem("students")
 
@@ -169,7 +452,10 @@ localStorage.getItem("students")
 
 
 let studentCode =
+
 generateStudentCode();
+
+
 
 
 
@@ -178,113 +464,129 @@ generateStudentCode();
 let student = {
 
 
-studentCode:studentCode,
+
+studentCode:
+
+studentCode,
+
 
 
 name:
+
 document.getElementById(
 "studentName"
-)?.value || "",
+).value,
 
 
 
 dateOfBirth:
+
 document.getElementById(
 "dateOfBirth"
-)?.value || "",
+).value,
 
 
 
 birthRegistration:
+
 document.getElementById(
 "birthRegistration"
-)?.value || "",
+).value,
 
 
 
 bloodGroup:
+
 document.getElementById(
 "bloodGroup"
-)?.value || "",
+).value,
 
 
 
 nationality:
+
 document.getElementById(
 "nationality"
-)?.value || "Bangladeshi",
+).value,
 
 
 
 
 
 fatherName:
+
 document.getElementById(
 "fatherName"
-)?.value || "",
+).value,
 
 
 
 fatherNid:
+
 document.getElementById(
 "fatherNid"
-)?.value || "",
-
+).value,
 
 
 
 motherName:
+
 document.getElementById(
 "motherName"
-)?.value || "",
+).value,
 
 
 
 motherNid:
+
 document.getElementById(
 "motherNid"
-)?.value || "",
-
+).value,
 
 
 
 guardianMobile:
+
 document.getElementById(
 "guardianMobile"
-)?.value || "",
-
+).value,
 
 
 
 
 
 previousInstitution:
+
 document.getElementById(
 "previousInstitution"
-)?.value || "",
+).value,
 
 
 
 previousClass:
+
 document.getElementById(
 "previousClass"
-)?.value || "",
+).value,
 
 
 
 
 
 admissionClass:
+
 document.getElementById(
 "admissionClass"
-)?.value || "",
+).value,
 
 
 
 admissionDate:
+
 document.getElementById(
 "admissionDate"
-)?.value || "",
+).value,
+
 
 
 
@@ -294,27 +596,62 @@ address:{
 
 
 division:
-division?.value || "",
+
+division.value,
 
 
 district:
-district?.value || "",
+
+district.value,
 
 
 thana:
-thana?.value || "",
+
+thana.value,
 
 
 union:
-union?.value || "",
+
+union.value,
 
 
 ward:
-ward?.value || "",
+
+ward.value,
+
+
+village:
+
+document.getElementById(
+"village"
+).value,
+
+
+
+details:
+
+document.getElementById(
+"presentAddress"
+).value
 
 
 },
 
+
+
+
+
+permanentAddress:
+
+document.getElementById(
+"permanentAddress"
+).value,
+
+
+
+
+
+photo:"",
 
 
 
@@ -327,12 +664,16 @@ attendance:"0%",
 result:"",
 
 
+
 createdAt:
+
 new Date()
 .toISOString()
 
 
+
 };
+
 
 
 
@@ -357,26 +698,32 @@ JSON.stringify(students)
 
 
 
-
-
 alert(
 
 "Student Added Successfully\n\nStudent Code:\n"
 
-+ studentCode
++
+studentCode
 
 );
 
 
 
 
+
+
 window.location.href =
+
 "students.html";
 
 
 
 
-});
+
+}
+
+
+);
 
 
 }
