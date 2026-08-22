@@ -1,22 +1,15 @@
 // ==========================================
 // Darul Quran Smart ERP
 // Add Student System
-// Student Code:
-// DQ-Class-Year-Serial
-// Example:
-// DQ-1-2026-00001
+// Part 1
 // ==========================================
 
 
-
-// ==========================================
+// ===============================
 // Bangladesh Location Load
-// ==========================================
-
+// ===============================
 
 let locationData = {};
-
-
 
 fetch("data/bangladesh-location.json")
 
@@ -24,34 +17,27 @@ fetch("data/bangladesh-location.json")
 
 .then(data => {
 
-
     locationData = data;
-
 
     loadDivision();
 
-
 })
 
-.catch(error=>{
-
+.catch(error => {
 
     console.log(
         "Location Error:",
         error
     );
 
-
 });
 
 
 
 
-
-// ==========================================
+// ===============================
 // Address Elements
-// ==========================================
-
+// ===============================
 
 const division =
 document.getElementById("divisionSearch");
@@ -75,44 +61,36 @@ document.getElementById("wardSearch");
 
 
 
-
-
-// ==========================================
+// ===============================
 // Load Division
-// ==========================================
-
+// ===============================
 
 function loadDivision(){
 
 
-    if(!division) return;
+if(!division) return;
+
+
+division.innerHTML =
+"<option>Select Division</option>";
 
 
 
-    division.innerHTML =
-    `
-    <option value="">
-    Select Division
-    </option>
-    `;
+Object.keys(locationData)
+
+.forEach(item=>{
 
 
+division.innerHTML +=
 
-    Object.keys(locationData)
-
-    .forEach(item=>{
-
-
-        division.innerHTML +=
-
-        `
-        <option value="${item}">
-        ${item}
-        </option>
-        `;
+`
+<option value="${item}">
+${item}
+</option>
+`;
 
 
-    });
+});
 
 
 }
@@ -122,77 +100,58 @@ function loadDivision(){
 
 
 
-
-// ==========================================
+// ===============================
 // Division Change
-// ==========================================
+// ===============================
 
 
 if(division){
 
 
 division.addEventListener(
+
 "change",
 
 function(){
 
 
-    district.innerHTML =
-    `
-    <option value="">
-    Select District
-    </option>
-    `;
+district.innerHTML =
+"<option>Select District</option>";
 
 
-    thana.innerHTML =
-    `
-    <option value="">
-    Select Thana
-    </option>
-    `;
+thana.innerHTML =
+"<option>Select Thana</option>";
 
 
-    union.innerHTML =
-    `
-    <option value="">
-    Select Union
-    </option>
-    `;
+union.innerHTML =
+"<option>Select Union</option>";
 
 
-    ward.innerHTML =
-    `
-    <option value="">
-    Select Ward
-    </option>
-    `;
+ward.innerHTML =
+"<option>Select Ward</option>";
 
 
 
-    let data =
-    locationData[
-        division.value
-    ];
+let data =
+locationData[division.value];
 
 
 
-    Object.keys(data)
+Object.keys(data)
 
-    .forEach(item=>{
-
-
-        district.innerHTML +=
-
-        `
-        <option value="${item}">
-        ${item}
-        </option>
-        `;
+.forEach(item=>{
 
 
-    });
+district.innerHTML +=
 
+`
+<option value="${item}">
+${item}
+</option>
+`;
+
+
+});
 
 
 });
@@ -205,74 +164,59 @@ function(){
 
 
 
-
-// ==========================================
+// ===============================
 // District Change
-// ==========================================
+// ===============================
 
 
 if(district){
 
 
 district.addEventListener(
+
 "change",
 
 function(){
 
 
-
-    thana.innerHTML =
-    `
-    <option value="">
-    Select Thana
-    </option>
-    `;
+thana.innerHTML =
+"<option>Select Thana</option>";
 
 
-    union.innerHTML =
-    `
-    <option value="">
-    Select Union
-    </option>
-    `;
+union.innerHTML =
+"<option>Select Union</option>";
 
 
-    ward.innerHTML =
-    `
-    <option value="">
-    Select Ward
-    </option>
-    `;
+ward.innerHTML =
+"<option>Select Ward</option>";
 
 
 
-    let data =
+let data =
 
-    locationData
+locationData
 
-    [division.value]
+[division.value]
 
-    [district.value];
-
-
-
-    Object.keys(data)
-
-    .forEach(item=>{
+[district.value];
 
 
-        thana.innerHTML +=
+
+Object.keys(data)
+
+.forEach(item=>{
 
 
-        `
-        <option value="${item}">
-        ${item}
-        </option>
-        `;
+thana.innerHTML +=
+
+`
+<option value="${item}">
+${item}
+</option>
+`;
 
 
-    });
-
+});
 
 
 });
@@ -285,69 +229,57 @@ function(){
 
 
 
-
-// ==========================================
+// ===============================
 // Thana Change
-// ==========================================
+// ===============================
 
 
 if(thana){
 
 
 thana.addEventListener(
+
 "change",
 
 function(){
 
 
-    union.innerHTML =
-    `
-    <option value="">
-    Select Union
-    </option>
-    `;
+union.innerHTML =
+"<option>Select Union</option>";
+
+
+ward.innerHTML =
+"<option>Select Ward</option>";
 
 
 
-    ward.innerHTML =
-    `
-    <option value="">
-    Select Ward
-    </option>
-    `;
+let data =
+
+locationData
+
+[division.value]
+
+[district.value]
+
+[thana.value];
 
 
 
+Object.keys(data)
 
-    let data =
-
-    locationData
-
-    [division.value]
-
-    [district.value]
-
-    [thana.value];
+.forEach(item=>{
 
 
+union.innerHTML +=
 
-    Object.keys(data)
-
-    .forEach(item=>{
-
-
-        union.innerHTML +=
-
-
-        `
-        <option value="${item}">
-        ${item}
-        </option>
-        `;
+`
+<option value="${item}">
+${item}
+</option>
+`;
 
 
-    });
-
+});
 
 
 });
@@ -360,59 +292,215 @@ function(){
 
 
 
-// ==========================================
+// ===============================
 // Union Change
-// ==========================================
+// ===============================
 
 
 if(union){
 
 
 union.addEventListener(
+
 "change",
 
 function(){
 
 
-
-    ward.innerHTML =
-    `
-    <option value="">
-    Select Ward
-    </option>
-    `;
+ward.innerHTML =
+"<option>Select Ward</option>";
 
 
 
+let data =
 
-    let data =
+locationData
 
-    locationData
+[division.value]
 
-    [division.value]
+[district.value]
 
-    [district.value]
+[thana.value]
 
-    [thana.value]
-
-    [union.value];
-
+[union.value];
 
 
-    data.forEach(item=>{
+
+data.forEach(item=>{
 
 
-        ward.innerHTML +=
+ward.innerHTML +=
+
+`
+<option value="${item}">
+${item}
+</option>
+`;
 
 
-        `
-        <option value="${item}">
-        ${item}
-        </option>
-        `;
+});
 
 
-    });
+});
+
+
+}
+
+
+
+
+
+
+// ===============================
+// Generate Student Code
+// ===============================
+
+
+function generateStudentCode(className){
+
+
+let students = JSON.parse(
+
+localStorage.getItem("students")
+
+) || [];
+
+
+
+let classNumber = "";
+
+
+
+let match =
+className.match(/\d+/);
+
+
+
+if(match){
+
+classNumber = match[0];
+
+}
+
+else if(className==="Play"){
+
+classNumber="0";
+
+}
+
+else if(className==="Nursery"){
+
+classNumber="N";
+
+}
+
+else{
+
+classNumber="0";
+
+}
+
+
+
+
+let year =
+
+new Date()
+
+.getFullYear();
+
+
+
+
+
+let sameStudents =
+
+students.filter(student=>
+
+
+student.studentCode &&
+
+student.studentCode.startsWith(
+
+`DQ-${classNumber}-${year}`
+
+)
+
+
+);
+
+
+
+
+let serial =
+
+sameStudents.length + 1;
+
+
+
+let serialNumber =
+
+String(serial)
+
+.padStart(5,"0");
+
+
+
+
+
+return (
+
+`DQ-${classNumber}-${year}-${serialNumber}`
+
+);
+
+
+}
+
+// ==========================================
+// Part 2
+// Save Student System
+// ==========================================
+
+
+
+
+// ===============================
+// Convert Image To Base64
+// ===============================
+
+
+function convertImageToBase64(file){
+
+
+return new Promise((resolve)=>{
+
+
+if(!file){
+
+resolve("");
+
+return;
+
+}
+
+
+
+let reader = new FileReader();
+
+
+
+reader.onload = function(){
+
+
+resolve(reader.result);
+
+
+};
+
+
+
+reader.readAsDataURL(file);
 
 
 
@@ -426,147 +514,21 @@ function(){
 
 
 
-// ==========================================
-// Generate Student Code
-// Format:
-// DQ-Class-Year-Serial
-// ==========================================
 
-
-function generateStudentCode(className){
-
-
-
-    let students =
-
-    JSON.parse(
-
-        localStorage.getItem(
-            "students"
-        )
-
-    ) || [];
-
-
-
-
-    let classNumber = "0";
-
-
-
-
-    let match =
-
-    className.match(/\d+/);
-
-
-
-
-    if(match){
-
-
-        classNumber = match[0];
-
-
-    }
-
-    else if(className === "Play"){
-
-
-        classNumber = "0";
-
-
-    }
-
-    else if(className === "Nursery"){
-
-
-        classNumber = "N";
-
-
-    }
-
-
-
-
-
-
-    let year =
-
-    new Date()
-
-    .getFullYear();
-
-
-
-
-
-
-    let sameClassStudents =
-
-    students.filter(student =>
-
-
-
-        student.studentCode &&
-
-
-
-        student.studentCode.startsWith(
-
-        `DQ-${classNumber}-${year}`
-
-        )
-
-
-
-    );
-
-
-
-
-
-    let serial =
-
-    sameClassStudents.length + 1;
-
-
-
-
-
-    let serialNumber =
-
-    String(serial)
-
-    .padStart(5,"0");
-
-
-
-
-
-
-    return (
-
-    `DQ-${classNumber}-${year}-${serialNumber}`
-
-    );
-
-
-
-}
-
-
-// ==========================================
-// Save Student System
-// ==========================================
-
+// ===============================
+// Save Button
+// ===============================
 
 
 const saveButton =
 
 document.querySelector(
-    ".submit-area button"
+
+".submit-area button"
+
 );
+
+
 
 
 
@@ -580,22 +542,15 @@ saveButton.addEventListener(
 
 "click",
 
-function(){
+async function(){
 
 
 
-// ===============================
-// Get Existing Students
-// ===============================
 
 
-let students =
+let students = JSON.parse(
 
-JSON.parse(
-
-localStorage.getItem(
-"students"
-)
+localStorage.getItem("students")
 
 ) || [];
 
@@ -603,16 +558,19 @@ localStorage.getItem(
 
 
 
-// ===============================
-// Get Class
-// ===============================
+
+
+// Class
 
 
 let className =
 
 document.getElementById(
+
 "admissionClass"
+
 ).value;
+
 
 
 
@@ -621,7 +579,9 @@ if(!className){
 
 
 alert(
+
 "Please Select Admission Class"
+
 );
 
 
@@ -635,15 +595,15 @@ return;
 
 
 
-// ===============================
-// Generate Student Code
-// ===============================
+// Student Code
 
 
 let studentCode =
 
 generateStudentCode(
+
 className
+
 );
 
 
@@ -651,9 +611,46 @@ className
 
 
 
-// ===============================
-// Create Student Object
-// ===============================
+
+
+// Photo
+
+
+let photoInput =
+
+document.querySelector(
+
+'input[type="file"]'
+
+);
+
+
+
+let photo = "";
+
+
+
+if(photoInput && photoInput.files[0]){
+
+
+photo = await convertImageToBase64(
+
+photoInput.files[0]
+
+);
+
+
+}
+
+
+
+
+
+
+
+
+
+// Student Object
 
 
 let student = {
@@ -661,8 +658,6 @@ let student = {
 
 
 studentCode:
-
-
 
 studentCode,
 
@@ -672,57 +667,11 @@ studentCode,
 
 name:
 
-
-
 document.getElementById(
+
 "studentName"
+
 ).value,
-
-
-
-
-
-father:
-
-
-
-document.getElementById(
-"fatherName"
-).value,
-
-
-
-
-
-mother:
-
-
-
-document.getElementById(
-"motherName"
-).value,
-
-
-
-
-
-mobile:
-
-
-
-document.getElementById(
-"guardianMobile"
-).value,
-
-
-
-
-
-className:
-
-
-
-className,
 
 
 
@@ -730,10 +679,10 @@ className,
 
 dateOfBirth:
 
-
-
 document.getElementById(
+
 "dateOfBirth"
+
 ).value,
 
 
@@ -742,10 +691,10 @@ document.getElementById(
 
 birthRegistration:
 
-
-
 document.getElementById(
+
 "birthRegistration"
+
 ).value,
 
 
@@ -754,10 +703,10 @@ document.getElementById(
 
 bloodGroup:
 
-
-
 document.getElementById(
+
 "bloodGroup"
+
 ).value,
 
 
@@ -766,10 +715,23 @@ document.getElementById(
 
 nationality:
 
+document.getElementById(
 
+"nationality"
+
+).value,
+
+
+
+
+
+
+fatherName:
 
 document.getElementById(
-"nationality"
+
+"fatherName"
+
 ).value,
 
 
@@ -778,10 +740,22 @@ document.getElementById(
 
 fatherNid:
 
+document.getElementById(
 
+"fatherNid"
+
+).value,
+
+
+
+
+
+motherName:
 
 document.getElementById(
-"fatherNid"
+
+"motherName"
+
 ).value,
 
 
@@ -790,11 +764,24 @@ document.getElementById(
 
 motherNid:
 
+document.getElementById(
 
+"motherNid"
+
+).value,
+
+
+
+
+
+guardianMobile:
 
 document.getElementById(
-"motherNid"
+
+"guardianMobile"
+
 ).value,
+
 
 
 
@@ -802,10 +789,10 @@ document.getElementById(
 
 previousInstitution:
 
-
-
 document.getElementById(
+
 "previousInstitution"
+
 ).value,
 
 
@@ -814,11 +801,21 @@ document.getElementById(
 
 previousClass:
 
-
-
 document.getElementById(
+
 "previousClass"
+
 ).value,
+
+
+
+
+
+
+admissionClass:
+
+className,
+
 
 
 
@@ -826,11 +823,13 @@ document.getElementById(
 
 admissionDate:
 
-
-
 document.getElementById(
+
 "admissionDate"
+
 ).value,
+
+
 
 
 
@@ -839,52 +838,43 @@ document.getElementById(
 address:{
 
 
+
 division:
 
-division ?
-division.value :
-"",
+division ? division.value : "",
 
 
 
 district:
 
-district ?
-district.value :
-"",
+district ? district.value : "",
 
 
 
 thana:
 
-thana ?
-thana.value :
-"",
+thana ? thana.value : "",
 
 
 
 union:
 
-union ?
-union.value :
-"",
+union ? union.value : "",
 
 
 
 ward:
 
-ward ?
-ward.value :
-"",
+ward ? ward.value : "",
 
 
 
 village:
 
-
-
 document.getElementById(
+
 "village"
+
 ).value,
 
 
@@ -892,10 +882,10 @@ document.getElementById(
 
 details:
 
-
-
 document.getElementById(
+
 "presentAddress"
+
 ).value
 
 
@@ -906,19 +896,25 @@ document.getElementById(
 
 
 
+
+
 permanentAddress:
 
-
-
 document.getElementById(
+
 "permanentAddress"
+
 ).value,
 
 
 
 
 
-photo:"",
+
+photo:
+
+photo,
+
 
 
 
@@ -942,15 +938,13 @@ attendance:
 
 result:
 
-"",
+"-",
 
 
 
 
 
 createdAt:
-
-
 
 new Date()
 
@@ -967,14 +961,10 @@ new Date()
 
 
 
-// ===============================
-// Save Database
-// ===============================
+// Save
 
 
-students.push(
-student
-);
+students.push(student);
 
 
 
@@ -984,9 +974,7 @@ localStorage.setItem(
 
 "students",
 
-JSON.stringify(
-students
-)
+JSON.stringify(students)
 
 );
 
@@ -994,10 +982,6 @@ students
 
 
 
-
-// ===============================
-// Success
-// ===============================
 
 
 alert(
@@ -1014,9 +998,12 @@ studentCode
 
 
 
+
+
 window.location.href =
 
 "students.html";
+
 
 
 
@@ -1026,8 +1013,6 @@ window.location.href =
 
 
 );
-
-
 
 
 }
