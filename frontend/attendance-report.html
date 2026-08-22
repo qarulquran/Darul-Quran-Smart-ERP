@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Attendance Report - Darul Quran ERP
+</title>
+
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="main">
+
+
+<header class="topbar">
+
+<h1>
+Attendance Report
+</h1>
+
+
+<div class="admin-profile">
+Admin 👤
+</div>
+
+
+</header>
+
+
+
+
+
+
+<div class="form-card">
+
+
+<h2>
+📊 Student Attendance Report
+</h2>
+
+
+
+
+
+<div class="form-grid">
+
+
+<div class="field">
+
+<label>
+Student Code
+</label>
+
+
+<input
+
+id="studentCode"
+
+placeholder="Enter Student Code">
+
+
+</div>
+
+
+
+
+
+<div class="field">
+
+
+<button id="searchReport">
+
+🔍 View Report
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="profile-card" id="reportBox" style="display:none;">
+
+
+
+<div class="student-info">
+
+
+<h2 id="studentName">
+-
+</h2>
+
+
+
+<p>
+
+<b>
+Student Code:
+</b>
+
+<span id="showCode">
+-
+</span>
+
+</p>
+
+
+
+
+<p>
+
+<b>
+Class:
+</b>
+
+<span id="studentClass">
+-
+</span>
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="status-cards">
+
+
+
+<div class="card">
+
+
+<h2 id="totalClass">
+0
+</h2>
+
+
+<p>
+Total Class
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h2 id="present">
+0
+</h2>
+
+
+<p>
+Present
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h2 id="absent">
+0
+</h2>
+
+
+<p>
+Absent
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+
+<h2 id="percentage">
+0%
+</h2>
+
+
+<p>
+Attendance
+</p>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+<script src="attendance-report.js"></script>
+
+
+</body>
+
+
+</html>
