@@ -1,25 +1,39 @@
 // ==========================================
-// Darul Quran Smart ERP
-// Student Management System
-// students.js Part 1/2
+// Darul Quran ERP
+// Student List System
+// Dynamic Student Management
 // ==========================================
 
 
 
 // ===============================
-// Get Student Data
+// Get Students
 // ===============================
 
 
 function getStudents(){
 
-    return JSON.parse(
 
-        localStorage.getItem("students")
+return JSON.parse(
 
-    ) || [];
+localStorage.getItem("students")
+
+) || [];
+
 
 }
+
+
+
+
+
+
+
+let allStudents = getStudents();
+
+
+
+
 
 
 
@@ -29,54 +43,105 @@ function getStudents(){
 // ===============================
 
 
-function displayStudents(){
-
-
-    let students = getStudents();
+function displayStudents(data){
 
 
 
-    let tableBody = document.getElementById(
+let table =
 
-        "studentTableBody"
+document.getElementById(
 
-    );
+"studentTable"
 
-
-
-    if(!tableBody){
-
-        return;
-
-    }
+);
 
 
 
-    tableBody.innerHTML = "";
+if(!table) return;
+
+
+
+
+table.innerHTML = "";
 
 
 
 
 
-    students.forEach(student => {
+if(data.length === 0){
+
+
+table.innerHTML =
+
+`
+<tr>
+
+<td colspan="8">
+
+No Student Found
+
+</td>
+
+</tr>
+
+`;
+
+
+return;
+
+
+}
 
 
 
-        let row = document.createElement("tr");
 
 
 
 
 
-        row.innerHTML = `
+data.forEach(student=>{
+
+
+
+
+
+
+table.innerHTML +=
+
+
+
+`
+
+<tr>
 
 
 
 <td>
 
-${student.studentCode || student.id || ""}
+
+<img
+
+src="${student.photo || 'https://via.placeholder.com/60'}"
+
+width="60"
+
+height="60"
+
+style="border-radius:50%;object-fit:cover;">
+
 
 </td>
+
+
+
+
+
+<td>
+
+${student.studentCode || ""}
+
+</td>
+
 
 
 
@@ -90,29 +155,33 @@ ${student.name || ""}
 
 
 
+
 <td>
 
-${student.admissionClass || student.className || ""}
+${student.admissionClass || ""}
 
 </td>
 
 
 
 
+
 <td>
 
-${student.fatherName || student.father || ""}
+${student.fatherName || ""}
 
 </td>
 
 
 
 
+
 <td>
 
-${student.guardianMobile || student.mobile || ""}
+${student.guardianMobile || ""}
 
 </td>
+
 
 
 
@@ -126,11 +195,16 @@ ${student.feeStatus || "Due"}
 
 
 
+
 <td>
 
 
 
-<button onclick="viewStudent('${student.studentCode || student.id}')">
+<button
+
+onclick="viewStudent('${student.studentCode}')"
+
+class="view-btn">
 
 👁 View
 
@@ -138,7 +212,12 @@ ${student.feeStatus || "Due"}
 
 
 
-<button onclick="editStudent('${student.studentCode || student.id}')">
+
+<button
+
+onclick="editStudent('${student.studentCode}')"
+
+class="edit-btn">
 
 ✏ Edit
 
@@ -146,7 +225,13 @@ ${student.feeStatus || "Due"}
 
 
 
-<button onclick="deleteStudent('${student.studentCode || student.id}')">
+
+
+<button
+
+onclick="deleteStudent('${student.studentCode}')"
+
+class="delete-btn">
 
 🗑 Delete
 
@@ -158,21 +243,21 @@ ${student.feeStatus || "Due"}
 
 
 
+
+</tr>
+
+
 `;
 
 
 
-
-
-        tableBody.appendChild(row);
-
-
-
-    });
+});
 
 
 
 }
+
+
 
 
 
@@ -189,23 +274,24 @@ function viewStudent(code){
 
 
 
-    localStorage.setItem(
+localStorage.setItem(
 
-        "selectedStudent",
+"selectedStudent",
 
-        code
+code
 
-    );
+);
 
 
 
-    window.location.href =
+window.location.href =
 
-    "student-profile.html";
+"student-profile.html";
 
 
 
 }
+
 
 
 
@@ -222,23 +308,31 @@ function editStudent(code){
 
 
 
-    localStorage.setItem(
+localStorage.setItem(
 
-        "editStudent",
+"editStudent",
 
-        code
+code
 
-    );
+);
 
 
 
-    window.location.href =
+window.location.href =
 
-    "edit-student.html";
+"edit-student.html";
 
 
 
 }
+
+
+
+
+
+
+
+
 
 // ===============================
 // Delete Student
@@ -249,47 +343,39 @@ function deleteStudent(code){
 
 
 
-    let confirmDelete = confirm(
+let confirmDelete =
 
-        "Delete this student?"
+confirm(
 
-    );
+"Delete this student?"
 
-
-
-    if(!confirmDelete){
-
-        return;
-
-    }
+);
 
 
 
 
+if(!confirmDelete)
 
-    let students = getStudents();
+return;
 
 
 
 
 
-    students = students.filter(student => {
+
+let students = getStudents();
 
 
 
-        let studentId =
-
-        student.studentCode ||
-
-        student.id;
 
 
-
-        return studentId !== code;
-
+students = students.filter(student=>
 
 
-    });
+student.studentCode !== code
+
+
+);
 
 
 
@@ -297,29 +383,31 @@ function deleteStudent(code){
 
 
 
-    localStorage.setItem(
+localStorage.setItem(
 
-        "students",
+"students",
 
-        JSON.stringify(students)
+JSON.stringify(students)
 
-    );
-
-
-
-
-
-    alert(
-
-        "Student Deleted Successfully"
-
-    );
+);
 
 
 
 
 
-    displayStudents();
+
+alert(
+
+"Student Deleted Successfully"
+
+);
+
+
+
+
+
+
+displayStudents(students);
 
 
 
@@ -331,72 +419,98 @@ function deleteStudent(code){
 
 
 
+
+
 // ===============================
-// Search Student
+// Search System
 // ===============================
 
 
-function searchStudent(){
+let searchInput =
+
+document.getElementById(
+
+"searchStudent"
+
+);
 
 
 
-    let value =
+let searchButton =
 
-    document.getElementById(
+document.getElementById(
 
-        "searchInput"
+"searchBtn"
 
-    ).value.toLowerCase();
-
-
-
-
-
-    let rows = document.querySelectorAll(
-
-        "#studentTableBody tr"
-
-    );
+);
 
 
 
 
 
-    rows.forEach(row => {
+
+if(searchButton){
+
+
+searchButton.onclick=function(){
 
 
 
-        let text =
+let value =
 
-        row.innerText.toLowerCase();
+searchInput.value
 
-
-
-
-
-        if(text.includes(value)){
+.toLowerCase();
 
 
 
-            row.style.display = "";
+
+
+let result = allStudents.filter(student=>
 
 
 
-        }
+(student.name || "")
 
-        else{
+.toLowerCase()
+
+.includes(value)
+
+||
+
+(student.studentCode || "")
+
+.toLowerCase()
+
+.includes(value)
+
+||
+
+(student.guardianMobile || "")
+
+.includes(value)
+
+||
+
+(student.fatherName || "")
+
+.toLowerCase()
+
+.includes(value)
 
 
 
-            row.style.display = "none";
+);
 
 
 
-        }
+
+
+displayStudents(result);
 
 
 
-    });
+};
 
 
 
@@ -404,60 +518,6 @@ function searchStudent(){
 
 
 
-
-
-
-
-// ===============================
-// Clear Old Demo Data
-// ===============================
-
-
-// প্রথমবার নতুন system চালুর সময়
-// demo data আর load হবে না
-
-
-function cleanOldDemoData(){
-
-
-
-    let students = getStudents();
-
-
-
-
-
-    let cleanData = students.filter(student => {
-
-
-
-        return (
-
-            student.studentCode ||
-
-            student.name
-
-        );
-
-
-
-    });
-
-
-
-
-
-    localStorage.setItem(
-
-        "students",
-
-        JSON.stringify(cleanData)
-
-    );
-
-
-
-}
 
 
 
@@ -469,8 +529,4 @@ function cleanOldDemoData(){
 // ===============================
 
 
-cleanOldDemoData();
-
-
-displayStudents();
-
+displayStudents(allStudents);
