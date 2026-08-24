@@ -13,7 +13,7 @@ Money Receipt - Darul Quran ERP
 </title>
 
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="receipt.css">
 
 
 </head>
@@ -23,8 +23,7 @@ Money Receipt - Darul Quran ERP
 <body>
 
 
-
-<div class="main">
+<div class="receipt-container">
 
 
 
@@ -32,14 +31,46 @@ Money Receipt - Darul Quran ERP
 
 
 
+<!-- Header -->
+
+
+<div class="header">
+
+
+<div class="logo">
+
+🕌
+
+</div>
+
+
+<div>
+
 <h1>
-দারুল কুরআন আহমদিয়া মাদ্রাসা
+দারুল কোরআন আহমদিয়া মাদ্রাসা
 </h1>
 
 
 <h2>
 MONEY RECEIPT
 </h2>
+
+
+<p>
+Smart ERP Management System
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
 
 
 
@@ -49,10 +80,13 @@ MONEY RECEIPT
 
 
 
-<div class="receipt-info">
+<!-- Receipt Info -->
 
 
-<p>
+<div class="top-info">
+
+
+<div>
 
 <b>
 Receipt No:
@@ -62,11 +96,12 @@ Receipt No:
 -
 </span>
 
-</p>
+
+</div>
 
 
 
-<p>
+<div>
 
 <b>
 Date:
@@ -76,7 +111,8 @@ Date:
 -
 </span>
 
-</p>
+
+</div>
 
 
 
@@ -89,72 +125,52 @@ Date:
 
 
 
-<div class="student-info">
+
+<!-- Student Section -->
+
+
+<div class="section">
 
 
 <h3>
-Student Information
+👨‍🎓 Student Information
 </h3>
 
 
 
-<p>
-
-<b>
-Student Name:
-</b>
-
-<span id="studentName">
--
-</span>
-
-</p>
-
+<div class="grid">
 
 
 
 <p>
-
-<b>
-Student Code:
-</b>
-
-<span id="studentCode">
--
-</span>
-
-</p>
-
-
-
-
-<p>
-
-<b>
-Class:
-</b>
-
-<span id="studentClass">
--
-</span>
-
+<b>Name:</b>
+<span id="studentName">-</span>
 </p>
 
 
 
 <p>
-
-<b>
-Father Name:
-</b>
-
-<span id="fatherName">
--
-</span>
-
+<b>Student ID:</b>
+<span id="studentCode">-</span>
 </p>
 
 
+
+<p>
+<b>Class:</b>
+<span id="studentClass">-</span>
+</p>
+
+
+
+<p>
+<b>Father:</b>
+<span id="fatherName">-</span>
+</p>
+
+
+
+</div>
 
 
 </div>
@@ -166,74 +182,93 @@ Father Name:
 
 
 
-<div class="payment-info">
+
+
+<!-- Payment -->
+
+
+<div class="section">
 
 
 <h3>
-Payment Information
+💰 Payment Details
 </h3>
 
 
 
 
-<p>
+<table>
 
-<b>
-Fee Type:
-</b>
 
-<span id="feeType">
+<tr>
+
+<th>
+Fee Type
+</th>
+
+
+<td id="feeType">
 -
-</span>
-
-</p>
+</td>
 
 
+</tr>
 
 
-<p>
 
-<b>
-Month:
-</b>
+<tr>
 
-<span id="feeMonth">
+<th>
+Month
+</th>
+
+
+<td id="feeMonth">
 -
-</span>
-
-</p>
+</td>
 
 
+</tr>
 
 
 
-<p>
+<tr>
 
-<b>
-Amount:
-</b>
+<th>
+Amount
+</th>
+
+
+<td class="amount">
 
 ৳ <span id="amount">
 0
 </span>
 
-</p>
+</td>
+
+
+</tr>
 
 
 
+<tr>
+
+<th>
+Payment Method
+</th>
 
 
-<p>
-
-<b>
-Payment Method:
-</b>
-
-<span id="paymentMethod">
+<td id="paymentMethod">
 -
-</span>
+</td>
 
-</p>
+
+</tr>
+
+
+
+</table>
 
 
 
@@ -247,15 +282,23 @@ Payment Method:
 
 
 
+<!-- Barcode -->
+
+
+<div class="barcode-section">
+
 
 <h3>
-Barcode
+Receipt Barcode
 </h3>
-
 
 
 <div id="barcode">
 
+
+</div>
+
+
 </div>
 
 
@@ -264,7 +307,66 @@ Barcode
 
 
 
+
+
+
+<!-- Signature -->
+
+
+<div class="signature">
+
+
+<div>
+
+_________________
+
 <br>
+
+Guardian Signature
+
+</div>
+
+
+
+
+<div>
+
+_________________
+
+<br>
+
+Authorized By
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="footer">
+
+
+<p>
+জাযাকাল্লাহু খাইরান
+</p>
+
+
+</div>
+
+
+
+
+
+
+
 
 
 <button onclick="window.print()">
@@ -278,16 +380,7 @@ Barcode
 
 
 
-<br><br>
-
-
-
-
-<p>
-জাযাকাল্লাহু খাইরান
-</p>
-
-
+</div>
 
 
 </div>
@@ -295,7 +388,6 @@ Barcode
 
 
 
-</div>
 
 
 
@@ -305,5 +397,6 @@ Barcode
 
 
 </body>
+
 
 </html>
