@@ -1,7 +1,7 @@
 // ==========================================
 // Darul Quran Ahmadia Madrasah
-// Smart ERP Money Receipt
-// receipt.js FINAL
+// Money Receipt System
+// Final receipt.js
 // ==========================================
 
 
@@ -9,10 +9,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 
-// ===============================
-// Get Last Payment
-// ===============================
-
+// Get Last Receipt Data
 
 let payment = JSON.parse(
 
@@ -30,9 +27,6 @@ if(!payment){
 alert("No Receipt Data Found");
 
 
-window.location.href="fee.html";
-
-
 return;
 
 
@@ -43,11 +37,45 @@ return;
 
 
 
+// Receipt Information
 
 
-// ===============================
-// Get Student
-// ===============================
+document.getElementById("receiptNo")
+.innerText =
+payment.receiptNo || "-";
+
+
+
+document.getElementById("paymentDate")
+.innerText =
+payment.paymentDate || "-";
+
+
+
+
+
+
+
+
+
+// Student Information
+
+
+document.getElementById("studentName")
+.innerText =
+payment.studentName || "-";
+
+
+
+document.getElementById("studentCode")
+.innerText =
+payment.studentCode || "-";
+
+
+
+
+
+// Get Class From Student Database
 
 
 let students = JSON.parse(
@@ -59,84 +87,27 @@ localStorage.getItem("students")
 
 
 
+let student = students.find(item =>
 
-let student = students.find(function(item){
+item.studentCode === payment.studentCode
 
-
-return item.studentCode === payment.studentCode;
-
-
-});
+);
 
 
-
-
-
-
-
-
-
-// ===============================
-// Receipt Information
-// ===============================
-
-
-document.getElementById("receiptNo").innerText =
-
-payment.receiptNo || "-";
-
-
-
-
-
-document.getElementById("paymentDate").innerText =
-
-payment.paymentDate || "-";
-
-
-
-
-
-
-
-
-// ===============================
-// Student Information
-// ===============================
 
 
 if(student){
 
 
-
-document.getElementById("studentName").innerText =
-
-student.name || "-";
-
-
-
-
-
-document.getElementById("studentCode").innerText =
-
-student.studentCode || "-";
-
-
-
-
-
-document.getElementById("studentClass").innerText =
-
+document.getElementById("studentClass")
+.innerText =
 student.admissionClass || "-";
 
 
 
-
-
-document.getElementById("fatherName").innerText =
-
+document.getElementById("fatherName")
+.innerText =
 student.fatherName || "-";
-
 
 
 }
@@ -144,23 +115,15 @@ student.fatherName || "-";
 else{
 
 
-
-document.getElementById("studentName").innerText =
-
-payment.studentName || "-";
-
-
-
-document.getElementById("studentCode").innerText =
-
-payment.studentCode || "-";
+document.getElementById("studentClass")
+.innerText =
+"-";
 
 
 
-document.getElementById("fatherName").innerText =
-
+document.getElementById("fatherName")
+.innerText =
 payment.fatherName || "-";
-
 
 
 }
@@ -171,40 +134,32 @@ payment.fatherName || "-";
 
 
 
-
-
-// ===============================
 // Payment Information
-// ===============================
 
 
-
-document.getElementById("feeType").innerText =
-
+document.getElementById("feeType")
+.innerText =
 payment.feeType || "-";
 
 
 
 
-
-document.getElementById("feeMonth").innerText =
-
+document.getElementById("feeMonth")
+.innerText =
 payment.month || "-";
 
 
 
 
-
-document.getElementById("amount").innerText =
-
+document.getElementById("amount")
+.innerText =
 payment.amount || "0";
 
 
 
 
-
-document.getElementById("paymentMethod").innerText =
-
+document.getElementById("paymentMethod")
+.innerText =
 payment.paymentMethod || "-";
 
 
@@ -215,24 +170,18 @@ payment.paymentMethod || "-";
 
 
 
-// ===============================
-// Barcode
-// ===============================
+// Barcode Generate
 
 
-let barcode = document.getElementById("barcode");
-
-
+let barcodeBox =
+document.getElementById("barcode");
 
 
 
-if(barcode){
+if(barcodeBox){
 
 
-
-barcode.innerHTML="";
-
-
+barcodeBox.innerHTML="";
 
 
 
@@ -260,18 +209,15 @@ payment.receiptNo
 
 
 
-img.style.width="250px";
+img.style.width="260px";
 
 
 
-
-
-barcode.appendChild(img);
+barcodeBox.appendChild(img);
 
 
 
 }
-
 
 
 
