@@ -9,36 +9,40 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 
+// ===============================
+// Get Data
+// ===============================
+
+
 let payment = JSON.parse(
-
-localStorage.getItem("lastReceipt")
-
+    localStorage.getItem("lastReceipt")
 );
 
 
 
 
-// যদি lastReceipt না থাকে তাহলে fees থেকে নেবে
+// যদি lastReceipt না থাকে
+// তাহলে fees থেকে শেষ payment নেবে
 
 if(!payment){
 
 
-let fees = JSON.parse(
-
-localStorage.getItem("fees")
-
-) || [];
+    let fees = JSON.parse(
+        localStorage.getItem("fees")
+    ) || [];
 
 
 
-if(fees.length > 0){
+    if(fees.length > 0){
 
-payment = fees[fees.length - 1];
+        payment =
+        fees[fees.length - 1];
+
+    }
+
 
 }
 
-
-}
 
 
 
@@ -47,9 +51,16 @@ payment = fees[fees.length - 1];
 if(!payment){
 
 
-alert("No Receipt Data Found");
+    alert(
+    "No Receipt Data Found"
+    );
 
-return;
+
+    window.location.href =
+    "fee.html";
+
+
+    return;
 
 
 }
@@ -60,31 +71,9 @@ return;
 
 
 
-// ===============================
-// Receipt Info
-// ===============================
-
-
-document.getElementById("receiptNo").innerText =
-
-payment.receiptNo || "-";
-
-
-
-document.getElementById("paymentDate").innerText =
-
-payment.paymentDate || "-";
-
-
-
-
-
-
-
-
 
 // ===============================
-// Student Info
+// Get Student
 // ===============================
 
 
@@ -97,16 +86,11 @@ localStorage.getItem("students")
 
 
 
+let student =
+students.find(
 
-let student = students.find(s =>
-
-
-String(s.studentCode).trim()
-
-===
-
-String(payment.studentCode).trim()
-
+item =>
+item.studentCode === payment.studentCode
 
 );
 
@@ -114,57 +98,97 @@ String(payment.studentCode).trim()
 
 
 
-document.getElementById("studentName").innerText =
-
-(student && student.name)
-
-?
-
-student.name
-
-:
-
-payment.studentName || "-";
 
 
 
+// ===============================
+// Receipt Basic
+// ===============================
 
 
-document.getElementById("studentCode").innerText =
-
-payment.studentCode || "-";
+document.getElementById("receiptNo")
+.innerText =
+payment.receiptNo || "-";
 
 
 
 
 
-document.getElementById("studentClass").innerText =
-
-(student && student.admissionClass)
-
-?
-
-student.admissionClass
-
-:
-
-"-";
+document.getElementById("paymentDate")
+.innerText =
+payment.paymentDate || "-";
 
 
 
 
 
-document.getElementById("fatherName").innerText =
 
-(student && student.fatherName)
 
-?
 
-student.fatherName
+
+// ===============================
+// Student Information
+// ===============================
+
+
+document.getElementById("studentName")
+.innerText =
+
+student ?
+
+(student.name || "-")
 
 :
 
-payment.fatherName || "-";
+(payment.studentName || "-");
+
+
+
+
+
+
+document.getElementById("studentCode")
+.innerText =
+
+student ?
+
+(student.studentCode || "-")
+
+:
+
+(payment.studentCode || "-");
+
+
+
+
+
+
+document.getElementById("studentClass")
+.innerText =
+
+student ?
+
+(student.admissionClass || "-")
+
+:
+
+(payment.admissionClass || "-");
+
+
+
+
+
+
+document.getElementById("fatherName")
+.innerText =
+
+student ?
+
+(student.fatherName || "-")
+
+:
+
+(payment.fatherName || "-");
 
 
 
@@ -176,11 +200,12 @@ payment.fatherName || "-";
 
 
 // ===============================
-// Payment Info
+// Payment Information
 // ===============================
 
 
-document.getElementById("feeType").innerText =
+document.getElementById("feeType")
+.innerText =
 
 payment.feeType || "-";
 
@@ -188,7 +213,8 @@ payment.feeType || "-";
 
 
 
-document.getElementById("feeMonth").innerText =
+document.getElementById("feeMonth")
+.innerText =
 
 payment.month || "-";
 
@@ -196,7 +222,8 @@ payment.month || "-";
 
 
 
-document.getElementById("amount").innerText =
+document.getElementById("amount")
+.innerText =
 
 payment.amount || "0";
 
@@ -204,10 +231,10 @@ payment.amount || "0";
 
 
 
-document.getElementById("paymentMethod").innerText =
+document.getElementById("paymentMethod")
+.innerText =
 
 payment.paymentMethod || "-";
-
 
 
 
@@ -222,7 +249,8 @@ payment.paymentMethod || "-";
 // ===============================
 
 
-let barcodeBox = document.getElementById("barcode");
+let barcodeBox =
+document.getElementById("barcode");
 
 
 
@@ -233,7 +261,8 @@ barcodeBox.innerHTML="";
 
 
 
-let img = document.createElement("img");
+let img =
+document.createElement("img");
 
 
 
@@ -245,7 +274,7 @@ img.src =
 
 encodeURIComponent(
 
-payment.receiptNo
+payment.receiptNo || payment.studentCode
 
 )
 
@@ -255,9 +284,8 @@ payment.receiptNo
 
 
 
-
-
-img.style.width="260px";
+img.style.width =
+"220px";
 
 
 
@@ -266,6 +294,7 @@ barcodeBox.appendChild(img);
 
 
 }
+
 
 
 
