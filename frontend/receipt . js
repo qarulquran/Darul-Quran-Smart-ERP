@@ -1,15 +1,13 @@
 // ==========================================
 // Darul Quran Ahmadia Madrasah
-// Money Receipt System
-// Final receipt.js
+// Smart ERP Money Receipt
+// receipt.js FINAL FIX
 // ==========================================
 
 
 document.addEventListener("DOMContentLoaded", function(){
 
 
-
-// Get Last Receipt Data
 
 let payment = JSON.parse(
 
@@ -20,12 +18,36 @@ localStorage.getItem("lastReceipt")
 
 
 
+// যদি lastReceipt না থাকে তাহলে fees থেকে নেবে
+
+if(!payment){
+
+
+let fees = JSON.parse(
+
+localStorage.getItem("fees")
+
+) || [];
+
+
+
+if(fees.length > 0){
+
+payment = fees[fees.length - 1];
+
+}
+
+
+}
+
+
+
+
 
 if(!payment){
 
 
 alert("No Receipt Data Found");
-
 
 return;
 
@@ -37,17 +59,20 @@ return;
 
 
 
-// Receipt Information
+
+// ===============================
+// Receipt Info
+// ===============================
 
 
-document.getElementById("receiptNo")
-.innerText =
+document.getElementById("receiptNo").innerText =
+
 payment.receiptNo || "-";
 
 
 
-document.getElementById("paymentDate")
-.innerText =
+document.getElementById("paymentDate").innerText =
+
 payment.paymentDate || "-";
 
 
@@ -58,24 +83,9 @@ payment.paymentDate || "-";
 
 
 
-// Student Information
-
-
-document.getElementById("studentName")
-.innerText =
-payment.studentName || "-";
-
-
-
-document.getElementById("studentCode")
-.innerText =
-payment.studentCode || "-";
-
-
-
-
-
-// Get Class From Student Database
+// ===============================
+// Student Info
+// ===============================
 
 
 let students = JSON.parse(
@@ -87,46 +97,76 @@ localStorage.getItem("students")
 
 
 
-let student = students.find(item =>
 
-item.studentCode === payment.studentCode
+let student = students.find(s =>
+
+
+String(s.studentCode).trim()
+
+===
+
+String(payment.studentCode).trim()
+
 
 );
 
 
 
 
-if(student){
+
+document.getElementById("studentName").innerText =
+
+(student && student.name)
+
+?
+
+student.name
+
+:
+
+payment.studentName || "-";
 
 
-document.getElementById("studentClass")
-.innerText =
-student.admissionClass || "-";
 
 
 
-document.getElementById("fatherName")
-.innerText =
-student.fatherName || "-";
+document.getElementById("studentCode").innerText =
+
+payment.studentCode || "-";
 
 
-}
-
-else{
 
 
-document.getElementById("studentClass")
-.innerText =
+
+document.getElementById("studentClass").innerText =
+
+(student && student.admissionClass)
+
+?
+
+student.admissionClass
+
+:
+
 "-";
 
 
 
-document.getElementById("fatherName")
-.innerText =
+
+
+document.getElementById("fatherName").innerText =
+
+(student && student.fatherName)
+
+?
+
+student.fatherName
+
+:
+
 payment.fatherName || "-";
 
 
-}
 
 
 
@@ -134,32 +174,38 @@ payment.fatherName || "-";
 
 
 
-// Payment Information
+
+// ===============================
+// Payment Info
+// ===============================
 
 
-document.getElementById("feeType")
-.innerText =
+document.getElementById("feeType").innerText =
+
 payment.feeType || "-";
 
 
 
 
-document.getElementById("feeMonth")
-.innerText =
+
+document.getElementById("feeMonth").innerText =
+
 payment.month || "-";
 
 
 
 
-document.getElementById("amount")
-.innerText =
+
+document.getElementById("amount").innerText =
+
 payment.amount || "0";
 
 
 
 
-document.getElementById("paymentMethod")
-.innerText =
+
+document.getElementById("paymentMethod").innerText =
+
 payment.paymentMethod || "-";
 
 
@@ -170,11 +216,13 @@ payment.paymentMethod || "-";
 
 
 
-// Barcode Generate
+
+// ===============================
+// Barcode
+// ===============================
 
 
-let barcodeBox =
-document.getElementById("barcode");
+let barcodeBox = document.getElementById("barcode");
 
 
 
@@ -185,7 +233,7 @@ barcodeBox.innerHTML="";
 
 
 
-let img=document.createElement("img");
+let img = document.createElement("img");
 
 
 
@@ -218,7 +266,6 @@ barcodeBox.appendChild(img);
 
 
 }
-
 
 
 
