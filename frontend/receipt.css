@@ -1,0 +1,457 @@
+/* ==========================================
+   Darul Quran Smart ERP
+   Premium Money Receipt CSS
+   receipt.css
+========================================== */
+
+
+*{
+    box-sizing:border-box;
+}
+
+
+
+body{
+
+    margin:0;
+
+    padding:20px;
+
+    background:#f2f4f5;
+
+    font-family:
+
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+    color:#222;
+
+}
+
+
+
+
+
+.receipt-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+
+
+
+.receipt-box{
+
+
+    width:420px;
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    border:2px solid #0b6b3a;
+
+    box-shadow:
+
+    0 8px 25px rgba(0,0,0,.15);
+
+
+}
+
+
+
+
+
+/* Header */
+
+
+.header{
+
+
+    text-align:center;
+
+    color:#0b6b3a;
+
+
+}
+
+
+
+.logo{
+
+
+    font-size:45px;
+
+}
+
+
+
+.header h1{
+
+
+    margin:5px 0;
+
+    font-size:24px;
+
+    font-weight:700;
+
+
+}
+
+
+
+.header h2{
+
+
+    margin:5px;
+
+    color:#b8860b;
+
+    letter-spacing:2px;
+
+
+}
+
+
+
+.header p{
+
+
+    margin:0;
+
+    font-size:13px;
+
+
+}
+
+
+
+
+
+hr{
+
+
+    border:none;
+
+    border-top:2px solid #0b6b3a;
+
+    margin:15px 0;
+
+
+}
+
+
+
+
+
+/* Top Information */
+
+
+.top-info{
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    background:#f4f8f5;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
+
+/* Section */
+
+
+.section{
+
+
+    margin-top:15px;
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:10px;
+
+
+}
+
+
+
+.section h3{
+
+
+    margin:0 0 10px;
+
+    color:#0b6b3a;
+
+    font-size:17px;
+
+
+}
+
+
+
+
+
+
+.grid{
+
+
+    display:grid;
+
+    grid-template-columns:1fr;
+
+
+}
+
+
+
+.grid p{
+
+
+    margin:6px 0;
+
+    font-size:14px;
+
+
+}
+
+
+
+
+
+/* Payment Table */
+
+
+table{
+
+
+    width:100%;
+
+    border-collapse:collapse;
+
+
+}
+
+
+
+table th{
+
+
+    text-align:left;
+
+    background:#0b6b3a;
+
+    color:white;
+
+    padding:8px;
+
+
+}
+
+
+
+table td{
+
+
+    border:1px solid #ddd;
+
+    padding:8px;
+
+
+}
+
+
+
+
+.amount{
+
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#0b6b3a;
+
+
+}
+
+
+
+
+
+
+
+/* Barcode */
+
+
+.barcode-section{
+
+
+    text-align:center;
+
+    margin-top:20px;
+
+
+}
+
+
+
+#barcode img{
+
+
+    max-width:260px;
+
+}
+
+
+
+
+
+/* Signature */
+
+
+.signature{
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:35px;
+
+    text-align:center;
+
+    font-size:13px;
+
+
+}
+
+
+
+
+
+.footer{
+
+
+    text-align:center;
+
+    margin-top:20px;
+
+    color:#0b6b3a;
+
+    font-weight:bold;
+
+
+}
+
+
+
+
+
+
+
+button{
+
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:12px;
+
+    background:#0b6b3a;
+
+    color:white;
+
+    border:none;
+
+    border-radius:8px;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+
+}
+
+
+
+
+
+button:hover{
+
+
+    background:#07502b;
+
+
+}
+
+
+
+
+
+
+
+/* Print Setting */
+
+
+@media print{
+
+
+body{
+
+
+    background:white;
+
+    padding:0;
+
+
+}
+
+
+
+.receipt-box{
+
+
+    box-shadow:none;
+
+    border:2px solid #000;
+
+
+}
+
+
+
+button{
+
+
+    display:none;
+
+
+}
+
+
+
+}
