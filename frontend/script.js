@@ -21,6 +21,15 @@ function login(){
     }
 
 }
+function logout(){
+
+    localStorage.removeItem("currentUser");
+
+    localStorage.removeItem("role");
+
+    window.location.href="index.html";
+
+}
 
 
 
