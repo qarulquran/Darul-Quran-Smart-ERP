@@ -1,7 +1,6 @@
 /* ==========================================
-   Darul Quran Smart ERP
+   Darul Quran Ahmadia Madrasah
    Premium Money Receipt CSS
-   receipt.css
 ========================================== */
 
 
@@ -15,17 +14,16 @@ body{
 
     margin:0;
 
-    padding:20px;
+    padding:0;
 
-    background:#f2f4f5;
+    background:#eeeeee;
 
     font-family:
 
+    "Noto Sans Bengali",
     "Segoe UI",
     Arial,
     sans-serif;
-
-    color:#222;
 
 }
 
@@ -33,7 +31,9 @@ body{
 
 
 
-.receipt-container{
+.print-area{
+
+    min-height:100vh;
 
     display:flex;
 
@@ -41,7 +41,11 @@ body{
 
     align-items:center;
 
+    padding:30px;
+
+
 }
+
 
 
 
@@ -52,17 +56,22 @@ body{
 
     width:420px;
 
-    background:white;
 
-    padding:25px;
+    background:#ffffff;
 
-    border-radius:15px;
 
     border:2px solid #0b6b3a;
 
+
+    border-radius:15px;
+
+
+    padding:25px;
+
+
     box-shadow:
 
-    0 8px 25px rgba(0,0,0,.15);
+    0 5px 20px rgba(0,0,0,0.15);
 
 
 }
@@ -71,15 +80,28 @@ body{
 
 
 
+
+
+
 /* Header */
 
 
-.header{
+.receipt-header{
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    gap:15px;
 
 
     text-align:center;
-
-    color:#0b6b3a;
 
 
 }
@@ -91,30 +113,35 @@ body{
 
     font-size:45px;
 
-}
-
-
-
-.header h1{
-
-
-    margin:5px 0;
-
-    font-size:24px;
-
-    font-weight:700;
-
 
 }
 
 
 
-.header h2{
+.madrasah-name h1{
 
 
-    margin:5px;
+    margin:0;
+
+
+    font-size:22px;
+
+
+    color:#0b6b3a;
+
+
+}
+
+
+
+.madrasah-name h2{
+
+
+    margin:8px 0;
+
 
     color:#b8860b;
+
 
     letter-spacing:2px;
 
@@ -123,15 +150,19 @@ body{
 
 
 
-.header p{
+.madrasah-name p{
 
 
     margin:0;
 
-    font-size:13px;
+
+    font-size:12px;
 
 
 }
+
+
+
 
 
 
@@ -142,7 +173,9 @@ hr{
 
     border:none;
 
+
     border-top:2px solid #0b6b3a;
+
 
     margin:15px 0;
 
@@ -153,26 +186,38 @@ hr{
 
 
 
-/* Top Information */
 
 
-.top-info{
+
+
+/* Receipt Top */
+
+
+.receipt-top{
 
 
     display:flex;
 
+
     justify-content:space-between;
 
-    background:#f4f8f5;
+
+    background:#f3f8f5;
+
 
     padding:10px;
 
+
     border-radius:8px;
+
 
     font-size:14px;
 
 
 }
+
+
+
 
 
 
@@ -182,30 +227,19 @@ hr{
 /* Section */
 
 
-.section{
+.box-section{
 
 
     margin-top:15px;
 
-    padding:12px;
 
     border:1px solid #ddd;
+
 
     border-radius:10px;
 
 
-}
-
-
-
-.section h3{
-
-
-    margin:0 0 10px;
-
-    color:#0b6b3a;
-
-    font-size:17px;
+    overflow:hidden;
 
 
 }
@@ -213,26 +247,22 @@ hr{
 
 
 
+.box-section h3{
 
 
-.grid{
+    margin:0;
 
 
-    display:grid;
-
-    grid-template-columns:1fr;
+    padding:10px;
 
 
-}
+    background:#0b6b3a;
 
 
+    color:white;
 
-.grid p{
 
-
-    margin:6px 0;
-
-    font-size:14px;
+    font-size:16px;
 
 
 }
@@ -241,13 +271,13 @@ hr{
 
 
 
-/* Payment Table */
 
 
 table{
 
 
     width:100%;
+
 
     border-collapse:collapse;
 
@@ -256,31 +286,35 @@ table{
 
 
 
-table th{
+td{
 
 
-    text-align:left;
+    padding:9px;
 
-    background:#0b6b3a;
 
-    color:white;
+    border-bottom:1px solid #ddd;
 
-    padding:8px;
+
+    font-size:14px;
+
+
+}
+
+
+
+td:first-child{
+
+
+    font-weight:bold;
+
+
+    width:40%;
 
 
 }
 
 
 
-table td{
-
-
-    border:1px solid #ddd;
-
-    padding:8px;
-
-
-}
 
 
 
@@ -290,12 +324,16 @@ table td{
 
     font-size:22px;
 
+
     font-weight:bold;
+
 
     color:#0b6b3a;
 
 
 }
+
+
 
 
 
@@ -311,10 +349,22 @@ table td{
 
     text-align:center;
 
+
     margin-top:20px;
 
 
 }
+
+
+
+.barcode-section h3{
+
+
+    color:#0b6b3a;
+
+
+}
+
 
 
 
@@ -323,7 +373,12 @@ table td{
 
     max-width:260px;
 
+
 }
+
+
+
+
 
 
 
@@ -332,16 +387,20 @@ table td{
 /* Signature */
 
 
-.signature{
+.signature-area{
 
 
     display:flex;
 
+
     justify-content:space-between;
+
+
+    text-align:center;
+
 
     margin-top:35px;
 
-    text-align:center;
 
     font-size:13px;
 
@@ -352,19 +411,30 @@ table td{
 
 
 
-.footer{
+
+
+
+
+.footer-text{
 
 
     text-align:center;
 
+
     margin-top:20px;
 
+
     color:#0b6b3a;
+
 
     font-weight:bold;
 
 
+    font-size:14px;
+
+
 }
+
 
 
 
@@ -377,19 +447,27 @@ button{
 
     width:100%;
 
+
     margin-top:20px;
+
 
     padding:12px;
 
+
     background:#0b6b3a;
+
 
     color:white;
 
+
     border:none;
+
 
     border-radius:8px;
 
+
     font-size:16px;
+
 
     cursor:pointer;
 
@@ -400,21 +478,10 @@ button{
 
 
 
-button:hover{
-
-
-    background:#07502b;
-
-
-}
 
 
 
-
-
-
-
-/* Print Setting */
+/* Print */
 
 
 @media print{
@@ -424,6 +491,17 @@ body{
 
 
     background:white;
+
+
+}
+
+
+
+.print-area{
+
+
+    min-height:100vh;
+
 
     padding:0;
 
@@ -437,7 +515,8 @@ body{
 
     box-shadow:none;
 
-    border:2px solid #000;
+
+    margin:auto;
 
 
 }
