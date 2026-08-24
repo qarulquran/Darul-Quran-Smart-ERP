@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 
 <head>
 
@@ -13,7 +13,7 @@ Fee Collection - Darul Quran Ahmadia Madrasah
 </title>
 
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="fee.css">
 
 
 </head>
@@ -22,18 +22,24 @@ Fee Collection - Darul Quran Ahmadia Madrasah
 <body>
 
 
-<div class="main">
+
+<div class="container">
 
 
 
-<header class="topbar">
+<header class="header">
 
 <h1>
 💰 Fee Collection
 </h1>
 
 
-<div class="admin-profile">
+<p>
+দারুল কুরআন আহমদিয়া মাদরাসা
+</p>
+
+
+<div>
 Admin 👤
 </div>
 
@@ -46,24 +52,21 @@ Admin 👤
 
 
 
-
 <!-- Student Search -->
 
 
-<div class="form-card">
+<div class="card">
 
 
 <h2>
-👨‍🎓 Student Information
+👨‍🎓 Student Search
 </h2>
 
 
-
-<div class="form-grid">
-
+<div class="row">
 
 
-<div class="field">
+<div class="input-box">
 
 
 <label>
@@ -84,14 +87,9 @@ placeholder="Enter Student ID">
 
 
 
-
-
-<div class="field">
-
-
 <button id="searchStudent">
 
-🔍 Search Student
+🔍 Search
 
 </button>
 
@@ -99,12 +97,6 @@ placeholder="Enter Student ID">
 </div>
 
 
-
-</div>
-
-
-
-
 </div>
 
 
@@ -115,14 +107,20 @@ placeholder="Enter Student ID">
 
 
 
-<!-- Student Preview -->
+
+<!-- Student Information -->
 
 
-<div class="profile-card" id="studentInfo" style="display:none;">
+<div class="card student-card" id="studentInfo">
+
+
+<h2>
+Student Information
+</h2>
 
 
 
-<div class="student-photo">
+<div class="student-data">
 
 
 <img
@@ -131,28 +129,28 @@ id="studentPhoto"
 
 src="https://via.placeholder.com/120"
 
-width="120">
-
-
-</div>
+alt="Student Photo">
 
 
 
 
 
-<div class="student-info">
-
-
-<h2 id="studentName">
--
-</h2>
+<div>
 
 
 <p>
+<b>Name:</b>
 
-<b>
-Student ID:
-</b>
+<span id="studentName">
+-
+</span>
+
+</p>
+
+
+
+<p>
+<b>Student ID:</b>
 
 <span id="showStudentCode">
 -
@@ -162,11 +160,9 @@ Student ID:
 
 
 
-<p>
 
-<b>
-Class:
-</b>
+<p>
+<b>Class:</b>
 
 <span id="studentClass">
 -
@@ -177,10 +173,7 @@ Class:
 
 
 <p>
-
-<b>
-Father Name:
-</b>
+<b>Father Name:</b>
 
 <span id="fatherName">
 -
@@ -190,12 +183,8 @@ Father Name:
 
 
 
-
 <p>
-
-<b>
-Guardian Mobile:
-</b>
+<b>Guardian Mobile:</b>
 
 <span id="guardianMobile">
 -
@@ -204,7 +193,6 @@ Guardian Mobile:
 </p>
 
 
-
 </div>
 
 
@@ -212,6 +200,7 @@ Guardian Mobile:
 </div>
 
 
+</div>
 
 
 
@@ -219,10 +208,13 @@ Guardian Mobile:
 
 
 
-<!-- Fee Entry -->
 
 
-<div class="form-card">
+
+<!-- Payment Entry -->
+
+
+<div class="card">
 
 
 <h2>
@@ -231,14 +223,11 @@ Guardian Mobile:
 
 
 
-
-<div class="form-grid">
-
+<div class="row">
 
 
 
-
-<div class="field">
+<div class="input-box">
 
 
 <label>
@@ -286,7 +275,7 @@ Certificate Fee
 
 
 
-<div class="field">
+<div class="input-box">
 
 
 <label>
@@ -365,11 +354,19 @@ December
 
 
 
+</div>
 
 
 
 
-<div class="field">
+
+
+
+
+<div class="row">
+
+
+<div class="input-box">
 
 
 <label>
@@ -393,9 +390,7 @@ placeholder="Enter Amount">
 
 
 
-
-
-<div class="field">
+<div class="input-box">
 
 
 <label>
@@ -421,6 +416,11 @@ Bkash
 </option>
 
 
+<option>
+Nagad
+</option>
+
+
 </select>
 
 
@@ -428,6 +428,9 @@ Bkash
 
 
 
+</div>
+
+
 
 
 
@@ -436,28 +439,17 @@ Bkash
 
 
 
-</div>
 
 
 
 
 
 
-
-
-
-<div class="submit-area">
-
-
-<button id="savePayment">
+<button class="save-btn" id="savePayment">
 
 💾 Save Payment
 
 </button>
-
-
-</div>
-
 
 
 
@@ -476,5 +468,6 @@ Bkash
 
 
 </body>
+
 
 </html>
