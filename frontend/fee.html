@@ -7,14 +7,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>
-Fee Collection - Darul Quran Ahmadia Madrasah
+Fee Collection - Darul Quran ERP
 </title>
 
-
-<link rel="stylesheet" href="fee.css?v=5">
-
+<link rel="stylesheet" href="fee.css">
 
 </head>
 
@@ -22,27 +19,32 @@ Fee Collection - Darul Quran Ahmadia Madrasah
 <body>
 
 
-<div class="container">
+<div class="main">
 
 
+<header class="topbar">
 
-<!-- Header -->
-
-<header class="header">
 
 <h1>
 💰 Fee Collection
 </h1>
 
 
-<p>
-দারুল কুরআন আহমদিয়া মাদরাসা
-</p>
+<div class="admin-profile">
 
-
-<span>
 Admin 👤
-</span>
+
+<a href="dashboard.html">
+🏠 Dashboard
+</a>
+
+
+<button onclick="logout()">
+🚪 Logout
+</button>
+
+
+</div>
 
 
 </header>
@@ -51,178 +53,84 @@ Admin 👤
 
 
 
-<!-- Search Student -->
+<div class="container">
+
 
 
 <div class="card">
 
 
 <h2>
-👨‍🎓 Student Search
+Collect Student Fee
 </h2>
 
 
-
-<div class="row">
-
-
-<div class="input-box">
 
 <label>
 Student Code
 </label>
 
 
-<input
+<div class="search-area">
 
+
+<input 
 type="text"
-
-id="studentCode"
-
-placeholder="Enter Student ID">
+id="studentCodeInput"
+placeholder="Enter Student Code">
 
 
-</div>
-
-
-
-<button id="searchStudent">
-
-🔍 Search
-
+<button onclick="searchStudent()">
+Search
 </button>
 
 
 </div>
 
 
-</div>
 
 
 
 
+<div class="student-info">
 
 
-
-<!-- Student Information -->
-
-
-<div class="card student-card" id="studentInfo">
-
-
-<h2>
-📋 Student Information
-</h2>
-
-
-
-<div class="student-data">
-
-
-<img
-
-id="studentPhoto"
-
-src="https://via.placeholder.com/120"
-
-alt="Student Photo">
-
-
-
-
-
-<div>
+<h3>
+Student Information
+</h3>
 
 
 <p>
-<b>Name:</b>
-
+Name:
 <span id="studentName">
 -
 </span>
-
 </p>
 
 
-
-
 <p>
-<b>Student ID:</b>
-
-<span id="showStudentCode">
--
-</span>
-
-</p>
-
-
-
-
-<p>
-<b>Class:</b>
-
+Class:
 <span id="studentClass">
 -
 </span>
-
 </p>
 
 
-
-
 <p>
-<b>Father Name:</b>
-
+Father Name:
 <span id="fatherName">
 -
 </span>
-
 </p>
 
 
 
-
-<p>
-<b>Guardian Mobile:</b>
-
-<span id="guardianMobile">
--
-</span>
-
-</p>
-
-
-</div>
-
-
-</div>
-
-
 </div>
 
 
 
 
 
-
-
-
-<!-- Payment -->
-
-
-<div class="card">
-
-
-<h2>
-💳 Payment Entry
-</h2>
-
-
-
-<div class="row">
-
-
-<div class="input-box">
 
 
 <label>
@@ -249,26 +157,16 @@ Exam Fee
 
 
 <option>
-ID Card Fee
-</option>
-
-
-<option>
-Certificate Fee
+Other
 </option>
 
 
 </select>
 
 
-</div>
 
 
 
-
-
-
-<div class="input-box">
 
 
 <label>
@@ -276,52 +174,63 @@ Month
 </label>
 
 
-<select id="month">
+<select id="feeMonth">
 
 
-<option>January</option>
+<option>
+January
+</option>
 
-<option>February</option>
+<option>
+February
+</option>
 
-<option>March</option>
+<option>
+March
+</option>
 
-<option>April</option>
+<option>
+April
+</option>
 
-<option>May</option>
+<option>
+May
+</option>
 
-<option>June</option>
+<option>
+June
+</option>
 
-<option>July</option>
+<option>
+July
+</option>
 
-<option>August</option>
+<option>
+August
+</option>
 
-<option>September</option>
+<option>
+September
+</option>
 
-<option>October</option>
+<option>
+October
+</option>
 
-<option>November</option>
+<option>
+November
+</option>
 
-<option>December</option>
+<option>
+December
+</option>
 
 
 </select>
 
 
-</div>
 
 
-</div>
-
-
-
-
-
-
-
-<div class="row">
-
-
-<div class="input-box">
 
 
 <label>
@@ -338,15 +247,9 @@ id="amount"
 placeholder="Enter Amount">
 
 
-</div>
 
 
 
-
-
-
-
-<div class="input-box">
 
 
 <label>
@@ -363,12 +266,7 @@ Cash
 
 
 <option>
-Bkash
-</option>
-
-
-<option>
-Nagad
+Mobile Banking
 </option>
 
 
@@ -380,31 +278,14 @@ Bank
 </select>
 
 
-</div>
-
-
-</div>
-
-
-
-</div>
 
 
 
 
 
+<button class="save-btn" onclick="saveFee()">
 
-
-
-<button
-
-class="save-btn"
-
-id="savePayment">
-
-
-💾 Save Payment
-
+Save Payment
 
 </button>
 
@@ -412,12 +293,31 @@ id="savePayment">
 
 
 
+<button class="receipt-btn" onclick="openReceipt()">
+
+🧾 Generate Receipt
+
+</button>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
 
 </div>
 
 
 
 
+
+
+<script src="script.js"></script>
 
 <script src="fee.js"></script>
 
