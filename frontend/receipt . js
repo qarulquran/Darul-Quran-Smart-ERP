@@ -1,19 +1,12 @@
 // ==========================================
 // Darul Quran Smart ERP
-// Money Receipt System
+// Premium Money Receipt System
 // receipt.js
 // ==========================================
 
 
 
-
-// ===============================
-// Get Data
-// ===============================
-
-
 function getFees(){
-
 
 return JSON.parse(
 
@@ -21,15 +14,11 @@ localStorage.getItem("fees")
 
 ) || [];
 
-
 }
 
 
 
-
-
 function getStudents(){
-
 
 return JSON.parse(
 
@@ -37,9 +26,7 @@ localStorage.getItem("students")
 
 ) || [];
 
-
 }
-
 
 
 
@@ -51,56 +38,48 @@ localStorage.getItem("students")
 // ===============================
 
 
-function generateBarcode(code){
+function generateBarcode(data){
+
+
+let barcodeBox =
+
+document.getElementById("barcode");
 
 
 
-let barcode = document.getElementById(
-
-"barcode"
-
-);
+if(barcodeBox){
 
 
-
-if(barcode){
+barcodeBox.innerHTML="";
 
 
 
-barcode.innerHTML = "";
+let img=document.createElement("img");
 
 
 
-
-let img = document.createElement("img");
-
-
-
-img.src =
+img.src=
 
 "https://barcode.tec-it.com/barcode.ashx?data="
 
 +
 
-encodeURIComponent(code)
+encodeURIComponent(data)
 
 +
 
-"&code=Code128&translate-esc=on";
+"&code=Code128";
 
 
 
-
-img.style.width = "250px";
-
+img.style.width="260px";
 
 
-barcode.appendChild(img);
 
+barcodeBox.appendChild(img);
 
 
 }
-
 
 
 }
@@ -114,19 +93,19 @@ barcode.appendChild(img);
 
 
 // ===============================
-// Load Receipt
+// Load Latest Receipt
 // ===============================
 
 
-let fees = getFees();
-
-
+let fees=getFees();
 
 
 
 let receipt =
 
-fees[fees.length - 1];
+fees[fees.length-1];
+
+
 
 
 
@@ -139,14 +118,16 @@ if(receipt){
 
 
 
+// Receipt Information
+
+
 document.getElementById(
 
 "receiptNo"
 
 ).innerText =
 
-receipt.receiptNo;
-
+receipt.receiptNo || "-";
 
 
 
@@ -158,11 +139,15 @@ document.getElementById(
 
 ).innerText =
 
-receipt.paymentDate;
+receipt.paymentDate || "-";
 
 
 
 
+
+
+
+// Payment Information
 
 
 
@@ -172,9 +157,7 @@ document.getElementById(
 
 ).innerText =
 
-receipt.feeType;
-
-
+receipt.feeType || "-";
 
 
 
@@ -186,7 +169,7 @@ document.getElementById(
 
 ).innerText =
 
-receipt.month;
+receipt.month || "-";
 
 
 
@@ -200,7 +183,7 @@ document.getElementById(
 
 ).innerText =
 
-receipt.amount;
+receipt.amount || "0";
 
 
 
@@ -214,7 +197,7 @@ document.getElementById(
 
 ).innerText =
 
-receipt.paymentMethod;
+receipt.paymentMethod || "-";
 
 
 
@@ -222,11 +205,12 @@ receipt.paymentMethod;
 
 
 
-// Student Find
 
 
-let students = getStudents();
+// Student Information
 
+
+let students=getStudents();
 
 
 
@@ -246,7 +230,6 @@ item.studentCode === receipt.studentCode
 
 
 
-
 if(student){
 
 
@@ -259,8 +242,7 @@ document.getElementById(
 
 ).innerText =
 
-student.name || "";
-
+student.name || "-";
 
 
 
@@ -273,8 +255,7 @@ document.getElementById(
 
 ).innerText =
 
-student.studentCode || "";
-
+student.studentCode || "-";
 
 
 
@@ -287,8 +268,7 @@ document.getElementById(
 
 ).innerText =
 
-student.admissionClass || "";
-
+student.admissionClass || "-";
 
 
 
@@ -301,7 +281,7 @@ document.getElementById(
 
 ).innerText =
 
-student.fatherName || "";
+student.fatherName || "-";
 
 
 
@@ -309,19 +289,62 @@ student.fatherName || "";
 
 
 
-// Barcode
 
-generateBarcode(
+
+// Barcode Data
+
+
+
+let barcodeData =
+
+
+
+"Receipt: "
+
++
+
+receipt.receiptNo
+
++
+
+"|"
+
++
+
+"Student: "
+
++
 
 student.studentCode
 
-);
++
+
+"|"
+
++
+
+"Amount: "
+
++
+
+receipt.amount;
+
+
+
+
+
+
+
+generateBarcode(barcodeData);
+
+
 
 
 
 
 
 }
+
 
 
 
@@ -332,6 +355,7 @@ student.studentCode
 else{
 
 
+
 alert(
 
 "No Receipt Found"
@@ -340,9 +364,7 @@ alert(
 
 
 
-window.location.href =
-
-"fee.html";
+window.location.href="fee.html";
 
 
 }
