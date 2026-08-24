@@ -1,13 +1,20 @@
 // ==========================================
 // Darul Quran Ahmadia Madrasah
-// Fee Collection System
+// Smart ERP
+// Final Fee Collection System
 // fee.js
 // ==========================================
 
 
+
+let selectedStudent = null;
+
+
+
 // ===============================
-// Get Database
+// Database
 // ===============================
+
 
 function getStudents(){
 
@@ -29,11 +36,15 @@ function getFees(){
 
 
 
-// ===============================
-// Current Selected Student
-// ===============================
+function saveFees(data){
 
-let selectedStudent = null;
+    localStorage.setItem(
+        "fees",
+        JSON.stringify(data)
+    );
+
+}
+
 
 
 
@@ -43,13 +54,16 @@ let selectedStudent = null;
 // Search Student
 // ===============================
 
+
 function searchStudent(){
 
 
-let code = document
+let code =
+document
 .getElementById("studentCodeInput")
 .value
 .trim();
+
 
 
 
@@ -57,25 +71,42 @@ let students = getStudents();
 
 
 
-let student = students.find(
 
-item => item.studentCode === code
+let student = students.find(item =>
+
+
+String(item.studentCode).trim()
+===
+String(code).trim()
+
 
 );
 
 
 
+
+
 if(!student){
 
-alert("Student not found");
+
+alert(
+"Student Not Found"
+);
+
 
 return;
+
 
 }
 
 
 
+
+
 selectedStudent = student;
+
+
+
 
 
 
@@ -85,9 +116,13 @@ student.name || "-";
 
 
 
+
+
 document.getElementById("studentClass")
 .innerText =
 student.admissionClass || "-";
+
+
 
 
 
@@ -97,6 +132,17 @@ student.fatherName || "-";
 
 
 
+
+
+document.getElementById("guardianMobile")
+.innerText =
+student.guardianMobile || "-";
+
+
+
+
+
+
 }
 
 
@@ -104,29 +150,40 @@ student.fatherName || "-";
 
 
 // ===============================
-// Generate Receipt Number
+// Receipt Number
 // ===============================
+
 
 function generateReceiptNo(){
 
 
-let serial =
-Date.now()
-.toString()
-.slice(-6);
+let fees=getFees();
 
 
+return (
 
-return "DQ-REC-"
+"DQ-REC-"
+
 +
+
 new Date().getFullYear()
+
 +
+
 "-"
+
 +
-serial;
+
+String(fees.length+1)
+
+.padStart(6,"0")
+
+);
 
 
 }
+
+
 
 
 
@@ -138,6 +195,7 @@ serial;
 // Save Fee
 // ===============================
 
+
 function saveFee(){
 
 
@@ -145,7 +203,9 @@ function saveFee(){
 if(!selectedStudent){
 
 
-alert("Please select student first");
+alert(
+"Please Search Student First"
+);
 
 
 return;
@@ -156,7 +216,9 @@ return;
 
 
 
-let fee = {
+
+let fee={
+
 
 
 receiptNo:
@@ -171,6 +233,16 @@ selectedStudent.studentCode,
 
 studentName:
 selectedStudent.name,
+
+
+
+fatherName:
+selectedStudent.fatherName,
+
+
+
+guardianMobile:
+selectedStudent.guardianMobile,
 
 
 
@@ -195,8 +267,8 @@ document.getElementById("paymentMethod").value,
 
 
 paymentDate:
-new Date()
-.toLocaleDateString("en-GB")
+new Date().toLocaleDateString("bn-BD")
+
 
 
 };
@@ -205,7 +277,26 @@ new Date()
 
 
 
-let fees = getFees();
+
+if(!fee.amount){
+
+
+alert(
+"Amount দিন"
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+let fees=getFees();
 
 
 
@@ -213,22 +304,135 @@ fees.push(fee);
 
 
 
+
+
+// Save Fee Database
+
+saveFees(fees);
+
+
+
+
+
+
+// Save Latest Receipt
+
 localStorage.setItem(
 
-"fees",
+"lastReceipt",
 
-JSON.stringify(fees)
+JSON.stringify(fee)
 
 );
 
 
 
 
-alert("Payment Saved Successfully");
+
+
+
+// WhatsApp Message
+
+let message =
+
+"আসসালামু আলাইকুম ওয়া রহমাতুল্লাহ।\n\n"
+
++
+
+"দারুল কুরআন আহমদিয়া মাদরাসা\n\n"
+
++
+
+"শিক্ষার্থী: "
+
++
+
+fee.studentName
+
++
+
+"\n"
+
++
+
+"Receipt No: "
+
++
+
+fee.receiptNo
+
++
+
+"\n"
+
++
+
+"Fee Amount: ৳"
+
++
+
+fee.amount
+
++
+
+"\n"
+
++
+
+"Month: "
+
++
+
+fee.month
+
++
+
+"\n\n"
+
++
+
+"জাযাকাল্লাহু খায়রান।";
+
+
+
+
+
+
+
+localStorage.setItem(
+
+"guardianMessage",
+
+message
+
+);
+
+
+
+
+
+
+
+
+alert(
+
+"Payment Saved Successfully\n"
+
++
+
+fee.receiptNo
+
+);
+
+
+
+
 
 
 
 }
+
+
 
 
 
@@ -240,18 +444,17 @@ alert("Payment Saved Successfully");
 // Open Receipt
 // ===============================
 
+
 function openReceipt(){
 
 
 
-let fees = getFees();
+if(!localStorage.getItem("lastReceipt")){
 
 
-
-if(fees.length === 0){
-
-
-alert("No payment found");
+alert(
+"No Receipt Found"
+);
 
 
 return;
@@ -261,7 +464,8 @@ return;
 
 
 
-window.location.href =
+window.location.href=
+
 "receipt.html";
 
 
