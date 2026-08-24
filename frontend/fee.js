@@ -1,21 +1,19 @@
 // ==========================================
 // Darul Quran Ahmadia Madrasah
-// Fee Collection System
-// Final fee.js
+// Smart ERP Fee Collection System
+// fee.js FINAL
 // ==========================================
 
 
-let selectedStudent = null;
-
-
+// ===============================
+// Database
+// ===============================
 
 function getStudents(){
 
-return JSON.parse(
-
-localStorage.getItem("students")
-
-) || [];
+    return JSON.parse(
+        localStorage.getItem("students")
+    ) || [];
 
 }
 
@@ -23,33 +21,19 @@ localStorage.getItem("students")
 
 function getFees(){
 
-return JSON.parse(
-
-localStorage.getItem("fees")
-
-) || [];
+    return JSON.parse(
+        localStorage.getItem("fees")
+    ) || [];
 
 }
 
 
 
+// ===============================
+// Selected Student
+// ===============================
 
-
-
-function saveFees(data){
-
-localStorage.setItem(
-
-"fees",
-
-JSON.stringify(data)
-
-);
-
-}
-
-
-
+let selectedStudent = null;
 
 
 
@@ -57,105 +41,85 @@ JSON.stringify(data)
 // Search Student
 // ===============================
 
-
 function searchStudent(){
 
 
-let code = document
+    let code =
+    document
+    .getElementById("studentCodeInput")
+    .value
+    .trim();
 
-.getElementById("studentCodeInput")
 
-.value
 
-.trim();
+    if(!code){
 
+        alert("Enter Student Code");
 
+        return;
 
+    }
 
 
-let students = getStudents();
 
+    let students = getStudents();
 
 
 
+    let student =
+    students.find(
+        item =>
+        item.studentCode === code
+    );
 
-let student = students.find(
 
-item =>
 
-item.studentCode.trim() === code
 
-);
+    if(!student){
 
 
+        alert(
+        "Student not found"
+        );
 
 
+        return;
 
 
-if(!student){
+    }
 
 
-alert("Student Not Found");
 
 
-return;
+    selectedStudent = student;
 
 
-}
 
 
+    document
+    .getElementById("studentName")
+    .innerText =
+    student.name || "-";
 
 
 
-selectedStudent = student;
 
 
+    document
+    .getElementById("studentClass")
+    .innerText =
+    student.admissionClass || "-";
 
-// Keep selected student
 
-localStorage.setItem(
 
-"selectedFeeStudent",
 
-JSON.stringify(student)
 
-);
+    document
+    .getElementById("fatherName")
+    .innerText =
+    student.fatherName || "-";
 
 
-
-
-
-document.getElementById("studentName")
-
-.innerText =
-
-student.name || "-";
-
-
-
-
-
-document.getElementById("studentClass")
-
-.innerText =
-
-student.admissionClass || "-";
-
-
-
-
-
-document.getElementById("fatherName")
-
-.innerText =
-
-student.fatherName || "-";
-
-
-
-
-
-alert("Student Found");
 
 
 
@@ -176,31 +140,25 @@ alert("Student Found");
 function generateReceiptNo(){
 
 
-let fees=getFees();
+    let time =
+    Date.now()
+    .toString()
+    .slice(-8);
 
 
-return (
 
-"DQ-REC-"
-
-+
-
-new Date().getFullYear()
-
-+
-
-"-"
-
-+
-
-String(fees.length+1)
-
-.padStart(6,"0")
-
-);
+    return (
+        "DQ-REC-" +
+        new Date().getFullYear()
+        +
+        "-"
+        +
+        time
+    );
 
 
 }
+
 
 
 
@@ -218,229 +176,183 @@ function saveFee(){
 
 
 
-if(!selectedStudent){
+    if(!selectedStudent){
 
 
+        alert(
+        "Please Search Student First"
+        );
 
-let oldStudent = JSON.parse(
 
-localStorage.getItem("selectedFeeStudent")
+        return;
 
-);
+    }
 
 
 
-if(oldStudent){
 
-selectedStudent = oldStudent;
 
-}
 
-}
+    let amount =
+    document
+    .getElementById("amount")
+    .value;
 
 
 
 
+    if(!amount || amount<=0){
 
-if(!selectedStudent){
 
+        alert(
+        "Enter Amount"
+        );
 
-alert(
 
-"আগে Student Search করুন"
+        return;
 
-);
+    }
 
 
-return;
 
 
-}
 
 
+    let fee = {
 
 
+        receiptNo:
+        generateReceiptNo(),
 
 
 
-let amount = document
+        studentCode:
+        selectedStudent.studentCode,
 
-.getElementById("amount")
 
-.value;
 
+        studentName:
+        selectedStudent.name,
 
 
 
+        fatherName:
+        selectedStudent.fatherName,
 
-if(!amount){
 
 
-alert(
+        admissionClass:
+        selectedStudent.admissionClass,
 
-"Amount দিন"
 
-);
 
+        feeType:
+        document
+        .getElementById("feeType")
+        .value,
 
-return;
 
 
-}
+        month:
+        document
+        .getElementById("feeMonth")
+        .value,
 
 
 
+        amount:
+        amount,
 
 
 
+        paymentMethod:
+        document
+        .getElementById("paymentMethod")
+        .value,
 
-let fee = {
 
 
+        paymentDate:
+        new Date()
+        .toLocaleDateString("en-GB")
 
-receiptNo:
 
-generateReceiptNo(),
 
+    };
 
 
-studentCode:
 
-selectedStudent.studentCode,
 
 
 
-studentName:
 
-selectedStudent.name,
 
 
+    // Save all fees
 
-fatherName:
 
-selectedStudent.fatherName,
+    let fees =
+    getFees();
 
 
 
-guardianMobile:
+    fees.push(fee);
 
-selectedStudent.guardianMobile,
 
 
 
-feeType:
 
-document.getElementById("feeType").value,
+    localStorage.setItem(
 
+        "fees",
 
+        JSON.stringify(fees)
 
-month:
+    );
 
-document.getElementById("feeMonth").value,
 
 
 
-amount:amount,
 
 
+    // IMPORTANT FOR RECEIPT
 
-paymentMethod:
 
-document.getElementById("paymentMethod").value,
+    localStorage.setItem(
 
+        "lastReceipt",
 
+        JSON.stringify(fee)
 
-paymentDate:
+    );
 
-new Date().toLocaleDateString("bn-BD")
 
 
 
-};
 
 
 
+    alert(
 
+    "Payment Saved Successfully\nReceipt No: "
+    +
+    fee.receiptNo
 
+    );
 
 
-let fees=getFees();
 
 
 
-fees.push(fee);
 
 
-
-saveFees(fees);
-
-
-
-
-
-
-// Receipt Data
-
-localStorage.setItem(
-
-"lastReceipt",
-
-JSON.stringify(fee)
-
-);
-
-
-
-
-
-
-
-// WhatsApp Message
-
-let msg =
-
-"আসসালামু আলাইকুম ওয়া রহমাতুল্লাহ।\n\n"+
-
-"দারুল কুরআন আহমদিয়া মাদরাসা\n\n"+
-
-"শিক্ষার্থী: "+fee.studentName+
-
-"\nReceipt No: "+fee.receiptNo+
-
-"\nAmount: ৳"+fee.amount+
-
-"\nMonth: "+fee.month+
-
-"\n\nজাযাকাল্লাহু খায়রান।";
-
-
-
-
-localStorage.setItem(
-
-"guardianMessage",
-
-msg
-
-);
-
-
-
-
-
-
-
-alert(
-
-"Payment Saved Successfully\n"+
-
-fee.receiptNo
-
-);
+    window.location.href =
+    "receipt.html";
 
 
 
 }
+
 
 
 
@@ -450,27 +362,62 @@ fee.receiptNo
 
 
 // ===============================
-// Receipt
+// Open Receipt Button
 // ===============================
 
 
 function openReceipt(){
 
 
-if(!localStorage.getItem("lastReceipt")){
+
+    let receipt =
+    localStorage.getItem(
+    "lastReceipt"
+    );
 
 
-alert("No Receipt Found");
+
+    if(!receipt){
 
 
-return;
+        alert(
+        "No Receipt Found"
+        );
+
+
+        return;
+
+
+    }
+
+
+
+    window.location.href =
+    "receipt.html";
 
 
 }
 
 
 
-window.location.href="receipt.html";
+
+
+
+// ===============================
+// Logout
+// ===============================
+
+
+function logout(){
+
+
+    localStorage.removeItem(
+    "admin"
+    );
+
+
+    window.location.href =
+    "index.html";
 
 
 }
