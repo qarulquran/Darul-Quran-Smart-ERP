@@ -9,7 +9,7 @@
 
 
 <title>
-Fee Collection - Darul Quran ERP
+Fee Collection - Darul Quran Ahmadia Madrasah
 </title>
 
 
@@ -22,7 +22,6 @@ Fee Collection - Darul Quran ERP
 <body>
 
 
-
 <div class="main">
 
 
@@ -30,7 +29,7 @@ Fee Collection - Darul Quran ERP
 <header class="topbar">
 
 <h1>
-Fee Collection
+💰 Fee Collection
 </h1>
 
 
@@ -47,16 +46,21 @@ Admin 👤
 
 
 
+
+<!-- Student Search -->
+
+
 <div class="form-card">
 
 
 <h2>
-💰 Search Student
+👨‍🎓 Student Information
 </h2>
 
 
 
 <div class="form-grid">
+
 
 
 <div class="field">
@@ -73,21 +77,21 @@ type="text"
 
 id="studentCode"
 
-placeholder="Enter Student Code">
+placeholder="Enter Student ID">
 
 
 </div>
 
 
 
+
+
 <div class="field">
 
 
-<button
+<button id="searchStudent">
 
-id="searchStudent">
-
-🔍 Search
+🔍 Search Student
 
 </button>
 
@@ -95,18 +99,23 @@ id="searchStudent">
 </div>
 
 
-</div>
-
 
 </div>
 
 
 
 
+</div>
 
 
 
 
+
+
+
+
+
+<!-- Student Preview -->
 
 
 <div class="profile-card" id="studentInfo" style="display:none;">
@@ -120,13 +129,12 @@ id="searchStudent">
 
 id="studentPhoto"
 
-src="https://via.placeholder.com/100"
+src="https://via.placeholder.com/120"
 
-width="100">
+width="120">
 
 
 </div>
-
 
 
 
@@ -140,17 +148,17 @@ width="100">
 </h2>
 
 
-
 <p>
 
 <b>
-Father:
+Student ID:
 </b>
 
-<span id="fatherName"></span>
+<span id="showStudentCode">
+-
+</span>
 
 </p>
-
 
 
 
@@ -160,7 +168,23 @@ Father:
 Class:
 </b>
 
-<span id="studentClass"></span>
+<span id="studentClass">
+-
+</span>
+
+</p>
+
+
+
+<p>
+
+<b>
+Father Name:
+</b>
+
+<span id="fatherName">
+-
+</span>
 
 </p>
 
@@ -170,25 +194,14 @@ Class:
 <p>
 
 <b>
-Mobile:
+Guardian Mobile:
 </b>
 
-<span id="guardianMobile"></span>
+<span id="guardianMobile">
+-
+</span>
 
 </p>
-
-
-
-<p>
-
-<b>
-Student Code:
-</b>
-
-<span id="showCode"></span>
-
-</p>
-
 
 
 
@@ -204,20 +217,24 @@ Student Code:
 
 
 
+
+
+<!-- Fee Entry -->
 
 
 <div class="form-card">
 
 
 <h2>
-📝 Payment Information
+💳 Payment Entry
 </h2>
 
 
 
 
-
 <div class="form-grid">
+
+
 
 
 
@@ -248,7 +265,12 @@ Exam Fee
 
 
 <option>
-Other
+ID Card Fee
+</option>
+
+
+<option>
+Certificate Fee
 </option>
 
 
@@ -256,6 +278,7 @@ Other
 
 
 </div>
+
 
 
 
@@ -271,11 +294,70 @@ Month
 </label>
 
 
-<input
+<select id="month">
 
-type="month"
 
-id="feeMonth">
+<option>
+January
+</option>
+
+
+<option>
+February
+</option>
+
+
+<option>
+March
+</option>
+
+
+<option>
+April
+</option>
+
+
+<option>
+May
+</option>
+
+
+<option>
+June
+</option>
+
+
+<option>
+July
+</option>
+
+
+<option>
+August
+</option>
+
+
+<option>
+September
+</option>
+
+
+<option>
+October
+</option>
+
+
+<option>
+November
+</option>
+
+
+<option>
+December
+</option>
+
+
+</select>
 
 
 </div>
@@ -301,10 +383,11 @@ type="number"
 
 id="amount"
 
-placeholder="Enter amount">
+placeholder="Enter Amount">
 
 
 </div>
+
 
 
 
@@ -320,7 +403,6 @@ Payment Method
 </label>
 
 
-
 <select id="paymentMethod">
 
 
@@ -330,43 +412,18 @@ Cash
 
 
 <option>
-Bkash
+Bank
 </option>
 
 
 <option>
-Bank
+Bkash
 </option>
-
 
 
 </select>
 
 
-
-</div>
-
-
-
-
-
-
-
-<div class="field">
-
-
-<label>
-Payment Date
-</label>
-
-
-<input
-
-type="date"
-
-id="paymentDate">
-
-
 </div>
 
 
@@ -375,7 +432,6 @@ id="paymentDate">
 
 
 </div>
-
 
 
 
@@ -400,7 +456,6 @@ id="paymentDate">
 </button>
 
 
-
 </div>
 
 
@@ -409,8 +464,8 @@ id="paymentDate">
 
 
 
-</div>
 
+</div>
 
 
 
@@ -418,7 +473,6 @@ id="paymentDate">
 
 
 <script src="fee.js"></script>
-
 
 
 </body>
