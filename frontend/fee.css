@@ -1,101 +1,31 @@
-// ==========================================
-// Darul Quran Ahmadia Madrasah
-// Fee Collection System
-// fee.js
-// ==========================================
+/* ==========================================
+   Darul Quran Ahmadia Madrasah
+   Premium Fee Collection CSS
+========================================== */
 
 
-// ===============================
-// Get Database
-// ===============================
+*{
 
-function getStudents(){
-
-    return JSON.parse(
-        localStorage.getItem("students")
-    ) || [];
+box-sizing:border-box;
 
 }
 
 
 
-function getFees(){
+body{
 
-    return JSON.parse(
-        localStorage.getItem("fees")
-    ) || [];
+margin:0;
 
-}
+padding:0;
 
+background:#f1f3f5;
 
+font-family:
 
-// ===============================
-// Current Selected Student
-// ===============================
-
-let selectedStudent = null;
-
-
-
-
-
-// ===============================
-// Search Student
-// ===============================
-
-function searchStudent(){
-
-
-let code = document
-.getElementById("studentCodeInput")
-.value
-.trim();
-
-
-
-let students = getStudents();
-
-
-
-let student = students.find(
-
-item => item.studentCode === code
-
-);
-
-
-
-if(!student){
-
-alert("Student not found");
-
-return;
-
-}
-
-
-
-selectedStudent = student;
-
-
-
-document.getElementById("studentName")
-.innerText =
-student.name || "-";
-
-
-
-document.getElementById("studentClass")
-.innerText =
-student.admissionClass || "-";
-
-
-
-document.getElementById("fatherName")
-.innerText =
-student.fatherName || "-";
-
-
+"Noto Sans Bengali",
+"Segoe UI",
+Arial,
+sans-serif;
 
 }
 
@@ -103,28 +33,83 @@ student.fatherName || "-";
 
 
 
-// ===============================
-// Generate Receipt Number
-// ===============================
-
-function generateReceiptNo(){
+/* Header */
 
 
-let serial =
-Date.now()
-.toString()
-.slice(-6);
+.topbar{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+background:#0b6b3a;
+
+color:white;
+
+padding:15px 25px;
+
+}
 
 
 
-return "DQ-REC-"
-+
-new Date().getFullYear()
-+
-"-"
-+
-serial;
+.topbar h1{
 
+margin:0;
+
+font-size:22px;
+
+}
+
+
+
+.admin-profile{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+}
+
+
+
+.admin-profile a,
+.admin-profile button{
+
+padding:8px 12px;
+
+border-radius:6px;
+
+border:none;
+
+text-decoration:none;
+
+cursor:pointer;
+
+font-size:14px;
+
+}
+
+
+
+.admin-profile a{
+
+background:white;
+
+color:#0b6b3a;
+
+}
+
+
+
+.admin-profile button{
+
+background:#dc3545;
+
+color:white;
 
 }
 
@@ -134,99 +119,49 @@ serial;
 
 
 
-// ===============================
-// Save Fee
-// ===============================
-
-function saveFee(){
+/* Main Container */
 
 
+.container{
 
-if(!selectedStudent){
+max-width:600px;
 
+margin:30px auto;
 
-alert("Please select student first");
-
-
-return;
-
+padding:15px;
 
 }
 
 
 
 
-let fee = {
+
+/* Card */
 
 
-receiptNo:
-generateReceiptNo(),
+.card{
 
+background:white;
 
+padding:25px;
 
-studentCode:
-selectedStudent.studentCode,
+border-radius:15px;
 
+box-shadow:
 
+0 5px 20px rgba(0,0,0,0.12);
 
-studentName:
-selectedStudent.name,
-
-
-
-feeType:
-document.getElementById("feeType").value,
+}
 
 
 
-month:
-document.getElementById("feeMonth").value,
+.card h2{
 
+text-align:center;
 
+color:#0b6b3a;
 
-amount:
-document.getElementById("amount").value,
-
-
-
-paymentMethod:
-document.getElementById("paymentMethod").value,
-
-
-
-paymentDate:
-new Date()
-.toLocaleDateString("en-GB")
-
-
-};
-
-
-
-
-
-let fees = getFees();
-
-
-
-fees.push(fee);
-
-
-
-localStorage.setItem(
-
-"fees",
-
-JSON.stringify(fees)
-
-);
-
-
-
-
-alert("Payment Saved Successfully");
-
-
+margin-bottom:25px;
 
 }
 
@@ -236,33 +171,225 @@ alert("Payment Saved Successfully");
 
 
 
-// ===============================
-// Open Receipt
-// ===============================
+label{
 
-function openReceipt(){
+display:block;
 
+font-weight:bold;
 
+margin-top:15px;
 
-let fees = getFees();
+font-size:14px;
 
-
-
-if(fees.length === 0){
+}
 
 
-alert("No payment found");
 
 
-return;
+
+
+
+input,
+select{
+
+width:100%;
+
+padding:12px;
+
+margin-top:6px;
+
+border:1px solid #ccc;
+
+border-radius:8px;
+
+font-size:15px;
+
+}
+
+
+
+
+
+
+
+/* Search */
+
+
+.search-area{
+
+display:flex;
+
+gap:10px;
+
+margin-bottom:20px;
+
+}
+
+
+
+.search-area input{
+
+flex:1;
+
+}
+
+
+
+.search-area button{
+
+background:#0b6b3a;
+
+color:white;
+
+border:none;
+
+border-radius:8px;
+
+padding:10px 15px;
+
+cursor:pointer;
+
+}
+
+
+
+
+
+
+
+
+/* Student Info */
+
+
+.student-info{
+
+background:#f3f8f5;
+
+border-left:5px solid #0b6b3a;
+
+padding:15px;
+
+margin:20px 0;
+
+border-radius:8px;
+
+}
+
+
+
+.student-info h3{
+
+margin-top:0;
+
+color:#0b6b3a;
+
+}
+
+
+
+.student-info p{
+
+margin:8px 0;
+
+}
+
+
+
+
+
+
+
+/* Buttons */
+
+
+.save-btn,
+.receipt-btn{
+
+
+width:100%;
+
+margin-top:20px;
+
+padding:13px;
+
+border:none;
+
+border-radius:8px;
+
+font-size:16px;
+
+cursor:pointer;
+
+color:white;
 
 
 }
 
 
 
-window.location.href =
-"receipt.html";
+.save-btn{
+
+background:#0b6b3a;
+
+}
+
+
+
+.receipt-btn{
+
+background:#b8860b;
+
+}
+
+
+
+
+
+.save-btn:hover,
+.receipt-btn:hover{
+
+opacity:.85;
+
+}
+
+
+
+
+
+
+
+
+/* Mobile */
+
+
+@media(max-width:600px){
+
+
+.topbar{
+
+flex-direction:column;
+
+gap:15px;
+
+text-align:center;
+
+}
+
+
+
+.search-area{
+
+flex-direction:column;
+
+}
+
+
+
+.container{
+
+margin:10px auto;
+
+}
 
 
 }
