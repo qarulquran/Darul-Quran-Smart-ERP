@@ -13,7 +13,7 @@ Fee Collection - Darul Quran Ahmadia Madrasah
 </title>
 
 
-<link rel="stylesheet" href="fee.css">
+<link rel="stylesheet" href="fee.css?v=5">
 
 
 </head>
@@ -22,10 +22,11 @@ Fee Collection - Darul Quran Ahmadia Madrasah
 <body>
 
 
-
 <div class="container">
 
 
+
+<!-- Header -->
 
 <header class="header">
 
@@ -39,9 +40,9 @@ Fee Collection - Darul Quran Ahmadia Madrasah
 </p>
 
 
-<div>
+<span>
 Admin 👤
-</div>
+</span>
 
 
 </header>
@@ -50,9 +51,7 @@ Admin 👤
 
 
 
-
-
-<!-- Student Search -->
+<!-- Search Student -->
 
 
 <div class="card">
@@ -63,11 +62,11 @@ Admin 👤
 </h2>
 
 
+
 <div class="row">
 
 
 <div class="input-box">
-
 
 <label>
 Student Code
@@ -105,9 +104,6 @@ placeholder="Enter Student ID">
 
 
 
-
-
-
 <!-- Student Information -->
 
 
@@ -115,7 +111,7 @@ placeholder="Enter Student ID">
 
 
 <h2>
-Student Information
+📋 Student Information
 </h2>
 
 
@@ -149,6 +145,7 @@ alt="Student Photo">
 
 
 
+
 <p>
 <b>Student ID:</b>
 
@@ -172,6 +169,7 @@ alt="Student Photo">
 
 
 
+
 <p>
 <b>Father Name:</b>
 
@@ -180,6 +178,7 @@ alt="Student Photo">
 </span>
 
 </p>
+
 
 
 
@@ -196,7 +195,6 @@ alt="Student Photo">
 </div>
 
 
-
 </div>
 
 
@@ -209,9 +207,7 @@ alt="Student Photo">
 
 
 
-
-
-<!-- Payment Entry -->
+<!-- Payment -->
 
 
 <div class="card">
@@ -224,7 +220,6 @@ alt="Student Photo">
 
 
 <div class="row">
-
 
 
 <div class="input-box">
@@ -273,8 +268,6 @@ Certificate Fee
 
 
 
-
-
 <div class="input-box">
 
 
@@ -286,64 +279,29 @@ Month
 <select id="month">
 
 
-<option>
-January
-</option>
+<option>January</option>
 
+<option>February</option>
 
-<option>
-February
-</option>
+<option>March</option>
 
+<option>April</option>
 
-<option>
-March
-</option>
+<option>May</option>
 
+<option>June</option>
 
-<option>
-April
-</option>
+<option>July</option>
 
+<option>August</option>
 
-<option>
-May
-</option>
+<option>September</option>
 
+<option>October</option>
 
-<option>
-June
-</option>
+<option>November</option>
 
-
-<option>
-July
-</option>
-
-
-<option>
-August
-</option>
-
-
-<option>
-September
-</option>
-
-
-<option>
-October
-</option>
-
-
-<option>
-November
-</option>
-
-
-<option>
-December
-</option>
+<option>December</option>
 
 
 </select>
@@ -352,10 +310,7 @@ December
 </div>
 
 
-
-
 </div>
-
 
 
 
@@ -390,6 +345,7 @@ placeholder="Enter Amount">
 
 
 
+
 <div class="input-box">
 
 
@@ -407,11 +363,6 @@ Cash
 
 
 <option>
-Bank
-</option>
-
-
-<option>
 Bkash
 </option>
 
@@ -421,12 +372,20 @@ Nagad
 </option>
 
 
+<option>
+Bank
+</option>
+
+
 </select>
 
 
 </div>
 
 
+</div>
+
+
 
 </div>
 
@@ -434,20 +393,18 @@ Nagad
 
 
 
-</div>
 
 
 
+<button
 
+class="save-btn"
 
+id="savePayment">
 
-
-
-
-
-<button class="save-btn" id="savePayment">
 
 💾 Save Payment
+
 
 </button>
 
@@ -456,15 +413,13 @@ Nagad
 
 
 
-
 </div>
 
 
 
 
 
-
-<script src="fee.js"></script>
+<script src="fee.js?v=5"></script>
 
 
 </body>
