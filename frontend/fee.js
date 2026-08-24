@@ -1,3 +1,0 @@
-alert(
-localStorage.getItem("students")
-);
