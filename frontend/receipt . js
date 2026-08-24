@@ -1,120 +1,72 @@
 // ==========================================
 // Darul Quran Ahmadia Madrasah
-// Premium Money Receipt System
-// receipt.js
+// Smart ERP Money Receipt
+// receipt.js FINAL
 // ==========================================
 
 
+document.addEventListener("DOMContentLoaded", function(){
+
+
 
 // ===============================
-// Get Database
+// Get Last Payment
 // ===============================
 
 
-function getFees(){
+let payment = JSON.parse(
 
-return JSON.parse(
+localStorage.getItem("lastReceipt")
 
-localStorage.getItem("fees")
+);
 
-) || [];
+
+
+
+
+if(!payment){
+
+
+alert("No Receipt Data Found");
+
+
+window.location.href="fee.html";
+
+
+return;
+
 
 }
 
 
 
-function getStudents(){
 
-return JSON.parse(
+
+
+
+
+// ===============================
+// Get Student
+// ===============================
+
+
+let students = JSON.parse(
 
 localStorage.getItem("students")
 
 ) || [];
 
-}
 
 
 
 
+let student = students.find(function(item){
 
 
+return item.studentCode === payment.studentCode;
 
 
-// ===============================
-// Generate Barcode
-// ===============================
-
-
-function generateBarcode(data){
-
-
-
-let barcodeBox =
-
-document.getElementById(
-
-"barcode"
-
-);
-
-
-
-
-
-if(barcodeBox){
-
-
-
-barcodeBox.innerHTML="";
-
-
-
-
-
-let img = document.createElement(
-
-"img"
-
-);
-
-
-
-
-
-
-img.src =
-
-"https://barcode.tec-it.com/barcode.ashx?data="
-
-+
-
-encodeURIComponent(data)
-
-+
-
-"&code=Code128";
-
-
-
-
-
-
-img.style.width="260px";
-
-
-
-
-
-
-barcodeBox.appendChild(img);
-
-
-
-}
-
-
-
-}
+});
 
 
 
@@ -125,168 +77,39 @@ barcodeBox.appendChild(img);
 
 
 // ===============================
-// Load Latest Receipt
-// ===============================
-
-
-let fees = getFees();
-
-
-
-
-
-let receipt =
-
-fees[fees.length - 1];
-
-
-
-
-
-
-
-if(receipt){
-
-
-
-
-
 // Receipt Information
+// ===============================
 
 
-document.getElementById(
+document.getElementById("receiptNo").innerText =
 
-"receiptNo"
+payment.receiptNo || "-";
 
-).innerText =
 
-receipt.receiptNo || "-";
 
 
 
+document.getElementById("paymentDate").innerText =
 
+payment.paymentDate || "-";
 
 
 
-document.getElementById(
 
-"paymentDate"
 
-).innerText =
 
-receipt.paymentDate || "-";
 
 
-
-
-
-
-
-
-// Payment Information
-
-
-
-document.getElementById(
-
-"feeType"
-
-).innerText =
-
-receipt.feeType || "-";
-
-
-
-
-
-
-
-document.getElementById(
-
-"feeMonth"
-
-).innerText =
-
-receipt.month || "-";
-
-
-
-
-
-
-
-document.getElementById(
-
-"amount"
-
-).innerText =
-
-receipt.amount || "0";
-
-
-
-
-
-
-
-document.getElementById(
-
-"paymentMethod"
-
-).innerText =
-
-receipt.paymentMethod || "-";
-
-
-
-
-
-
-
-
-
-
-
-
-// Find Student
-
-
-
-let students = getStudents();
-
-
-
-
-
-
-let student = students.find(item =>
-
-
-
-item.studentCode === receipt.studentCode
-
-
-
-);
-
-
-
-
-
+// ===============================
+// Student Information
+// ===============================
 
 
 if(student){
 
 
 
-
-
-
-document.getElementById(
-
-"studentName"
-
-).innerText =
+document.getElementById("studentName").innerText =
 
 student.name || "-";
 
@@ -294,13 +117,7 @@ student.name || "-";
 
 
 
-
-
-document.getElementById(
-
-"studentCode"
-
-).innerText =
+document.getElementById("studentCode").innerText =
 
 student.studentCode || "-";
 
@@ -308,13 +125,7 @@ student.studentCode || "-";
 
 
 
-
-
-document.getElementById(
-
-"studentClass"
-
-).innerText =
+document.getElementById("studentClass").innerText =
 
 student.admissionClass || "-";
 
@@ -322,68 +133,9 @@ student.admissionClass || "-";
 
 
 
-
-
-document.getElementById(
-
-"fatherName"
-
-).innerText =
+document.getElementById("fatherName").innerText =
 
 student.fatherName || "-";
-
-
-
-
-
-
-
-
-// Barcode Data
-
-
-let barcodeData =
-
-
-
-"Receipt No: "
-
-+
-
-receipt.receiptNo
-
-+
-
-"| Student ID: "
-
-+
-
-student.studentCode
-
-+
-
-"| Amount: "
-
-+
-
-receipt.amount;
-
-
-
-
-
-
-
-generateBarcode(barcodeData);
-
-
-
-
-
-
-}
-
-
 
 
 
@@ -393,17 +145,136 @@ else{
 
 
 
-alert(
+document.getElementById("studentName").innerText =
 
-"No Receipt Found"
-
-);
+payment.studentName || "-";
 
 
 
-window.location.href=
+document.getElementById("studentCode").innerText =
 
-"fee.html";
+payment.studentCode || "-";
+
+
+
+document.getElementById("fatherName").innerText =
+
+payment.fatherName || "-";
+
 
 
 }
+
+
+
+
+
+
+
+
+
+// ===============================
+// Payment Information
+// ===============================
+
+
+
+document.getElementById("feeType").innerText =
+
+payment.feeType || "-";
+
+
+
+
+
+document.getElementById("feeMonth").innerText =
+
+payment.month || "-";
+
+
+
+
+
+document.getElementById("amount").innerText =
+
+payment.amount || "0";
+
+
+
+
+
+document.getElementById("paymentMethod").innerText =
+
+payment.paymentMethod || "-";
+
+
+
+
+
+
+
+
+
+// ===============================
+// Barcode
+// ===============================
+
+
+let barcode = document.getElementById("barcode");
+
+
+
+
+
+if(barcode){
+
+
+
+barcode.innerHTML="";
+
+
+
+
+
+let img=document.createElement("img");
+
+
+
+img.src =
+
+"https://barcode.tec-it.com/barcode.ashx?data="
+
++
+
+encodeURIComponent(
+
+payment.receiptNo
+
+)
+
++
+
+"&code=Code128";
+
+
+
+
+
+img.style.width="250px";
+
+
+
+
+
+barcode.appendChild(img);
+
+
+
+}
+
+
+
+
+
+
+});
