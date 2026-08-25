@@ -1,10 +1,13 @@
 // ==========================================
 // Darul Quran Ahmadia Madrasah
 // Smart ERP Fee Due Management
-// fee-due.js FINAL
+// fee-due.js FINAL VERSION
 // ==========================================
 
 
+// ===============================
+// Database
+// ===============================
 
 function getStudents(){
 
@@ -27,10 +30,10 @@ function getFees(){
 
 
 
-// ==========================================
-// Class Wise Monthly Fee
-// ==========================================
 
+// ===============================
+// Monthly Fee Setup
+// ===============================
 
 const monthlyFee = {
 
@@ -45,12 +48,10 @@ const monthlyFee = {
 
     "চতুর্থ শ্রেণি":600,
 
-    "পঞ্চম শ্রেণি":700,
+    "পঞ্চম শ্রেণী":700,
 
     "ষষ্ঠ শ্রেণি":800,
 
-
-    // English class support
 
     "Class 1":600,
 
@@ -72,27 +73,65 @@ const monthlyFee = {
 
 
 
-// ==========================================
-// Month Difference
-// ==========================================
+// ===============================
+// Other Fee Setup
+// ===============================
 
 
-function monthDifference(start,end){
+const otherFeeSetup = {
 
 
-return (
+    "Admission Fee":1000,
 
-(end.getFullYear()-start.getFullYear()) * 12
+    "Exam Fee":500,
 
-+
+    "ID Card Fee":200,
 
-(end.getMonth()-start.getMonth())
+    "Book Fee":500,
 
-+
+    "Uniform Fee":800,
 
-1
+    "Tour Fee":1000,
 
-);
+    "Certificate Fee":500,
+
+    "Other Fee":0
+
+
+};
+
+
+
+
+
+
+
+
+// ===============================
+// Month Count
+// ===============================
+
+
+function monthDifference(startDate,endDate){
+
+
+    return (
+
+        (endDate.getFullYear()
+        -
+        startDate.getFullYear()) * 12
+
+        +
+
+        (endDate.getMonth()
+        -
+        startDate.getMonth())
+
+        +
+
+        1
+
+    );
 
 
 }
@@ -104,10 +143,9 @@ return (
 
 
 
-
-// ==========================================
-// Load Due
-// ==========================================
+// ===============================
+// Load Due Report
+// ===============================
 
 
 function loadDue(){
@@ -116,6 +154,7 @@ function loadDue(){
 
 let students =
 getStudents();
+
 
 
 let fees =
@@ -133,6 +172,7 @@ let table =
 document.getElementById("dueTable");
 
 
+
 table.innerHTML="";
 
 
@@ -143,15 +183,11 @@ let totalDue = 0;
 
 
 
-
-
 students.forEach(student=>{
 
 
 
-
-
-let studentPayments =
+let studentFees =
 
 fees.filter(
 
@@ -165,11 +201,9 @@ fee.studentCode === student.studentCode
 
 
 
-
-
-// ================================
+// ===============================
 // Monthly Fee Calculation
-// ================================
+// ===============================
 
 
 
@@ -177,16 +211,21 @@ let monthlyPaid = 0;
 
 
 
-studentPayments.forEach(payment=>{
+studentFees.forEach(fee=>{
 
 
-if(payment.feeType==="Monthly Fee"){
+if(
+fee.feeType === "Monthly Fee"
+){
 
 
-monthlyPaid += Number(payment.amount);
+monthlyPaid += Number(
+fee.amount
+);
 
 
 }
+
 
 
 });
@@ -195,55 +234,65 @@ monthlyPaid += Number(payment.amount);
 
 
 
-let monthlyDue = 0;
 
-
-
-
-
-if(student.admissionDate){
+if(
+student.admissionDate
+&&
+(filter==="All" ||
+filter==="Monthly Fee")
+){
 
 
 
 let startDate =
-
-new Date(student.admissionDate);
-
-
-
-let today = new Date();
-
-
-
-let months =
-
-monthDifference(
-
-startDate,
-
-today
-
+new Date(
+student.admissionDate
 );
 
+
+
+let today =
+new Date();
+
+
+
+let totalMonth =
+
+monthDifference(
+startDate,
+today
+);
 
 
 
 
 let classFee =
 
-monthlyFee[student.admissionClass] || 0;
+monthlyFee[
+student.admissionClass
+]
+||
+0;
 
 
 
 
 
-monthlyDue =
+let monthlyExpected =
 
-(months * classFee)
+totalMonth *
+classFee;
 
+
+
+
+
+let monthlyDue =
+
+monthlyExpected
 -
-
 monthlyPaid;
+
 
 
 
@@ -254,19 +303,11 @@ monthlyDue = 0;
 }
 
 
-}
 
 
 
 
-
-
-
-if(
-(filter==="All" || filter==="Monthly Fee")
-&&
-monthlyDue > 0
-){
+if(monthlyDue > 0){
 
 
 
@@ -275,48 +316,28 @@ document.createElement("tr");
 
 
 
-row.innerHTML = `
+row.innerHTML =
 
-
+`
 <td>
-
 ${student.name || "-"}
-
 </td>
 
-
-
 <td>
-
 ${student.admissionClass || "-"}
-
 </td>
 
-
-
 <td>
-
 Monthly Fee
-
 </td>
 
-
-
 <td>
-
 ৳ ${monthlyPaid}
-
 </td>
-
-
 
 <td>
-
 ৳ ${monthlyDue}
-
 </td>
-
-
 `;
 
 
@@ -328,6 +349,9 @@ table.appendChild(row);
 totalDue += monthlyDue;
 
 
+}
+
+
 
 }
 
@@ -337,41 +361,41 @@ totalDue += monthlyDue;
 
 
 
+// ===============================
+// Other Fee Calculation
+// ===============================
 
 
-// ================================
-// Other Fee Due
-// ================================
-
-
-
-let otherFees = {};
+let paidOther = {};
 
 
 
 
 
-studentPayments.forEach(payment=>{
+studentFees.forEach(fee=>{
 
 
 
-if(payment.feeType !== "Monthly Fee"){
+if(
+fee.feeType !== "Monthly Fee"
+){
 
 
+if(!paidOther[fee.feeType]){
 
-if(!otherFees[payment.feeType]){
 
-
-otherFees[payment.feeType]=0;
+paidOther[fee.feeType]=0;
 
 
 }
 
 
 
-otherFees[payment.feeType] +=
+paidOther[fee.feeType]
 
-Number(payment.amount);
++=
+
+Number(fee.amount);
 
 
 
@@ -380,20 +404,20 @@ Number(payment.amount);
 
 
 });
+    
+    // ===============================
+// Other Fee Due Continue
+// ===============================
 
 
-
-
-
-
-Object.keys(otherFees).forEach(type=>{
+Object.keys(otherFeeSetup).forEach(type=>{
 
 
 
 if(
-filter!=="All"
+filter !== "All"
 &&
-filter!==type
+filter !== type
 ){
 
 return;
@@ -403,9 +427,37 @@ return;
 
 
 
+let expected =
 
-// বর্তমানে Paid amount দেখাবে
-// পরে Fee Setup থেকে Expected Amount যোগ হবে
+otherFeeSetup[type];
+
+
+
+
+let paid =
+
+paidOther[type] || 0;
+
+
+
+
+let due =
+
+expected - paid;
+
+
+
+if(due < 0){
+
+due = 0;
+
+}
+
+
+
+
+
+if(due > 0){
 
 
 
@@ -414,48 +466,28 @@ document.createElement("tr");
 
 
 
-row.innerHTML = `
+row.innerHTML =
 
-
+`
 <td>
-
 ${student.name || "-"}
-
 </td>
 
-
-
 <td>
-
 ${student.admissionClass || "-"}
-
 </td>
 
-
-
 <td>
-
 ${type}
-
 </td>
-
-
 
 <td>
-
-৳ ${otherFees[type]}
-
+৳ ${paid}
 </td>
-
-
 
 <td>
-
-৳ 0
-
+৳ ${due}
 </td>
-
-
 `;
 
 
@@ -464,9 +496,15 @@ table.appendChild(row);
 
 
 
+totalDue += due;
+
+
+
+}
+
+
+
 });
-
-
 
 
 
@@ -480,7 +518,6 @@ table.appendChild(row);
 
 document.getElementById("totalDue")
 .innerText =
-
 totalDue;
 
 
@@ -492,6 +529,11 @@ totalDue;
 
 
 
+
+
+// ===============================
+// Auto Load
+// ===============================
 
 
 document.addEventListener(
