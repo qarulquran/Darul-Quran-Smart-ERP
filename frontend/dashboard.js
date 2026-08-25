@@ -1,13 +1,12 @@
 // ==========================================
 // Darul Quran Ahmadia Madrasah
 // Smart ERP Dashboard System
-// Final dashboard.js
+// dashboard.js FINAL
 // ==========================================
 
 
-
 // ===============================
-// Get Data
+// Database
 // ===============================
 
 
@@ -21,6 +20,7 @@ localStorage.getItem("students")
 
 
 
+
 function getTeachers(){
 
 return JSON.parse(
@@ -28,6 +28,8 @@ localStorage.getItem("teachers")
 ) || [];
 
 }
+
+
 
 
 
@@ -41,6 +43,8 @@ localStorage.getItem("fees")
 
 
 
+
+
 function getAttendance(){
 
 return JSON.parse(
@@ -48,6 +52,7 @@ localStorage.getItem("attendance")
 ) || [];
 
 }
+
 
 
 
@@ -99,8 +104,43 @@ const monthlyFee = {
 
 
 
+
 // ===============================
-// Load Dashboard Cards
+// Other Fee Setup
+// ===============================
+
+
+const otherFeeSetup = {
+
+
+"Admission Fee":1000,
+
+"Exam Fee":500,
+
+"ID Card Fee":200,
+
+"Book Fee":500,
+
+"Uniform Fee":800,
+
+"Tour Fee":1000,
+
+"Certificate Fee":500,
+
+"Other Fee":0
+
+
+};
+
+
+
+
+
+
+
+
+// ===============================
+// Load Dashboard
 // ===============================
 
 
@@ -108,35 +148,40 @@ function loadDashboard(){
 
 
 
-let students = getStudents();
-
-
-let teachers = getTeachers();
-
-
-let fees = getFees();
-
-
-let attendance = getAttendance();
+let students =
+getStudents();
 
 
 
+let teachers =
+getTeachers();
 
 
-// Total Students
+
+let fees =
+getFees();
 
 
-let totalStudents = document.getElementById(
 
+
+let attendance =
+getAttendance();
+
+
+
+
+
+let studentBox =
+document.getElementById(
 "totalStudents"
-
 );
 
 
 
-if(totalStudents){
+if(studentBox){
 
-totalStudents.innerText = students.length;
+studentBox.innerText =
+students.length;
 
 }
 
@@ -144,22 +189,17 @@ totalStudents.innerText = students.length;
 
 
 
-
-
-// Total Teachers
-
-
-let totalTeachers = document.getElementById(
-
+let teacherBox =
+document.getElementById(
 "totalTeachers"
-
 );
 
 
 
-if(totalTeachers){
+if(teacherBox){
 
-totalTeachers.innerText = teachers.length;
+teacherBox.innerText =
+teachers.length;
 
 }
 
@@ -169,17 +209,15 @@ totalTeachers.innerText = teachers.length;
 
 
 
-// Total Collection
-
-
-let totalIncome = 0;
+let income = 0;
 
 
 
-fees.forEach(item=>{
+fees.forEach(fee=>{
 
 
-totalIncome += Number(item.amount) || 0;
+income +=
+Number(fee.amount) || 0;
 
 
 });
@@ -188,19 +226,17 @@ totalIncome += Number(item.amount) || 0;
 
 
 
-let monthlyFee = document.getElementById(
-
+let incomeBox =
+document.getElementById(
 "monthlyFee"
-
 );
 
 
 
-if(monthlyFee){
+if(incomeBox){
 
-monthlyFee.innerText =
-
-"৳" + totalIncome;
+incomeBox.innerText =
+"৳" + income;
 
 }
 
@@ -208,57 +244,46 @@ monthlyFee.innerText =
 
 
 
-
-
-// Attendance
-
-
-let attendanceValue = document.getElementById(
-
+let attendanceBox =
+document.getElementById(
 "attendance"
-
 );
 
 
 
-if(attendanceValue){
+if(attendanceBox){
 
 
 
-if(attendance.length > 0){
-
-
-let present = attendance.filter(
-
+let present =
+attendance.filter(
 a=>a.status==="Present"
-
 ).length;
 
 
 
-let percent =
+let total =
+attendance.length;
 
+
+
+let percent = 0;
+
+
+
+if(total>0){
+
+percent =
 Math.round(
-
-(present / attendance.length) * 100
-
+(present/total)*100
 );
 
-
-
-attendanceValue.innerText = percent+"%";
-
-
 }
 
-else{
 
 
-attendanceValue.innerText="0%";
-
-
-}
-
+attendanceBox.innerText =
+percent+"%";
 
 
 }
@@ -266,10 +291,12 @@ attendanceValue.innerText="0%";
 
 
 
-// Due Summary Load
+
 
 loadDueSummary();
 
+
+loadCharts();
 
 
 }
@@ -282,15 +309,12 @@ loadDueSummary();
 function loadDueSummary(){
 
 
-
 let students =
 getStudents();
 
 
-
 let fees =
 getFees();
-
 
 
 
@@ -302,36 +326,42 @@ let otherDue = 0;
 
 
 
-
 students.forEach(student=>{
 
+
+let studentFees = fees.filter(
+
+fee =>
+
+fee.studentCode === student.studentCode
+
+);
+
+
+
+
+
+// ===============================
+// Monthly Fee Due
+// ===============================
 
 
 let paidMonthly = 0;
 
 
 
-fees.forEach(fee=>{
-
+studentFees.forEach(fee=>{
 
 
 if(
-
-fee.studentCode === student.studentCode
-
-&&
-
 fee.feeType === "Monthly Fee"
-
 ){
 
 
 paidMonthly += Number(fee.amount);
 
 
-
 }
-
 
 
 });
@@ -344,17 +374,14 @@ paidMonthly += Number(fee.amount);
 if(student.admissionDate){
 
 
-
 let startDate =
-
-new Date(student.admissionDate);
-
+new Date(
+student.admissionDate
+);
 
 
 let today =
-
 new Date();
-
 
 
 
@@ -362,7 +389,6 @@ new Date();
 let months =
 
 (
-
 (today.getFullYear()
 -
 startDate.getFullYear())
@@ -374,7 +400,6 @@ startDate.getFullYear())
 +
 
 (
-
 today.getMonth()
 -
 startDate.getMonth()
@@ -389,14 +414,13 @@ startDate.getMonth()
 
 
 
-
 let classFee =
 
 monthlyFee[
 student.admissionClass
 ]
 
-|| 0;
+||0;
 
 
 
@@ -429,31 +453,69 @@ monthlyDue += due;
 
 
 
-});
 
 
 
-
-
-
-
-
+// ===============================
 // Other Fee Due
+// ===============================
 
-fees.forEach(fee=>{
 
+
+Object.keys(otherFeeSetup).forEach(type=>{
+
+
+let paid = 0;
+
+
+
+studentFees.forEach(fee=>{
 
 
 if(
-
-fee.feeType !== "Monthly Fee"
-
+fee.feeType === type
 ){
+
+
+paid += Number(fee.amount);
 
 
 }
 
+
+
 });
+
+
+
+
+
+let due =
+
+otherFeeSetup[type] - paid;
+
+
+
+
+if(due > 0){
+
+
+otherDue += due;
+
+
+}
+
+
+
+});
+
+
+
+
+
+});
+
+
 
 
 
@@ -468,7 +530,7 @@ monthlyDue + otherDue;
 
 
 
-let totalDueBox =
+let totalBox =
 
 document.getElementById(
 "totalDueAmount"
@@ -476,7 +538,7 @@ document.getElementById(
 
 
 
-let monthlyDueBox =
+let monthlyBox =
 
 document.getElementById(
 "monthlyDueAmount"
@@ -484,7 +546,7 @@ document.getElementById(
 
 
 
-let otherDueBox =
+let otherBox =
 
 document.getElementById(
 "otherDueAmount"
@@ -494,34 +556,33 @@ document.getElementById(
 
 
 
-if(totalDueBox){
+if(totalBox){
 
-totalDueBox.innerText =
+totalBox.innerText =
 totalDue;
 
 }
 
 
 
-if(monthlyDueBox){
+if(monthlyBox){
 
-monthlyDueBox.innerText =
+monthlyBox.innerText =
 monthlyDue;
 
 }
 
 
 
-if(otherDueBox){
+if(otherBox){
 
-otherDueBox.innerText =
+otherBox.innerText =
 otherDue;
 
 }
 
 
 
-
 }
 
 
@@ -533,28 +594,25 @@ otherDue;
 
 
 // ===============================
-// Sidebar
+// Sidebar Control
 // ===============================
 
 
-const menuBtn = document.getElementById(
-
+const menuBtn =
+document.getElementById(
 "menuBtn"
-
 );
 
 
-const sidebar = document.getElementById(
-
+const sidebar =
+document.getElementById(
 "sidebar"
-
 );
 
 
-const overlay = document.getElementById(
-
+const overlay =
+document.getElementById(
 "overlay"
-
 );
 
 
@@ -566,18 +624,20 @@ if(menuBtn){
 menuBtn.onclick=function(){
 
 
-sidebar.classList.toggle("active");
+sidebar.classList.toggle(
+"active"
+);
 
 
-overlay.classList.toggle("active");
+overlay.classList.toggle(
+"active"
+);
 
 
 }
 
 
 }
-
-
 
 
 
@@ -587,10 +647,14 @@ if(overlay){
 overlay.onclick=function(){
 
 
-sidebar.classList.remove("active");
+sidebar.classList.remove(
+"active"
+);
 
 
-overlay.classList.remove("active");
+overlay.classList.remove(
+"active"
+);
 
 
 }
@@ -611,8 +675,12 @@ overlay.classList.remove("active");
 // ===============================
 
 
+function loadCharts(){
 
-let studentChart = document.getElementById(
+
+
+let studentChart =
+document.getElementById(
 "studentChart"
 );
 
@@ -627,17 +695,13 @@ studentChart,
 
 {
 
-
 type:"bar",
-
 
 data:{
 
 
 labels:[
-
 "Students"
-
 ],
 
 
@@ -645,7 +709,6 @@ datasets:[{
 
 
 label:"Total Students",
-
 
 data:[
 
@@ -680,8 +743,8 @@ responsive:true
 
 
 
-
-let attendanceChart = document.getElementById(
+let attendanceChart =
+document.getElementById(
 "attendanceChart"
 );
 
@@ -707,7 +770,6 @@ data:{
 labels:[
 
 "Present",
-
 "Absent"
 
 ],
@@ -717,6 +779,7 @@ datasets:[{
 
 
 data:[
+
 
 getAttendance().filter(
 
@@ -763,13 +826,15 @@ responsive:true
 
 
 
-let incomeChart = document.getElementById(
+let incomeChart =
+document.getElementById(
 "incomeChart"
 );
 
 
 
 if(incomeChart){
+
 
 
 new Chart(
@@ -797,15 +862,14 @@ datasets:[{
 
 label:"Income",
 
-
 data:[
 
 
 getFees().reduce(
 
-(sum,item)=>
+(sum,fee)=>
 
-sum + Number(item.amount || 0),
+sum + Number(fee.amount || 0),
 
 0
 
@@ -838,6 +902,10 @@ responsive:true
 
 
 
+}
+
+
+
 
 
 
@@ -845,7 +913,7 @@ responsive:true
 
 
 // ===============================
-// Start Dashboard
+// Start
 // ===============================
 
 
