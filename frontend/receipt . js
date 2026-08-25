@@ -1,3 +1,5 @@
+alert("RECEIPT JS LOADED");
+
 // ==========================================
 // Darul Quran Ahmadia Madrasah
 // Smart ERP Money Receipt
