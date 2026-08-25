@@ -308,7 +308,8 @@ function saveFee(){
 
         JSON.stringify(fees)
 
-    );alert(
+    )
+        ;alert(
 "Saved Data:\n\n" +
 JSON.stringify(fee)
 );
