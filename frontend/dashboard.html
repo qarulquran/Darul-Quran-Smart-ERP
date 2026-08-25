@@ -25,6 +25,7 @@ Darul Quran Smart ERP Dashboard
 <div id="overlay"></div>
 
 
+
 <!-- Sidebar -->
 
 <div id="sidebar">
@@ -60,7 +61,7 @@ Smart ERP
 
 
 <a href="fee-due.html">
-📌 Fee Due Report
+⚠️ Fee Due
 </a>
 
 
@@ -85,7 +86,7 @@ Smart ERP
 
 
 <a href="finance.html">
-💰 Finance
+💼 Finance
 </a>
 
 
@@ -105,16 +106,15 @@ Smart ERP
 
 
 
+
 <!-- Header -->
 
 
-<div class="header">
+<header class="header">
 
 
 <button id="menuBtn">
-
 ☰
-
 </button>
 
 
@@ -122,6 +122,18 @@ Smart ERP
 <h2>
 Dashboard
 </h2>
+
+
+
+
+<div class="header-actions">
+
+
+<button class="language-btn">
+
+🌐 বাংলা
+
+</button>
 
 
 
@@ -135,16 +147,24 @@ Admin 👤
 </div>
 
 
+</header>
 
 
 
-<!-- Main Content -->
 
 
-<div class="container">
 
 
-<div class="welcome">
+<!-- Main -->
+
+
+<main class="container">
+
+
+
+
+
+<section class="welcome">
 
 
 <h1>
@@ -161,139 +181,240 @@ Darul Quran Smart ERP Management System
 </p>
 
 
+</section>
+
+
+
+
+
+
+
+<!-- Summary Cards -->
+
+
+<section class="dashboard-cards">
+
+
+
+
+
+<div class="erp-card">
+
+<div class="icon">
+👨‍🎓
 </div>
 
-
-
-<div class="cards">
-  <!-- Dashboard Cards Continue -->
-
-
-<div class="card">
-
 <h3>
-👨‍🎓 Total Students
+Total Students
 </h3>
 
 <h1 id="totalStudents">
 0
 </h1>
 
+<p>
+Active Students
+</p>
+
 </div>
 
 
 
 
-<div class="card">
+
+
+
+<div class="erp-card">
+
+<div class="icon">
+👨‍🏫
+</div>
 
 <h3>
-👨‍🏫 Total Teachers
+Total Teachers
 </h3>
 
 <h1 id="totalTeachers">
 0
 </h1>
 
+<p>
+Teaching Staff
+</p>
+
 </div>
 
 
 
 
-<div class="card">
+
+
+
+<div class="erp-card">
+
+<div class="icon">
+💰
+</div>
 
 <h3>
-💰 Monthly Fee Collection
+Monthly Collection
 </h3>
 
 <h1 id="monthlyFee">
 ৳0
 </h1>
 
+<p>
+Current Month
+</p>
+
 </div>
 
 
 
 
-<div class="card">
+
+
+
+<div class="erp-card danger">
+
+<div class="icon">
+⚠️
+</div>
 
 <h3>
-📅 Attendance
+Total Due
+</h3>
+
+<h1 id="totalDueAmount">
+৳0
+</h1>
+
+<p>
+Pending Payment
+</p>
+
+</div>
+
+
+
+
+
+
+
+<div class="erp-card">
+
+<div class="icon">
+📅
+</div>
+
+<h3>
+Attendance
 </h3>
 
 <h1 id="attendance">
 0%
 </h1>
 
+<p>
+Today Status
+</p>
+
 </div>
 
 
 
 
 
-<!-- Fee Due Summary -->
 
 
-<div class="card">
+<div class="erp-card">
+
+<div class="icon">
+📝
+</div>
 
 <h3>
-⚠️ Total Due
+New Admission
 </h3>
 
-<h1>
-৳<span id="totalDueAmount">
+<h1 id="newAdmission">
 0
-</span>
 </h1>
+
+<p>
+This Year
+</p>
 
 </div>
 
 
 
 
-<div class="card">
+
+</section>
+
+
+
+
+
+
+
+
+<!-- Due Section -->
+
+
+<section class="due-section">
+
+
+<div class="mini-card">
+
 
 <h3>
-💰 Monthly Fee Due
+Monthly Fee Due
 </h3>
 
-<h1>
-৳<span id="monthlyDueAmount">
-0
-</span>
-</h1>
+
+<h2 id="monthlyDueAmount">
+৳0
+</h2>
+
 
 </div>
 
 
 
 
-<div class="card">
+<div class="mini-card">
+
 
 <h3>
-📌 Other Fee Due
+Other Fee Due
 </h3>
 
-<h1>
-৳<span id="otherDueAmount">
-0
-</span>
-</h1>
 
-</div>
-
+<h2 id="otherDueAmount">
+৳0
+</h2>
 
 
 </div>
 
 
+</section>
 
 
 
 
-<!-- Charts Section -->
 
 
-<div class="charts">
+
+
+<!-- Charts -->
+
+
+<section class="charts">
+
 
 
 <div class="chart-card">
@@ -317,7 +438,7 @@ Student Growth
 
 
 <h2>
-Attendance Report
+Attendance Overview
 </h2>
 
 
@@ -334,7 +455,7 @@ Attendance Report
 
 
 <h2>
-Monthly Income
+Income Analysis
 </h2>
 
 
@@ -345,14 +466,71 @@ Monthly Income
 
 
 
+</section>
+
+
+
+
+
+
+
+
+
+<!-- Recent Activity -->
+
+
+<section class="activity">
+
+
+<div class="activity-card">
+
+
+<h2>
+Recent Payments
+</h2>
+
+
+<div id="recentPayments">
+
+No Data
+
+</div>
+
+
 </div>
 
 
 
 
 
+<div class="activity-card">
+
+
+<h2>
+Recent Admission
+</h2>
+
+
+<div id="recentAdmission">
+
+No Data
+
 </div>
-<!-- container end -->
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+</main>
 
 
 
@@ -363,7 +541,6 @@ Monthly Income
 
 
 <script src="dashboard.js"></script>
-
 
 
 
