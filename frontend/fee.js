@@ -341,12 +341,10 @@ localStorage.setItem(
 
 
     alert(
-
-    "Payment Saved Successfully\nReceipt No: "
-    +
-    fee.receiptNo
-
-    );
+"Payment Saved Successfully\n\nReceipt No: "
++
+fee.receiptNo
+);
 
 
 
