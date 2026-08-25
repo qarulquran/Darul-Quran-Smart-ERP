@@ -1,29 +1,32 @@
 /* ==========================================
-   Darul Quran Ahmadia Madrasah
-   Premium Money Receipt CSS
+Darul Quran Ahmadia Madrasah
+Money Receipt CSS FINAL
 ========================================== */
 
 
 *{
-    box-sizing:border-box;
+
+box-sizing:border-box;
+
 }
 
 
 
 body{
 
-    margin:0;
 
-    padding:0;
+margin:0;
 
-    background:#eeeeee;
+padding:20px;
 
-    font-family:
+background:#f2f2f2;
 
-    "Noto Sans Bengali",
-    "Segoe UI",
-    Arial,
-    sans-serif;
+font-family:
+
+"Arial",
+"SolaimanLipi",
+sans-serif;
+
 
 }
 
@@ -33,19 +36,12 @@ body{
 
 .print-area{
 
-    min-height:100vh;
 
-    display:flex;
+display:flex;
 
-    justify-content:center;
-
-    align-items:center;
-
-    padding:30px;
-
+justify-content:center;
 
 }
-
 
 
 
@@ -54,30 +50,17 @@ body{
 .receipt-box{
 
 
-    width:420px;
+width:80mm;
 
+background:white;
 
-    background:#ffffff;
+padding:15px;
 
+border:2px solid #16733c;
 
-    border:2px solid #0b6b3a;
-
-
-    border-radius:15px;
-
-
-    padding:25px;
-
-
-    box-shadow:
-
-    0 5px 20px rgba(0,0,0,0.15);
-
+border-radius:10px;
 
 }
-
-
-
 
 
 
@@ -89,20 +72,15 @@ body{
 .receipt-header{
 
 
-    display:flex;
+display:flex;
 
+align-items:center;
 
-    align-items:center;
+justify-content:center;
 
+gap:8px;
 
-    justify-content:center;
-
-
-    gap:15px;
-
-
-    text-align:center;
-
+text-align:center;
 
 }
 
@@ -111,8 +89,7 @@ body{
 .logo{
 
 
-    font-size:45px;
-
+font-size:35px;
 
 }
 
@@ -121,14 +98,11 @@ body{
 .madrasah-name h1{
 
 
-    margin:0;
+font-size:16px;
 
+margin:0;
 
-    font-size:22px;
-
-
-    color:#0b6b3a;
-
+color:#086b38;
 
 }
 
@@ -137,14 +111,11 @@ body{
 .madrasah-name h2{
 
 
-    margin:8px 0;
+font-size:18px;
 
+margin:8px 0;
 
-    color:#b8860b;
-
-
-    letter-spacing:2px;
-
+color:#b58900;
 
 }
 
@@ -153,17 +124,11 @@ body{
 .madrasah-name p{
 
 
-    margin:0;
+font-size:10px;
 
-
-    font-size:12px;
-
+margin:0;
 
 }
-
-
-
-
 
 
 
@@ -171,17 +136,14 @@ body{
 hr{
 
 
-    border:none;
+border:none;
 
+border-top:2px solid #16733c;
 
-    border-top:2px solid #0b6b3a;
-
-
-    margin:15px 0;
+margin:10px 0;
 
 
 }
-
 
 
 
@@ -196,26 +158,16 @@ hr{
 .receipt-top{
 
 
-    display:flex;
+display:flex;
 
+justify-content:space-between;
 
-    justify-content:space-between;
+font-size:11px;
 
-
-    background:#f3f8f5;
-
-
-    padding:10px;
-
-
-    border-radius:8px;
-
-
-    font-size:14px;
+margin-bottom:10px;
 
 
 }
-
 
 
 
@@ -230,44 +182,34 @@ hr{
 .box-section{
 
 
-    margin-top:15px;
+margin-top:10px;
 
+border:1px solid #ddd;
 
-    border:1px solid #ddd;
+border-radius:6px;
 
-
-    border-radius:10px;
-
-
-    overflow:hidden;
+overflow:hidden;
 
 
 }
-
 
 
 
 .box-section h3{
 
 
-    margin:0;
+margin:0;
 
+padding:6px;
 
-    padding:10px;
+background:#08753b;
 
+color:white;
 
-    background:#0b6b3a;
-
-
-    color:white;
-
-
-    font-size:16px;
+font-size:12px;
 
 
 }
-
-
 
 
 
@@ -276,10 +218,11 @@ hr{
 table{
 
 
-    width:100%;
+width:100%;
 
+border-collapse:collapse;
 
-    border-collapse:collapse;
+font-size:11px;
 
 
 }
@@ -289,13 +232,9 @@ table{
 td{
 
 
-    padding:9px;
+border-bottom:1px solid #ddd;
 
-
-    border-bottom:1px solid #ddd;
-
-
-    font-size:14px;
+padding:6px;
 
 
 }
@@ -305,16 +244,12 @@ td{
 td:first-child{
 
 
-    font-weight:bold;
+font-weight:bold;
 
-
-    width:40%;
+width:45%;
 
 
 }
-
-
-
 
 
 
@@ -322,19 +257,14 @@ td:first-child{
 .amount{
 
 
-    font-size:22px;
+font-size:15px;
 
+font-weight:bold;
 
-    font-weight:bold;
-
-
-    color:#0b6b3a;
+color:#08753b;
 
 
 }
-
-
-
 
 
 
@@ -347,10 +277,9 @@ td:first-child{
 .barcode-section{
 
 
-    text-align:center;
+text-align:center;
 
-
-    margin-top:20px;
+margin-top:15px;
 
 
 }
@@ -360,22 +289,24 @@ td:first-child{
 .barcode-section h3{
 
 
-    color:#0b6b3a;
+font-size:12px;
+
+color:#08753b;
 
 
 }
-
 
 
 
 #barcode img{
 
 
-    max-width:260px;
+max-width:220px;
+
+height:auto;
 
 
 }
-
 
 
 
@@ -390,23 +321,18 @@ td:first-child{
 .signature-area{
 
 
-    display:flex;
+display:flex;
 
+justify-content:space-between;
 
-    justify-content:space-between;
+text-align:center;
 
+font-size:10px;
 
-    text-align:center;
-
-
-    margin-top:35px;
-
-
-    font-size:13px;
+margin-top:25px;
 
 
 }
-
 
 
 
@@ -418,58 +344,64 @@ td:first-child{
 .footer-text{
 
 
-    text-align:center;
+text-align:center;
 
+font-size:10px;
 
-    margin-top:20px;
+color:#08753b;
 
-
-    color:#0b6b3a;
-
-
-    font-weight:bold;
-
-
-    font-size:14px;
+margin-top:15px;
 
 
 }
-
-
-
-
-
 
 
 
 button{
 
 
-    width:100%;
+width:100%;
+
+margin-top:15px;
+
+padding:10px;
+
+border:none;
+
+background:#08753b;
+
+color:white;
+
+border-radius:5px;
+
+font-size:14px;
 
 
-    margin-top:20px;
+}
 
 
-    padding:12px;
 
 
-    background:#0b6b3a;
+
+/* Mobile */
 
 
-    color:white;
+@media(max-width:500px){
 
 
-    border:none;
+body{
+
+padding:10px;
+
+}
 
 
-    border-radius:8px;
+.receipt-box{
 
+width:95%;
 
-    font-size:16px;
+}
 
-
-    cursor:pointer;
 
 
 }
@@ -481,7 +413,7 @@ button{
 
 
 
-/* Print */
+/* Print Fix */
 
 
 @media print{
@@ -490,20 +422,9 @@ button{
 body{
 
 
-    background:white;
+background:white;
 
-
-}
-
-
-
-.print-area{
-
-
-    min-height:100vh;
-
-
-    padding:0;
+padding:0;
 
 
 }
@@ -513,11 +434,9 @@ body{
 .receipt-box{
 
 
-    box-shadow:none;
+width:80mm;
 
-
-    margin:auto;
-
+border:1px solid #000;
 
 }
 
@@ -526,7 +445,7 @@ body{
 button{
 
 
-    display:none;
+display:none;
 
 
 }
