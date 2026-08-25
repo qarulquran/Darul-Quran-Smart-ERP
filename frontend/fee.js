@@ -325,7 +325,15 @@ function saveFee(){
         JSON.stringify(fee)
 
     );
+    
+    // Save Last Receipt Data
 
+localStorage.setItem(
+    "lastReceipt",
+    JSON.stringify(fee)
+);
+
+    
 
 
 
