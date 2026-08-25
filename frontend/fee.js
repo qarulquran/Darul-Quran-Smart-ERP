@@ -308,7 +308,10 @@ function saveFee(){
 
         JSON.stringify(fees)
 
-    );
+    );alert(
+"Saved Data:\n\n" +
+JSON.stringify(fee)
+);
 
 
 
@@ -326,12 +329,7 @@ function saveFee(){
 
     );
     
-    // Save Last Receipt Data
 
-localStorage.setItem(
-    "lastReceipt",
-    JSON.stringify(fee)
-);
 
     
 
