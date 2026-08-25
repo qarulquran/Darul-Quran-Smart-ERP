@@ -1,13 +1,9 @@
 // ==========================================
 // Darul Quran Ahmadia Madrasah
-// Smart ERP Fee Collection System
+// Smart ERP Fee Collection
 // fee.js FINAL
 // ==========================================
 
-
-// ===============================
-// Database
-// ===============================
 
 function getStudents(){
 
@@ -29,11 +25,8 @@ function getFees(){
 
 
 
-// ===============================
-// Selected Student
-// ===============================
-
 let selectedStudent = null;
+
 
 
 
@@ -52,42 +45,24 @@ function searchStudent(){
 
 
 
-    if(!code){
-
-        alert("Enter Student Code");
-
-        return;
-
-    }
-
-
-
     let students = getStudents();
 
 
 
     let student =
     students.find(
-        item =>
-        item.studentCode === code
+        s => s.studentCode === code
     );
-
 
 
 
     if(!student){
 
-
-        alert(
-        "Student not found"
-        );
-
+        alert("Student Not Found");
 
         return;
 
-
     }
-
 
 
 
@@ -95,38 +70,20 @@ function searchStudent(){
 
 
 
-
-    document
-    .getElementById("studentName")
-    .innerText =
+    document.getElementById("studentName").innerText =
     student.name || "-";
 
 
-
-
-
-    document
-    .getElementById("studentClass")
-    .innerText =
+    document.getElementById("studentClass").innerText =
     student.admissionClass || "-";
 
 
-
-
-
-    document
-    .getElementById("fatherName")
-    .innerText =
+    document.getElementById("fatherName").innerText =
     student.fatherName || "-";
 
 
 
-
-
 }
-
-
-
 
 
 
@@ -140,21 +97,13 @@ function searchStudent(){
 function generateReceiptNo(){
 
 
-    let time =
-    Date.now()
-    .toString()
-    .slice(-8);
-
-
-
-    return (
-        "DQ-REC-" +
-        new Date().getFullYear()
-        +
-        "-"
-        +
-        time
-    );
+return "DQ-REC-" 
++
+new Date().getFullYear()
++
+"-"
++
+Date.now().toString().slice(-6);
 
 
 }
@@ -165,195 +114,128 @@ function generateReceiptNo(){
 
 
 
-
-
 // ===============================
-// Save Payment
+// Save Fee
 // ===============================
-
 
 function saveFee(){
 
 
+if(!selectedStudent){
 
-    if(!selectedStudent){
+alert("Please Search Student First");
 
+return;
 
-        alert(
-        "Please Search Student First"
-        );
+}
 
 
-        return;
 
-    }
 
+let amount =
+document.getElementById("amount").value;
 
 
 
 
+if(!amount || amount<=0){
 
-    let amount =
-    document
-    .getElementById("amount")
-    .value;
+alert("Enter Amount");
 
+return;
 
+}
 
 
-    if(!amount || amount<=0){
 
 
-        alert(
-        "Enter Amount"
-        );
 
+let fee = {
 
-        return;
 
-    }
+receiptNo:
+generateReceiptNo(),
 
 
+studentCode:
+selectedStudent.studentCode,
 
 
+studentName:
+selectedStudent.name,
 
 
-    let fee = {
+fatherName:
+selectedStudent.fatherName,
 
 
-        receiptNo:
-        generateReceiptNo(),
+admissionClass:
+selectedStudent.admissionClass,
 
 
 
-        studentCode:
-        selectedStudent.studentCode,
+feeType:
+document.getElementById("feeType").value,
 
 
 
-        studentName:
-        selectedStudent.name,
+month:
+document.getElementById("feeMonth").value,
 
 
 
-        fatherName:
-        selectedStudent.fatherName,
+amount:
+amount,
 
 
 
-        admissionClass:
-        selectedStudent.admissionClass,
+paymentMethod:
+document.getElementById("paymentMethod").value,
 
 
 
-        feeType:
-        document
-        .getElementById("feeType")
-        .value,
+paymentDate:
+new Date().toLocaleDateString("en-GB")
 
+};
 
 
-        month:
-        document
-        .getElementById("feeMonth")
-        .value,
 
 
 
-        amount:
-        amount,
+let fees=getFees();
 
 
+fees.push(fee);
 
-        paymentMethod:
-        document
-        .getElementById("paymentMethod")
-        .value,
 
 
+localStorage.setItem(
+"fees",
+JSON.stringify(fees)
+);
 
-        paymentDate:
-        new Date()
-        .toLocaleDateString("en-GB")
 
 
+// Receipt data
 
-    };
-
-
-
-
-
-
-
-
-
-    // Save all fees
-
-
-    let fees =
-    getFees();
-
-
-
-    fees.push(fee);
-
-
-
-
-
-    localStorage.setItem(
-
-        "fees",
-
-        JSON.stringify(fees)
-
-    )
-        ;alert(
-"Saved Data:\n\n" +
+localStorage.setItem(
+"lastReceipt",
 JSON.stringify(fee)
 );
 
 
 
 
-
-
-    // IMPORTANT FOR RECEIPT
-
-
-    localStorage.setItem(
-
-        "lastReceipt",
-
-        JSON.stringify(fee)
-
-    );
-    
-
-
-    
-
-
-
-
-
-
-    alert(
-"Payment Saved Successfully\n\nReceipt No: "
+alert(
+"Payment Saved Successfully\nReceipt No: "
 +
 fee.receiptNo
 );
 
 
 
-
-
-
-
-    window.location.href =
-    "receipt.html";
-
+window.location.href="receipt.html";
 
 
 }
@@ -362,43 +244,25 @@ fee.receiptNo
 
 
 
-
-
-
-
-// ===============================
-// Open Receipt Button
-// ===============================
 
 
 function openReceipt(){
 
 
-
-    let receipt =
-    localStorage.getItem(
-    "lastReceipt"
-    );
+let data =
+localStorage.getItem("lastReceipt");
 
 
+if(!data){
 
-    if(!receipt){
+alert("No Receipt Found");
 
+return;
 
-        alert(
-        "No Receipt Found"
-        );
-
-
-        return;
+}
 
 
-    }
-
-
-
-    window.location.href =
-    "receipt.html";
+window.location.href="receipt.html";
 
 
 }
@@ -407,22 +271,10 @@ function openReceipt(){
 
 
 
-
-// ===============================
-// Logout
-// ===============================
-
-
 function logout(){
 
+localStorage.removeItem("admin");
 
-    localStorage.removeItem(
-    "admin"
-    );
-
-
-    window.location.href =
-    "index.html";
-
+window.location.href="index.html";
 
 }
