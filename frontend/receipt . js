@@ -1,5 +1,3 @@
-alert("RECEIPT JS LOADED");
-
 // ==========================================
 // Darul Quran Ahmadia Madrasah
 // Smart ERP Money Receipt
@@ -7,40 +5,46 @@ alert("RECEIPT JS LOADED");
 // ==========================================
 
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener(
+"DOMContentLoaded",
+function(){
 
 
 
 // ===============================
-// Get Data
+// Get Last Receipt Data
 // ===============================
 
 
-let payment = JSON.parse(
-    localStorage.getItem("lastReceipt")
+let payment =
+JSON.parse(
+localStorage.getItem("lastReceipt")
 );
 
 
 
 
+
 // যদি lastReceipt না থাকে
-// তাহলে fees থেকে শেষ payment নেবে
+// তাহলে fees থেকে শেষ ডাটা নিবে
+
 
 if(!payment){
 
 
-    let fees = JSON.parse(
-        localStorage.getItem("fees")
-    ) || [];
+let fees =
+JSON.parse(
+localStorage.getItem("fees")
+) || [];
 
 
 
-    if(fees.length > 0){
+if(fees.length > 0){
 
-        payment =
-        fees[fees.length - 1];
+payment =
+fees[fees.length-1];
 
-    }
+}
 
 
 }
@@ -49,24 +53,21 @@ if(!payment){
 
 
 
-
 if(!payment){
 
 
-    alert(
-    "No Receipt Data Found"
-    );
+alert(
+"No Receipt Data Found"
+);
 
 
-    window.location.href =
-    "fee.html";
+window.location.href="fee.html";
 
 
-    return;
+return;
 
 
 }
-
 
 
 
@@ -79,10 +80,9 @@ if(!payment){
 // ===============================
 
 
-let students = JSON.parse(
-
+let students =
+JSON.parse(
 localStorage.getItem("students")
-
 ) || [];
 
 
@@ -90,10 +90,8 @@ localStorage.getItem("students")
 
 let student =
 students.find(
-
-item =>
-item.studentCode === payment.studentCode
-
+s =>
+s.studentCode === payment.studentCode
 );
 
 
@@ -102,25 +100,18 @@ item.studentCode === payment.studentCode
 
 
 
-
 // ===============================
-// Receipt Basic
+// Receipt Info
 // ===============================
 
 
-document.getElementById("receiptNo")
-.innerText =
+document.getElementById("receiptNo").innerText =
 payment.receiptNo || "-";
 
 
 
-
-
-document.getElementById("paymentDate")
-.innerText =
+document.getElementById("paymentDate").innerText =
 payment.paymentDate || "-";
-
-
 
 
 
@@ -133,66 +124,42 @@ payment.paymentDate || "-";
 // ===============================
 
 
-document.getElementById("studentName")
-.innerText =
+document.getElementById("studentName").innerText =
 
 student ?
+student.name :
 
-(student.name || "-")
-
-:
-
-(payment.studentName || "-");
+payment.studentName || "-";
 
 
 
 
-
-
-document.getElementById("studentCode")
-.innerText =
+document.getElementById("studentCode").innerText =
 
 student ?
+student.studentCode :
 
-(student.studentCode || "-")
-
-:
-
-(payment.studentCode || "-");
+payment.studentCode || "-";
 
 
 
 
-
-
-document.getElementById("studentClass")
-.innerText =
+document.getElementById("studentClass").innerText =
 
 student ?
+student.admissionClass :
 
-(student.admissionClass || "-")
-
-:
-
-(payment.admissionClass || "-");
+payment.admissionClass || "-";
 
 
 
 
-
-
-document.getElementById("fatherName")
-.innerText =
+document.getElementById("fatherName").innerText =
 
 student ?
+student.fatherName :
 
-(student.fatherName || "-")
-
-:
-
-(payment.fatherName || "-");
-
-
+payment.fatherName || "-";
 
 
 
@@ -206,35 +173,28 @@ student ?
 // ===============================
 
 
-document.getElementById("feeType")
-.innerText =
+document.getElementById("feeType").innerText =
 
 payment.feeType || "-";
 
 
 
 
-
-document.getElementById("feeMonth")
-.innerText =
+document.getElementById("feeMonth").innerText =
 
 payment.month || "-";
 
 
 
 
-
-document.getElementById("amount")
-.innerText =
+document.getElementById("amount").innerText =
 
 payment.amount || "0";
 
 
 
 
-
-document.getElementById("paymentMethod")
-.innerText =
+document.getElementById("paymentMethod").innerText =
 
 payment.paymentMethod || "-";
 
@@ -251,15 +211,16 @@ payment.paymentMethod || "-";
 // ===============================
 
 
-let barcodeBox =
+let barcode =
 document.getElementById("barcode");
 
 
 
-if(barcodeBox){
+
+if(barcode){
 
 
-barcodeBox.innerHTML="";
+barcode.innerHTML="";
 
 
 
@@ -269,35 +230,24 @@ document.createElement("img");
 
 
 img.src =
-
 "https://barcode.tec-it.com/barcode.ashx?data="
-
 +
-
 encodeURIComponent(
-
-payment.receiptNo || payment.studentCode
-
+payment.receiptNo
 )
-
 +
-
 "&code=Code128";
 
 
 
-img.style.width =
-"220px";
+img.style.width="220px";
 
 
 
-barcodeBox.appendChild(img);
-
+barcode.appendChild(img);
 
 
 }
-
-
 
 
 
