@@ -1,7 +1,7 @@
 // ==========================================
 // Darul Quran Ahmadia Madrasah
 // Smart ERP Fee Due Management
-// fee-due.js
+// fee-due.js FINAL
 // ==========================================
 
 
@@ -28,20 +28,104 @@ function getFees(){
 
 
 // ==========================================
-// Load Due Report
+// Class Wise Monthly Fee
+// ==========================================
+
+
+const monthlyFee = {
+
+
+    "শিশু শ্রেণী":500,
+
+    "প্রথম শ্রেণী":600,
+
+    "দ্বিতীয় শ্রেণি":600,
+
+    "তৃতীয় শ্রেণী":600,
+
+    "চতুর্থ শ্রেণি":600,
+
+    "পঞ্চম শ্রেণি":700,
+
+    "ষষ্ঠ শ্রেণি":800,
+
+
+    // English class support
+
+    "Class 1":600,
+
+    "Class 2":600,
+
+    "Class 3":600,
+
+    "Class 4":600,
+
+    "Class 5":700,
+
+    "Class 6":800
+
+
+};
+
+
+
+
+
+
+// ==========================================
+// Month Difference
+// ==========================================
+
+
+function monthDifference(start,end){
+
+
+return (
+
+(end.getFullYear()-start.getFullYear()) * 12
+
++
+
+(end.getMonth()-start.getMonth())
+
++
+
+1
+
+);
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// Load Due
 // ==========================================
 
 
 function loadDue(){
 
 
-let students = getStudents();
 
-let fees = getFees();
+let students =
+getStudents();
+
+
+let fees =
+getFees();
+
 
 
 let filter =
 document.getElementById("feeFilter").value;
+
 
 
 
@@ -57,60 +141,52 @@ let totalDue = 0;
 
 
 
-students.forEach(student => {
 
 
 
-let studentFees =
+
+students.forEach(student=>{
+
+
+
+
+
+let studentPayments =
+
 fees.filter(
-item =>
-item.studentCode === student.studentCode
+
+fee =>
+
+fee.studentCode === student.studentCode
+
 );
 
 
 
 
 
-// যদি কোনো payment না থাকে
-
-if(studentFees.length === 0){
 
 
-return;
-
-
-}
+// ================================
+// Monthly Fee Calculation
+// ================================
 
 
 
-
-let feeSummary = {};
-
+let monthlyPaid = 0;
 
 
 
-
-studentFees.forEach(item=>{
-
-
-let type =
-item.feeType;
+studentPayments.forEach(payment=>{
 
 
+if(payment.feeType==="Monthly Fee"){
 
-if(!feeSummary[type]){
 
-
-feeSummary[type]=0;
+monthlyPaid += Number(payment.amount);
 
 
 }
-
-
-
-feeSummary[type] +=
-Number(item.amount);
-
 
 
 });
@@ -119,18 +195,63 @@ Number(item.amount);
 
 
 
-
-Object.keys(feeSummary).forEach(type=>{
-
+let monthlyDue = 0;
 
 
-if(
-filter !== "All"
-&&
-filter !== type
-){
 
-return;
+
+
+if(student.admissionDate){
+
+
+
+let startDate =
+
+new Date(student.admissionDate);
+
+
+
+let today = new Date();
+
+
+
+let months =
+
+monthDifference(
+
+startDate,
+
+today
+
+);
+
+
+
+
+
+let classFee =
+
+monthlyFee[student.admissionClass] || 0;
+
+
+
+
+
+monthlyDue =
+
+(months * classFee)
+
+-
+
+monthlyPaid;
+
+
+
+if(monthlyDue < 0){
+
+monthlyDue = 0;
+
+}
 
 
 }
@@ -140,20 +261,12 @@ return;
 
 
 
-let paid =
-feeSummary[type];
 
-
-
-/*
- এখানে Fee Amount
- পরে class অনুযায়ী
- auto setup করা হবে
-*/
-
-let due = 0;
-
-
+if(
+(filter==="All" || filter==="Monthly Fee")
+&&
+monthlyDue > 0
+){
 
 
 
@@ -164,29 +277,45 @@ document.createElement("tr");
 
 row.innerHTML = `
 
+
 <td>
+
 ${student.name || "-"}
+
 </td>
 
 
+
 <td>
+
 ${student.admissionClass || "-"}
+
 </td>
+
 
 
 <td>
-${type}
+
+Monthly Fee
+
 </td>
+
 
 
 <td>
-৳ ${paid}
+
+৳ ${monthlyPaid}
+
 </td>
+
 
 
 <td>
-৳ ${due}
+
+৳ ${monthlyDue}
+
 </td>
+
 
 `;
 
@@ -196,7 +325,57 @@ table.appendChild(row);
 
 
 
-totalDue += due;
+totalDue += monthlyDue;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ================================
+// Other Fee Due
+// ================================
+
+
+
+let otherFees = {};
+
+
+
+
+
+studentPayments.forEach(payment=>{
+
+
+
+if(payment.feeType !== "Monthly Fee"){
+
+
+
+if(!otherFees[payment.feeType]){
+
+
+otherFees[payment.feeType]=0;
+
+
+}
+
+
+
+otherFees[payment.feeType] +=
+
+Number(payment.amount);
+
+
+
+}
 
 
 
@@ -204,7 +383,96 @@ totalDue += due;
 
 
 
+
+
+
+Object.keys(otherFees).forEach(type=>{
+
+
+
+if(
+filter!=="All"
+&&
+filter!==type
+){
+
+return;
+
+}
+
+
+
+
+
+// বর্তমানে Paid amount দেখাবে
+// পরে Fee Setup থেকে Expected Amount যোগ হবে
+
+
+
+let row =
+document.createElement("tr");
+
+
+
+row.innerHTML = `
+
+
+<td>
+
+${student.name || "-"}
+
+</td>
+
+
+
+<td>
+
+${student.admissionClass || "-"}
+
+</td>
+
+
+
+<td>
+
+${type}
+
+</td>
+
+
+
+<td>
+
+৳ ${otherFees[type]}
+
+</td>
+
+
+
+<td>
+
+৳ 0
+
+</td>
+
+
+`;
+
+
+
+table.appendChild(row);
+
+
+
 });
+
+
+
+
+
+});
+
+
 
 
 
@@ -212,6 +480,7 @@ totalDue += due;
 
 document.getElementById("totalDue")
 .innerText =
+
 totalDue;
 
 
@@ -222,12 +491,19 @@ totalDue;
 
 
 
-// Auto Load
+
+
 
 document.addEventListener(
+
 "DOMContentLoaded",
+
 function(){
+
 
 loadDue();
 
-});
+
+}
+
+);
