@@ -13,64 +13,85 @@
 
 function getStudents(){
 
-
 return JSON.parse(
-
 localStorage.getItem("students")
-
 ) || [];
 
-
 }
-
-
 
 
 
 function getTeachers(){
 
-
 return JSON.parse(
-
 localStorage.getItem("teachers")
-
 ) || [];
 
-
 }
-
-
 
 
 
 function getFees(){
 
-
 return JSON.parse(
-
 localStorage.getItem("fees")
-
 ) || [];
 
-
 }
-
-
 
 
 
 function getAttendance(){
 
-
 return JSON.parse(
-
 localStorage.getItem("attendance")
-
 ) || [];
-
 
 }
 
+
+
+
+
+
+
+// ===============================
+// Monthly Fee Setup
+// ===============================
+
+
+const monthlyFee = {
+
+
+"শিশু শ্রেণী":500,
+
+"প্রথম শ্রেণী":600,
+
+"দ্বিতীয় শ্রেণি":600,
+
+"তৃতীয় শ্রেণী":600,
+
+"চতুর্থ শ্রেণি":600,
+
+"পঞ্চম শ্রেণী":700,
+
+"ষষ্ঠ শ্রেণি":800,
+
+
+"Class 1":600,
+
+"Class 2":600,
+
+"Class 3":600,
+
+"Class 4":600,
+
+"Class 5":700,
+
+"Class 6":800
+
+
+};
 
 
 
@@ -148,7 +169,7 @@ totalTeachers.innerText = teachers.length;
 
 
 
-// Monthly Income
+// Total Collection
 
 
 let totalIncome = 0;
@@ -244,6 +265,263 @@ attendanceValue.innerText="0%";
 
 
 
+
+// Due Summary Load
+
+loadDueSummary();
+
+
+
+}
+
+// ===============================
+// Due Summary
+// ===============================
+
+
+function loadDueSummary(){
+
+
+
+let students =
+getStudents();
+
+
+
+let fees =
+getFees();
+
+
+
+
+let monthlyDue = 0;
+
+let otherDue = 0;
+
+
+
+
+
+
+students.forEach(student=>{
+
+
+
+let paidMonthly = 0;
+
+
+
+fees.forEach(fee=>{
+
+
+
+if(
+
+fee.studentCode === student.studentCode
+
+&&
+
+fee.feeType === "Monthly Fee"
+
+){
+
+
+paidMonthly += Number(fee.amount);
+
+
+
+}
+
+
+
+});
+
+
+
+
+
+
+if(student.admissionDate){
+
+
+
+let startDate =
+
+new Date(student.admissionDate);
+
+
+
+let today =
+
+new Date();
+
+
+
+
+
+let months =
+
+(
+
+(today.getFullYear()
+-
+startDate.getFullYear())
+
+*12
+
+)
+
++
+
+(
+
+today.getMonth()
+-
+startDate.getMonth()
+
+)
+
++
+
+1;
+
+
+
+
+
+
+let classFee =
+
+monthlyFee[
+student.admissionClass
+]
+
+|| 0;
+
+
+
+
+
+let expected =
+
+months * classFee;
+
+
+
+
+let due =
+
+expected - paidMonthly;
+
+
+
+if(due > 0){
+
+monthlyDue += due;
+
+}
+
+
+
+}
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+// Other Fee Due
+
+fees.forEach(fee=>{
+
+
+
+if(
+
+fee.feeType !== "Monthly Fee"
+
+){
+
+
+}
+
+});
+
+
+
+
+
+
+let totalDue =
+
+monthlyDue + otherDue;
+
+
+
+
+
+let totalDueBox =
+
+document.getElementById(
+"totalDueAmount"
+);
+
+
+
+let monthlyDueBox =
+
+document.getElementById(
+"monthlyDueAmount"
+);
+
+
+
+let otherDueBox =
+
+document.getElementById(
+"otherDueAmount"
+);
+
+
+
+
+
+if(totalDueBox){
+
+totalDueBox.innerText =
+totalDue;
+
+}
+
+
+
+if(monthlyDueBox){
+
+monthlyDueBox.innerText =
+monthlyDue;
+
+}
+
+
+
+if(otherDueBox){
+
+otherDueBox.innerText =
+otherDue;
+
+}
+
+
+
+
 }
 
 
@@ -257,7 +535,6 @@ attendanceValue.innerText="0%";
 // ===============================
 // Sidebar
 // ===============================
-
 
 
 const menuBtn = document.getElementById(
@@ -298,7 +575,6 @@ overlay.classList.toggle("active");
 }
 
 
-
 }
 
 
@@ -329,22 +605,20 @@ overlay.classList.remove("active");
 
 
 
+
 // ===============================
-// Student Chart
+// Charts
 // ===============================
 
 
 
 let studentChart = document.getElementById(
-
 "studentChart"
-
 );
 
 
 
 if(studentChart){
-
 
 
 new Chart(
@@ -362,11 +636,7 @@ data:{
 
 labels:[
 
-"Class 1",
-"Class 2",
-"Class 3",
-"Class 4",
-"Class 5"
+"Students"
 
 ],
 
@@ -374,18 +644,15 @@ labels:[
 datasets:[{
 
 
-label:"Students",
+label:"Total Students",
 
 
 data:[
 
-20,
-30,
-25,
-35,
-15
+getStudents().length
 
 ]
+
 
 }]
 
@@ -393,19 +660,14 @@ data:[
 },
 
 
-
 options:{
-
 
 responsive:true
 
-
 }
 
 
 }
-
-
 
 );
 
@@ -419,17 +681,8 @@ responsive:true
 
 
 
-
-// ===============================
-// Attendance Chart
-// ===============================
-
-
-
 let attendanceChart = document.getElementById(
-
 "attendanceChart"
-
 );
 
 
@@ -454,10 +707,10 @@ data:{
 labels:[
 
 "Present",
+
 "Absent"
 
 ],
-
 
 
 datasets:[{
@@ -465,8 +718,19 @@ datasets:[{
 
 data:[
 
-95,
-5
+getAttendance().filter(
+
+a=>a.status==="Present"
+
+).length,
+
+
+getAttendance().filter(
+
+a=>a.status!=="Present"
+
+).length
+
 
 ]
 
@@ -474,27 +738,22 @@ data:[
 }]
 
 
-
 },
-
 
 
 options:{
 
-
 responsive:true
 
-
 }
 
 
-
 }
-
 
 );
 
 
+
 }
 
 
@@ -504,16 +763,8 @@ responsive:true
 
 
 
-
-// ===============================
-// Income Chart
-// ===============================
-
-
 let incomeChart = document.getElementById(
-
 "incomeChart"
-
 );
 
 
@@ -521,11 +772,9 @@ let incomeChart = document.getElementById(
 if(incomeChart){
 
 
-
 new Chart(
 
 incomeChart,
-
 
 {
 
@@ -538,11 +787,7 @@ data:{
 
 labels:[
 
-"Jan",
-"Feb",
-"Mar",
-"Apr",
-"May"
+"Income"
 
 ],
 
@@ -555,11 +800,17 @@ label:"Income",
 
 data:[
 
-30000,
-45000,
-50000,
-60000,
-75000
+
+getFees().reduce(
+
+(sum,item)=>
+
+sum + Number(item.amount || 0),
+
+0
+
+)
+
 
 ]
 
@@ -567,26 +818,22 @@ data:[
 }]
 
 
-
 },
 
 
 options:{
 
-
 responsive:true
 
-
 }
 
 
-
 }
-
 
 );
 
 
+
 }
 
 
@@ -595,7 +842,11 @@ responsive:true
 
 
 
-// Start
+
+
+// ===============================
+// Start Dashboard
+// ===============================
 
 
 loadDashboard();
