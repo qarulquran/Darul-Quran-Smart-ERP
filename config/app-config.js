@@ -1,25 +1,54 @@
-// =====================================
-// Darul Quran Smart ERP
-// Application Configuration
-// =====================================
-
+// ==========================================
+// ISM - Islamic School Management
+// Master Platform Configuration
+// ==========================================
 
 const APP_CONFIG = {
 
+    // ======================================
+    // MASTER PLATFORM IDENTITY
+    // ======================================
 
-    // Software Identity
+    platform: {
 
-    name: "Darul Quran Smart ERP",
+        name: "ISM",
+
+        fullName:
+            "Islamic School Management",
+
+        tagline:
+            "Smart Management for Islamic Education",
+
+        version:
+            "1.0.0",
+
+        type:
+            "Multi-Institution Education Management Platform"
+
+    },
 
 
-    version: "1.0.0",
+    // ======================================
+    // BRANDING
+    // ======================================
+
+    branding: {
+
+        logo:
+            "assets/images/ism-logo-horizontal.png",
+
+        icon:
+            "assets/images/ism-icon.png",
+
+        favicon:
+            "assets/images/ism-icon.png"
+
+    },
 
 
-    platform: "Multi Institution Education ERP",
-
-
-
-    // Language Support
+    // ======================================
+    // DEFAULT LANGUAGE
+    // ======================================
 
     defaultLanguage: "bn",
 
@@ -33,62 +62,109 @@ const APP_CONFIG = {
     ],
 
 
+    // ======================================
+    // LANGUAGE DIRECTIONS
+    // ======================================
 
-    // Country
+    languageDirection: {
+
+        bn: "ltr",
+
+        en: "ltr",
+
+        ar: "rtl"
+
+    },
+
+
+    // ======================================
+    // COUNTRY / REGION
+    // ======================================
 
     country: "Bangladesh",
 
+    timezone:
+        "Asia/Dhaka",
 
 
-    // System Mode
-
-    mode: "development",
-
-
-
-    // Multi Institution Support
+    // ======================================
+    // MULTI-INSTITUTION
+    // ======================================
 
     multiInstitution: true,
 
 
+    multiTenant: true,
 
-    // Module Control
+
+    // ======================================
+    // CURRENT DEVELOPMENT MODE
+    // ======================================
+
+    mode: "development",
+
+
+    // ======================================
+    // MODULE CONTROL
+    // ======================================
 
     features: {
 
+        dashboard: true,
 
-        student: true,
+        students: true,
 
         admission: true,
 
-        fee: true,
+        academic: true,
+
+        classManagement: true,
+
+        subjectManagement: true,
+
+        routine: true,
 
         attendance: true,
 
         result: true,
 
-        teacher: true,
+        certificate: true,
+
+        idCard: true,
+
+        fee: true,
 
         finance: true,
 
+        teachers: true,
 
         payroll: false,
+
+        guardianPortal: false,
+
+        onlinePayment: false,
 
         library: false,
 
         inventory: false,
 
-        hostel: false
+        hostel: false,
 
+        discipline: false,
+
+        reports: true,
+
+        auditLog: true,
+
+        notifications: true
 
     }
-
-
 
 };
 
 
-
+// ==========================================
 // Global Access
+// ==========================================
 
 window.APP_CONFIG = APP_CONFIG;
