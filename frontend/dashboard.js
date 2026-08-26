@@ -1,920 +1,1698 @@
 // ==========================================
-// Darul Quran Ahmadia Madrasah
-// Smart ERP Dashboard System
-// dashboard.js FINAL
+// ISM - Islamic School Management
+// Master Dashboard Controller
+// Institution-aware + Core Database
 // ==========================================
 
+(function () {
 
-// ===============================
-// Database
-// ===============================
+    "use strict";
 
 
-function getStudents(){
+    const MONTHLY_FEES = {
 
-return JSON.parse(
-localStorage.getItem("students")
-) || [];
+        "শিশু শ্রেণী": 500,
+        "প্রথম শ্রেণী": 600,
+        "দ্বিতীয় শ্রেণি": 600,
+        "তৃতীয় শ্রেণী": 600,
+        "চতুর্থ শ্রেণি": 600,
+        "পঞ্চম শ্রেণী": 700,
+        "ষষ্ঠ শ্রেণি": 800,
 
-}
+        "Class 1": 600,
+        "Class 2": 600,
+        "Class 3": 600,
+        "Class 4": 600,
+        "Class 5": 700,
+        "Class 6": 800
 
+    };
 
 
+    // ======================================
+    // Institution
+    // ======================================
 
-function getTeachers(){
+    function getInstitutionId() {
 
-return JSON.parse(
-localStorage.getItem("teachers")
-) || [];
+        if (
+            typeof window.getInstitutionId ===
+            "function"
+        ) {
 
-}
+            return (
+                window.getInstitutionId()
+                ||
+                "DQ001"
+            );
 
+        }
 
+        return "DQ001";
 
+    }
 
 
-function getFees(){
+    // ======================================
+    // Safe Database Read
+    // ======================================
 
-return JSON.parse(
-localStorage.getItem("fees")
-) || [];
+    function getRecordsSafe(
+        collection
+    ) {
 
-}
+        try {
 
+            if (
+                typeof window.getRecords ===
+                "function"
+            ) {
 
+                const records =
+                    window.getRecords(
+                        collection
+                    );
 
 
+                if (
+                    Array.isArray(records)
+                ) {
 
-function getAttendance(){
+                    return records;
 
-return JSON.parse(
-localStorage.getItem("attendance")
-) || [];
+                }
 
-}
+            }
 
+        } catch (error) {
 
+            console.error(
+                "Core data error:",
+                collection,
+                error
+            );
 
+        }
 
 
+        try {
 
+            const data =
+                localStorage.getItem(
+                    collection
+                );
 
 
-// ===============================
-// Monthly Fee Setup
-// ===============================
+            const records =
+                data
+                    ? JSON.parse(data)
+                    : [];
 
 
-const monthlyFee = {
+            return Array.isArray(records)
+                ? records
+                : [];
 
+        } catch (error) {
 
-"শিশু শ্রেণী":500,
+            console.error(
+                "Legacy data error:",
+                collection,
+                error
+            );
 
-"প্রথম শ্রেণী":600,
 
-"দ্বিতীয় শ্রেণি":600,
+            return [];
 
-"তৃতীয় শ্রেণী":600,
+        }
 
-"চতুর্থ শ্রেণি":600,
+    }
 
-"পঞ্চম শ্রেণী":700,
 
-"ষষ্ঠ শ্রেণি":800,
+    // ======================================
+    // Institution-filtered Data
+    // ======================================
 
+    function getInstitutionRecords(
+        collection
+    ) {
 
-"Class 1":600,
+        const institutionId =
+            getInstitutionId();
 
-"Class 2":600,
 
-"Class 3":600,
+        return getRecordsSafe(
+            collection
+        )
+        .filter(
+            function (item) {
 
-"Class 4":600,
+                return (
 
-"Class 5":700,
+                    !item.institutionId
 
-"Class 6":800
+                    ||
 
+                    item.institutionId
+                    ===
+                    institutionId
 
-};
+                );
 
+            }
+        );
 
+    }
 
 
+    // ======================================
+    // Format Money
+    // ======================================
 
+    function formatMoney(
+        value
+    ) {
 
+        return (
 
+            "৳"
 
-// ===============================
-// Other Fee Setup
-// ===============================
+            +
 
+            Number(
+                value || 0
+            )
+            .toLocaleString(
+                "en-BD"
+            )
 
-const otherFeeSetup = {
+        );
 
+    }
 
-"Admission Fee":1000,
 
-"Exam Fee":500,
+    // ======================================
+    // Date Helpers
+    // ======================================
 
-"ID Card Fee":200,
+    function startOfToday() {
 
-"Book Fee":500,
+        const date =
+            new Date();
 
-"Uniform Fee":800,
 
-"Tour Fee":1000,
+        date.setHours(
+            0,
+            0,
+            0,
+            0
+        );
 
-"Certificate Fee":500,
 
-"Other Fee":0
+        return date;
 
+    }
 
-};
 
+    function startOfMonth() {
 
+        const date =
+            new Date();
 
 
+        return new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            1
+        );
 
+    }
 
 
+    // ======================================
+    // Institution Name
+    // ======================================
 
-// ===============================
-// Load Dashboard
-// ===============================
+    function loadInstitutionIdentity() {
 
+        const element =
+            document.getElementById(
+                "dashboardInstitutionName"
+            );
 
-function loadDashboard(){
 
+        if (
+            !element
+            ||
+            typeof window.getInstitutionName !==
+            "function"
+        ) {
 
+            return;
 
-let students =
-getStudents();
+        }
 
 
+        element.textContent =
+            window.getInstitutionName()
+            ||
+            "-";
 
-let teachers =
-getTeachers();
+    }
 
 
+    // ======================================
+    // Current Date
+    // ======================================
 
-let fees =
-getFees();
+    function loadDate() {
 
+        const element =
+            document.getElementById(
+                "dashboardDate"
+            );
 
 
+        if (!element) {
 
-let attendance =
-getAttendance();
+            return;
 
+        }
 
 
+        element.textContent =
+            new Date().toLocaleDateString(
+                "en-GB",
+                {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric"
+                }
+            );
 
+    }
 
-let studentBox =
-document.getElementById(
-"totalStudents"
-);
 
+    // ======================================
+    // Main Summary
+    // ======================================
 
+    function loadSummary() {
 
-if(studentBox){
+        const students =
+            getInstitutionRecords(
+                "students"
+            );
 
-studentBox.innerText =
-students.length;
 
-}
+        const teachers =
+            getInstitutionRecords(
+                "teachers"
+            );
 
 
+        const fees =
+            getInstitutionRecords(
+                "fees"
+            );
 
 
+        const attendance =
+            getInstitutionRecords(
+                "attendance"
+            );
 
-let teacherBox =
-document.getElementById(
-"totalTeachers"
-);
 
+        const today =
+            startOfToday();
 
 
-if(teacherBox){
+        const monthStart =
+            startOfMonth();
 
-teacherBox.innerText =
-teachers.length;
 
-}
+        const activeStudents =
+            students.filter(
+                function (student) {
 
+                    return (
+                        student.status !==
+                        "inactive"
+                    );
 
+                }
+            );
 
 
+        const monthlyFees =
+            fees.filter(
+                function (fee) {
 
+                    if (
+                        fee.status
+                        &&
+                        fee.status !==
+                        "Paid"
+                    ) {
 
+                        return false;
 
-let income = 0;
+                    }
 
 
+                    if (
+                        fee.paymentDateISO
+                    ) {
 
-fees.forEach(fee=>{
+                        return (
+                            new Date(
+                                fee.paymentDateISO
+                            )
+                            >=
+                            monthStart
+                        );
 
+                    }
 
-income +=
-Number(fee.amount) || 0;
 
+                    return false;
 
-});
+                }
+            );
 
 
+        const todayFees =
+            fees.filter(
+                function (fee) {
 
+                    if (
+                        fee.status
+                        &&
+                        fee.status !==
+                        "Paid"
+                    ) {
 
+                        return false;
 
-let incomeBox =
-document.getElementById(
-"monthlyFee"
-);
+                    }
 
 
+                    if (
+                        fee.paymentDateISO
+                    ) {
 
-if(incomeBox){
+                        return (
+                            new Date(
+                                fee.paymentDateISO
+                            )
+                            >=
+                            today
+                        );
 
-incomeBox.innerText =
-"৳" + income;
+                    }
 
-}
 
+                    return (
+                        fee.paymentDate
+                        ===
+                        today.toLocaleDateString(
+                            "en-GB"
+                        )
+                    );
 
+                }
+            );
 
 
+        const monthlyCollection =
+            monthlyFees.reduce(
+                function (
+                    sum,
+                    fee
+                ) {
 
-let attendanceBox =
-document.getElementById(
-"attendance"
-);
+                    return (
 
+                        sum
 
+                        +
 
-if(attendanceBox){
+                        (
+                            Number(
+                                fee.amount
+                            )
+                            ||
+                            0
+                        )
 
+                    );
 
+                },
+                0
+            );
 
-let present =
-attendance.filter(
-a=>a.status==="Present"
-).length;
 
+        const paidToday =
+            todayFees.reduce(
+                function (
+                    sum,
+                    fee
+                ) {
 
+                    return (
 
-let total =
-attendance.length;
+                        sum
 
+                        +
 
+                        (
+                            Number(
+                                fee.amount
+                            )
+                            ||
+                            0
+                        )
 
-let percent = 0;
+                    );
 
+                },
+                0
+            );
 
 
-if(total>0){
+        const present =
+            attendance.filter(
+                function (record) {
 
-percent =
-Math.round(
-(present/total)*100
-);
+                    return (
+                        record.status
+                        ===
+                        "Present"
+                    );
 
-}
+                }
+            ).length;
 
 
+        const totalAttendance =
+            attendance.length;
 
-attendanceBox.innerText =
-percent+"%";
 
+        const attendancePercentage =
+            totalAttendance > 0
 
-}
+                ?
 
+                Math.round(
+                    (
+                        present
+                        /
+                        totalAttendance
+                    )
+                    *
+                    100
+                )
 
+                :
 
+                0;
 
 
+        const currentYear =
+            new Date()
+                .getFullYear();
 
-loadDueSummary();
 
+        const newAdmissions =
+            students.filter(
+                function (student) {
 
-loadCharts();
+                    if (
+                        !student.admissionDate
+                    ) {
 
+                        return false;
 
-}
+                    }
 
-// ===============================
-// Due Summary
-// ===============================
 
+                    const admission =
+                        new Date(
+                            student.admissionDate
+                        );
 
-function loadDueSummary(){
 
+                    return (
+                        admission.getFullYear()
+                        ===
+                        currentYear
+                    );
 
-let students =
-getStudents();
+                }
+            ).length;
 
 
-let fees =
-getFees();
+        setText(
+            "totalStudents",
+            activeStudents.length
+        );
 
 
+        setText(
+            "totalTeachers",
+            teachers.length
+        );
 
-let monthlyDue = 0;
 
-let otherDue = 0;
+        setText(
+            "monthlyFee",
+            formatMoney(
+                monthlyCollection
+            )
+        );
 
 
+        setText(
+            "attendance",
+            attendancePercentage +
+            "%"
+        );
 
 
+        setText(
+            "newAdmission",
+            newAdmissions
+        );
 
-students.forEach(student=>{
 
+        setText(
+            "paidThisMonth",
+            formatMoney(
+                monthlyCollection
+            )
+        );
 
-let studentFees = fees.filter(
 
-fee =>
+        return {
 
-fee.studentCode === student.studentCode
+            students:
+                activeStudents,
 
-);
+            teachers:
+                teachers,
 
+            fees:
+                fees,
 
+            attendance:
+                attendance,
 
+            monthlyCollection:
+                monthlyCollection,
 
+            paidToday:
+                paidToday
 
-// ===============================
-// Monthly Fee Due
-// ===============================
+        };
 
+    }
 
-let paidMonthly = 0;
 
+    // ======================================
+    // Due Calculation
+    // ======================================
 
+    function calculateDue() {
 
-studentFees.forEach(fee=>{
+        const students =
+            getInstitutionRecords(
+                "students"
+            );
 
 
-if(
-fee.feeType === "Monthly Fee"
-){
+        const fees =
+            getInstitutionRecords(
+                "fees"
+            );
 
 
-paidMonthly += Number(fee.amount);
+        let monthlyDue = 0;
 
+        let otherDue = 0;
 
-}
 
+        students.forEach(
+            function (student) {
 
-});
+                const studentFees =
+                    fees.filter(
+                        function (fee) {
 
+                            return (
+                                fee.studentCode
+                                ===
+                                student.studentCode
+                            );
 
+                        }
+                    );
 
 
+                // --------------------------
+                // Monthly Fee
+                // --------------------------
 
+                let monthlyPaid =
+                    studentFees
+                        .filter(
+                            function (fee) {
 
-if(student.admissionDate){
+                                return (
 
+                                    fee.feeType
+                                    ===
+                                    "Monthly Fee"
 
-let startDate =
-new Date(
-student.admissionDate
-);
+                                    &&
 
+                                    fee.status
+                                    ===
+                                    "Paid"
 
-let today =
-new Date();
+                                );
 
+                            }
+                        )
+                        .reduce(
+                            function (
+                                sum,
+                                fee
+                            ) {
 
+                                return (
 
+                                    sum
 
-let months =
+                                    +
 
-(
-(today.getFullYear()
--
-startDate.getFullYear())
+                                    (
+                                        Number(
+                                            fee.amount
+                                        )
+                                        ||
+                                        0
+                                    )
 
-*12
+                                );
 
-)
+                            },
+                            0
+                        );
 
-+
 
-(
-today.getMonth()
--
-startDate.getMonth()
+                if (
+                    student.admissionDate
+                ) {
 
-)
+                    const startDate =
+                        new Date(
+                            student.admissionDate
+                        );
 
-+
 
-1;
+                    const today =
+                        new Date();
 
 
+                    let months =
 
+                        (
+                            (
+                                today
+                                    .getFullYear()
+                                -
+                                startDate
+                                    .getFullYear()
+                            )
+                            *
+                            12
+                        )
 
+                        +
 
-let classFee =
+                        (
+                            today
+                                .getMonth()
+                            -
+                            startDate
+                                .getMonth()
+                        )
 
-monthlyFee[
-student.admissionClass
-]
+                        +
 
-||0;
+                        1;
 
 
+                    months =
+                        Math.max(
+                            0,
+                            months
+                        );
 
 
+                    const classFee =
+                        Number(
+                            MONTHLY_FEES[
+                                student.admissionClass
+                            ]
+                            ||
+                            0
+                        );
 
-let expected =
 
-months * classFee;
+                    const expected =
+                        months *
+                        classFee;
 
 
+                    monthlyDue +=
+                        Math.max(
+                            0,
+                            expected -
+                            monthlyPaid
+                        );
 
+                }
 
-let due =
 
-expected - paidMonthly;
+                // --------------------------
+                // Explicit Other Obligations
+                // --------------------------
 
+                studentFees.forEach(
+                    function (fee) {
 
+                        if (
+                            fee.feeType ===
+                            "Monthly Fee"
+                        ) {
 
-if(due > 0){
+                            return;
 
-monthlyDue += due;
+                        }
 
-}
 
+                        const expected =
+                            Number(
 
+                                fee.expectedAmount
+                                ??
+                                fee.feeDueAmount
+                                ??
+                                fee.dueAmount
+                                ??
+                                0
 
-}
+                            );
 
 
+                        if (
+                            expected <=
+                            0
+                        ) {
 
+                            return;
 
+                        }
 
 
+                        const paid =
+                            Number(
+                                fee.amount
+                            )
+                            ||
+                            0;
 
 
-// ===============================
-// Other Fee Due
-// ===============================
+                        if (
+                            fee.status ===
+                            "Paid"
+                        ) {
 
+                            otherDue +=
+                                Math.max(
+                                    0,
+                                    expected -
+                                    paid
+                                );
 
+                        }
 
-Object.keys(otherFeeSetup).forEach(type=>{
+                    }
+                );
 
+            }
+        );
 
-let paid = 0;
 
+        const totalDue =
+            monthlyDue
+            +
+            otherDue;
 
 
-studentFees.forEach(fee=>{
+        setText(
+            "monthlyDueAmount",
+            formatMoney(
+                monthlyDue
+            )
+        );
 
 
-if(
-fee.feeType === type
-){
+        setText(
+            "otherDueAmount",
+            formatMoney(
+                otherDue
+            )
+        );
 
 
-paid += Number(fee.amount);
+        setText(
+            "totalDueAmount",
+            formatMoney(
+                totalDue
+            )
+        );
 
 
-}
+        return {
 
+            monthlyDue:
+                monthlyDue,
 
+            otherDue:
+                otherDue,
 
-});
+            totalDue:
+                totalDue
 
+        };
 
+    }
 
 
+    // ======================================
+    // Recent Payments
+    // ======================================
 
-let due =
+    function loadRecentPayments() {
 
-otherFeeSetup[type] - paid;
+        const container =
+            document.getElementById(
+                "recentPayments"
+            );
 
 
+        if (!container) {
 
+            return;
 
-if(due > 0){
+        }
 
 
-otherDue += due;
+        const fees =
+            getInstitutionRecords(
+                "fees"
+            )
+            .slice();
 
 
-}
+        fees.sort(
+            function (
+                a,
+                b
+            ) {
 
+                return (
 
+                    new Date(
+                        b.paymentDateISO
+                        ||
+                        b.paymentDate
+                        ||
+                        0
+                    )
 
-});
+                    -
 
+                    new Date(
+                        a.paymentDateISO
+                        ||
+                        a.paymentDate
+                        ||
+                        0
+                    )
 
+                );
 
+            }
+        );
 
 
-});
+        const recent =
+            fees.slice(
+                0,
+                5
+            );
 
 
+        if (
+            recent.length ===
+            0
+        ) {
 
+            container.innerHTML =
+                `
+                    <div class="empty-state">
+                        No Data Found
+                    </div>
+                `;
 
+            return;
 
+        }
 
 
+        container.innerHTML =
+            recent.map(
+                function (fee) {
 
-let totalDue =
+                    return `
 
-monthlyDue + otherDue;
+                        <div
+                            class="activity-row">
 
+                            <div
+                                class="activity-row-main">
 
+                                <strong>
+                                    ${escapeHTML(
+                                        fee.studentName
+                                        ||
+                                        fee.studentCode
+                                        ||
+                                        "-"
+                                    )}
+                                </strong>
 
 
+                                <small>
+                                    ${escapeHTML(
+                                        fee.feeType
+                                        ||
+                                        "-"
+                                    )}
+                                </small>
 
-let totalBox =
+                            </div>
 
-document.getElementById(
-"totalDueAmount"
-);
 
+                            <div
+                                class="activity-row-side">
 
+                                <strong>
+                                    ${formatMoney(
+                                        fee.amount
+                                    )}
+                                </strong>
 
-let monthlyBox =
 
-document.getElementById(
-"monthlyDueAmount"
-);
+                                <small>
+                                    ${escapeHTML(
+                                        fee.paymentDate
+                                        ||
+                                        "-"
+                                    )}
+                                </small>
 
+                            </div>
 
+                        </div>
 
-let otherBox =
+                    `;
 
-document.getElementById(
-"otherDueAmount"
-);
+                }
+            )
+            .join("");
 
+    }
 
 
+    // ======================================
+    // Recent Admissions
+    // ======================================
 
+    function loadRecentAdmissions() {
 
-if(totalBox){
+        const container =
+            document.getElementById(
+                "recentAdmission"
+            );
 
-totalBox.innerText =
-totalDue;
 
-}
+        if (!container) {
 
+            return;
 
+        }
 
-if(monthlyBox){
 
-monthlyBox.innerText =
-monthlyDue;
+        const students =
+            getInstitutionRecords(
+                "students"
+            )
+            .slice();
 
-}
 
+        students.sort(
+            function (
+                a,
+                b
+            ) {
 
+                return (
 
-if(otherBox){
+                    new Date(
+                        b.createdAt
+                        ||
+                        b.admissionDate
+                        ||
+                        0
+                    )
 
-otherBox.innerText =
-otherDue;
+                    -
 
-}
+                    new Date(
+                        a.createdAt
+                        ||
+                        a.admissionDate
+                        ||
+                        0
+                    )
 
+                );
 
+            }
+        );
 
-}
 
+        const recent =
+            students.slice(
+                0,
+                5
+            );
 
 
+        if (
+            recent.length ===
+            0
+        ) {
 
+            container.innerHTML =
+                `
+                    <div class="empty-state">
+                        No Data Found
+                    </div>
+                `;
 
+            return;
 
+        }
 
 
+        container.innerHTML =
+            recent.map(
+                function (student) {
 
-// ===============================
-// Sidebar Control
-// ===============================
+                    return `
 
+                        <div
+                            class="activity-row">
 
-const menuBtn =
-document.getElementById(
-"menuBtn"
-);
+                            <div
+                                class="activity-row-main">
 
+                                <strong>
+                                    ${escapeHTML(
+                                        student.name
+                                        ||
+                                        "-"
+                                    )}
+                                </strong>
 
-const sidebar =
-document.getElementById(
-"sidebar"
-);
 
+                                <small>
+                                    ${escapeHTML(
+                                        student.admissionClass
+                                        ||
+                                        "-"
+                                    )}
+                                </small>
 
-const overlay =
-document.getElementById(
-"overlay"
-);
+                            </div>
 
 
+                            <div
+                                class="activity-row-side">
 
+                                <strong>
+                                    ${escapeHTML(
+                                        student.studentCode
+                                        ||
+                                        "-"
+                                    )}
+                                </strong>
 
-if(menuBtn){
 
+                                <small>
+                                    ${escapeHTML(
+                                        student.admissionDate
+                                        ||
+                                        "-"
+                                    )}
+                                </small>
 
-menuBtn.onclick=function(){
+                            </div>
 
+                        </div>
 
-sidebar.classList.toggle(
-"active"
-);
+                    `;
 
+                }
+            )
+            .join("");
 
-overlay.classList.toggle(
-"active"
-);
+    }
 
 
-}
+    // ======================================
+    // Charts
+    // ======================================
 
+    function loadCharts() {
 
-}
+        if (
+            typeof Chart ===
+            "undefined"
+        ) {
 
+            console.warn(
+                "Chart.js is not available."
+            );
 
+            return;
 
-if(overlay){
+        }
 
 
-overlay.onclick=function(){
+        const students =
+            getInstitutionRecords(
+                "students"
+            );
 
 
-sidebar.classList.remove(
-"active"
-);
+        const attendance =
+            getInstitutionRecords(
+                "attendance"
+            );
 
 
-overlay.classList.remove(
-"active"
-);
+        const fees =
+            getInstitutionRecords(
+                "fees"
+            );
 
 
-}
+        const studentCanvas =
+            document.getElementById(
+                "studentChart"
+            );
 
 
-}
+        const attendanceCanvas =
+            document.getElementById(
+                "attendanceChart"
+            );
 
 
+        const incomeCanvas =
+            document.getElementById(
+                "incomeChart"
+            );
 
 
+        // ----------------------------------
+        // Student Chart
+        // ----------------------------------
 
+        if (
+            studentCanvas
+        ) {
 
+            const classMap =
+                {};
 
 
+            students.forEach(
+                function (student) {
 
-// ===============================
-// Charts
-// ===============================
+                    const className =
+                        student.admissionClass
+                        ||
+                        "Unknown";
 
 
-function loadCharts(){
+                    classMap[className] =
+                        (
+                            classMap[
+                                className
+                            ]
+                            ||
+                            0
+                        )
+                        +
+                        1;
 
+                }
+            );
 
 
-let studentChart =
-document.getElementById(
-"studentChart"
-);
+            const labels =
+                Object.keys(
+                    classMap
+                )
+                .slice(
+                    0,
+                    10
+                );
 
 
+            const values =
+                labels.map(
+                    function (label) {
 
-if(studentChart){
+                        return classMap[
+                            label
+                        ];
 
+                    }
+                );
 
-new Chart(
 
-studentChart,
+            new Chart(
+                studentCanvas,
+                {
 
-{
+                    type: "bar",
 
-type:"bar",
+                    data: {
 
-data:{
+                        labels:
+                            labels.length
+                                ? labels
+                                : ["No Data"],
 
+                        datasets: [
 
-labels:[
-"Students"
-],
+                            {
 
+                                label:
+                                    "Students",
 
-datasets:[{
+                                data:
+                                    labels.length
+                                        ? values
+                                        : [0]
 
+                            }
 
-label:"Total Students",
+                        ]
 
-data:[
+                    },
 
-getStudents().length
+                    options: {
 
-]
+                        responsive: true,
 
+                        maintainAspectRatio:
+                            false
 
-}]
+                    }
 
+                }
+            );
 
-},
+        }
 
 
-options:{
+        // ----------------------------------
+        // Attendance Chart
+        // ----------------------------------
 
-responsive:true
+        if (
+            attendanceCanvas
+        ) {
 
-}
+            const present =
+                attendance.filter(
+                    function (record) {
 
+                        return (
+                            record.status
+                            ===
+                            "Present"
+                        );
 
-}
+                    }
+                ).length;
 
-);
 
+            const absent =
+                Math.max(
+                    0,
+                    attendance.length -
+                    present
+                );
 
-}
 
+            new Chart(
+                attendanceCanvas,
+                {
 
+                    type:
+                        "doughnut",
 
+                    data: {
 
+                        labels: [
 
+                            "Present",
+                            "Absent"
 
+                        ],
 
-let attendanceChart =
-document.getElementById(
-"attendanceChart"
-);
+                        datasets: [
 
+                            {
 
+                                data: [
 
-if(attendanceChart){
+                                    present,
+                                    absent
 
+                                ]
 
+                            }
 
-new Chart(
+                        ]
 
-attendanceChart,
+                    },
 
-{
+                    options: {
 
+                        responsive: true,
 
-type:"doughnut",
+                        maintainAspectRatio:
+                            false,
 
+                        cutout:
+                            "68%"
 
-data:{
+                    }
 
+                }
+            );
 
-labels:[
+        }
 
-"Present",
-"Absent"
 
-],
+        // ----------------------------------
+        // Income Chart
+        // ----------------------------------
 
+        if (
+            incomeCanvas
+        ) {
 
-datasets:[{
+            const monthNames = [
 
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
 
-data:[
+            ];
 
 
-getAttendance().filter(
+            const year =
+                new Date()
+                    .getFullYear();
 
-a=>a.status==="Present"
 
-).length,
+            const values =
+                monthNames.map(
+                    function (
+                        _,
+                        index
+                    ) {
 
+                        return fees
+                            .filter(
+                                function (fee) {
 
-getAttendance().filter(
+                                    if (
+                                        !fee.paymentDateISO
+                                        ||
+                                        fee.status !==
+                                        "Paid"
+                                    ) {
 
-a=>a.status!=="Present"
+                                        return false;
 
-).length
+                                    }
 
 
-]
+                                    const date =
+                                        new Date(
+                                            fee.paymentDateISO
+                                        );
 
 
-}]
+                                    return (
 
+                                        date.getFullYear()
+                                        ===
+                                        year
 
-},
+                                        &&
 
+                                        date.getMonth()
+                                        ===
+                                        index
 
-options:{
+                                    );
 
-responsive:true
+                                }
+                            )
+                            .reduce(
+                                function (
+                                    sum,
+                                    fee
+                                ) {
 
-}
+                                    return (
 
+                                        sum
 
-}
+                                        +
 
-);
+                                        (
+                                            Number(
+                                                fee.amount
+                                            )
+                                            ||
+                                            0
+                                        )
 
+                                    );
 
+                                },
+                                0
+                            );
 
-}
+                    }
+                );
 
 
+            new Chart(
+                incomeCanvas,
+                {
 
+                    type:
+                        "line",
 
+                    data: {
 
+                        labels:
+                            monthNames,
 
+                        datasets: [
 
+                            {
 
-let incomeChart =
-document.getElementById(
-"incomeChart"
-);
+                                label:
+                                    "Collection",
 
+                                data:
+                                    values,
 
+                                tension:
+                                    0.35,
 
-if(incomeChart){
+                                fill:
+                                    false
 
+                            }
 
+                        ]
 
-new Chart(
+                    },
 
-incomeChart,
+                    options: {
 
-{
+                        responsive:
+                            true,
 
+                        maintainAspectRatio:
+                            false
 
-type:"line",
+                    }
 
+                }
+            );
 
-data:{
+        }
 
+    }
 
-labels:[
 
-"Income"
+    // ======================================
+    // Set Text
+    // ======================================
 
-],
+    function setText(
+        id,
+        value
+    ) {
 
+        const element =
+            document.getElementById(
+                id
+            );
 
-datasets:[{
 
+        if (element) {
 
-label:"Income",
+            element.textContent =
+                value;
 
-data:[
+        }
 
+    }
 
-getFees().reduce(
 
-(sum,fee)=>
+    // ======================================
+    // HTML Escape
+    // ======================================
 
-sum + Number(fee.amount || 0),
+    function escapeHTML(
+        value
+    ) {
 
-0
+        return String(
+            value ??
+            ""
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
-)
+    }
 
 
-]
+    // ======================================
+    // Initialize
+    // ======================================
 
+    function initializeDashboard() {
 
-}]
+        loadInstitutionIdentity();
 
+        loadDate();
 
-},
+        loadSummary();
 
+        calculateDue();
 
-options:{
+        loadRecentPayments();
 
-responsive:true
+        loadRecentAdmissions();
 
-}
+        loadCharts();
 
+    }
 
-}
 
-);
+    if (
+        document.readyState ===
+        "loading"
+    ) {
 
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeDashboard
+        );
 
+    } else {
 
-}
+        initializeDashboard();
 
+    }
 
 
-}
-
-
-
-
-
-
-
-
-
-// ===============================
-// Start
-// ===============================
-
-
-loadDashboard();
+})();
