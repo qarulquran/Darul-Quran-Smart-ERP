@@ -1,82 +1,106 @@
 <!DOCTYPE html>
+
 <html lang="bn">
 
 <head>
+
 <meta charset="UTF-8">
-<title>Fee Due Report</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Fee Due Report - Darul Quran Smart ERP
+</title>
+
 
 <link rel="stylesheet" href="style.css">
 
+
 <style>
 
-body{
-    background:#f5f5f5;
-    font-family:Arial;
-}
+body {
 
-.container{
-
-    width:95%;
-    max-width:900px;
-    margin:20px auto;
-    background:white;
-    padding:20px;
-    border-radius:10px;
+    background: #f5f5f5;
+    font-family: Arial, sans-serif;
 
 }
 
 
-h2{
-    text-align:center;
-    color:#087f3d;
-}
+.container {
 
-
-table{
-
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
+    width: 95%;
+    max-width: 1000px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
 
 }
 
 
-th{
+h2 {
 
-background:#087f3d;
-color:white;
-padding:10px;
-
-}
-
-
-td{
-
-border:1px solid #ddd;
-padding:10px;
-text-align:center;
+    text-align: center;
+    color: #087f3d;
 
 }
 
 
-.total{
+select,
+input {
 
-font-size:20px;
-font-weight:bold;
-color:red;
-margin-top:20px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+
+}
+
+
+.table-wrapper {
+
+    overflow-x: auto;
 
 }
 
 
-select,input{
+table {
 
-padding:10px;
-width:100%;
-margin-bottom:10px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    min-width: 700px;
 
 }
 
+
+th {
+
+    background: #087f3d;
+    color: white;
+    padding: 10px;
+
+}
+
+
+td {
+
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+
+}
+
+
+.total {
+
+    font-size: 20px;
+    font-weight: bold;
+    color: #c62828;
+    margin-top: 20px;
+
+}
 
 </style>
 
@@ -99,49 +123,67 @@ Select Fee Type
 </label>
 
 
-<select id="feeFilter"
+<select
+id="feeFilter"
 onchange="loadDue()">
+
 
 <option value="All">
 All Fee
 </option>
 
-<option>
+
+<option value="Monthly Fee">
 Monthly Fee
 </option>
 
-<option>
+
+<option value="Admission Fee">
 Admission Fee
 </option>
 
-<option>
+
+<option value="Exam Fee">
 Exam Fee
 </option>
 
-<option>
+
+<option value="ID Card Fee">
+ID Card Fee
+</option>
+
+
+<option value="Book Fee">
 Book Fee
 </option>
 
-<option>
+
+<option value="Uniform Fee">
 Uniform Fee
 </option>
 
-<option>
+
+<option value="Tour Fee">
 Tour Fee
 </option>
 
-<option>
+
+<option value="Certificate Fee">
 Certificate Fee
 </option>
 
-<option>
-Others
+
+<option value="Other Fee">
+Other Fee
 </option>
 
 
 </select>
 
 
+
+
+<div class="table-wrapper">
 
 
 <table>
@@ -151,21 +193,31 @@ Others
 
 <tr>
 
+
 <th>
 Student
 </th>
+
 
 <th>
 Class
 </th>
 
+
 <th>
 Fee Type
 </th>
 
+
 <th>
 Paid
 </th>
+
+
+<th>
+Expected
+</th>
+
 
 <th>
 Due
@@ -178,13 +230,16 @@ Due
 </thead>
 
 
+
+
 <tbody id="dueTable">
-
-
 </tbody>
 
 
 </table>
+
+
+</div>
 
 
 
@@ -193,7 +248,6 @@ Due
 Total Due:
 ৳ <span id="totalDue">0</span>
 
-
 </div>
 
 
@@ -201,6 +255,29 @@ Total Due:
 
 
 
+
+
+
+<!-- Core -->
+
+<script src="../config/app-config.js"></script>
+
+<script src="../config/language-config.js"></script>
+
+<script src="../config/permission-config.js"></script>
+
+<script src="../core/institute.js"></script>
+
+<script src="../core/session.js"></script>
+
+<script src="../core/auth.js"></script>
+
+<script src="../core/database-manager.js"></script>
+
+<script src="../core/bootstrap.js"></script>
+
+
+<!-- Fee Due -->
 
 <script src="fee-due.js"></script>
 
