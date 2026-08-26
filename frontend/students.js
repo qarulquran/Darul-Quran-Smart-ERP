@@ -1,532 +1,946 @@
 // ==========================================
-// Darul Quran ERP
-// Student List System
-// Dynamic Student Management
+// Darul Quran Smart ERP
+// Student Management System
+// Core-Compatible Student List
 // ==========================================
 
+(function () {
 
+    "use strict";
 
-// ===============================
-// Get Students
-// ===============================
 
+    // ==========================================
+    // Configuration
+    // ==========================================
 
-function getStudents(){
+    const LEGACY_KEY = "students";
 
+    const DEFAULT_INSTITUTION_ID = "DQ001";
 
-return JSON.parse(
 
-localStorage.getItem("students")
+    // ==========================================
+    // Get Current Institution ID
+    // ==========================================
 
-) || [];
+    function getSafeInstitutionId() {
 
+        try {
 
-}
+            if (
+                typeof window.getInstitutionId === "function"
+            ) {
 
+                return (
+                    window.getInstitutionId()
+                    || DEFAULT_INSTITUTION_ID
+                );
 
+            }
 
+        } catch (error) {
 
+            console.error(
+                "Institution ID error:",
+                error
+            );
 
+        }
 
+        return DEFAULT_INSTITUTION_ID;
+    }
 
-let allStudents = getStudents();
 
+    // ==========================================
+    // Read Legacy Students
+    // ==========================================
 
+    function getLegacyStudents() {
 
+        const data =
+            localStorage.getItem(
+                LEGACY_KEY
+            );
 
 
+        if (!data) {
 
+            return [];
 
+        }
 
-// ===============================
-// Display Students
-// ===============================
 
+        try {
 
-function displayStudents(data){
+            const students =
+                JSON.parse(data);
 
 
+            return Array.isArray(students)
+                ? students
+                : [];
 
-let table =
+        } catch (error) {
 
-document.getElementById(
+            console.error(
+                "Student data error:",
+                error
+            );
 
-"studentTable"
 
-);
+            return [];
 
+        }
 
+    }
 
-if(!table) return;
 
+    // ==========================================
+    // Save Legacy Students
+    // ==========================================
 
+    function saveLegacyStudents(students) {
 
+        localStorage.setItem(
 
-table.innerHTML = "";
+            LEGACY_KEY,
 
+            JSON.stringify(students)
 
+        );
 
+    }
 
 
-if(data.length === 0){
+    // ==========================================
+    // Get Core Students
+    // ==========================================
 
+    function getCoreStudents() {
 
-table.innerHTML =
+        try {
 
-`
-<tr>
+            if (
+                typeof window.getRecords !== "function"
+            ) {
 
-<td colspan="8">
+                return [];
 
-No Student Found
+            }
 
-</td>
 
-</tr>
+            const records =
+                window.getRecords("students");
 
-`;
 
+            return Array.isArray(records)
+                ? records
+                : [];
 
-return;
+        } catch (error) {
 
+            console.error(
+                "Core student read error:",
+                error
+            );
 
-}
 
+            return [];
 
+        }
 
+    }
 
 
+    // ==========================================
+    // Save Core Students
+    // ==========================================
 
+    function saveCoreStudents(students) {
 
+        try {
 
-data.forEach(student=>{
+            if (
+                typeof window.saveRecords === "function"
+            ) {
 
+                window.saveRecords(
+                    "students",
+                    students
+                );
 
+                return true;
 
+            }
 
+        } catch (error) {
 
+            console.error(
+                "Core student save error:",
+                error
+            );
 
-table.innerHTML +=
+        }
 
+        return false;
 
+    }
 
-`
 
-<tr>
+    // ==========================================
+    // Prepare Student Record
+    // ==========================================
 
+    function prepareStudent(student) {
 
+        const institutionId =
+            student.institutionId
+            ||
+            student.instituteId
+            ||
+            getSafeInstitutionId();
 
-<td>
 
+        return {
 
-<img
+            ...student,
 
-src="${student.photo || 'https://via.placeholder.com/60'}"
+            institutionId:
+                institutionId
 
-width="60"
+        };
 
-height="60"
+    }
 
-style="border-radius:50%;object-fit:cover;">
 
+    // ==========================================
+    // Migrate Legacy Data
+    // ==========================================
 
-</td>
+    function migrateStudentsIfNeeded() {
 
+        const legacyStudents =
+            getLegacyStudents();
 
 
+        if (
+            !legacyStudents.length
+        ) {
 
+            return [];
 
-<td>
+        }
 
-${student.studentCode || ""}
 
-</td>
+        const coreStudents =
+            getCoreStudents();
 
 
+        // If Core Database is available
+        if (
+            typeof window.getRecords === "function"
+        ) {
 
+            if (
+                coreStudents.length === 0
+            ) {
 
+                const migratedStudents =
+                    legacyStudents.map(
+                        prepareStudent
+                    );
 
-<td>
 
-${student.name || ""}
+                saveCoreStudents(
+                    migratedStudents
+                );
 
-</td>
 
+                return migratedStudents;
 
+            }
 
 
+            return coreStudents;
 
-<td>
+        }
 
-${student.admissionClass || ""}
 
-</td>
+        // Legacy mode
+        return legacyStudents;
 
+    }
 
 
+    // ==========================================
+    // Get Students
+    // ==========================================
 
+    function getStudents() {
 
-<td>
+        const students =
+            migrateStudentsIfNeeded();
 
-${student.fatherName || ""}
 
-</td>
+        return students.map(
+            prepareStudent
+        );
 
+    }
 
 
+    // ==========================================
+    // Save Students
+    // ==========================================
 
+    function saveStudents(students) {
 
-<td>
+        const prepared =
+            students.map(
+                prepareStudent
+            );
 
-${student.guardianMobile || ""}
 
-</td>
+        // Save Core Database
+        saveCoreStudents(
+            prepared
+        );
 
 
+        // Keep legacy data synchronized
+        // until complete migration is finished
+        saveLegacyStudents(
+            prepared
+        );
 
+    }
 
 
-<td>
+    // ==========================================
+    // Global Student Data
+    // ==========================================
 
-${student.feeStatus || "Due"}
+    let allStudents =
+        getStudents();
 
-</td>
 
+    // ==========================================
+    // HTML Escape
+    // ==========================================
 
+    function escapeHTML(value) {
 
+        return String(
+            value === undefined ||
+            value === null
+                ? ""
+                : value
+        )
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
+    }
 
-<td>
 
+    // ==========================================
+    // Encode Student Code
+    // ==========================================
 
+    function encodeCode(code) {
 
-<button
+        return encodeURIComponent(
+            String(code || "")
+        );
 
-onclick="viewStudent('${student.studentCode}')"
+    }
 
-class="view-btn">
 
-👁 View
+    // ==========================================
+    // Display Students
+    // ==========================================
 
-</button>
+    function displayStudents(data) {
 
+        const table =
+            document.getElementById(
+                "studentTable"
+            );
 
 
+        if (!table) {
 
-<button
+            return;
 
-onclick="editStudent('${student.studentCode}')"
+        }
 
-class="edit-btn">
 
-✏ Edit
+        table.innerHTML = "";
 
-</button>
 
+        if (
+            !Array.isArray(data)
+            ||
+            data.length === 0
+        ) {
 
+            table.innerHTML = `
 
+                <tr>
 
+                    <td colspan="8">
 
-<button
+                        No Student Found
 
-onclick="deleteStudent('${student.studentCode}')"
+                    </td>
 
-class="delete-btn">
+                </tr>
 
-🗑 Delete
+            `;
 
-</button>
+            return;
 
+        }
 
 
-</td>
+        data.forEach(
+            function (student) {
 
+                const photo =
+                    student.photo
+                    ||
+                    "https://via.placeholder.com/60";
 
 
+                const code =
+                    student.studentCode
+                    || "";
 
-</tr>
 
+                const name =
+                    student.name
+                    || "";
 
-`;
 
+                const studentClass =
+                    student.admissionClass
+                    || "";
 
 
-});
+                const father =
+                    student.fatherName
+                    || "";
 
 
+                const mobile =
+                    student.guardianMobile
+                    || "";
 
-}
 
+                const feeStatus =
+                    student.feeStatus
+                    || "Due";
 
 
+                const safePhoto =
+                    escapeHTML(photo);
 
 
+                const safeCode =
+                    escapeHTML(code);
 
 
+                const safeName =
+                    escapeHTML(name);
 
 
-// ===============================
-// View Student
-// ===============================
+                const safeClass =
+                    escapeHTML(studentClass);
 
 
-function viewStudent(code){
+                const safeFather =
+                    escapeHTML(father);
 
 
+                const safeMobile =
+                    escapeHTML(mobile);
 
-localStorage.setItem(
 
-"selectedStudent",
+                const safeFeeStatus =
+                    escapeHTML(feeStatus);
 
-code
 
-);
+                const encodedCode =
+                    encodeCode(code);
 
 
+                table.innerHTML += `
 
-window.location.href =
+                    <tr>
 
-"student-profile.html";
+                        <td>
 
+                            <img
 
+                                src="${safePhoto}"
 
-}
+                                width="60"
 
+                                height="60"
 
+                                alt="Student Photo"
 
+                                style="
+                                    border-radius:50%;
+                                    object-fit:cover;
+                                "
 
+                                onerror="
+                                    this.src='https://via.placeholder.com/60';
+                                "
 
+                            >
 
+                        </td>
 
 
-// ===============================
-// Edit Student
-// ===============================
+                        <td>
 
+                            ${safeCode}
 
-function editStudent(code){
+                        </td>
 
 
+                        <td>
 
-localStorage.setItem(
+                            ${safeName}
 
-"editStudent",
+                        </td>
 
-code
 
-);
+                        <td>
 
+                            ${safeClass}
 
+                        </td>
 
-window.location.href =
 
-"edit-student.html";
+                        <td>
 
+                            ${safeFather}
 
+                        </td>
 
-}
 
+                        <td>
 
+                            ${safeMobile}
 
+                        </td>
 
 
+                        <td>
 
+                            ${safeFeeStatus}
 
+                        </td>
 
 
-// ===============================
-// Delete Student
-// ===============================
+                        <td>
 
 
-function deleteStudent(code){
+                            <button
 
+                                onclick="
+                                    viewStudent(
+                                        decodeURIComponent('${encodedCode}')
+                                    )
+                                "
 
+                                class="view-btn"
 
-let confirmDelete =
+                            >
 
-confirm(
+                                👁 View
 
-"Delete this student?"
+                            </button>
 
-);
 
 
+                            <button
 
+                                onclick="
+                                    editStudent(
+                                        decodeURIComponent('${encodedCode}')
+                                    )
+                                "
 
-if(!confirmDelete)
+                                class="edit-btn"
 
-return;
+                            >
 
+                                ✏ Edit
 
+                            </button>
 
 
 
+                            <button
 
-let students = getStudents();
+                                onclick="
+                                    deleteStudent(
+                                        decodeURIComponent('${encodedCode}')
+                                    )
+                                "
 
+                                class="delete-btn"
 
+                            >
 
+                                🗑 Delete
 
+                            </button>
 
-students = students.filter(student=>
 
+                        </td>
 
-student.studentCode !== code
 
+                    </tr>
 
-);
+                `;
 
+            }
+        );
 
+    }
 
 
+    // ==========================================
+    // View Student
+    // ==========================================
 
+    function viewStudent(code) {
 
+        localStorage.setItem(
 
-localStorage.setItem(
+            "selectedStudent",
 
-"students",
+            code
 
-JSON.stringify(students)
+        );
 
-);
 
+        window.location.href =
+            "student-profile.html";
 
+    }
 
 
+    // ==========================================
+    // Edit Student
+    // ==========================================
 
+    function editStudent(code) {
 
-alert(
+        localStorage.setItem(
 
-"Student Deleted Successfully"
+            "editStudent",
 
-);
+            code
 
+        );
 
 
+        window.location.href =
+            "edit-student.html";
 
+    }
 
 
-displayStudents(students);
+    // ==========================================
+    // Delete Student
+    // ==========================================
 
+    function deleteStudent(code) {
 
+        const confirmDelete =
+            confirm(
+                "Delete this student?"
+            );
 
-}
 
+        if (!confirmDelete) {
 
+            return;
 
+        }
 
 
+        const students =
+            getStudents();
 
 
+        const filtered =
+            students.filter(
 
+                function (student) {
 
-// ===============================
-// Search System
-// ===============================
+                    return (
+                        String(
+                            student.studentCode
+                        )
+                        !==
+                        String(code)
+                    );
 
+                }
 
-let searchInput =
+            );
 
-document.getElementById(
 
-"searchStudent"
+        if (
+            filtered.length ===
+            students.length
+        ) {
 
-);
+            alert(
+                "Student not found"
+            );
 
+            return;
 
+        }
 
-let searchButton =
 
-document.getElementById(
+        saveStudents(
+            filtered
+        );
 
-"searchBtn"
 
-);
+        // Refresh global list
 
+        allStudents =
+            getStudents();
 
 
+        alert(
+            "Student Deleted Successfully"
+        );
 
 
+        displayStudents(
+            allStudents
+        );
 
-if(searchButton){
+    }
 
 
-searchButton.onclick=function(){
+    // ==========================================
+    // Search Students
+    // ==========================================
 
+    function searchStudents() {
 
+        const searchInput =
+            document.getElementById(
+                "searchStudent"
+            );
 
-let value =
 
-searchInput.value
+        if (!searchInput) {
 
-.toLowerCase();
+            displayStudents(
+                allStudents
+            );
 
+            return;
 
+        }
 
 
+        const value =
+            searchInput.value
+            .trim()
+            .toLowerCase();
 
-let result = allStudents.filter(student=>
 
+        if (!value) {
 
+            displayStudents(
+                allStudents
+            );
 
-(student.name || "")
+            return;
 
-.toLowerCase()
+        }
 
-.includes(value)
 
-||
+        const result =
+            allStudents.filter(
 
-(student.studentCode || "")
+                function (student) {
 
-.toLowerCase()
+                    return (
 
-.includes(value)
+                        String(
+                            student.name || ""
+                        )
+                        .toLowerCase()
+                        .includes(value)
 
-||
+                        ||
 
-(student.guardianMobile || "")
+                        String(
+                            student.studentCode || ""
+                        )
+                        .toLowerCase()
+                        .includes(value)
 
-.includes(value)
+                        ||
 
-||
+                        String(
+                            student.guardianMobile || ""
+                        )
+                        .toLowerCase()
+                        .includes(value)
 
-(student.fatherName || "")
+                        ||
 
-.toLowerCase()
+                        String(
+                            student.fatherName || ""
+                        )
+                        .toLowerCase()
+                        .includes(value)
 
-.includes(value)
+                        ||
 
+                        String(
+                            student.admissionClass || ""
+                        )
+                        .toLowerCase()
+                        .includes(value)
 
+                    );
 
-);
+                }
 
+            );
 
 
+        displayStudents(
+            result
+        );
 
+    }
 
-displayStudents(result);
 
+    // ==========================================
+    // Initialize Page
+    // ==========================================
 
+    function initializeStudentsPage() {
 
-};
+        allStudents =
+            getStudents();
 
 
+        displayStudents(
+            allStudents
+        );
 
-}
 
+        const searchButton =
+            document.getElementById(
+                "searchBtn"
+            );
 
 
+        const searchInput =
+            document.getElementById(
+                "searchStudent"
+            );
 
 
+        if (searchButton) {
 
+            searchButton.onclick =
+                searchStudents;
 
+        }
 
 
-// ===============================
-// Page Load
-// ===============================
+        if (searchInput) {
 
+            searchInput.addEventListener(
+                "input",
+                searchStudents
+            );
 
-displayStudents(allStudents);
+
+            searchInput.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
+
+                        searchStudents();
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+
+
+    // ==========================================
+    // Global Functions
+    // ==========================================
+
+    window.getStudents =
+        getStudents;
+
+    window.displayStudents =
+        displayStudents;
+
+    window.viewStudent =
+        viewStudent;
+
+    window.editStudent =
+        editStudent;
+
+    window.deleteStudent =
+        deleteStudent;
+
+    window.searchStudents =
+        searchStudents;
+
+
+    // ==========================================
+    // Start
+    // ==========================================
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeStudentsPage
+        );
+
+    } else {
+
+        initializeStudentsPage();
+
+    }
+
+
+})();
