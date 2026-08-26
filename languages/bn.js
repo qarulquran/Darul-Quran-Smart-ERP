@@ -9,7 +9,17 @@ const ISM_BN = {
 
     students: "শিক্ষার্থী",
 
+    studentProfile: "শিক্ষার্থী প্রোফাইল",
+
     admission: "ভর্তি",
+
+    academic: "একাডেমিক",
+
+    classManagement: "শ্রেণি ব্যবস্থাপনা",
+
+    subjectManagement: "বিষয় ব্যবস্থাপনা",
+
+    routine: "রুটিন / সময়সূচি",
 
     fee: "ফি সংগ্রহ",
 
@@ -27,11 +37,11 @@ const ISM_BN = {
 
     teachers: "শিক্ষক",
 
+    payroll: "বেতন ব্যবস্থাপনা",
+
     finance: "অর্থ ব্যবস্থাপনা",
 
     reports: "রিপোর্ট",
-
-    settings: "সেটিংস",
 
     library: "লাইব্রেরি",
 
@@ -39,19 +49,25 @@ const ISM_BN = {
 
     hostel: "আবাসিক ব্যবস্থাপনা",
 
-    payroll: "বেতন ব্যবস্থাপনা",
+    discipline: "শৃঙ্খলা ও আচরণ",
 
     guardianPortal: "অভিভাবক পোর্টাল",
 
+    services: "শিক্ষার্থী সেবা",
+
     notifications: "নোটিফিকেশন",
 
-    logout: "লগআউট",
+    auditLog: "অডিট লগ",
+
+    settings: "সেটিংস",
 
     language: "ভাষা",
 
     institution: "প্রতিষ্ঠান",
 
     admin: "অ্যাডমিন",
+
+    logout: "লগআউট",
 
     studentName: "শিক্ষার্থীর নাম",
 
