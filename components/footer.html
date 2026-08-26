@@ -1,25 +1,347 @@
-<!-- =====================================
- Darul Quran Smart ERP
- Footer
-===================================== -->
+<!-- ==========================================
+     ISM - Islamic School Management
+     Master Platform Footer
+========================================== -->
 
 
 <footer class="erp-footer">
 
 
-<p>
-
-© 2026 Darul Quran Smart ERP
-
-</p>
+    <div class="footer-platform">
 
 
-<p>
+        <!-- ==================================
+             Platform Identity
+        =================================== -->
 
-Powered by Smart Education Platform
+        <div class="footer-brand">
 
-</p>
 
+            <strong id="footerPlatformName">
+                ISM
+            </strong>
+
+
+            <span id="footerPlatformFullName">
+                Islamic School Management
+            </span>
+
+
+        </div>
+
+
+
+
+
+        <!-- ==================================
+             Institution
+        =================================== -->
+
+        <div class="footer-institution">
+
+
+            <span
+                data-i18n="institution">
+
+                Institution
+
+            </span>
+
+
+            <strong
+                id="footerInstitutionName">
+
+                -
+
+            </strong>
+
+
+        </div>
+
+
+
+
+
+        <!-- ==================================
+             Copyright
+        =================================== -->
+
+        <div class="footer-copyright">
+
+
+            <span>
+                ©
+            </span>
+
+
+            <span id="footerYear">
+                2026
+            </span>
+
+
+            <span id="footerPlatformCopyright">
+                ISM
+            </span>
+
+
+        </div>
+
+
+
+
+
+        <!-- ==================================
+             Version
+        =================================== -->
+
+        <div class="footer-version">
+
+
+            <span>
+                v
+            </span>
+
+
+            <span id="footerVersion">
+                1.0.0
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- ======================================
+         Footer Controller
+    ======================================= -->
+
+    <script>
+
+    (function () {
+
+        "use strict";
+
+
+        // ==================================
+        // Platform Configuration
+        // ==================================
+
+        function loadPlatformInfo() {
+
+
+            if (
+                !window.APP_CONFIG
+            ) {
+
+                return;
+
+            }
+
+
+            const platform =
+                APP_CONFIG.platform
+                ||
+                {};
+
+
+            const platformName =
+                document.getElementById(
+                    "footerPlatformName"
+                );
+
+
+            const platformFullName =
+                document.getElementById(
+                    "footerPlatformFullName"
+                );
+
+
+            const platformCopyright =
+                document.getElementById(
+                    "footerPlatformCopyright"
+                );
+
+
+            const version =
+                document.getElementById(
+                    "footerVersion"
+                );
+
+
+            if (platformName) {
+
+                platformName.textContent =
+                    platform.name
+                    ||
+                    "ISM";
+
+            }
+
+
+            if (platformFullName) {
+
+                platformFullName.textContent =
+                    platform.fullName
+                    ||
+                    "Islamic School Management";
+
+            }
+
+
+            if (platformCopyright) {
+
+                platformCopyright.textContent =
+                    platform.name
+                    ||
+                    "ISM";
+
+            }
+
+
+            if (version) {
+
+                version.textContent =
+                    platform.version
+                    ||
+                    "1.0.0";
+
+            }
+
+        }
+
+
+
+
+
+        // ==================================
+        // Current Year
+        // ==================================
+
+        function loadYear() {
+
+            const yearElement =
+                document.getElementById(
+                    "footerYear"
+                );
+
+
+            if (yearElement) {
+
+                yearElement.textContent =
+                    new Date()
+                        .getFullYear();
+
+            }
+
+        }
+
+
+
+
+
+        // ==================================
+        // Institution
+        // ==================================
+
+        function loadInstitution() {
+
+            const element =
+                document.getElementById(
+                    "footerInstitutionName"
+                );
+
+
+            if (
+                !element ||
+                typeof window.getInstitution !==
+                "function"
+            ) {
+
+                return;
+
+            }
+
+
+            const institution =
+                window.getInstitution();
+
+
+            if (institution) {
+
+                element.textContent =
+                    institution.name
+                    ||
+                    "-";
+
+            }
+
+        }
+
+
+
+
+
+        // ==================================
+        // Language Refresh
+        // ==================================
+
+        function refreshLanguage() {
+
+            if (
+                typeof window.translatePage ===
+                "function"
+            ) {
+
+                window.translatePage();
+
+            }
+
+        }
+
+
+
+
+
+        // ==================================
+        // Initialize
+        // ==================================
+
+        function initializeFooter() {
+
+            loadPlatformInfo();
+
+            loadYear();
+
+            loadInstitution();
+
+            refreshLanguage();
+
+        }
+
+
+        initializeFooter();
+
+
+        document.addEventListener(
+            "ismLanguageChanged",
+            refreshLanguage
+        );
+
+
+        document.addEventListener(
+            "ismLanguageReady",
+            refreshLanguage
+        );
+
+
+    })();
+
+    </script>
 
 
 </footer>
