@@ -17,14 +17,10 @@
 
 
     // ======================================
-    // Default Institution
+    // Current Development Tenant
     // ======================================
-    // Current development tenant:
-    // Darul Quran Ahmadia Madrasah
-    //
-    // IMPORTANT:
-    // This is a USER / INSTITUTION.
-    // It is NOT the platform identity.
+    // Darul Quran is only an institution/user.
+    // It is NOT the master platform identity.
 
     const DEFAULT_INSTITUTION = {
 
@@ -49,8 +45,7 @@
 
         branding: {
 
-            logo:
-                "",
+            logo: "",
 
             primaryColor:
                 "#087f3d",
@@ -119,9 +114,11 @@
                 JSON.parse(saved);
 
 
-            return institution
+            return (
+                institution
                 ||
-                DEFAULT_INSTITUTION;
+                DEFAULT_INSTITUTION
+            );
 
         }
 
@@ -202,11 +199,17 @@
 
 
         if (
+
             institution
+
             &&
+
             institution.branding
+
             &&
+
             institution.branding.logo
+
         ) {
 
             return (
@@ -234,17 +237,21 @@
 
 
         return (
+
             institution
+
             &&
+
             institution.status ===
             "active"
+
         );
 
     }
 
 
     // ======================================
-    // Clear Current Institution
+    // Clear Institution
     // ======================================
 
     function clearInstitution() {
