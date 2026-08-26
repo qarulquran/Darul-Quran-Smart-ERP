@@ -1,292 +1,613 @@
-// =====================================
+// ==========================================
 // Darul Quran Ahmadia Madrasah
-// Fee History System
-// =====================================
+// Smart ERP Fee History
+// Core-Compatible Final Version
+// ==========================================
 
+(function () {
 
+    "use strict";
 
-function getFees(){
 
+    // ======================================
+    // Institution
+    // ======================================
 
-return JSON.parse(
+    function getInstitutionIdSafe() {
 
-localStorage.getItem("fees")
+        try {
 
-) || [];
+            if (
+                typeof window.getInstitutionId ===
+                "function"
+            ) {
 
+                return (
+                    window.getInstitutionId()
+                    ||
+                    "DQ001"
+                );
 
-}
+            }
 
+        } catch (error) {
 
+            console.error(
+                "Institution error:",
+                error
+            );
 
+        }
 
-function getStudents(){
+        return "DQ001";
+    }
 
 
-return JSON.parse(
+    // ======================================
+    // Get Students
+    // ======================================
 
-localStorage.getItem("students")
+    function getStudents() {
 
-) || [];
+        try {
 
+            if (
+                typeof window.getRecords ===
+                "function"
+            ) {
 
-}
+                const records =
+                    window.getRecords(
+                        "students"
+                    );
 
+                if (
+                    Array.isArray(records)
+                    &&
+                    records.length > 0
+                ) {
 
+                    return records;
 
+                }
 
+            }
 
+        } catch (error) {
 
+            console.error(
+                "Core student error:",
+                error
+            );
 
-function searchFeeHistory(){
+        }
 
 
+        try {
 
-let code =
-document
-.getElementById("studentCode")
-.value
-.trim();
+            return JSON.parse(
+                localStorage.getItem(
+                    "students"
+                )
+            ) || [];
 
+        } catch (error) {
 
+            return [];
 
+        }
 
-if(!code){
+    }
 
 
-alert("Enter Student Code");
+    // ======================================
+    // Get Fees
+    // ======================================
 
-return;
+    function getFees() {
 
+        try {
 
-}
+            if (
+                typeof window.getRecords ===
+                "function"
+            ) {
 
+                const records =
+                    window.getRecords(
+                        "fees"
+                    );
 
+                if (
+                    Array.isArray(records)
+                ) {
 
+                    return records;
 
+                }
 
-let students =
-getStudents();
+            }
 
+        } catch (error) {
 
+            console.error(
+                "Core fee error:",
+                error
+            );
 
-let student =
-students.find(
+        }
 
-s =>
-s.studentCode === code
 
-);
+        try {
 
+            return JSON.parse(
+                localStorage.getItem(
+                    "fees"
+                )
+            ) || [];
 
+        } catch (error) {
 
+            return [];
 
+        }
 
-if(!student){
+    }
 
 
-alert("Student Not Found");
+    // ======================================
+    // HTML Escape
+    // ======================================
 
-return;
+    function escapeHTML(value) {
 
+        return String(
+            value === undefined
+            ||
+            value === null
+                ? ""
+                : value
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
-}
+    }
 
 
+    // ======================================
+    // Search Fee History
+    // ======================================
 
+    function searchFeeHistory() {
 
+        const input =
+            document.getElementById(
+                "studentCode"
+            );
 
 
+        const studentInfo =
+            document.getElementById(
+                "studentInfo"
+            );
 
-let fees =
-getFees();
 
+        const historyBox =
+            document.getElementById(
+                "history"
+            );
 
 
+        if (
+            !input
+            ||
+            !studentInfo
+            ||
+            !historyBox
+        ) {
 
-let studentFees =
-fees.filter(
+            return;
 
-f =>
-f.studentCode === code
+        }
 
-);
 
+        const code =
+            input.value
+                .trim();
 
 
+        if (!code) {
 
+            alert(
+                "Enter Student Code"
+            );
 
+            return;
 
+        }
 
 
+        const institutionId =
+            getInstitutionIdSafe();
 
-document.getElementById("studentInfo").innerHTML =
 
-`
-<div class="student-card">
+        // ==================================
+        // Find Student
+        // ==================================
 
-<h3>Student Information</h3>
+        const students =
+            getStudents();
 
-<p>Name: ${student.name}</p>
 
-<p>Class: ${student.admissionClass}</p>
+        const student =
+            students.find(
+                function (item) {
 
-<p>Father: ${student.fatherName}</p>
+                    const sameCode =
+                        String(
+                            item.studentCode
+                            || ""
+                        )
+                        .toLowerCase()
+                        ===
+                        code.toLowerCase();
 
-</div>
-`;
 
+                    const sameInstitution =
+                        !item.institutionId
+                        ||
+                        item.institutionId
+                        ===
+                        institutionId;
 
 
+                    return (
+                        sameCode
+                        &&
+                        sameInstitution
+                    );
 
+                }
+            );
 
 
+        if (!student) {
 
+            studentInfo.innerHTML = "";
 
+            historyBox.innerHTML = "";
 
-if(studentFees.length===0){
 
+            alert(
+                "Student Not Found"
+            );
 
-document.getElementById("history").innerHTML =
+            return;
 
-`
-<h3>
-No Fee Payment Found
-</h3>
-`;
+        }
 
 
-return;
+        // ==================================
+        // Student Information
+        // ==================================
 
+        studentInfo.innerHTML = `
 
-}
+            <div class="student-card">
 
+                <h3>
+                    Student Information
+                </h3>
 
+                <p>
+                    <b>Name:</b>
+                    ${escapeHTML(
+                        student.name || "-"
+                    )}
+                </p>
 
+                <p>
+                    <b>Student Code:</b>
+                    ${escapeHTML(
+                        student.studentCode || "-"
+                    )}
+                </p>
 
+                <p>
+                    <b>Class:</b>
+                    ${escapeHTML(
+                        student.admissionClass || "-"
+                    )}
+                </p>
 
+                <p>
+                    <b>Father:</b>
+                    ${escapeHTML(
+                        student.fatherName || "-"
+                    )}
+                </p>
 
+            </div>
 
-let total=0;
+        `;
 
 
-let rows="";
+        // ==================================
+        // Get Student Fees
+        // ==================================
 
+        const fees =
+            getFees();
 
 
+        const studentFees =
+            fees.filter(
+                function (fee) {
 
-studentFees.forEach(
-fee=>{
+                    const sameStudent =
+                        fee.studentCode
+                        ===
+                        student.studentCode;
 
 
-total += Number(fee.amount);
+                    const sameInstitution =
+                        !fee.institutionId
+                        ||
+                        fee.institutionId
+                        ===
+                        institutionId;
 
 
+                    return (
+                        sameStudent
+                        &&
+                        sameInstitution
+                    );
 
-rows +=
+                }
+            );
 
-`
-<tr>
 
-<td>
-${fee.month}
-</td>
+        if (
+            studentFees.length ===
+            0
+        ) {
 
+            historyBox.innerHTML = `
 
-<td>
-${fee.feeType}
-</td>
+                <h3>
+                    No Fee Payment Found
+                </h3>
 
+            `;
 
-<td>
-৳ ${fee.amount}
-</td>
+            return;
 
+        }
 
-<td>
-${fee.paymentMethod}
-</td>
 
+        // ==================================
+        // Calculate Totals
+        // ==================================
 
-<td>
-${fee.paymentDate}
-</td>
+        let totalPaid = 0;
 
+        let monthlyPaid = 0;
 
-</tr>
+        let otherPaid = 0;
 
-`;
 
+        let rows = "";
 
 
-}
+        studentFees.forEach(
+            function (fee) {
 
-);
+                const amount =
+                    Number(
+                        fee.amount
+                    )
+                    ||
+                    0;
 
 
+                totalPaid +=
+                    amount;
 
 
+                if (
+                    fee.feeType
+                    ===
+                    "Monthly Fee"
+                ) {
 
+                    monthlyPaid +=
+                        amount;
 
+                } else {
 
-document.getElementById("history").innerHTML =
+                    otherPaid +=
+                        amount;
 
-`
+                }
 
-<h3>
-Fee History
-</h3>
 
+                rows += `
 
-<table>
+                    <tr>
 
+                        <td>
+                            ${escapeHTML(
+                                fee.month || "-"
+                            )}
+                        </td>
 
-<tr>
+                        <td>
+                            ${escapeHTML(
+                                fee.feeType || "-"
+                            )}
+                        </td>
 
-<th>
-Month
-</th>
+                        <td>
+                            ৳ ${amount.toLocaleString(
+                                "en-BD"
+                            )}
+                        </td>
 
-<th>
-Type
-</th>
+                        <td>
+                            ${escapeHTML(
+                                fee.paymentMethod || "-"
+                            )}
+                        </td>
 
+                        <td>
+                            ${escapeHTML(
+                                fee.paymentDate || "-"
+                            )}
+                        </td>
 
-<th>
-Amount
-</th>
+                        <td>
+                            ${escapeHTML(
+                                fee.receiptNo || "-"
+                            )}
+                        </td>
 
+                    </tr>
 
-<th>
-Method
-</th>
+                `;
 
+            }
+        );
 
-<th>
-Date
-</th>
 
+        // ==================================
+        // Display History
+        // ==================================
 
-</tr>
+        historyBox.innerHTML = `
 
+            <h3>
+                Fee History
+            </h3>
 
-${rows}
 
+            <div class="table-wrapper">
 
-</table>
+                <table>
 
+                    <thead>
 
+                        <tr>
 
-<h2>
+                            <th>
+                                Month
+                            </th>
 
-Total Paid:
-৳ ${total}
+                            <th>
+                                Fee Type
+                            </th>
 
-</h2>
+                            <th>
+                                Amount
+                            </th>
 
+                            <th>
+                                Method
+                            </th>
 
-`;
+                            <th>
+                                Date
+                            </th>
 
+                            <th>
+                                Receipt
+                            </th>
 
+                        </tr>
 
-}
+                    </thead>
+
+
+                    <tbody>
+
+                        ${rows}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="fee-summary">
+
+                <h3>
+                    Payment Summary
+                </h3>
+
+
+                <p>
+                    <b>
+                        Monthly Fee Paid:
+                    </b>
+
+                    ৳ ${monthlyPaid.toLocaleString(
+                        "en-BD"
+                    )}
+                </p>
+
+
+                <p>
+                    <b>
+                        Other Fee Paid:
+                    </b>
+
+                    ৳ ${otherPaid.toLocaleString(
+                        "en-BD"
+                    )}
+                </p>
+
+
+                <h2>
+
+                    Total Paid:
+                    ৳ ${totalPaid.toLocaleString(
+                        "en-BD"
+                    )}
+
+                </h2>
+
+            </div>
+
+        `;
+
+    }
+
+
+    // ======================================
+    // Global Function
+    // ======================================
+
+    window.searchFeeHistory =
+        searchFeeHistory;
+
+
+})();
