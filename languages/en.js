@@ -9,7 +9,17 @@ const ISM_EN = {
 
     students: "Students",
 
+    studentProfile: "Student Profile",
+
     admission: "Admission",
+
+    academic: "Academic",
+
+    classManagement: "Class Management",
+
+    subjectManagement: "Subject Management",
+
+    routine: "Routine / Timetable",
 
     fee: "Fee Collection",
 
@@ -27,11 +37,11 @@ const ISM_EN = {
 
     teachers: "Teachers",
 
+    payroll: "Payroll",
+
     finance: "Finance",
 
     reports: "Reports",
-
-    settings: "Settings",
 
     library: "Library",
 
@@ -39,19 +49,25 @@ const ISM_EN = {
 
     hostel: "Hostel Management",
 
-    payroll: "Payroll",
+    discipline: "Discipline & Behavior",
 
     guardianPortal: "Guardian Portal",
 
+    services: "Student Services",
+
     notifications: "Notifications",
 
-    logout: "Logout",
+    auditLog: "Audit Log",
+
+    settings: "Settings",
 
     language: "Language",
 
     institution: "Institution",
 
     admin: "Admin",
+
+    logout: "Logout",
 
     studentName: "Student Name",
 
