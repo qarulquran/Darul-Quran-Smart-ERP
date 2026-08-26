@@ -1,132 +1,299 @@
 // ==========================================
-// Darul Quran Smart ERP
-// Multi-Institution Management Core
+// ISM - Islamic School Management
+// Institution / Tenant Management Core
 // ==========================================
 
-const INSTITUTE_KEY = "ERP_INSTITUTE";
+(function () {
+
+    "use strict";
 
 
-// ==========================================
-// Default Institution
-// ==========================================
+    // ======================================
+    // Storage Key
+    // ======================================
 
-const DEFAULT_INSTITUTE = {
-
-    id: "DQ001",
-
-    code: "DQ001",
-
-    name: "Darul Quran Ahmadia Madrasah",
-
-    type: "Madrasa",
-
-    status: "active"
-
-};
+    const INSTITUTE_KEY =
+        "ISM_INSTITUTION";
 
 
-// ==========================================
-// Save Institution
-// ==========================================
+    // ======================================
+    // Default Institution
+    // ======================================
+    // Current development tenant:
+    // Darul Quran Ahmadia Madrasah
+    //
+    // IMPORTANT:
+    // This is a USER / INSTITUTION.
+    // It is NOT the platform identity.
 
-function setInstitution(institution) {
+    const DEFAULT_INSTITUTION = {
 
-    localStorage.setItem(
-        INSTITUTE_KEY,
-        JSON.stringify(institution)
-    );
+        id: "DQ001",
 
-}
+        code: "DQ",
+
+        name:
+            "Darul Quran Ahmadia Madrasah",
+
+        shortName:
+            "Darul Quran",
+
+        type:
+            "Madrasa",
+
+        country:
+            "Bangladesh",
+
+        status:
+            "active",
+
+        branding: {
+
+            logo:
+                "",
+
+            primaryColor:
+                "#087f3d",
+
+            secondaryColor:
+                "#123b63"
+
+        }
+
+    };
 
 
-// ==========================================
-// Get Current Institution
-// ==========================================
+    // ======================================
+    // Save Institution
+    // ======================================
 
-function getInstitution() {
+    function setInstitution(
+        institution
+    ) {
 
-    const saved = localStorage.getItem(
-        INSTITUTE_KEY
-    );
+        if (!institution) {
 
-    if (saved) {
+            return false;
+
+        }
+
+
+        localStorage.setItem(
+
+            INSTITUTE_KEY,
+
+            JSON.stringify(
+                institution
+            )
+
+        );
+
+
+        return true;
+
+    }
+
+
+    // ======================================
+    // Get Current Institution
+    // ======================================
+
+    function getInstitution() {
+
+        const saved =
+            localStorage.getItem(
+                INSTITUTE_KEY
+            );
+
+
+        if (!saved) {
+
+            return DEFAULT_INSTITUTION;
+
+        }
+
 
         try {
 
-            return JSON.parse(saved);
+            const institution =
+                JSON.parse(saved);
 
-        } catch (error) {
+
+            return institution
+                ||
+                DEFAULT_INSTITUTION;
+
+        }
+
+        catch (error) {
 
             console.error(
                 "Institution data error:",
                 error
             );
 
+
+            return DEFAULT_INSTITUTION;
+
         }
 
     }
 
-    return DEFAULT_INSTITUTE;
 
-}
+    // ======================================
+    // Institution ID
+    // ======================================
 
+    function getInstitutionId() {
 
-// ==========================================
-// Get Institution ID
-// ==========================================
-
-function getInstitutionId() {
-
-    const institution = getInstitution();
-
-    return institution
-        ? institution.id
-        : null;
-
-}
+        const institution =
+            getInstitution();
 
 
-// ==========================================
-// Check Institution Status
-// ==========================================
+        return institution
+            ? institution.id
+            : null;
 
-function isInstitutionActive() {
-
-    const institution = getInstitution();
-
-    return (
-        institution &&
-        institution.status === "active"
-    );
-
-}
+    }
 
 
-// ==========================================
-// Clear Institution
-// ==========================================
+    // ======================================
+    // Institution Code
+    // ======================================
 
-function clearInstitution() {
+    function getInstitutionCode() {
 
-    localStorage.removeItem(
-        INSTITUTE_KEY
-    );
-
-}
+        const institution =
+            getInstitution();
 
 
-// ==========================================
-// Global Access
-// ==========================================
+        return institution
+            ? institution.code
+            : null;
 
-window.DEFAULT_INSTITUTE = DEFAULT_INSTITUTE;
+    }
 
-window.setInstitution = setInstitution;
 
-window.getInstitution = getInstitution;
+    // ======================================
+    // Institution Name
+    // ======================================
 
-window.getInstitutionId = getInstitutionId;
+    function getInstitutionName() {
 
-window.isInstitutionActive = isInstitutionActive;
+        const institution =
+            getInstitution();
 
-window.clearInstitution = clearInstitution;
+
+        return institution
+            ? institution.name
+            : "";
+
+    }
+
+
+    // ======================================
+    // Institution Logo
+    // ======================================
+
+    function getInstitutionLogo() {
+
+        const institution =
+            getInstitution();
+
+
+        if (
+            institution
+            &&
+            institution.branding
+            &&
+            institution.branding.logo
+        ) {
+
+            return (
+                institution
+                    .branding
+                    .logo
+            );
+
+        }
+
+
+        return "";
+
+    }
+
+
+    // ======================================
+    // Institution Active Check
+    // ======================================
+
+    function isInstitutionActive() {
+
+        const institution =
+            getInstitution();
+
+
+        return (
+            institution
+            &&
+            institution.status ===
+            "active"
+        );
+
+    }
+
+
+    // ======================================
+    // Clear Current Institution
+    // ======================================
+
+    function clearInstitution() {
+
+        localStorage.removeItem(
+            INSTITUTE_KEY
+        );
+
+    }
+
+
+    // ======================================
+    // Global API
+    // ======================================
+
+    window.DEFAULT_INSTITUTION =
+        DEFAULT_INSTITUTION;
+
+
+    window.setInstitution =
+        setInstitution;
+
+
+    window.getInstitution =
+        getInstitution;
+
+
+    window.getInstitutionId =
+        getInstitutionId;
+
+
+    window.getInstitutionCode =
+        getInstitutionCode;
+
+
+    window.getInstitutionName =
+        getInstitutionName;
+
+
+    window.getInstitutionLogo =
+        getInstitutionLogo;
+
+
+    window.isInstitutionActive =
+        isInstitutionActive;
+
+
+    window.clearInstitution =
+        clearInstitution;
+
+
+})();
