@@ -7,14 +7,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>
-Darul Quran Smart ERP Dashboard
+ISM - Dashboard
 </title>
 
-
 <link rel="stylesheet" href="dashboard.css">
-
 
 </head>
 
@@ -22,526 +19,606 @@ Darul Quran Smart ERP Dashboard
 <body>
 
 
+<!-- ==========================================
+     Common Layout
+========================================== -->
+
+<div id="header"></div>
+
+<div id="sidebar"></div>
+
 <div id="overlay"></div>
 
 
 
-<!-- Sidebar -->
+<!-- ==========================================
+     Main Dashboard
+========================================== -->
 
-<div id="sidebar">
+<main class="dashboard-container">
 
 
-<div class="logo">
+    <!-- Page Heading -->
 
-Darul Quran<br>
-Smart ERP
+    <section class="dashboard-heading">
 
-</div>
+        <div>
 
+            <p
+                class="eyebrow"
+                data-i18n="dashboardOverview">
 
+                Dashboard Overview
 
-<a href="dashboard.html">
-🏠 Dashboard
-</a>
+            </p>
 
 
-<a href="students.html">
-👨‍🎓 Students
-</a>
+            <h1
+                data-i18n="welcomeDashboard">
 
+                Welcome to ISM Dashboard
 
-<a href="add-student.html">
-📝 Admission
-</a>
+            </h1>
 
 
-<a href="fee.html">
-💰 Fee Collection
-</a>
+            <p
+                class="heading-subtitle"
+                id="dashboardInstitutionName">
 
+                -
 
-<a href="fee-due.html">
-⚠️ Fee Due
-</a>
+            </p>
 
+        </div>
 
-<a href="attendance.html">
-📅 Attendance
-</a>
 
+        <div
+            class="dashboard-date"
+            id="dashboardDate">
 
-<a href="result.html">
-📚 Result
-</a>
+            -
 
+        </div>
 
-<a href="certificate.html">
-📜 Certificate
-</a>
+    </section>
 
 
-<a href="id-card.html">
-🪪 ID Card
-</a>
 
+    <!-- ======================================
+         KPI Cards
+    ======================================= -->
 
-<a href="finance.html">
-💼 Finance
-</a>
+    <section class="kpi-grid">
 
 
-<a href="teachers.html">
-👨‍🏫 Teachers
-</a>
+        <article class="kpi-card kpi-students">
 
+            <div class="kpi-icon">
+                👨‍🎓
+            </div>
 
-<a href="settings.html">
-⚙ Settings
-</a>
 
+            <div class="kpi-content">
 
-</div>
+                <p data-i18n="totalStudents">
+                    Total Students
+                </p>
 
 
+                <h2 id="totalStudents">
+                    0
+                </h2>
 
 
+                <span data-i18n="activeStudents">
+                    Active Students
+                </span>
 
+            </div>
 
-<!-- Header -->
+        </article>
 
 
-<header class="header">
 
+        <article class="kpi-card kpi-teachers">
 
-<button id="menuBtn">
-☰
-</button>
+            <div class="kpi-icon">
+                👨‍🏫
+            </div>
 
 
+            <div class="kpi-content">
 
-<h2>
-Dashboard
-</h2>
+                <p data-i18n="totalTeachers">
+                    Total Teachers
+                </p>
 
 
+                <h2 id="totalTeachers">
+                    0
+                </h2>
 
 
-<div class="header-actions">
+                <span data-i18n="teachingStaff">
+                    Teaching Staff
+                </span>
 
+            </div>
 
-<button class="language-btn">
+        </article>
 
-🌐 বাংলা
 
-</button>
 
+        <article class="kpi-card kpi-income">
 
+            <div class="kpi-icon">
+                💰
+            </div>
 
-<div class="profile">
 
-Admin 👤
+            <div class="kpi-content">
 
-</div>
+                <p data-i18n="monthlyCollection">
+                    Monthly Collection
+                </p>
 
 
-</div>
+                <h2 id="monthlyFee">
+                    ৳0
+                </h2>
 
 
-</header>
+                <span data-i18n="currentMonth">
+                    Current Month
+                </span>
 
+            </div>
 
+        </article>
 
 
 
+        <article class="kpi-card kpi-due">
 
+            <div class="kpi-icon">
+                ⚠️
+            </div>
 
-<!-- Main -->
 
+            <div class="kpi-content">
 
-<main class="container">
+                <p data-i18n="totalDue">
+                    Total Due
+                </p>
 
 
+                <h2 id="totalDueAmount">
+                    ৳0
+                </h2>
 
 
+                <span data-i18n="pendingPayment">
+                    Pending Payment
+                </span>
 
-<section class="welcome">
+            </div>
 
+        </article>
 
-<h1>
 
-👋 Welcome Admin
 
-</h1>
+        <article class="kpi-card kpi-attendance">
 
+            <div class="kpi-icon">
+                📅
+            </div>
 
-<p>
 
-Darul Quran Smart ERP Management System
+            <div class="kpi-content">
 
-</p>
+                <p data-i18n="attendance">
+                    Attendance
+                </p>
 
 
-</section>
+                <h2 id="attendance">
+                    0%
+                </h2>
 
 
+                <span data-i18n="attendanceToday">
+                    Today's Attendance
+                </span>
 
+            </div>
 
+        </article>
 
 
 
-<!-- Summary Cards -->
+        <article class="kpi-card kpi-admission">
 
+            <div class="kpi-icon">
+                📝
+            </div>
 
-<section class="dashboard-cards">
 
+            <div class="kpi-content">
 
+                <p data-i18n="newAdmission">
+                    New Admission
+                </p>
 
 
+                <h2 id="newAdmission">
+                    0
+                </h2>
 
-<div class="erp-card">
 
-<div class="icon">
-👨‍🎓
-</div>
+                <span data-i18n="thisYear">
+                    This Year
+                </span>
 
-<h3>
-Total Students
-</h3>
+            </div>
 
-<h1 id="totalStudents">
-0
-</h1>
+        </article>
 
-<p>
-Active Students
-</p>
 
-</div>
+    </section>
 
 
 
+    <!-- ======================================
+         Due Summary
+    ======================================= -->
 
+    <section class="insight-grid">
 
 
+        <article class="insight-card">
 
-<div class="erp-card">
+            <div
+                class="insight-label"
+                data-i18n="monthlyDue">
 
-<div class="icon">
-👨‍🏫
-</div>
+                Monthly Fee Due
 
-<h3>
-Total Teachers
-</h3>
+            </div>
 
-<h1 id="totalTeachers">
-0
-</h1>
 
-<p>
-Teaching Staff
-</p>
+            <div
+                class="insight-value"
+                id="monthlyDueAmount">
 
-</div>
+                ৳0
 
+            </div>
 
+        </article>
 
 
 
+        <article class="insight-card">
 
+            <div
+                class="insight-label"
+                data-i18n="otherDue">
 
-<div class="erp-card">
+                Other Fee Due
 
-<div class="icon">
-💰
-</div>
+            </div>
 
-<h3>
-Monthly Collection
-</h3>
 
-<h1 id="monthlyFee">
-৳0
-</h1>
+            <div
+                class="insight-value"
+                id="otherDueAmount">
 
-<p>
-Current Month
-</p>
+                ৳0
 
-</div>
+            </div>
 
+        </article>
 
 
 
+        <article class="insight-card">
 
+            <div
+                class="insight-label"
+                data-i18n="paidThisMonth">
 
+                Paid This Month
 
-<div class="erp-card danger">
+            </div>
 
-<div class="icon">
-⚠️
-</div>
 
-<h3>
-Total Due
-</h3>
+            <div
+                class="insight-value"
+                id="paidThisMonth">
 
-<h1 id="totalDueAmount">
-৳0
-</h1>
+                ৳0
 
-<p>
-Pending Payment
-</p>
+            </div>
 
-</div>
+        </article>
 
 
+    </section>
 
 
 
+    <!-- ======================================
+         Charts
+    ======================================= -->
 
+    <section class="chart-grid">
 
-<div class="erp-card">
 
-<div class="icon">
-📅
-</div>
+        <article class="chart-card chart-large">
 
-<h3>
-Attendance
-</h3>
 
-<h1 id="attendance">
-0%
-</h1>
+            <div class="chart-header">
 
-<p>
-Today Status
-</p>
+                <div>
 
-</div>
+                    <p
+                        class="chart-kicker"
+                        data-i18n="analytics">
 
+                        Analytics
 
+                    </p>
 
 
+                    <h2
+                        data-i18n="studentGrowth">
 
+                        Student Growth
 
+                    </h2>
 
-<div class="erp-card">
+                </div>
 
-<div class="icon">
-📝
-</div>
 
-<h3>
-New Admission
-</h3>
+                <span
+                    class="chart-meta"
+                    data-i18n="thisYear">
 
-<h1 id="newAdmission">
-0
-</h1>
+                    This Year
 
-<p>
-This Year
-</p>
+                </span>
 
-</div>
+            </div>
 
 
+            <div class="chart-wrap">
 
+                <canvas
+                    id="studentChart">
+                </canvas>
 
+            </div>
 
-</section>
 
+        </article>
 
 
 
+        <article class="chart-card">
 
 
+            <div class="chart-header">
 
+                <div>
 
-<!-- Due Section -->
+                    <p
+                        class="chart-kicker"
+                        data-i18n="analytics">
 
+                        Analytics
 
-<section class="due-section">
+                    </p>
 
 
-<div class="mini-card">
+                    <h2
+                        data-i18n="attendanceOverview">
 
+                        Attendance Overview
 
-<h3>
-Monthly Fee Due
-</h3>
+                    </h2>
 
+                </div>
 
-<h2 id="monthlyDueAmount">
-৳0
-</h2>
+            </div>
 
 
-</div>
+            <div class="chart-wrap chart-doughnut">
 
+                <canvas
+                    id="attendanceChart">
+                </canvas>
 
+            </div>
 
 
-<div class="mini-card">
+            <div
+                class="chart-legend"
+                id="attendanceLegend">
 
+            </div>
 
-<h3>
-Other Fee Due
-</h3>
 
+        </article>
 
-<h2 id="otherDueAmount">
-৳0
-</h2>
 
 
-</div>
+        <article class="chart-card chart-wide">
 
 
-</section>
+            <div class="chart-header">
 
+                <div>
 
+                    <p
+                        class="chart-kicker"
+                        data-i18n="analytics">
 
+                        Analytics
 
+                    </p>
 
 
+                    <h2
+                        data-i18n="incomeAnalysis">
 
+                        Income Analysis
 
-<!-- Charts -->
+                    </h2>
 
+                </div>
 
-<section class="charts">
 
+                <span
+                    class="chart-meta"
+                    data-i18n="thisYear">
 
+                    This Year
 
-<div class="chart-card">
+                </span>
 
+            </div>
 
-<h2>
-Student Growth
-</h2>
 
+            <div class="chart-wrap">
 
-<canvas id="studentChart"></canvas>
+                <canvas
+                    id="incomeChart">
+                </canvas>
 
+            </div>
 
-</div>
 
+        </article>
 
 
+    </section>
 
 
-<div class="chart-card">
 
+    <!-- ======================================
+         Recent Activity
+    ======================================= -->
 
-<h2>
-Attendance Overview
-</h2>
+    <section class="activity-grid">
 
 
-<canvas id="attendanceChart"></canvas>
+        <article class="activity-card">
 
 
-</div>
+            <div class="activity-header">
 
+                <h2 data-i18n="recentPayments">
+                    Recent Payments
+                </h2>
 
 
+                <a
+                    href="fee-history.html"
+                    data-i18n="viewAll">
 
+                    View All
 
-<div class="chart-card">
+                </a>
 
+            </div>
 
-<h2>
-Income Analysis
-</h2>
 
+            <div
+                id="recentPayments"
+                class="activity-list">
 
-<canvas id="incomeChart"></canvas>
+                <div
+                    class="empty-state"
+                    data-i18n="noData">
 
+                    No Data Found
 
-</div>
+                </div>
 
+            </div>
 
 
-</section>
+        </article>
 
 
 
+        <article class="activity-card">
 
 
+            <div class="activity-header">
 
+                <h2 data-i18n="recentAdmission">
+                    Recent Admissions
+                </h2>
 
 
+                <a
+                    href="students.html"
+                    data-i18n="viewAll">
 
-<!-- Recent Activity -->
+                    View All
 
+                </a>
 
-<section class="activity">
+            </div>
 
 
-<div class="activity-card">
+            <div
+                id="recentAdmission"
+                class="activity-list">
 
+                <div
+                    class="empty-state"
+                    data-i18n="noData">
 
-<h2>
-Recent Payments
-</h2>
+                    No Data Found
 
+                </div>
 
-<div id="recentPayments">
+            </div>
 
-No Data
 
-</div>
+        </article>
 
 
-</div>
-
-
-
-
-
-<div class="activity-card">
-
-
-<h2>
-Recent Admission
-</h2>
-
-
-<div id="recentAdmission">
-
-No Data
-
-</div>
-
-
-</div>
-
-
-
-</section>
-
-
-
-
-
+    </section>
 
 
 </main>
 
 
 
-
-
+<!-- ==========================================
+     Chart Library
+========================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
-<script src="dashboard.js"></script>
 
+<!-- ==========================================
+     Common Layout
+========================================== -->
+
+<script src="../components/layout-loader.js"></script>
+
+
+
+<!-- ==========================================
+     Dashboard Logic
+========================================== -->
+
+<script src="dashboard.js"></script>
 
 
 </body>
