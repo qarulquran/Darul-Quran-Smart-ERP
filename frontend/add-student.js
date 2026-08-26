@@ -1,1018 +1,1409 @@
 // ==========================================
 // Darul Quran Smart ERP
-// Add Student System
-// Part 1
+// Add Student / Admission System
+// Core-Compatible Final Version
 // ==========================================
 
+(function () {
 
-// ===============================
-// Bangladesh Location Load
-// ===============================
+    "use strict";
 
-let locationData = {};
 
-fetch("data/bangladesh-location.json")
+    // ==========================================
+    // Configuration
+    // ==========================================
 
-.then(response => response.json())
+    const LEGACY_KEY = "students";
 
-.then(data => {
+    const DEFAULT_INSTITUTION_ID = "DQ001";
 
-    locationData = data;
+    const DEFAULT_INSTITUTION_CODE = "DQ";
 
-    loadDivision();
 
-})
+    // ==========================================
+    // Institution Helpers
+    // ==========================================
 
-.catch(error => {
+    function getSafeInstitution() {
 
-    console.log(
-        "Location Error:",
-        error
+        try {
+
+            if (
+                typeof window.getInstitution ===
+                "function"
+            ) {
+
+                return (
+                    window.getInstitution()
+                    ||
+                    {
+                        id:
+                            DEFAULT_INSTITUTION_ID,
+
+                        code:
+                            DEFAULT_INSTITUTION_CODE,
+
+                        name:
+                            "Darul Quran Ahmadia Madrasah"
+                    }
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Institution error:",
+                error
+            );
+
+        }
+
+
+        return {
+
+            id:
+                DEFAULT_INSTITUTION_ID,
+
+            code:
+                DEFAULT_INSTITUTION_CODE,
+
+            name:
+                "Darul Quran Ahmadia Madrasah"
+
+        };
+
+    }
+
+
+    // ==========================================
+    // Database Helpers
+    // ==========================================
+
+    function getLegacyStudents() {
+
+        const data =
+            localStorage.getItem(
+                LEGACY_KEY
+            );
+
+
+        if (!data) {
+
+            return [];
+
+        }
+
+
+        try {
+
+            const students =
+                JSON.parse(data);
+
+
+            return Array.isArray(students)
+                ? students
+                : [];
+
+        } catch (error) {
+
+            console.error(
+                "Student data error:",
+                error
+            );
+
+
+            return [];
+
+        }
+
+    }
+
+
+    function getCoreStudents() {
+
+        try {
+
+            if (
+                typeof window.getRecords ===
+                "function"
+            ) {
+
+                const records =
+                    window.getRecords(
+                        "students"
+                    );
+
+
+                return Array.isArray(records)
+                    ? records
+                    : [];
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Core database read error:",
+                error
+            );
+
+        }
+
+
+        return [];
+
+    }
+
+
+    function saveCoreStudents(
+        students
+    ) {
+
+        try {
+
+            if (
+                typeof window.saveRecords ===
+                "function"
+            ) {
+
+                window.saveRecords(
+                    "students",
+                    students
+                );
+
+                return true;
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Core database save error:",
+                error
+            );
+
+        }
+
+
+        return false;
+
+    }
+
+
+    function saveLegacyStudents(
+        students
+    ) {
+
+        localStorage.setItem(
+
+            LEGACY_KEY,
+
+            JSON.stringify(
+                students
+            )
+
+        );
+
+    }
+
+
+    // ==========================================
+    // Get All Students
+    // ==========================================
+
+    function getAllStudents() {
+
+        let coreStudents =
+            getCoreStudents();
+
+
+        if (
+            coreStudents.length > 0
+        ) {
+
+            return coreStudents;
+
+        }
+
+
+        const legacyStudents =
+            getLegacyStudents();
+
+
+        if (
+            legacyStudents.length > 0
+        ) {
+
+            const institution =
+                getSafeInstitution();
+
+
+            const migrated =
+                legacyStudents.map(
+                    function (student) {
+
+                        return {
+
+                            ...student,
+
+                            institutionId:
+                                student.institutionId
+                                ||
+                                institution.id,
+
+                            institutionCode:
+                                student.institutionCode
+                                ||
+                                institution.code
+
+                        };
+
+                    }
+                );
+
+
+            saveCoreStudents(
+                migrated
+            );
+
+
+            saveLegacyStudents(
+                migrated
+            );
+
+
+            return migrated;
+
+        }
+
+
+        return [];
+
+    }
+
+
+    // ==========================================
+    // Bangladesh Location Data
+    // ==========================================
+
+    let locationData = {};
+
+
+
+    const division =
+        document.getElementById(
+            "divisionSearch"
+        );
+
+
+    const district =
+        document.getElementById(
+            "districtSearch"
+        );
+
+
+    const thana =
+        document.getElementById(
+            "thanaSearch"
+        );
+
+
+    const union =
+        document.getElementById(
+            "unionSearch"
+        );
+
+
+    const ward =
+        document.getElementById(
+            "wardSearch"
+        );
+
+
+
+    // ==========================================
+    // Load Location Database
+    // ==========================================
+
+    fetch(
+        "../data/bangladesh-location.json"
+    )
+
+    .then(
+        function (response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Location file could not be loaded."
+                );
+
+            }
+
+            return response.json();
+
+        }
+    )
+
+    .then(
+        function (data) {
+
+            locationData =
+                data || {};
+
+            loadDivision();
+
+        }
+    )
+
+    .catch(
+        function (error) {
+
+            console.error(
+                "Location Error:",
+                error
+            );
+
+        }
     );
 
-});
 
+    // ==========================================
+    // Load Division
+    // ==========================================
 
+    function loadDivision() {
 
+        if (!division) {
 
-// ===============================
-// Address Elements
-// ===============================
+            return;
 
-const division =
-document.getElementById("divisionSearch");
+        }
 
 
-const district =
-document.getElementById("districtSearch");
+        division.innerHTML =
+            "";
 
 
-const thana =
-document.getElementById("thanaSearch");
+        const defaultOption =
+            document.createElement(
+                "option"
+            );
 
 
-const union =
-document.getElementById("unionSearch");
+        defaultOption.value = "";
 
+        defaultOption.textContent =
+            "Select Division";
 
-const ward =
-document.getElementById("wardSearch");
 
+        division.appendChild(
+            defaultOption
+        );
 
 
+        Object.keys(
+            locationData
+        ).forEach(
+            function (item) {
 
-// ===============================
-// Load Division
-// ===============================
+                const option =
+                    document.createElement(
+                        "option"
+                    );
 
-function loadDivision(){
 
+                option.value =
+                    item;
 
-if(!division) return;
 
+                option.textContent =
+                    item;
 
-division.innerHTML =
-"<option>Select Division</option>";
 
+                division.appendChild(
+                    option
+                );
 
+            }
+        );
 
-Object.keys(locationData)
+    }
 
-.forEach(item=>{
 
+    // ==========================================
+    // Reset Child Locations
+    // ==========================================
 
-division.innerHTML +=
+    function resetDistrict() {
 
-`
-<option value="${item}">
-${item}
-</option>
-`;
+        if (district) {
 
+            district.innerHTML =
+                "<option value=''>Select District</option>";
 
-});
+        }
 
+    }
 
-}
 
+    function resetThana() {
 
+        if (thana) {
 
+            thana.innerHTML =
+                "<option value=''>Select Thana</option>";
 
+        }
 
+    }
 
-// ===============================
-// Division Change
-// ===============================
 
+    function resetUnion() {
 
-if(division){
+        if (union) {
 
+            union.innerHTML =
+                "<option value=''>Select Union</option>";
 
-division.addEventListener(
+        }
 
-"change",
+    }
 
-function(){
 
+    function resetWard() {
 
-district.innerHTML =
-"<option>Select District</option>";
+        if (ward) {
 
+            ward.innerHTML =
+                "<option value=''>Select Ward</option>";
 
-thana.innerHTML =
-"<option>Select Thana</option>";
+        }
 
+    }
 
-union.innerHTML =
-"<option>Select Union</option>";
 
+    // ==========================================
+    // Division Change
+    // ==========================================
 
-ward.innerHTML =
-"<option>Select Ward</option>";
+    if (division) {
 
+        division.addEventListener(
+            "change",
+            function () {
 
+                resetDistrict();
 
-let data =
-locationData[division.value];
+                resetThana();
 
+                resetUnion();
 
+                resetWard();
 
-Object.keys(data)
 
-.forEach(item=>{
+                const divisionData =
+                    locationData[
+                        division.value
+                    ];
 
 
-district.innerHTML +=
+                if (!divisionData) {
 
-`
-<option value="${item}">
-${item}
-</option>
-`;
+                    return;
 
+                }
 
-});
 
+                Object.keys(
+                    divisionData
+                ).forEach(
+                    function (item) {
 
-});
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
 
 
-}
+                        option.value =
+                            item;
 
 
+                        option.textContent =
+                            item;
 
 
+                        district.appendChild(
+                            option
+                        );
 
+                    }
+                );
 
-// ===============================
-// District Change
-// ===============================
+            }
+        );
 
+    }
 
-if(district){
 
+    // ==========================================
+    // District Change
+    // ==========================================
 
-district.addEventListener(
+    if (district) {
 
-"change",
+        district.addEventListener(
+            "change",
+            function () {
 
-function(){
+                resetThana();
 
+                resetUnion();
 
-thana.innerHTML =
-"<option>Select Thana</option>";
+                resetWard();
 
 
-union.innerHTML =
-"<option>Select Union</option>";
+                const districtData =
+                    locationData
+                    [division.value]
+                    [district.value];
 
 
-ward.innerHTML =
-"<option>Select Ward</option>";
+                if (!districtData) {
 
+                    return;
 
+                }
 
-let data =
 
-locationData
+                Object.keys(
+                    districtData
+                ).forEach(
+                    function (item) {
 
-[division.value]
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
 
-[district.value];
 
+                        option.value =
+                            item;
 
 
-Object.keys(data)
+                        option.textContent =
+                            item;
 
-.forEach(item=>{
 
+                        thana.appendChild(
+                            option
+                        );
 
-thana.innerHTML +=
+                    }
+                );
 
-`
-<option value="${item}">
-${item}
-</option>
-`;
+            }
+        );
 
+    }
 
-});
 
+    // ==========================================
+    // Thana Change
+    // ==========================================
 
-});
+    if (thana) {
 
+        thana.addEventListener(
+            "change",
+            function () {
 
-}
+                resetUnion();
 
+                resetWard();
 
 
+                const thanaData =
+                    locationData
+                    [division.value]
+                    [district.value]
+                    [thana.value];
 
 
+                if (!thanaData) {
 
-// ===============================
-// Thana Change
-// ===============================
+                    return;
 
+                }
 
-if(thana){
 
+                Object.keys(
+                    thanaData
+                ).forEach(
+                    function (item) {
 
-thana.addEventListener(
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
 
-"change",
 
-function(){
+                        option.value =
+                            item;
 
 
-union.innerHTML =
-"<option>Select Union</option>";
+                        option.textContent =
+                            item;
 
 
-ward.innerHTML =
-"<option>Select Ward</option>";
+                        union.appendChild(
+                            option
+                        );
 
+                    }
+                );
 
+            }
+        );
 
-let data =
+    }
 
-locationData
 
-[division.value]
+    // ==========================================
+    // Union Change
+    // ==========================================
 
-[district.value]
+    if (union) {
 
-[thana.value];
+        union.addEventListener(
+            "change",
+            function () {
 
+                resetWard();
 
 
-Object.keys(data)
+                const unionData =
+                    locationData
+                    [division.value]
+                    [district.value]
+                    [thana.value]
+                    [union.value];
 
-.forEach(item=>{
 
+                if (!Array.isArray(
+                    unionData
+                )) {
 
-union.innerHTML +=
+                    return;
 
-`
-<option value="${item}">
-${item}
-</option>
-`;
+                }
 
 
-});
+                unionData.forEach(
+                    function (item) {
 
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
 
-});
 
+                        option.value =
+                            item;
 
-}
 
+                        option.textContent =
+                            item;
 
 
+                        ward.appendChild(
+                            option
+                        );
 
+                    }
+                );
 
+            }
+        );
 
-// ===============================
-// Union Change
-// ===============================
+    }
 
 
-if(union){
+    // ==========================================
+    // Get Admission Class Number
+    // ==========================================
 
+    function getClassCode(
+        className
+    ) {
 
-union.addEventListener(
+        const value =
+            String(
+                className || ""
+            ).trim();
 
-"change",
 
-function(){
+        const match =
+            value.match(
+                /\d+/
+            );
 
 
-ward.innerHTML =
-"<option>Select Ward</option>";
+        if (match) {
 
+            return match[0];
 
+        }
 
-let data =
 
-locationData
+        if (
+            value.toLowerCase()
+            === "play"
+        ) {
 
-[division.value]
+            return "0";
 
-[district.value]
+        }
 
-[thana.value]
 
-[union.value];
+        if (
+            value.toLowerCase()
+            === "nursery"
+        ) {
 
+            return "N";
 
+        }
 
-data.forEach(item=>{
 
+        return "0";
 
-ward.innerHTML +=
+    }
 
-`
-<option value="${item}">
-${item}
-</option>
-`;
 
+    // ==========================================
+    // Generate Unique Student Code
+    // ==========================================
 
-});
+    function generateStudentCode(
+        className
+    ) {
 
+        const institution =
+            getSafeInstitution();
 
-});
 
+        const institutionCode =
+            institution.code
+            ||
+            DEFAULT_INSTITUTION_CODE;
 
-}
 
+        const classCode =
+            getClassCode(
+                className
+            );
 
 
+        const year =
+            new Date()
+            .getFullYear();
 
 
+        const students =
+            getAllStudents();
 
-// ===============================
-// Generate Student Code
-// ===============================
 
+        const prefix =
 
-function generateStudentCode(className){
+            String(
+                institutionCode
+            ).toUpperCase()
 
+            +
 
-let students = JSON.parse(
+            "-" +
 
-localStorage.getItem("students")
+            classCode
 
-) || [];
+            +
 
+            "-" +
 
+            year;
 
-let classNumber = "";
 
+        let highestSerial = 0;
 
 
-let match =
-className.match(/\d+/);
+        students.forEach(
+            function (student) {
 
+                const code =
+                    String(
+                        student.studentCode
+                        || ""
+                    );
 
 
-if(match){
+                if (
+                    !code.startsWith(
+                        prefix
+                    )
+                ) {
 
-classNumber = match[0];
+                    return;
 
-}
+                }
 
-else if(className==="Play"){
 
-classNumber="0";
+                const parts =
+                    code.split("-");
 
-}
 
-else if(className==="Nursery"){
+                const lastPart =
+                    parts[
+                        parts.length - 1
+                    ];
 
-classNumber="N";
 
-}
+                const serial =
+                    parseInt(
+                        lastPart,
+                        10
+                    );
 
-else{
 
-classNumber="0";
+                if (
+                    !Number.isNaN(
+                        serial
+                    )
+                    &&
+                    serial >
+                    highestSerial
+                ) {
 
-}
+                    highestSerial =
+                        serial;
 
+                }
 
+            }
+        );
 
 
-let year =
+        const nextSerial =
+            highestSerial + 1;
 
-new Date()
 
-.getFullYear();
+        return (
 
+            prefix
 
+            +
 
+            "-" +
 
+            String(
+                nextSerial
+            ).padStart(
+                5,
+                "0"
+            )
 
-let sameStudents =
+        );
 
-students.filter(student=>
+    }
 
 
-student.studentCode &&
+    // ==========================================
+    // Convert Image To Base64
+    // ==========================================
 
-student.studentCode.startsWith(
+    function convertImageToBase64(
+        file
+    ) {
 
-`DQ-${classNumber}-${year}`
+        return new Promise(
+            function (resolve, reject) {
 
-)
+                if (!file) {
 
+                    resolve("");
 
-);
+                    return;
 
+                }
 
 
+                const reader =
+                    new FileReader();
 
-let serial =
 
-sameStudents.length + 1;
+                reader.onload =
+                    function () {
 
+                        resolve(
+                            reader.result
+                        );
 
+                    };
 
-let serialNumber =
 
-String(serial)
+                reader.onerror =
+                    function () {
 
-.padStart(5,"0");
+                        reject(
+                            new Error(
+                                "Image reading failed."
+                            )
+                        );
 
+                    };
 
 
+                reader.readAsDataURL(
+                    file
+                );
 
+            }
+        );
 
-return (
+    }
 
-`DQ-${classNumber}-${year}-${serialNumber}`
 
-);
+    // ==========================================
+    // Required Field Helper
+    // ==========================================
 
+    function getValue(
+        id
+    ) {
 
-}
+        const element =
+            document.getElementById(id);
 
-// ==========================================
-// Part 2
-// Save Student System
-// ==========================================
 
+        return element
+            ? element.value.trim()
+            : "";
 
+    }
 
 
-// ===============================
-// Convert Image To Base64
-// ===============================
+    // ==========================================
+    // Save Student
+    // ==========================================
 
+    const saveButton =
+        document.getElementById(
+            "saveStudentBtn"
+        );
 
-function convertImageToBase64(file){
 
+    if (saveButton) {
 
-return new Promise((resolve)=>{
+        saveButton.addEventListener(
+            "click",
+            async function () {
 
+                try {
 
-if(!file){
 
-resolve("");
+                    // --------------------------------
+                    // Required Information
+                    // --------------------------------
 
-return;
+                    const studentName =
+                        getValue(
+                            "studentName"
+                        );
 
-}
 
+                    const fatherName =
+                        getValue(
+                            "fatherName"
+                        );
 
 
-let reader = new FileReader();
+                    const motherName =
+                        getValue(
+                            "motherName"
+                        );
 
 
+                    const className =
+                        getValue(
+                            "admissionClass"
+                        );
 
-reader.onload = function(){
 
+                    const admissionDate =
+                        getValue(
+                            "admissionDate"
+                        );
 
-resolve(reader.result);
 
+                    if (!studentName) {
 
-};
+                        alert(
+                            "Please enter student name."
+                        );
 
+                        return;
 
+                    }
 
-reader.readAsDataURL(file);
 
+                    if (!fatherName) {
 
+                        alert(
+                            "Please enter father name."
+                        );
 
-});
+                        return;
 
+                    }
 
-}
 
+                    if (!motherName) {
 
+                        alert(
+                            "Please enter mother name."
+                        );
 
+                        return;
 
+                    }
 
 
+                    if (!className) {
 
-// ===============================
-// Save Button
-// ===============================
+                        alert(
+                            "Please select admission class."
+                        );
 
+                        return;
 
-const saveButton =
+                    }
 
-document.querySelector(
 
-".submit-area button"
+                    if (!admissionDate) {
 
-);
+                        alert(
+                            "Please select admission date."
+                        );
 
+                        return;
 
+                    }
 
 
+                    // --------------------------------
+                    // Institution
+                    // --------------------------------
 
+                    const institution =
+                        getSafeInstitution();
 
 
-if(saveButton){
+                    // --------------------------------
+                    // Student Code
+                    // --------------------------------
 
+                    const studentCode =
+                        generateStudentCode(
+                            className
+                        );
 
 
-saveButton.addEventListener(
+                    // --------------------------------
+                    // Photo
+                    // --------------------------------
 
-"click",
+                    const photoInput =
+                        document.getElementById(
+                            "studentPhoto"
+                        );
 
-async function(){
 
+                    let photo = "";
 
 
+                    if (
+                        photoInput
+                        &&
+                        photoInput.files
+                        &&
+                        photoInput.files[0]
+                    ) {
 
+                        photo =
+                            await convertImageToBase64(
+                                photoInput.files[0]
+                            );
 
-let students = JSON.parse(
+                    }
 
-localStorage.getItem("students")
 
-) || [];
+                    // --------------------------------
+                    // Present Address
+                    // --------------------------------
 
+                    const address = {
 
+                        division:
+                            division
+                            ? division.value
+                            : "",
 
+                        district:
+                            district
+                            ? district.value
+                            : "",
 
+                        thana:
+                            thana
+                            ? thana.value
+                            : "",
 
+                        union:
+                            union
+                            ? union.value
+                            : "",
 
+                        ward:
+                            ward
+                            ? ward.value
+                            : "",
 
-// Class
+                        village:
+                            getValue(
+                                "village"
+                            ),
 
+                        details:
+                            getValue(
+                                "presentAddress"
+                            )
 
-let className =
+                    };
 
-document.getElementById(
 
-"admissionClass"
+                    // --------------------------------
+                    // Session
+                    // --------------------------------
 
-).value;
+                    const currentYear =
+                        new Date()
+                        .getFullYear();
 
 
+                    const session =
+                        String(
+                            currentYear
+                        );
 
 
+                    // --------------------------------
+                    // Student Object
+                    // --------------------------------
 
-if(!className){
+                    const student = {
 
+                        id:
+                            Date.now(),
 
-alert(
+                        institutionId:
+                            institution.id
+                            ||
+                            DEFAULT_INSTITUTION_ID,
 
-"Please Select Admission Class"
+                        institutionCode:
+                            institution.code
+                            ||
+                            DEFAULT_INSTITUTION_CODE,
 
-);
+                        studentCode:
+                            studentCode,
 
+                        name:
+                            studentName,
 
-return;
+                        dateOfBirth:
+                            getValue(
+                                "dateOfBirth"
+                            ),
 
+                        birthRegistration:
+                            getValue(
+                                "birthRegistration"
+                            ),
 
-}
+                        bloodGroup:
+                            getValue(
+                                "bloodGroup"
+                            ),
 
+                        nationality:
+                            getValue(
+                                "nationality"
+                            )
+                            ||
+                            "Bangladeshi",
 
+                        fatherName:
+                            fatherName,
 
+                        fatherNid:
+                            getValue(
+                                "fatherNid"
+                            ),
 
+                        motherName:
+                            motherName,
 
+                        motherNid:
+                            getValue(
+                                "motherNid"
+                            ),
 
-// Student Code
+                        guardianMobile:
+                            getValue(
+                                "guardianMobile"
+                            ),
 
+                        previousInstitution:
+                            getValue(
+                                "previousInstitution"
+                            ),
 
-let studentCode =
+                        previousClass:
+                            getValue(
+                                "previousClass"
+                            ),
 
-generateStudentCode(
+                        admissionClass:
+                            className,
 
-className
+                        session:
+                            session,
 
-);
+                        admissionDate:
+                            admissionDate,
 
+                        admissionStatus:
+                            "Pending",
 
+                        admissionFeeStatus:
+                            "Due",
 
+                        feeStatus:
+                            "Due",
 
+                        attendance:
+                            "0%",
 
+                        result:
+                            "-",
 
+                        address:
+                            address,
 
+                        permanentAddress:
+                            getValue(
+                                "permanentAddress"
+                            ),
 
-// Photo
+                        photo:
+                            photo,
 
+                        createdAt:
+                            new Date()
+                            .toISOString()
 
-let photoInput =
+                    };
 
-document.querySelector(
 
-'input[type="file"]'
+                    // --------------------------------
+                    // Save To Core Database
+                    // --------------------------------
 
-);
+                    const existing =
+                        getAllStudents();
 
 
+                    existing.push(
+                        student
+                    );
 
-let photo = "";
 
+                    const coreSaved =
+                        saveCoreStudents(
+                            existing
+                        );
 
 
-if(photoInput && photoInput.files[0]){
+                    // --------------------------------
+                    // Legacy Compatibility
+                    // --------------------------------
 
+                    saveLegacyStudents(
+                        existing
+                    );
 
-photo = await convertImageToBase64(
 
-photoInput.files[0]
+                    // --------------------------------
+                    // Success
+                    // --------------------------------
 
-);
+                    alert(
 
+                        "Student Added Successfully\n\n"
 
-}
+                        +
 
+                        "Student Code:\n"
 
+                        +
 
+                        studentCode
 
+                        +
 
+                        "\n\nAdmission Status:\n"
 
+                        +
 
+                        "Pending"
 
+                    );
 
-// Student Object
 
+                    window.location.href =
+                        "students.html";
 
-let student = {
 
+                } catch (error) {
 
+                    console.error(
+                        "Student save error:",
+                        error
+                    );
 
-studentCode:
 
-studentCode,
+                    alert(
+                        "Student could not be saved.\nPlease try again."
+                    );
 
+                }
 
+            }
+        );
 
+    }
 
 
-name:
-
-document.getElementById(
-
-"studentName"
-
-).value,
-
-
-
-
-
-dateOfBirth:
-
-document.getElementById(
-
-"dateOfBirth"
-
-).value,
-
-
-
-
-
-birthRegistration:
-
-document.getElementById(
-
-"birthRegistration"
-
-).value,
-
-
-
-
-
-bloodGroup:
-
-document.getElementById(
-
-"bloodGroup"
-
-).value,
-
-
-
-
-
-nationality:
-
-document.getElementById(
-
-"nationality"
-
-).value,
-
-
-
-
-
-
-fatherName:
-
-document.getElementById(
-
-"fatherName"
-
-).value,
-
-
-
-
-
-fatherNid:
-
-document.getElementById(
-
-"fatherNid"
-
-).value,
-
-
-
-
-
-motherName:
-
-document.getElementById(
-
-"motherName"
-
-).value,
-
-
-
-
-
-motherNid:
-
-document.getElementById(
-
-"motherNid"
-
-).value,
-
-
-
-
-
-guardianMobile:
-
-document.getElementById(
-
-"guardianMobile"
-
-).value,
-
-
-
-
-
-
-previousInstitution:
-
-document.getElementById(
-
-"previousInstitution"
-
-).value,
-
-
-
-
-
-previousClass:
-
-document.getElementById(
-
-"previousClass"
-
-).value,
-
-
-
-
-
-
-admissionClass:
-
-className,
-
-
-
-
-
-
-admissionDate:
-
-document.getElementById(
-
-"admissionDate"
-
-).value,
-
-
-
-
-
-
-
-address:{
-
-
-
-division:
-
-division ? division.value : "",
-
-
-
-district:
-
-district ? district.value : "",
-
-
-
-thana:
-
-thana ? thana.value : "",
-
-
-
-union:
-
-union ? union.value : "",
-
-
-
-ward:
-
-ward ? ward.value : "",
-
-
-
-village:
-
-document.getElementById(
-
-"village"
-
-).value,
-
-
-
-
-details:
-
-document.getElementById(
-
-"presentAddress"
-
-).value
-
-
-
-},
-
-
-
-
-
-
-
-permanentAddress:
-
-document.getElementById(
-
-"permanentAddress"
-
-).value,
-
-
-
-
-
-
-photo:
-
-photo,
-
-
-
-
-
-
-feeStatus:
-
-"Due",
-
-
-
-
-
-attendance:
-
-"0%",
-
-
-
-
-
-result:
-
-"-",
-
-
-
-
-
-createdAt:
-
-new Date()
-
-.toISOString()
-
-
-
-};
-
-
-
-
-
-
-
-
-// Save
-
-
-students.push(student);
-
-
-
-
-
-localStorage.setItem(
-
-"students",
-
-JSON.stringify(students)
-
-);
-
-
-
-
-
-
-
-alert(
-
-"Student Added Successfully\n\nStudent Code:\n"
-
-+
-
-studentCode
-
-);
-
-
-
-
-
-
-
-window.location.href =
-
-"students.html";
-
-
-
-
-
-
-}
-
-
-);
-
-
-}
+})();
