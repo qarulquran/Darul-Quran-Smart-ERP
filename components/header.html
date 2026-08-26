@@ -1,110 +1,490 @@
-<!-- =====================================
- Darul Quran Smart ERP
- Common Header
-===================================== -->
+<!-- ==========================================
+     ISM - Islamic School Management
+     Master Platform Header
+========================================== -->
 
 
 <header class="erp-header">
 
 
-<div class="header-left">
+    <!-- ======================================
+         Left Side
+    ======================================= -->
+
+    <div class="header-left">
 
 
-<button id="menuToggle">
+        <button
+            id="menuToggle"
+            type="button"
+            aria-label="Open Menu">
 
-☰
+            ☰
 
-</button>
-
-
-
-<div class="brand">
-
-
-<img src="../assets/images/logo.png"
-class="logo">
-
-
-<div>
-
-<h3>
-Darul Quran Smart ERP
-</h3>
-
-<small id="institutionName">
-Institution Name
-</small>
-
-
-</div>
-
-
-</div>
-
-
-</div>
+        </button>
 
 
 
+        <div class="platform-brand">
 
 
-<div class="header-right">
+            <img
+                id="platformLogo"
+                src=""
+                alt="ISM"
+                class="platform-logo">
 
 
-<select id="languageSelector"
-onchange="changeLanguage(this.value)">
+
+            <div class="brand-text">
 
 
-<option value="bn">
-বাংলা
-</option>
+                <h3 id="platformName">
+                    ISM
+                </h3>
 
 
-<option value="en">
-English
-</option>
+                <small id="platformTagline">
+                    Islamic School Management
+                </small>
 
 
-<option value="ar">
-العربية
-</option>
+            </div>
 
 
-</select>
+        </div>
+
+
+    </div>
 
 
 
 
 
-<div class="notification">
+    <!-- ======================================
+         Right Side
+    ======================================= -->
 
-🔔
-
-</div>
-
-
+    <div class="header-right">
 
 
+        <!-- Language -->
 
-<div class="profile">
-
-
-Admin 👤
-
-
-</div>
+        <select
+            id="languageSelector"
+            aria-label="Language">
 
 
-
-<button class="logout-btn">
-
-Logout
-
-</button>
+            <option value="bn">
+                বাংলা
+            </option>
 
 
-</div>
+            <option value="en">
+                English
+            </option>
 
+
+            <option value="ar">
+                العربية
+            </option>
+
+
+        </select>
+
+
+
+
+
+        <!-- Institution -->
+
+        <div class="institution-display">
+
+
+            <small>
+                Institution
+            </small>
+
+
+            <strong id="institutionName">
+                -
+            </strong>
+
+
+        </div>
+
+
+
+
+
+        <!-- Notification -->
+
+        <button
+            type="button"
+            class="notification-btn"
+            aria-label="Notifications">
+
+            🔔
+
+        </button>
+
+
+
+
+
+        <!-- User -->
+
+        <div class="profile">
+
+
+            <span id="userName">
+                Admin
+            </span>
+
+
+            <small id="userRole">
+                Administrator
+            </small>
+
+
+        </div>
+
+
+
+
+
+        <!-- Logout -->
+
+        <button
+            type="button"
+            id="logoutBtn"
+            class="logout-btn">
+
+            🚪 Logout
+
+        </button>
+
+
+    </div>
 
 
 </header>
+
+
+
+
+
+<script>
+
+/* ==========================================
+   ISM Dynamic Header
+========================================== */
+
+(function () {
+
+    "use strict";
+
+
+    // ======================================
+    // Platform Configuration
+    // ======================================
+
+    if (
+        window.APP_CONFIG &&
+        APP_CONFIG.platform
+    ) {
+
+        const platformName =
+            document.getElementById(
+                "platformName"
+            );
+
+
+        const platformTagline =
+            document.getElementById(
+                "platformTagline"
+            );
+
+
+        if (platformName) {
+
+            platformName.innerText =
+                APP_CONFIG
+                    .platform
+                    .name;
+
+        }
+
+
+        if (platformTagline) {
+
+            platformTagline.innerText =
+                APP_CONFIG
+                    .platform
+                    .fullName;
+
+        }
+
+    }
+
+
+
+
+
+    // ======================================
+    // Platform Logo
+    // ======================================
+
+    if (
+        window.APP_CONFIG &&
+        APP_CONFIG.branding
+    ) {
+
+        const logo =
+            document.getElementById(
+                "platformLogo"
+            );
+
+
+        if (
+            logo &&
+            APP_CONFIG
+                .branding
+                .logo
+        ) {
+
+            logo.src =
+                "../" +
+                APP_CONFIG
+                    .branding
+                    .logo;
+
+        }
+
+    }
+
+
+
+
+
+    // ======================================
+    // Institution
+    // ======================================
+
+    function loadInstitution() {
+
+
+        if (
+            typeof window.getInstitution !==
+            "function"
+        ) {
+
+            return;
+
+        }
+
+
+        const institution =
+            window.getInstitution();
+
+
+        const institutionName =
+            document.getElementById(
+                "institutionName"
+            );
+
+
+        if (
+            institutionName &&
+            institution
+        ) {
+
+            institutionName.innerText =
+                institution.name
+                ||
+                "-";
+
+        }
+
+    }
+
+
+
+
+
+    // ======================================
+    // Current User
+    // ======================================
+
+    function loadUser() {
+
+
+        let user = null;
+
+
+        if (
+            typeof window.getCurrentUser ===
+            "function"
+        ) {
+
+            user =
+                window.getCurrentUser();
+
+        }
+
+
+        if (!user) {
+
+            return;
+
+        }
+
+
+        const userName =
+            document.getElementById(
+                "userName"
+            );
+
+
+        const userRole =
+            document.getElementById(
+                "userRole"
+            );
+
+
+        if (userName) {
+
+            userName.innerText =
+                user.name
+                ||
+                user.username
+                ||
+                "User";
+
+        }
+
+
+        if (userRole) {
+
+            userRole.innerText =
+                user.role
+                ||
+                "User";
+
+        }
+
+    }
+
+
+
+
+
+    // ======================================
+    // Language
+    // ======================================
+
+    const languageSelector =
+        document.getElementById(
+            "languageSelector"
+        );
+
+
+    if (
+        languageSelector &&
+        typeof window.getCurrentLanguage ===
+        "function"
+    ) {
+
+        languageSelector.value =
+            window.getCurrentLanguage();
+
+    }
+
+
+    if (languageSelector) {
+
+        languageSelector.addEventListener(
+            "change",
+            function () {
+
+                if (
+                    typeof window.changeLanguage ===
+                    "function"
+                ) {
+
+                    window.changeLanguage(
+                        languageSelector.value
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+
+
+    // ======================================
+    // Logout
+    // ======================================
+
+    const logoutBtn =
+        document.getElementById(
+            "logoutBtn"
+        );
+
+
+    if (logoutBtn) {
+
+        logoutBtn.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    typeof window.logout ===
+                    "function"
+                ) {
+
+                    window.logout();
+
+                    return;
+
+                }
+
+
+                localStorage.removeItem(
+                    "ERP_SESSION"
+                );
+
+
+                localStorage.removeItem(
+                    "currentUser"
+                );
+
+
+                window.location.href =
+                    "../index.html";
+
+            }
+        );
+
+    }
+
+
+
+
+
+    // ======================================
+    // Initialize
+    // ======================================
+
+    loadInstitution();
+
+    loadUser();
+
+
+})();
+</script>
