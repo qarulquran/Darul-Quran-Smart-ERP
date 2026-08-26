@@ -6,121 +6,93 @@
 const ISM_AR = {
 
     dashboard: "لوحة التحكم",
+    dashboardOverview: "نظرة عامة على لوحة التحكم",
+    welcomeDashboard: "مرحبًا بك في لوحة تحكم ISM",
 
     students: "الطلاب",
-
     studentProfile: "ملف الطالب",
-
     admission: "القبول",
-
     academic: "الأكاديمية",
-
     classManagement: "إدارة الصفوف",
-
     subjectManagement: "إدارة المواد",
-
     routine: "الجدول الدراسي",
 
     fee: "تحصيل الرسوم",
-
     feeDue: "الرسوم المستحقة",
-
     feeHistory: "سجل الرسوم",
 
     attendance: "الحضور",
-
     result: "النتائج",
-
     certificate: "الشهادة",
-
     idCard: "بطاقة الهوية",
 
     teachers: "المعلمون",
-
     payroll: "الرواتب",
-
     finance: "الإدارة المالية",
-
     reports: "التقارير",
-
     library: "المكتبة",
-
     inventory: "المخزون",
-
     hostel: "الإقامة الداخلية",
-
     discipline: "الانضباط والسلوك",
-
     guardianPortal: "بوابة أولياء الأمور",
-
     services: "خدمات الطلاب",
-
     notifications: "الإشعارات",
-
     auditLog: "سجل التدقيق",
-
     settings: "الإعدادات",
-
     language: "اللغة",
-
     institution: "المؤسسة",
-
     admin: "المسؤول",
-
     logout: "تسجيل الخروج",
 
-    studentName: "اسم الطالب",
-
-    fatherName: "اسم الأب",
-
-    motherName: "اسم الأم",
-
-    className: "الصف",
-
-    studentCode: "رمز الطالب",
-
-    mobile: "رقم الهاتف",
-
-    admissionDate: "تاريخ القبول",
-
-    payment: "الدفع",
-
-    receipt: "الإيصال",
-
+    totalStudents: "إجمالي الطلاب",
+    activeStudents: "الطلاب النشطون",
+    totalTeachers: "إجمالي المعلمين",
+    teachingStaff: "هيئة التدريس",
+    monthlyCollection: "التحصيل الشهري",
+    currentMonth: "الشهر الحالي",
     totalDue: "إجمالي المستحق",
+    pendingPayment: "المدفوعات المعلقة",
+    attendanceToday: "حضور اليوم",
+    newAdmission: "القبول الجديد",
+    thisYear: "هذا العام",
+    paidThisMonth: "المدفوع هذا الشهر",
 
-    monthlyDue: "المستحق الشهري",
+    analytics: "التحليلات",
+    studentGrowth: "نمو الطلاب",
+    attendanceOverview: "نظرة عامة على الحضور",
+    incomeAnalysis: "تحليل الإيرادات",
+    recentPayments: "المدفوعات الأخيرة",
+    recentAdmission: "القبول الأخير",
+    viewAll: "عرض الكل",
 
+    studentName: "اسم الطالب",
+    fatherName: "اسم الأب",
+    motherName: "اسم الأم",
+    className: "الصف",
+    studentCode: "رمز الطالب",
+    mobile: "رقم الهاتف",
+    admissionDate: "تاريخ القبول",
+    payment: "الدفع",
+    receipt: "الإيصال",
+    monthlyDue: "الرسوم الشهرية المستحقة",
     otherDue: "الرسوم الأخرى المستحقة",
 
     save: "حفظ",
-
     search: "بحث",
-
     edit: "تعديل",
-
     delete: "حذف",
-
     view: "عرض",
-
     print: "طباعة",
-
     close: "إغلاق",
-
     cancel: "إلغاء",
-
     confirm: "تأكيد",
 
     certificateNo: "رقم الشهادة",
-
     issueDate: "تاريخ الإصدار",
 
     valid: "صالح",
-
     pending: "قيد الانتظار",
-
     paid: "مدفوع",
-
     due: "مستحق",
 
     noData: "لا توجد بيانات"
