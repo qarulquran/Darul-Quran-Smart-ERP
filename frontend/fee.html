@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-Fee Collection - Darul Quran ERP
+Fee Collection - Darul Quran Smart ERP
 </title>
 
 <link rel="stylesheet" href="fee.css">
@@ -43,7 +43,6 @@ Admin 👤
 🚪 Logout
 </button>
 
-
 </div>
 
 
@@ -74,19 +73,23 @@ Student Code
 <div class="search-area">
 
 
-<input 
+<input
 type="text"
 id="studentCodeInput"
-placeholder="Enter Student Code">
+placeholder="Enter Student Code"
+autocomplete="off">
 
 
-<button onclick="searchStudent()">
+<button
+type="button"
+onclick="searchStudent()">
+
 Search
+
 </button>
 
 
 </div>
-
 
 
 
@@ -141,23 +144,48 @@ Fee Type
 <select id="feeType">
 
 
-<option>
+<option value="Monthly Fee">
 Monthly Fee
 </option>
 
 
-<option>
+<option value="Admission Fee">
 Admission Fee
 </option>
 
 
-<option>
+<option value="Exam Fee">
 Exam Fee
 </option>
 
 
-<option>
-Other
+<option value="ID Card Fee">
+ID Card Fee
+</option>
+
+
+<option value="Book Fee">
+Book Fee
+</option>
+
+
+<option value="Uniform Fee">
+Uniform Fee
+</option>
+
+
+<option value="Tour Fee">
+Tour Fee
+</option>
+
+
+<option value="Certificate Fee">
+Certificate Fee
+</option>
+
+
+<option value="Other Fee">
+Other Fee
 </option>
 
 
@@ -177,51 +205,51 @@ Month
 <select id="feeMonth">
 
 
-<option>
+<option value="January">
 January
 </option>
 
-<option>
+<option value="February">
 February
 </option>
 
-<option>
+<option value="March">
 March
 </option>
 
-<option>
+<option value="April">
 April
 </option>
 
-<option>
+<option value="May">
 May
 </option>
 
-<option>
+<option value="June">
 June
 </option>
 
-<option>
+<option value="July">
 July
 </option>
 
-<option>
+<option value="August">
 August
 </option>
 
-<option>
+<option value="September">
 September
 </option>
 
-<option>
+<option value="October">
 October
 </option>
 
-<option>
+<option value="November">
 November
 </option>
 
-<option>
+<option value="December">
 December
 </option>
 
@@ -239,12 +267,11 @@ Amount
 
 
 <input
-
 type="number"
-
 id="amount"
-
-placeholder="Enter Amount">
+placeholder="Enter Amount"
+min="0"
+step="0.01">
 
 
 
@@ -260,17 +287,17 @@ Payment Method
 <select id="paymentMethod">
 
 
-<option>
+<option value="Cash">
 Cash
 </option>
 
 
-<option>
+<option value="Mobile Banking">
 Mobile Banking
 </option>
 
 
-<option>
+<option value="Bank">
 Bank
 </option>
 
@@ -283,7 +310,10 @@ Bank
 
 
 
-<button class="save-btn" onclick="saveFee()">
+<button
+class="save-btn"
+type="button"
+onclick="saveFee()">
 
 Save Payment
 
@@ -293,7 +323,10 @@ Save Payment
 
 
 
-<button class="receipt-btn" onclick="openReceipt()">
+<button
+class="receipt-btn"
+type="button"
+onclick="openReceipt()">
 
 🧾 Generate Receipt
 
@@ -316,13 +349,42 @@ Save Payment
 
 
 
+<!-- ===============================
+     Core Configuration
+================================ -->
 
-<script src="script.js"></script>
+
+<script src="../config/app-config.js"></script>
+
+<script src="../config/language-config.js"></script>
+
+<script src="../config/permission-config.js"></script>
+
+
+<!-- ===============================
+     Core Architecture
+================================ -->
+
+
+<script src="../core/institute.js"></script>
+
+<script src="../core/session.js"></script>
+
+<script src="../core/auth.js"></script>
+
+<script src="../core/database-manager.js"></script>
+
+<script src="../core/bootstrap.js"></script>
+
+
+<!-- ===============================
+     Fee System
+================================ -->
+
 
 <script src="fee.js"></script>
 
 
 </body>
-
 
 </html>
