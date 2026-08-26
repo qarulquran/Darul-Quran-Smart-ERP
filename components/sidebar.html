@@ -1,102 +1,902 @@
-<!-- =====================================
- Darul Quran Smart ERP
- Common Sidebar
-===================================== -->
+<!-- ==========================================
+     ISM - Islamic School Management
+     Multilingual Master Sidebar
+========================================== -->
 
 
-<aside id="sidebar">
+<aside
+    id="sidebar"
+    class="erp-sidebar">
 
 
+    <!-- ======================================
+         Platform / Institution
+    ======================================= -->
 
-<div class="sidebar-title">
-
-🕌 ERP MENU
-
-</div>
-
+    <div class="sidebar-brand">
 
 
+        <div class="sidebar-platform">
 
-<a href="../dashboard/dashboard.html">
+            <strong>
+                ISM
+            </strong>
 
-🏠 Dashboard
+            <span>
+                Islamic School Management
+            </span>
 
-</a>
-
-
-
-<a href="../students/students.html">
-
-👨‍🎓 Students
-
-</a>
+        </div>
 
 
+        <div
+            class="sidebar-institution"
+            id="sidebarInstitution">
 
-<a href="../admission/admission.html">
+            -
 
-📝 Admission
-
-</a>
-
-
-
-<a href="../fee/collection.html">
-
-💰 Fee Management
-
-</a>
+        </div>
 
 
-
-<a href="../academic/attendance/attendance.html">
-
-📅 Attendance
-
-</a>
-
-
-
-<a href="../academic/result/result.html">
-
-📚 Result
-
-</a>
-
-
-
-<a href="../teachers/teachers.html">
-
-👨‍🏫 Teacher
-
-</a>
-
-
-
-<a href="../finance/finance.html">
-
-💼 Finance
-
-</a>
+    </div>
 
 
 
 
-<a href="../reports/student-report.html">
 
-📊 Reports
+    <!-- ======================================
+         Main Navigation
+    ======================================= -->
 
-</a>
+    <nav
+        class="sidebar-nav"
+        aria-label="Main Navigation">
+
+
+        <!-- Dashboard -->
+
+        <a
+            href="dashboard.html"
+            class="nav-item"
+            data-page="dashboard">
+
+
+            <span
+                class="nav-icon">
+
+                📊
+
+            </span>
+
+
+            <span
+                data-i18n="dashboard">
+
+                Dashboard
+
+            </span>
+
+
+        </a>
 
 
 
 
-<a href="../settings/settings.html">
 
-⚙ Settings
+        <!-- ==================================
+             Student Management
+        =================================== -->
 
-</a>
+        <div class="nav-section">
 
+
+            <div class="nav-section-title">
+
+                <span>
+                    👨‍🎓
+                </span>
+
+                <span
+                    data-i18n="students">
+
+                    Students
+
+                </span>
+
+            </div>
+
+
+            <a
+                href="students.html"
+                class="nav-subitem"
+                data-page="students">
+
+                <span
+                    data-i18n="students">
+
+                    Students
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="add-student.html"
+                class="nav-subitem"
+                data-page="admission">
+
+                <span
+                    data-i18n="admission">
+
+                    Admission
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="student-profile.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="studentProfile">
+
+                    Student Profile
+
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+
+
+        <!-- ==================================
+             Academic Management
+        =================================== -->
+
+        <div class="nav-section">
+
+
+            <div class="nav-section-title">
+
+                <span>
+                    📚
+                </span>
+
+                <span
+                    data-i18n="academic">
+
+                    Academic
+
+                </span>
+
+            </div>
+
+
+            <a
+                href="class-management.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="classManagement">
+
+                    Class Management
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="subject-management.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="subjectManagement">
+
+                    Subject Management
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="routine.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="routine">
+
+                    Routine / Timetable
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="attendance.html"
+                class="nav-subitem"
+                data-page="attendance">
+
+                <span
+                    data-i18n="attendance">
+
+                    Attendance
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="result.html"
+                class="nav-subitem"
+                data-page="result">
+
+                <span
+                    data-i18n="result">
+
+                    Result
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="certificate.html"
+                class="nav-subitem"
+                data-page="certificate">
+
+                <span
+                    data-i18n="certificate">
+
+                    Certificate
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="id-card.html"
+                class="nav-subitem"
+                data-page="id-card">
+
+                <span
+                    data-i18n="idCard">
+
+                    ID Card
+
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+
+
+        <!-- ==================================
+             Staff Management
+        =================================== -->
+
+        <div class="nav-section">
+
+
+            <div class="nav-section-title">
+
+                <span>
+                    👨‍🏫
+                </span>
+
+                <span
+                    data-i18n="teachers">
+
+                    Teachers
+
+                </span>
+
+            </div>
+
+
+            <a
+                href="teachers.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="teachers">
+
+                    Teachers
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="payroll.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="payroll">
+
+                    Payroll
+
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+
+
+        <!-- ==================================
+             Finance
+        =================================== -->
+
+        <div class="nav-section">
+
+
+            <div class="nav-section-title">
+
+                <span>
+                    💰
+                </span>
+
+                <span
+                    data-i18n="finance">
+
+                    Finance
+
+                </span>
+
+            </div>
+
+
+            <a
+                href="fee.html"
+                class="nav-subitem"
+                data-page="fee">
+
+                <span
+                    data-i18n="fee">
+
+                    Fee Collection
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="fee-due.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="feeDue">
+
+                    Fee Due
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="fee-history.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="feeHistory">
+
+                    Fee History
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="finance.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="finance">
+
+                    Finance
+
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+
+
+        <!-- ==================================
+             Student Services
+        =================================== -->
+
+        <div class="nav-section">
+
+
+            <div class="nav-section-title">
+
+                <span>
+                    🏫
+                </span>
+
+                <span
+                    data-i18n="services">
+
+                    Student Services
+
+                </span>
+
+            </div>
+
+
+            <a
+                href="guardian-portal.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="guardianPortal">
+
+                    Guardian Portal
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="library.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="library">
+
+                    Library
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="inventory.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="inventory">
+
+                    Inventory
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="hostel.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="hostel">
+
+                    Hostel
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="discipline.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="discipline">
+
+                    Discipline
+
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+
+
+        <!-- ==================================
+             Reports
+        =================================== -->
+
+        <div class="nav-section">
+
+
+            <div class="nav-section-title">
+
+                <span>
+                    📈
+                </span>
+
+                <span
+                    data-i18n="reports">
+
+                    Reports
+
+                </span>
+
+            </div>
+
+
+            <a
+                href="attendance-report.html"
+                class="nav-subitem">
+
+                <span>
+                    Attendance Report
+                </span>
+
+            </a>
+
+
+            <a
+                href="report-engine.html"
+                class="nav-subitem">
+
+                <span>
+                    Report Engine
+                </span>
+
+            </a>
+
+        </div>
+
+
+
+
+
+        <!-- ==================================
+             System
+        =================================== -->
+
+        <div class="nav-section">
+
+
+            <div class="nav-section-title">
+
+                <span>
+                    ⚙️
+                </span>
+
+                <span
+                    data-i18n="settings">
+
+                    Settings
+
+                </span>
+
+            </div>
+
+
+            <a
+                href="institution-settings.html"
+                class="nav-subitem">
+
+                <span>
+                    Institution Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="user-management.html"
+                class="nav-subitem">
+
+                <span>
+                    User Management
+                </span>
+
+            </a>
+
+
+            <a
+                href="audit-log.html"
+                class="nav-subitem">
+
+                <span
+                    data-i18n="auditLog">
+
+                    Audit Log
+
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </nav>
+
+
+
+
+
+    <!-- ======================================
+         Sidebar Footer
+    ======================================= -->
+
+    <div class="sidebar-footer">
+
+
+        <div class="platform-footer">
+
+
+            <strong>
+                ISM
+            </strong>
+
+
+            <small>
+                Islamic School Management
+            </small>
+
+
+        </div>
+
+
+        <div class="version">
+
+            v1.0.0
+
+        </div>
+
+
+    </div>
 
 
 </aside>
+
+
+
+
+
+<script>
+
+/* ==========================================
+   ISM Sidebar Controller
+========================================== */
+
+(function () {
+
+    "use strict";
+
+
+    // ======================================
+    // Institution
+    // ======================================
+
+    function loadInstitution() {
+
+        const element =
+            document.getElementById(
+                "sidebarInstitution"
+            );
+
+
+        if (
+            !element ||
+            typeof window.getInstitution !==
+            "function"
+        ) {
+
+            return;
+
+        }
+
+
+        const institution =
+            window.getInstitution();
+
+
+        if (institution) {
+
+            element.textContent =
+                institution.shortName
+                ||
+                institution.name
+                ||
+                "-";
+
+        }
+
+    }
+
+
+
+
+
+    // ======================================
+    // Active Page
+    // ======================================
+
+    function setActivePage() {
+
+        const currentPage =
+            window.location
+                .pathname
+                .split("/")
+                .pop()
+                .toLowerCase();
+
+
+        const items =
+            document.querySelectorAll(
+                "[data-page]"
+            );
+
+
+        items.forEach(
+            function (item) {
+
+                const page =
+                    String(
+                        item.getAttribute(
+                            "data-page"
+                        )
+                    )
+                    .toLowerCase();
+
+
+                if (
+                    currentPage ===
+                    page + ".html"
+                ) {
+
+                    item.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+
+
+    // ======================================
+    // Mobile Sidebar
+    // ======================================
+
+    function setupMobileMenu() {
+
+        const sidebar =
+            document.getElementById(
+                "sidebar"
+            );
+
+
+        const menuToggle =
+            document.getElementById(
+                "menuToggle"
+            );
+
+
+        const overlay =
+            document.getElementById(
+                "overlay"
+            );
+
+
+        if (
+            menuToggle &&
+            sidebar
+        ) {
+
+            menuToggle.addEventListener(
+                "click",
+                function () {
+
+                    sidebar.classList.toggle(
+                        "active"
+                    );
+
+
+                    if (overlay) {
+
+                        overlay.classList.toggle(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        if (overlay) {
+
+            overlay.addEventListener(
+                "click",
+                function () {
+
+                    sidebar.classList.remove(
+                        "active"
+                    );
+
+
+                    overlay.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+        }
+
+    }
+
+
+
+
+
+    // ======================================
+    // Initialize
+    // ======================================
+
+    function initializeSidebar() {
+
+        loadInstitution();
+
+        setActivePage();
+
+        setupMobileMenu();
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeSidebar
+        );
+
+    } else {
+
+        initializeSidebar();
+
+    }
+
+
+})();
+
+</script>
