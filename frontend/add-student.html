@@ -7,7 +7,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add Student - Darul Quran ERP</title>
+<title>
+Add Student - Darul Quran Smart ERP
+</title>
 
 
 <link rel="stylesheet" href="add-student.css">
@@ -55,7 +57,9 @@ Darul Quran Smart ERP
 
 
 
-<!-- Student Information -->
+<!-- ==========================================
+     Student Information
+========================================== -->
 
 
 <div class="form-card">
@@ -128,24 +132,17 @@ Blood Group
 <select id="bloodGroup">
 
 
-<option>
+<option value="">
 Select Blood Group
 </option>
 
 <option>A+</option>
-
 <option>A-</option>
-
 <option>B+</option>
-
 <option>B-</option>
-
 <option>AB+</option>
-
 <option>AB-</option>
-
 <option>O+</option>
-
 <option>O-</option>
 
 
@@ -205,7 +202,9 @@ accept="image/*">
 
 
 
-<!-- Parents Information -->
+<!-- ==========================================
+     Parents Information
+========================================== -->
 
 
 <div class="form-card">
@@ -302,7 +301,8 @@ Guardian Mobile Number
 
 <input
 id="guardianMobile"
-type="number"
+type="tel"
+inputmode="numeric"
 placeholder="Enter mobile number">
 
 
@@ -313,7 +313,16 @@ placeholder="Enter mobile number">
 </div>
 
 
-</div><!-- Previous Education -->
+</div>
+
+
+
+
+
+
+<!-- ==========================================
+     Previous Education
+========================================== -->
 
 
 <div class="form-card">
@@ -355,32 +364,21 @@ Previous Class
 <select id="previousClass">
 
 
-<option>
+<option value="">
 Select Previous Class
 </option>
 
 <option>Play</option>
-
 <option>Nursery</option>
-
 <option>Class 1</option>
-
 <option>Class 2</option>
-
 <option>Class 3</option>
-
 <option>Class 4</option>
-
 <option>Class 5</option>
-
 <option>Class 6</option>
-
 <option>Class 7</option>
-
 <option>Class 8</option>
-
 <option>Class 9</option>
-
 <option>Class 10</option>
 
 
@@ -401,7 +399,9 @@ Select Previous Class
 
 
 
-<!-- Admission Information -->
+<!-- ==========================================
+     Admission Information
+========================================== -->
 
 
 <div class="form-card">
@@ -426,33 +426,22 @@ Admission Class *
 <select id="admissionClass">
 
 
-<option>
+<option value="">
 Select Class
 </option>
 
 
 <option>Play</option>
-
 <option>Nursery</option>
-
 <option>Class 1</option>
-
 <option>Class 2</option>
-
 <option>Class 3</option>
-
 <option>Class 4</option>
-
 <option>Class 5</option>
-
 <option>Class 6</option>
-
 <option>Class 7</option>
-
 <option>Class 8</option>
-
 <option>Class 9</option>
-
 <option>Class 10</option>
 
 
@@ -494,7 +483,9 @@ type="date">
 
 
 
-<!-- Present Address -->
+<!-- ==========================================
+     Present Address
+========================================== -->
 
 
 <div class="form-card">
@@ -524,7 +515,8 @@ Division
 
 <input
 id="divisionSearch"
-placeholder="Search Division">
+placeholder="Search Division"
+autocomplete="off">
 
 
 <div
@@ -557,7 +549,8 @@ District
 
 <input
 id="districtSearch"
-placeholder="Search District">
+placeholder="Search District"
+autocomplete="off">
 
 
 <div
@@ -590,7 +583,8 @@ Thana / Upazila
 
 <input
 id="thanaSearch"
-placeholder="Search Thana">
+placeholder="Search Thana"
+autocomplete="off">
 
 
 <div
@@ -623,7 +617,8 @@ Union
 
 <input
 id="unionSearch"
-placeholder="Search Union">
+placeholder="Search Union"
+autocomplete="off">
 
 
 <div
@@ -656,7 +651,8 @@ Ward
 
 <input
 id="wardSearch"
-placeholder="Search Ward">
+placeholder="Search Ward"
+autocomplete="off">
 
 
 <div
@@ -730,7 +726,9 @@ placeholder="Enter full address"></textarea>
 
 
 
-<!-- Permanent Address -->
+<!-- ==========================================
+     Permanent Address
+========================================== -->
 
 
 <div class="form-card">
@@ -775,13 +773,17 @@ placeholder="Enter permanent address"></textarea>
 
 
 
-<!-- Save Button -->
+<!-- ==========================================
+     Save
+========================================== -->
 
 
 <div class="submit-area">
 
 
-<button type="button">
+<button
+type="button"
+id="saveStudentBtn">
 
 💾 Save Student
 
@@ -801,15 +803,46 @@ placeholder="Enter permanent address"></textarea>
 
 
 
+<!-- ==========================================
+     Core Configuration
+========================================== -->
 
-<!-- JavaScript -->
+
+<script src="../config/app-config.js"></script>
+
+<script src="../config/language-config.js"></script>
+
+<script src="../config/permission-config.js"></script>
+
+
+
+<!-- ==========================================
+     Core Architecture
+========================================== -->
+
+
+<script src="../core/institute.js"></script>
+
+<script src="../core/session.js"></script>
+
+<script src="../core/auth.js"></script>
+
+<script src="../core/database-manager.js"></script>
+
+<script src="../core/bootstrap.js"></script>
+
+
+
+<!-- ==========================================
+     Existing Application Scripts
+========================================== -->
 
 
 <script src="student-data.js"></script>
 
-<script src="add-student.js"></script>
-
 <script src="custom-dropdown.js"></script>
+
+<script src="add-student.js"></script>
 
 
 
