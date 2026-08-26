@@ -1,6 +1,6 @@
 <!-- ==========================================
      ISM - Islamic School Management
-     Master Platform Header
+     Multilingual Master Platform Header
 ========================================== -->
 
 
@@ -8,7 +8,7 @@
 
 
     <!-- ======================================
-         Left Side
+         Left Section
     ======================================= -->
 
     <div class="header-left">
@@ -17,7 +17,8 @@
         <button
             id="menuToggle"
             type="button"
-            aria-label="Open Menu">
+            aria-label="Open Menu"
+            data-i18n-title="menu">
 
             ☰
 
@@ -35,7 +36,6 @@
                 class="platform-logo">
 
 
-
             <div class="brand-text">
 
 
@@ -44,7 +44,7 @@
                 </h3>
 
 
-                <small id="platformTagline">
+                <small id="platformFullName">
                     Islamic School Management
                 </small>
 
@@ -62,52 +62,77 @@
 
 
     <!-- ======================================
-         Right Side
+         Right Section
     ======================================= -->
 
     <div class="header-right">
 
 
-        <!-- Language -->
+        <!-- ==================================
+             Language Selector
+        =================================== -->
 
-        <select
-            id="languageSelector"
-            aria-label="Language">
-
-
-            <option value="bn">
-                বাংলা
-            </option>
+        <div class="language-control">
 
 
-            <option value="en">
-                English
-            </option>
+            <span
+                class="language-icon"
+                aria-hidden="true">
+
+                🌐
+
+            </span>
 
 
-            <option value="ar">
-                العربية
-            </option>
+            <select
+                id="languageSelector"
+                aria-label="Language">
 
 
-        </select>
+                <option value="bn">
+                    বাংলা
+                </option>
+
+
+                <option value="en">
+                    English
+                </option>
+
+
+                <option value="ar">
+                    العربية
+                </option>
+
+
+            </select>
+
+
+        </div>
 
 
 
 
 
-        <!-- Institution -->
+        <!-- ==================================
+             Institution
+        =================================== -->
 
         <div class="institution-display">
 
 
-            <small>
+            <small
+                data-i18n="institution">
+
                 Institution
+
             </small>
 
 
-            <strong id="institutionName">
+            <strong
+                id="institutionName">
+
                 -
+
             </strong>
 
 
@@ -117,12 +142,16 @@
 
 
 
-        <!-- Notification -->
+        <!-- ==================================
+             Notifications
+        =================================== -->
 
         <button
             type="button"
+            id="notificationBtn"
             class="notification-btn"
-            aria-label="Notifications">
+            aria-label="Notifications"
+            data-i18n-title="notifications">
 
             🔔
 
@@ -132,18 +161,26 @@
 
 
 
-        <!-- User -->
+        <!-- ==================================
+             Current User
+        =================================== -->
 
         <div class="profile">
 
 
-            <span id="userName">
+            <span
+                id="userName">
+
                 Admin
+
             </span>
 
 
-            <small id="userRole">
+            <small
+                id="userRole">
+
                 Administrator
+
             </small>
 
 
@@ -153,14 +190,25 @@
 
 
 
-        <!-- Logout -->
+        <!-- ==================================
+             Logout
+        =================================== -->
 
         <button
             type="button"
             id="logoutBtn"
             class="logout-btn">
 
-            🚪 Logout
+
+            🚪
+
+            <span
+                data-i18n="logout">
+
+                Logout
+
+            </span>
+
 
         </button>
 
@@ -177,7 +225,7 @@
 <script>
 
 /* ==========================================
-   ISM Dynamic Header
+   ISM Header Controller
 ========================================== */
 
 (function () {
@@ -186,13 +234,20 @@
 
 
     // ======================================
-    // Platform Configuration
+    // Platform Identity
     // ======================================
 
-    if (
-        window.APP_CONFIG &&
-        APP_CONFIG.platform
-    ) {
+    function loadPlatform() {
+
+        if (
+            !window.APP_CONFIG ||
+            !APP_CONFIG.platform
+        ) {
+
+            return;
+
+        }
+
 
         const platformName =
             document.getElementById(
@@ -200,28 +255,32 @@
             );
 
 
-        const platformTagline =
+        const platformFullName =
             document.getElementById(
-                "platformTagline"
+                "platformFullName"
             );
 
 
         if (platformName) {
 
-            platformName.innerText =
+            platformName.textContent =
                 APP_CONFIG
                     .platform
-                    .name;
+                    .name
+                    ||
+                    "ISM";
 
         }
 
 
-        if (platformTagline) {
+        if (platformFullName) {
 
-            platformTagline.innerText =
+            platformFullName.textContent =
                 APP_CONFIG
                     .platform
-                    .fullName;
+                    .fullName
+                    ||
+                    "Islamic School Management";
 
         }
 
@@ -235,10 +294,7 @@
     // Platform Logo
     // ======================================
 
-    if (
-        window.APP_CONFIG &&
-        APP_CONFIG.branding
-    ) {
+    function loadPlatformLogo() {
 
         const logo =
             document.getElementById(
@@ -247,19 +303,36 @@
 
 
         if (
-            logo &&
-            APP_CONFIG
-                .branding
-                .logo
+            !logo ||
+            !window.APP_CONFIG ||
+            !APP_CONFIG.branding
         ) {
 
-            logo.src =
-                "../" +
-                APP_CONFIG
-                    .branding
-                    .logo;
+            return;
 
         }
+
+
+        const logoPath =
+            APP_CONFIG
+                .branding
+                .logo;
+
+
+        if (!logoPath) {
+
+            return;
+
+        }
+
+
+        /*
+         * components/header.html
+         * থেকে root assets-এ যাওয়ার path.
+         */
+
+        logo.src =
+            "../" + logoPath;
 
     }
 
@@ -272,7 +345,6 @@
     // ======================================
 
     function loadInstitution() {
-
 
         if (
             typeof window.getInstitution !==
@@ -299,7 +371,7 @@
             institution
         ) {
 
-            institutionName.innerText =
+            institutionName.textContent =
                 institution.name
                 ||
                 "-";
@@ -316,8 +388,7 @@
     // Current User
     // ======================================
 
-    function loadUser() {
-
+    function loadCurrentUser() {
 
         let user = null;
 
@@ -354,7 +425,7 @@
 
         if (userName) {
 
-            userName.innerText =
+            userName.textContent =
                 user.name
                 ||
                 user.username
@@ -366,7 +437,7 @@
 
         if (userRole) {
 
-            userRole.innerText =
+            userRole.textContent =
                 user.role
                 ||
                 "User";
@@ -383,29 +454,39 @@
     // Language
     // ======================================
 
-    const languageSelector =
-        document.getElementById(
-            "languageSelector"
-        );
+    function setupLanguageSelector() {
+
+        const selector =
+            document.getElementById(
+                "languageSelector"
+            );
 
 
-    if (
-        languageSelector &&
-        typeof window.getCurrentLanguage ===
-        "function"
-    ) {
+        if (!selector) {
 
-        languageSelector.value =
-            window.getCurrentLanguage();
+            return;
 
-    }
+        }
 
 
-    if (languageSelector) {
+        if (
+            typeof window.getCurrentLanguage ===
+            "function"
+        ) {
 
-        languageSelector.addEventListener(
+            selector.value =
+                window.getCurrentLanguage();
+
+        }
+
+
+        selector.addEventListener(
             "change",
             function () {
+
+                const language =
+                    selector.value;
+
 
                 if (
                     typeof window.changeLanguage ===
@@ -413,7 +494,7 @@
                 ) {
 
                     window.changeLanguage(
-                        languageSelector.value
+                        language
                     );
 
                 }
@@ -428,16 +509,64 @@
 
 
     // ======================================
+    // Language-ready refresh
+    // ======================================
+
+    document.addEventListener(
+        "ismLanguageReady",
+        function () {
+
+            if (
+                typeof window.translatePage ===
+                "function"
+            ) {
+
+                window.translatePage();
+
+            }
+
+        }
+    );
+
+
+    document.addEventListener(
+        "ismLanguageChanged",
+        function () {
+
+            if (
+                typeof window.translatePage ===
+                "function"
+            ) {
+
+                window.translatePage();
+
+            }
+
+        }
+    );
+
+
+
+
+
+    // ======================================
     // Logout
     // ======================================
 
-    const logoutBtn =
-        document.getElementById(
-            "logoutBtn"
-        );
+    function setupLogout() {
+
+        const logoutBtn =
+            document.getElementById(
+                "logoutBtn"
+            );
 
 
-    if (logoutBtn) {
+        if (!logoutBtn) {
+
+            return;
+
+        }
+
 
         logoutBtn.addEventListener(
             "click",
@@ -481,9 +610,38 @@
     // Initialize
     // ======================================
 
-    loadInstitution();
+    function initializeHeader() {
 
-    loadUser();
+        loadPlatform();
+
+        loadPlatformLogo();
+
+        loadInstitution();
+
+        loadCurrentUser();
+
+        setupLanguageSelector();
+
+        setupLogout();
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeHeader
+        );
+
+    } else {
+
+        initializeHeader();
+
+    }
 
 
 })();
