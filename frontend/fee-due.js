@@ -1,551 +1,837 @@
 // ==========================================
 // Darul Quran Ahmadia Madrasah
 // Smart ERP Fee Due Management
-// fee-due.js FINAL VERSION
+// Core-Compatible Final Version
 // ==========================================
 
+(function () {
 
-// ===============================
-// Database
-// ===============================
+    "use strict";
 
-function getStudents(){
 
-    return JSON.parse(
-        localStorage.getItem("students")
-    ) || [];
+    // ======================================
+    // Monthly Fee
+    // ======================================
 
-}
+    const monthlyFee = {
 
+        "শিশু শ্রেণী": 500,
 
+        "প্রথম শ্রেণী": 600,
 
-function getFees(){
+        "দ্বিতীয় শ্রেণি": 600,
 
-    return JSON.parse(
-        localStorage.getItem("fees")
-    ) || [];
+        "তৃতীয় শ্রেণী": 600,
 
-}
+        "চতুর্থ শ্রেণী": 600,
 
+        "পঞ্চম শ্রেণী": 700,
 
+        "ষষ্ঠ শ্রেণি": 800,
 
+        "Class 1": 600,
 
+        "Class 2": 600,
 
-// ===============================
-// Monthly Fee Setup
-// ===============================
+        "Class 3": 600,
 
-const monthlyFee = {
+        "Class 4": 600,
 
+        "Class 5": 700,
 
-    "শিশু শ্রেণী":500,
+        "Class 6": 800
 
-    "প্রথম শ্রেণী":600,
+    };
 
-    "দ্বিতীয় শ্রেণি":600,
 
-    "তৃতীয় শ্রেণী":600,
+    // ======================================
+    // Other Fee Default Setup
+    // ======================================
 
-    "চতুর্থ শ্রেণি":600,
+    const otherFeeSetup = {
 
-    "পঞ্চম শ্রেণী":700,
+        "Admission Fee": 1000,
 
-    "ষষ্ঠ শ্রেণি":800,
+        "Exam Fee": 500,
 
+        "ID Card Fee": 200,
 
-    "Class 1":600,
+        "Book Fee": 500,
 
-    "Class 2":600,
+        "Uniform Fee": 800,
 
-    "Class 3":600,
+        "Tour Fee": 1000,
 
-    "Class 4":600,
+        "Certificate Fee": 500,
 
-    "Class 5":700,
+        "Other Fee": 0
 
-    "Class 6":800
+    };
 
 
-};
+    // ======================================
+    // Students
+    // ======================================
 
+    function getStudents() {
 
+        try {
 
+            if (
+                typeof window.getRecords ===
+                "function"
+            ) {
 
+                const records =
+                    window.getRecords(
+                        "students"
+                    );
 
+                if (
+                    Array.isArray(records)
+                ) {
 
-// ===============================
-// Other Fee Setup
-// ===============================
+                    return records;
 
+                }
 
-const otherFeeSetup = {
+            }
 
+        } catch (error) {
 
-    "Admission Fee":1000,
+            console.error(
+                "Student database error:",
+                error
+            );
 
-    "Exam Fee":500,
+        }
 
-    "ID Card Fee":200,
 
-    "Book Fee":500,
+        try {
 
-    "Uniform Fee":800,
+            return JSON.parse(
+                localStorage.getItem(
+                    "students"
+                )
+            ) || [];
 
-    "Tour Fee":1000,
+        } catch (error) {
 
-    "Certificate Fee":500,
+            return [];
 
-    "Other Fee":0
+        }
 
+    }
 
-};
 
+    // ======================================
+    // Fees
+    // ======================================
 
+    function getFees() {
 
+        try {
 
+            if (
+                typeof window.getRecords ===
+                "function"
+            ) {
 
+                const records =
+                    window.getRecords(
+                        "fees"
+                    );
 
+                if (
+                    Array.isArray(records)
+                ) {
 
+                    return records;
 
-// ===============================
-// Month Count
-// ===============================
+                }
 
+            }
 
-function monthDifference(startDate,endDate){
+        } catch (error) {
 
+            console.error(
+                "Fee database error:",
+                error
+            );
 
-    return (
+        }
 
-        (endDate.getFullYear()
-        -
-        startDate.getFullYear()) * 12
 
-        +
+        try {
 
-        (endDate.getMonth()
-        -
-        startDate.getMonth())
+            return JSON.parse(
+                localStorage.getItem(
+                    "fees"
+                )
+            ) || [];
 
-        +
+        } catch (error) {
 
-        1
+            return [];
 
-    );
+        }
 
+    }
 
-}
 
+    // ======================================
+    // Institution
+    // ======================================
 
+    function getInstitutionIdSafe() {
 
+        try {
 
+            if (
+                typeof window.getInstitutionId ===
+                "function"
+            ) {
 
+                return (
+                    window.getInstitutionId()
+                    ||
+                    "DQ001"
+                );
 
+            }
 
+        } catch (error) {
 
-// ===============================
-// Load Due Report
-// ===============================
+            console.error(
+                "Institution error:",
+                error
+            );
 
+        }
 
-function loadDue(){
 
+        return "DQ001";
+    }
 
 
-let students =
-getStudents();
+    // ======================================
+    // Month Difference
+    // ======================================
 
+    function monthDifference(
+        startDate,
+        endDate
+    ) {
 
+        return (
 
-let fees =
-getFees();
+            (
+                endDate.getFullYear()
+                -
+                startDate.getFullYear()
+            )
+            * 12
 
+            +
 
+            (
+                endDate.getMonth()
+                -
+                startDate.getMonth()
+            )
 
-let filter =
-document.getElementById("feeFilter").value;
+            +
 
+            1
 
+        );
 
+    }
 
-let table =
-document.getElementById("dueTable");
 
+    // ======================================
+    // Load Due
+    // ======================================
 
+    function loadDue() {
 
-table.innerHTML="";
+        const students =
+            getStudents();
 
 
+        const fees =
+            getFees();
 
-let totalDue = 0;
 
+        const institutionId =
+            getInstitutionIdSafe();
 
 
+        const filterElement =
+            document.getElementById(
+                "feeFilter"
+            );
 
 
-students.forEach(student=>{
+        const table =
+            document.getElementById(
+                "dueTable"
+            );
 
 
+        const totalElement =
+            document.getElementById(
+                "totalDue"
+            );
 
-let studentFees =
 
-fees.filter(
+        if (
+            !filterElement
+            ||
+            !table
+            ||
+            !totalElement
+        ) {
 
-fee =>
+            return;
 
-fee.studentCode === student.studentCode
+        }
 
-);
 
+        const filter =
+            filterElement.value;
 
 
+        table.innerHTML =
+            "";
 
 
-// ===============================
-// Monthly Fee Calculation
-// ===============================
+        let totalDue =
+            0;
 
 
+        students.forEach(
+            function (student) {
 
-let monthlyPaid = 0;
 
+                // --------------------------------
+                // Institution Isolation
+                // --------------------------------
 
+                if (
+                    student.institutionId
+                    &&
+                    student.institutionId
+                    !==
+                    institutionId
+                ) {
 
-studentFees.forEach(fee=>{
+                    return;
 
+                }
 
-if(
-fee.feeType === "Monthly Fee"
-){
 
+                const studentFees =
+                    fees.filter(
+                        function (fee) {
 
-monthlyPaid += Number(
-fee.amount
-);
+                            return (
 
+                                fee.studentCode
+                                ===
+                                student.studentCode
 
-}
+                                &&
 
+                                (
+                                    !fee.institutionId
 
+                                    ||
 
-});
+                                    fee.institutionId
+                                    ===
+                                    institutionId
+                                )
 
+                            );
 
+                        }
+                    );
 
 
+                // =================================
+                // Monthly Fee
+                // =================================
 
+                if (
+                    filter === "All"
+                    ||
+                    filter ===
+                    "Monthly Fee"
+                ) {
 
-if(
-student.admissionDate
-&&
-(filter==="All" ||
-filter==="Monthly Fee")
-){
 
+                    let monthlyPaid = 0;
 
 
-let startDate =
-new Date(
-student.admissionDate
-);
+                    studentFees.forEach(
+                        function (fee) {
 
+                            if (
+                                fee.feeType
+                                ===
+                                "Monthly Fee"
+                            ) {
 
+                                monthlyPaid +=
+                                    Number(
+                                        fee.amount
+                                    )
+                                    ||
+                                    0;
 
-let today =
-new Date();
+                            }
 
+                        }
+                    );
 
 
-let totalMonth =
+                    let monthlyDue = 0;
 
-monthDifference(
-startDate,
-today
-);
 
+                    if (
+                        student.admissionDate
+                    ) {
 
+                        const startDate =
+                            new Date(
+                                student.admissionDate
+                            );
 
 
-let classFee =
+                        const today =
+                            new Date();
 
-monthlyFee[
-student.admissionClass
-]
-||
-0;
 
+                        let months =
+                            monthDifference(
+                                startDate,
+                                today
+                            );
 
 
+                        if (
+                            months < 0
+                        ) {
 
+                            months = 0;
 
-let monthlyExpected =
+                        }
 
-totalMonth *
-classFee;
 
+                        const classFee =
+                            monthlyFee[
+                                student.admissionClass
+                            ]
+                            ||
+                            0;
 
 
+                        const expected =
+                            months *
+                            classFee;
 
 
-let monthlyDue =
+                        monthlyDue =
+                            expected
+                            -
+                            monthlyPaid;
 
-monthlyExpected
--
-monthlyPaid;
 
+                        if (
+                            monthlyDue < 0
+                        ) {
 
+                            monthlyDue = 0;
 
+                        }
 
-if(monthlyDue < 0){
 
-monthlyDue = 0;
+                        if (
+                            monthlyDue > 0
+                        ) {
 
-}
+                            addRow(
 
+                                table,
 
+                                student,
 
+                                "Monthly Fee",
 
+                                monthlyPaid,
 
+                                expected,
 
-if(monthlyDue > 0){
+                                monthlyDue
 
+                            );
 
 
-let row =
-document.createElement("tr");
+                            totalDue +=
+                                monthlyDue;
 
+                        }
 
+                    }
 
-row.innerHTML =
+                }
 
-`
-<td>
-${student.name || "-"}
-</td>
 
-<td>
-${student.admissionClass || "-"}
-</td>
+                // =================================
+                // Other Fees
+                // =================================
 
-<td>
-Monthly Fee
-</td>
+                Object.keys(
+                    otherFeeSetup
+                )
+                .forEach(
+                    function (feeType) {
 
-<td>
-৳ ${monthlyPaid}
-</td>
 
-<td>
-৳ ${monthlyDue}
-</td>
-`;
+                        if (
+                            filter !== "All"
+                            &&
+                            filter !== feeType
+                        ) {
 
+                            return;
 
+                        }
 
-table.appendChild(row);
 
+                        const paid =
+                            studentFees
+                                .filter(
+                                    function (fee) {
 
+                                        return (
+                                            fee.feeType
+                                            ===
+                                            feeType
+                                        );
 
-totalDue += monthlyDue;
+                                    }
+                                )
+                                .reduce(
+                                    function (
+                                        sum,
+                                        fee
+                                    ) {
 
+                                        return (
+                                            sum
+                                            +
+                                            (
+                                                Number(
+                                                    fee.amount
+                                                )
+                                                ||
+                                                0
+                                            )
+                                        );
 
-}
+                                    },
+                                    0
+                                );
 
 
+                        /*
+                         * IMPORTANT:
+                         *
+                         * Other fees are NOT automatically
+                         * due for every student.
+                         *
+                         * They become due when an explicit
+                         * obligation record exists.
+                         *
+                         * Supported fields:
+                         *   expectedAmount
+                         *   feeDueAmount
+                         *   dueAmount
+                         *
+                         * This prevents every student from
+                         * being incorrectly shown as owing
+                         * every optional fee.
+                         */
 
-}
 
+                        const obligation =
+                            studentFees
+                                .filter(
+                                    function (fee) {
 
+                                        return (
+                                            fee.feeType
+                                            ===
+                                            feeType
 
+                                            &&
 
+                                            (
+                                                fee.expectedAmount
+                                                !==
+                                                undefined
 
+                                                ||
 
+                                                fee.feeDueAmount
+                                                !==
+                                                undefined
 
-// ===============================
-// Other Fee Calculation
-// ===============================
+                                                ||
 
+                                                fee.dueAmount
+                                                !==
+                                                undefined
+                                            )
+                                        );
 
-let paidOther = {};
+                                    }
+                                );
 
 
+                        let expected =
+                            0;
 
 
+                        if (
+                            obligation.length > 0
+                        ) {
 
-studentFees.forEach(fee=>{
+                            expected =
+                                obligation
+                                    .reduce(
+                                        function (
+                                            sum,
+                                            fee
+                                        ) {
 
+                                            return (
+                                                sum
+                                                +
+                                                Number(
+                                                    fee.expectedAmount
+                                                    ??
+                                                    fee.feeDueAmount
+                                                    ??
+                                                    fee.dueAmount
+                                                    ??
+                                                    0
+                                                )
+                                            );
 
+                                        },
+                                        0
+                                    );
 
-if(
-fee.feeType !== "Monthly Fee"
-){
+                        }
 
 
-if(!paidOther[fee.feeType]){
+                        if (
+                            expected <= 0
+                        ) {
 
+                            return;
 
-paidOther[fee.feeType]=0;
+                        }
 
 
-}
+                        const due =
+                            Math.max(
+                                0,
+                                expected - paid
+                            );
 
 
+                        if (
+                            due > 0
+                        ) {
 
-paidOther[fee.feeType]
+                            addRow(
 
-+=
+                                table,
 
-Number(fee.amount);
+                                student,
 
+                                feeType,
 
+                                paid,
 
-}
+                                expected,
 
+                                due
 
+                            );
 
-});
-    
-    // ===============================
-// Other Fee Due Continue
-// ===============================
 
+                            totalDue +=
+                                due;
 
-Object.keys(otherFeeSetup).forEach(type=>{
+                        }
 
+                    }
+                );
 
+            }
+        );
 
-if(
-filter !== "All"
-&&
-filter !== type
-){
 
-return;
+        totalElement.innerText =
+            totalDue.toLocaleString(
+                "en-BD"
+            );
 
-}
+    }
 
 
+    // ======================================
+    // Add Table Row
+    // ======================================
 
+    function addRow(
+        table,
+        student,
+        feeType,
+        paid,
+        expected,
+        due
+    ) {
 
-let expected =
+        const row =
+            document.createElement(
+                "tr"
+            );
 
-otherFeeSetup[type];
 
+        row.innerHTML = `
 
+            <td>
+                ${escapeHTML(
+                    student.name || "-"
+                )}
+            </td>
 
+            <td>
+                ${escapeHTML(
+                    student.admissionClass || "-"
+                )}
+            </td>
 
-let paid =
+            <td>
+                ${escapeHTML(
+                    feeType
+                )}
+            </td>
 
-paidOther[type] || 0;
+            <td>
+                ৳ ${Number(
+                    paid
+                ).toLocaleString(
+                    "en-BD"
+                )}
+            </td>
 
+            <td>
+                ৳ ${Number(
+                    expected
+                ).toLocaleString(
+                    "en-BD"
+                )}
+            </td>
 
+            <td>
+                ৳ ${Number(
+                    due
+                ).toLocaleString(
+                    "en-BD"
+                )}
+            </td>
 
+        `;
 
-let due =
 
-expected - paid;
+        table.appendChild(
+            row
+        );
 
+    }
 
 
-if(due < 0){
+    // ======================================
+    // HTML Escape
+    // ======================================
 
-due = 0;
+    function escapeHTML(value) {
 
-}
+        return String(
+            value === undefined
+            ||
+            value === null
+                ? ""
+                : value
+        )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
 
+    }
 
 
+    // ======================================
+    // Global
+    // ======================================
 
+    window.loadDue =
+        loadDue;
 
-if(due > 0){
 
+    // ======================================
+    // Start
+    // ======================================
 
+    if (
+        document.readyState ===
+        "loading"
+    ) {
 
-let row =
-document.createElement("tr");
+        document.addEventListener(
+            "DOMContentLoaded",
+            loadDue
+        );
 
+    } else {
 
+        loadDue();
 
-row.innerHTML =
+    }
 
-`
-<td>
-${student.name || "-"}
-</td>
 
-<td>
-${student.admissionClass || "-"}
-</td>
-
-<td>
-${type}
-</td>
-
-<td>
-৳ ${paid}
-</td>
-
-<td>
-৳ ${due}
-</td>
-`;
-
-
-
-table.appendChild(row);
-
-
-
-totalDue += due;
-
-
-
-}
-
-
-
-});
-
-
-
-});
-
-
-
-
-
-
-
-document.getElementById("totalDue")
-.innerText =
-totalDue;
-
-
-
-}
-
-
-
-
-
-
-
-
-// ===============================
-// Auto Load
-// ===============================
-
-
-document.addEventListener(
-
-"DOMContentLoaded",
-
-function(){
-
-
-loadDue();
-
-
-}
-
-);
+})();
