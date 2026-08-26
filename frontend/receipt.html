@@ -10,7 +10,7 @@
 
 
 <title>
-Money Receipt - Darul Quran Ahmadia Madrasah
+Money Receipt - Darul Quran Smart ERP
 </title>
 
 
@@ -19,49 +19,27 @@ Money Receipt - Darul Quran Ahmadia Madrasah
 
 <style>
 
+@media print {
 
-@media print{
+    body {
+        margin: 0;
+        padding: 0;
+    }
 
+    button {
+        display: none !important;
+    }
 
-body{
+    .print-area {
+        width: 100%;
+    }
 
-margin:0;
-
-padding:0;
-
-}
-
-
-
-button{
-
-display:none;
-
-}
-
-
-
-.print-area{
-
-width:100%;
+    .receipt-box {
+        width: 80mm;
+        margin: auto;
+    }
 
 }
-
-
-
-.receipt-box{
-
-width:80mm;
-
-margin:auto;
-
-}
-
-
-
-}
-
-
 
 </style>
 
@@ -88,9 +66,7 @@ margin:auto;
 
 
 <div class="logo">
-
 🕌
-
 </div>
 
 
@@ -364,7 +340,6 @@ Receipt Barcode
 
 
 <div id="barcode">
-
 </div>
 
 
@@ -439,7 +414,9 @@ Authorized Signature
 
 
 
-<button onclick="window.print()">
+<button
+type="button"
+onclick="window.print()">
 
 🖨 Print Receipt
 
@@ -461,6 +438,27 @@ Authorized Signature
 
 
 
+
+<!-- Core -->
+
+<script src="../config/app-config.js"></script>
+
+<script src="../config/language-config.js"></script>
+
+<script src="../config/permission-config.js"></script>
+
+<script src="../core/institute.js"></script>
+
+<script src="../core/session.js"></script>
+
+<script src="../core/auth.js"></script>
+
+<script src="../core/database-manager.js"></script>
+
+<script src="../core/bootstrap.js"></script>
+
+
+<!-- Receipt -->
 
 <script src="receipt.js"></script>
 
