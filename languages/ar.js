@@ -9,7 +9,17 @@ const ISM_AR = {
 
     students: "الطلاب",
 
+    studentProfile: "ملف الطالب",
+
     admission: "القبول",
+
+    academic: "الأكاديمية",
+
+    classManagement: "إدارة الصفوف",
+
+    subjectManagement: "إدارة المواد",
+
+    routine: "الجدول الدراسي",
 
     fee: "تحصيل الرسوم",
 
@@ -27,11 +37,11 @@ const ISM_AR = {
 
     teachers: "المعلمون",
 
+    payroll: "الرواتب",
+
     finance: "الإدارة المالية",
 
     reports: "التقارير",
-
-    settings: "الإعدادات",
 
     library: "المكتبة",
 
@@ -39,19 +49,25 @@ const ISM_AR = {
 
     hostel: "الإقامة الداخلية",
 
-    payroll: "الرواتب",
+    discipline: "الانضباط والسلوك",
 
     guardianPortal: "بوابة أولياء الأمور",
 
+    services: "خدمات الطلاب",
+
     notifications: "الإشعارات",
 
-    logout: "تسجيل الخروج",
+    auditLog: "سجل التدقيق",
+
+    settings: "الإعدادات",
 
     language: "اللغة",
 
     institution: "المؤسسة",
 
     admin: "المسؤول",
+
+    logout: "تسجيل الخروج",
 
     studentName: "اسم الطالب",
 
