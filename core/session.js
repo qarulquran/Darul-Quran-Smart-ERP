@@ -1,119 +1,345 @@
 // ==========================================
 // Darul Quran Smart ERP
-// Session Management System
+// Unified Session Management
 // ==========================================
 
+(function () {
 
-const SESSION_KEY = "ERP_SESSION";
-
-
-
-function createSession(user){
+    "use strict";
 
 
-    let session = {
+    // ======================================
+    // Session Configuration
+    // ======================================
+
+    const SESSION_KEY = "ERP_SESSION";
+
+    const SESSION_TIMEOUT =
+        24 * 60 * 60 * 1000; // 24 Hours
 
 
-        userId: user.id || null,
+    // ======================================
+    // Read Session
+    // ======================================
 
-        username: user.username,
+    function getSession() {
 
-        role: user.role,
-
-        instituteId: user.instituteId || null,
-
-        loginTime: new Date().toISOString()
-
-
-    };
+        const data =
+            localStorage.getItem(
+                SESSION_KEY
+            );
 
 
-    localStorage.setItem(
-
-        SESSION_KEY,
-
-        JSON.stringify(session)
-
-    );
+        if (!data) {
+            return null;
+        }
 
 
-    return session;
+        try {
 
-}
-
-
-
+            const session =
+                JSON.parse(data);
 
 
-function getSession(){
+            // --------------------------------
+            // Validate Login Time
+            // --------------------------------
+
+            if (session.loginTime) {
+
+                const loginTime =
+                    new Date(
+                        session.loginTime
+                    ).getTime();
 
 
-    return JSON.parse(
+                const now =
+                    Date.now();
 
-        localStorage.getItem(
 
+                if (
+                    now - loginTime
+                    >
+                    SESSION_TIMEOUT
+                ) {
+
+                    destroySession();
+
+                    return null;
+                }
+            }
+
+
+            return session;
+
+        } catch (error) {
+
+            console.error(
+                "Session data error:",
+                error
+            );
+
+
+            destroySession();
+
+
+            return null;
+        }
+    }
+
+
+    // ======================================
+    // Save Session
+    // ======================================
+
+    function saveSession(session) {
+
+        if (!session) {
+            return false;
+        }
+
+
+        localStorage.setItem(
+            SESSION_KEY,
+            JSON.stringify(session)
+        );
+
+
+        return true;
+    }
+
+
+    // ======================================
+    // Create Session
+    // ======================================
+
+    function createSession(user) {
+
+        if (!user) {
+            return null;
+        }
+
+
+        const session = {
+
+            userId:
+                user.id || null,
+
+            username:
+                user.username || "",
+
+            name:
+                user.name || "",
+
+            role:
+                user.role || "STUDENT",
+
+            institutionId:
+                user.institutionId ||
+                user.instituteId ||
+                "DQ001",
+
+            language:
+                user.language ||
+                localStorage.getItem(
+                    "erp_language"
+                ) ||
+                "bn",
+
+            loginTime:
+                new Date().toISOString()
+
+        };
+
+
+        saveSession(session);
+
+
+        return session;
+    }
+
+
+    // ======================================
+    // Destroy Session
+    // ======================================
+
+    function destroySession() {
+
+        localStorage.removeItem(
             SESSION_KEY
-
-        )
-
-    );
+        );
 
 
-}
+        localStorage.removeItem(
+            "currentUser"
+        );
+
+    }
 
 
+    // ======================================
+    // Check Session
+    // ======================================
+
+    function checkSession() {
+
+        return getSession() !== null;
+    }
 
 
+    // ======================================
+    // Current User
+    // ======================================
 
-function destroySession(){
+    function getSessionUser() {
 
-
-    localStorage.removeItem(
-
-        SESSION_KEY
-
-    );
-
-
-}
+        const session =
+            getSession();
 
 
+        if (!session) {
+            return null;
+        }
 
 
+        return {
 
-function checkSession(){
+            id:
+                session.userId,
 
+            username:
+                session.username,
 
-    return getSession() !== null;
+            name:
+                session.name,
 
+            role:
+                session.role,
 
-}
+            institutionId:
+                session.institutionId,
 
+            language:
+                session.language
 
-
-
-
-function getUserRole(){
-
-
-    let session = getSession();
-
-
-    return session ? session.role : null;
-
-
-}
-
+        };
+    }
 
 
+    // ======================================
+    // Current Role
+    // ======================================
+
+    function getSessionRole() {
+
+        const session =
+            getSession();
 
 
-window.createSession = createSession;
+        return session
+            ? session.role
+            : null;
+    }
 
-window.getSession = getSession;
 
-window.destroySession = destroySession;
+    // ======================================
+    // Current Institution
+    // ======================================
 
-window.checkSession = checkSession;
+    function getSessionInstitution() {
 
-window.getUserRole = getUserRole;
+        const session =
+            getSession();
+
+
+        return session
+            ? session.institutionId
+            : null;
+    }
+
+
+    // ======================================
+    // Refresh Session Time
+    // ======================================
+
+    function refreshSession() {
+
+        const session =
+            getSession();
+
+
+        if (!session) {
+            return false;
+        }
+
+
+        session.loginTime =
+            new Date().toISOString();
+
+
+        return saveSession(
+            session
+        );
+    }
+
+
+    // ======================================
+    // Require Active Session
+    // ======================================
+
+    function requireSession(
+        redirectPage = "index.html"
+    ) {
+
+        if (!checkSession()) {
+
+            window.location.href =
+                redirectPage;
+
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    // ======================================
+    // Global Access
+    // ======================================
+
+    window.SESSION_KEY =
+        SESSION_KEY;
+
+    window.getSession =
+        getSession;
+
+    window.saveSession =
+        saveSession;
+
+    window.createSession =
+        createSession;
+
+    window.destroySession =
+        destroySession;
+
+    window.checkSession =
+        checkSession;
+
+    window.getSessionUser =
+        getSessionUser;
+
+    window.getSessionRole =
+        getSessionRole;
+
+    window.getSessionInstitution =
+        getSessionInstitution;
+
+    window.refreshSession =
+        refreshSession;
+
+    window.requireSession =
+        requireSession;
+
+
+})();
