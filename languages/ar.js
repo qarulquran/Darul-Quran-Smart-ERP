@@ -1,0 +1,115 @@
+// ==========================================
+// ISM - Islamic School Management
+// Arabic Translation Resource
+// ==========================================
+
+const ISM_AR = {
+
+    dashboard: "لوحة التحكم",
+
+    students: "الطلاب",
+
+    admission: "القبول",
+
+    fee: "تحصيل الرسوم",
+
+    feeDue: "الرسوم المستحقة",
+
+    feeHistory: "سجل الرسوم",
+
+    attendance: "الحضور",
+
+    result: "النتائج",
+
+    certificate: "الشهادة",
+
+    idCard: "بطاقة الهوية",
+
+    teachers: "المعلمون",
+
+    finance: "الإدارة المالية",
+
+    reports: "التقارير",
+
+    settings: "الإعدادات",
+
+    library: "المكتبة",
+
+    inventory: "المخزون",
+
+    hostel: "الإقامة الداخلية",
+
+    payroll: "الرواتب",
+
+    guardianPortal: "بوابة أولياء الأمور",
+
+    notifications: "الإشعارات",
+
+    logout: "تسجيل الخروج",
+
+    language: "اللغة",
+
+    institution: "المؤسسة",
+
+    admin: "المسؤول",
+
+    studentName: "اسم الطالب",
+
+    fatherName: "اسم الأب",
+
+    motherName: "اسم الأم",
+
+    className: "الصف",
+
+    studentCode: "رمز الطالب",
+
+    mobile: "رقم الهاتف",
+
+    admissionDate: "تاريخ القبول",
+
+    payment: "الدفع",
+
+    receipt: "الإيصال",
+
+    totalDue: "إجمالي المستحق",
+
+    monthlyDue: "المستحق الشهري",
+
+    otherDue: "الرسوم الأخرى المستحقة",
+
+    save: "حفظ",
+
+    search: "بحث",
+
+    edit: "تعديل",
+
+    delete: "حذف",
+
+    view: "عرض",
+
+    print: "طباعة",
+
+    close: "إغلاق",
+
+    cancel: "إلغاء",
+
+    confirm: "تأكيد",
+
+    certificateNo: "رقم الشهادة",
+
+    issueDate: "تاريخ الإصدار",
+
+    valid: "صالح",
+
+    pending: "قيد الانتظار",
+
+    paid: "مدفوع",
+
+    due: "مستحق",
+
+    noData: "لا توجد بيانات"
+
+};
+
+
+window.ISM_AR = ISM_AR;
