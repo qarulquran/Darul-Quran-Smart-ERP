@@ -1,609 +1,663 @@
 // ==========================================
-// Darul Quran ERP
+// Darul Quran Smart ERP
 // Edit Student System
-// Part 1/2
+// Core-Compatible Final Version
 // ==========================================
 
+(function () {
+
+    "use strict";
 
 
-// ===============================
-// Get Students
-// ===============================
+    const LEGACY_KEY = "students";
 
 
-function getStudents(){
+    // ==========================================
+    // Institution
+    // ==========================================
+
+    function getSafeInstitution() {
+
+        try {
+
+            if (
+                typeof window.getInstitution ===
+                "function"
+            ) {
+
+                return (
+                    window.getInstitution()
+                    ||
+                    {
+                        id: "DQ001",
+                        code: "DQ"
+                    }
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Institution error:",
+                error
+            );
+
+        }
 
 
-    return JSON.parse(
+        return {
+            id: "DQ001",
+            code: "DQ"
+        };
 
-        localStorage.getItem("students")
-
-    ) || [];
-
-
-}
+    }
 
 
+    // ==========================================
+    // Read Legacy Students
+    // ==========================================
+
+    function getLegacyStudents() {
+
+        const data =
+            localStorage.getItem(
+                LEGACY_KEY
+            );
 
 
+        if (!data) {
+            return [];
+        }
 
 
+        try {
 
-// ===============================
-// Selected Student Code
-// ===============================
+            const students =
+                JSON.parse(data);
 
+            return Array.isArray(students)
+                ? students
+                : [];
 
-let oldStudentCode =
+        } catch (error) {
 
-localStorage.getItem(
+            console.error(
+                "Student data error:",
+                error
+            );
 
-"editStudent"
+            return [];
 
-);
+        }
 
-
-
-
-
-
-
-// ===============================
-// Load Students
-// ===============================
+    }
 
 
-let students = getStudents();
+    // ==========================================
+    // Core Students
+    // ==========================================
+
+    function getCoreStudents() {
+
+        try {
+
+            if (
+                typeof window.getRecords ===
+                "function"
+            ) {
+
+                const records =
+                    window.getRecords(
+                        "students"
+                    );
+
+                return Array.isArray(records)
+                    ? records
+                    : [];
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Core database error:",
+                error
+            );
+
+        }
+
+        return [];
+
+    }
 
 
+    function saveCoreStudents(
+        students
+    ) {
+
+        try {
+
+            if (
+                typeof window.saveRecords ===
+                "function"
+            ) {
+
+                window.saveRecords(
+                    "students",
+                    students
+                );
+
+                return true;
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Core save error:",
+                error
+            );
+
+        }
+
+        return false;
+
+    }
 
 
+    function saveLegacyStudents(
+        students
+    ) {
 
-let student = students.find(function(item){
+        localStorage.setItem(
+
+            LEGACY_KEY,
+
+            JSON.stringify(
+                students
+            )
+
+        );
+
+    }
 
 
-    return (
+    // ==========================================
+    // Get All Students
+    // ==========================================
 
-        item.studentCode === oldStudentCode
+    function getStudents() {
 
+        const coreStudents =
+            getCoreStudents();
+
+
+        if (
+            coreStudents.length > 0
+        ) {
+
+            return coreStudents;
+
+        }
+
+
+        return getLegacyStudents();
+
+    }
+
+
+    // ==========================================
+    // Selected Student
+    // ==========================================
+
+    const oldStudentCode =
+
+        localStorage.getItem(
+            "editStudent"
+        );
+
+
+    if (!oldStudentCode) {
+
+        alert(
+            "No student selected."
+        );
+
+        window.location.href =
+            "students.html";
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // Find Student
+    // ==========================================
+
+    let students =
+        getStudents();
+
+
+    let student =
+        students.find(
+            function (item) {
+
+                return (
+
+                    String(
+                        item.studentCode
+                        || ""
+                    )
+                    ===
+                    String(
+                        oldStudentCode
+                    )
+
+                );
+
+            }
+        );
+
+
+    if (!student) {
+
+        alert(
+            "Student Not Found"
+        );
+
+        window.location.href =
+            "students.html";
+
+        return;
+
+    }
+
+
+    // ==========================================
+    // Fill Form
+    // ==========================================
+
+    function setValue(
+        id,
+        value
+    ) {
+
+        const element =
+            document.getElementById(id);
+
+
+        if (element) {
+
+            element.value =
+                value || "";
+
+        }
+
+    }
+
+
+    setValue(
+        "studentName",
+        student.name
     );
 
 
-});
+    setValue(
+        "fatherName",
+        student.fatherName ||
+        student.father
+    );
 
 
+    setValue(
+        "motherName",
+        student.motherName ||
+        student.mother
+    );
 
 
+    setValue(
+        "dateOfBirth",
+        student.dateOfBirth
+    );
 
 
+    setValue(
+        "studentClass",
+        student.admissionClass ||
+        student.className
+    );
 
-// ===============================
-// Generate New Student Code
-// ===============================
 
+    setValue(
+        "mobile",
+        student.guardianMobile ||
+        student.mobile
+    );
 
-function generateStudentCode(className){
 
 
+    // ------------------------------------------
+    // Address Compatibility
+    // ------------------------------------------
 
-let students = getStudents();
+    let addressText = "";
 
 
+    if (
+        student.address
+        &&
+        typeof student.address === "object"
+    ) {
 
+        addressText = [
 
-let classNumber = "";
+            student.address.division,
 
+            student.address.district,
 
+            student.address.thana,
 
-let match = className.match(/\d+/);
+            student.address.union,
 
+            student.address.ward,
 
+            student.address.village,
 
+            student.address.details
 
+        ]
+        .filter(Boolean)
+        .join(", ");
 
-if(match){
+    } else {
 
+        addressText =
+            student.address || "";
 
-    classNumber = match[0];
+    }
 
 
-}
+    setValue(
+        "address",
+        addressText
+    );
 
-else if(className === "Play"){
 
 
-    classNumber = "0";
+    const codeDisplay =
+        document.getElementById(
+            "studentCodeDisplay"
+        );
 
 
-}
+    if (codeDisplay) {
 
-else if(className === "Nursery"){
+        codeDisplay.innerText =
+            student.studentCode || "-";
 
+    }
 
-    classNumber = "N";
 
+    // ==========================================
+    // Update Form
+    // ==========================================
 
-}
+    const editForm =
+        document.getElementById(
+            "editForm"
+        );
 
-else{
 
+    if (!editForm) {
+        return;
+    }
 
-    classNumber = "0";
 
+    editForm.addEventListener(
+        "submit",
+        function (event) {
 
-}
+            event.preventDefault();
 
 
+            // ----------------------------------
+            // Read New Values
+            // ----------------------------------
 
+            const newName =
+                document
+                    .getElementById(
+                        "studentName"
+                    )
+                    .value
+                    .trim();
 
 
+            const newFather =
+                document
+                    .getElementById(
+                        "fatherName"
+                    )
+                    .value
+                    .trim();
 
-let year =
 
-new Date()
+            const newMother =
+                document
+                    .getElementById(
+                        "motherName"
+                    )
+                    .value
+                    .trim();
 
-.getFullYear();
 
+            const newDob =
+                document
+                    .getElementById(
+                        "dateOfBirth"
+                    )
+                    .value;
 
 
+            const newClass =
+                document
+                    .getElementById(
+                        "studentClass"
+                    )
+                    .value;
 
 
+            const newMobile =
+                document
+                    .getElementById(
+                        "mobile"
+                    )
+                    .value
+                    .trim();
 
 
-let sameClassStudents =
+            const newAddress =
+                document
+                    .getElementById(
+                        "address"
+                    )
+                    .value
+                    .trim();
 
-students.filter(student=>
 
 
+            // ----------------------------------
+            // Validation
+            // ----------------------------------
 
-student.studentCode &&
+            if (!newName) {
 
+                alert(
+                    "Please enter student name."
+                );
 
-student.studentCode.startsWith(
+                return;
 
-`DQ-${classNumber}-${year}`
+            }
 
-)
 
+            if (!newClass) {
 
+                alert(
+                    "Please select class."
+                );
 
-);
+                return;
 
+            }
 
 
 
+            // ----------------------------------
+            // Preserve Identity Fields
+            // ----------------------------------
 
+            const institution =
+                getSafeInstitution();
 
-let serial =
 
-sameClassStudents.length + 1;
+            const updatedStudent = {
 
+                ...student,
 
+                // Permanent identity
+                id:
+                    student.id ||
+                    Date.now(),
 
+                studentCode:
+                    student.studentCode,
 
+                institutionId:
+                    student.institutionId ||
+                    institution.id,
 
+                institutionCode:
+                    student.institutionCode ||
+                    institution.code,
 
-let serialNumber =
 
-String(serial)
+                // Updated information
 
-.padStart(5,"0");
+                name:
+                    newName,
 
+                fatherName:
+                    newFather,
 
+                motherName:
+                    newMother,
 
+                dateOfBirth:
+                    newDob,
 
+                admissionClass:
+                    newClass,
 
+                guardianMobile:
+                    newMobile,
 
+                address:
+                    newAddress,
 
-return (
 
-`DQ-${classNumber}-${year}-${serialNumber}`
+                updatedAt:
+                    new Date()
+                    .toISOString()
 
-);
+            };
 
 
 
-}
+            // ----------------------------------
+            // Replace Record
+            // ----------------------------------
 
+            const updatedStudents =
+                students.map(
+                    function (item) {
 
+                        if (
+                            String(
+                                item.studentCode
+                            )
+                            ===
+                            String(
+                                oldStudentCode
+                            )
+                        ) {
 
+                            return updatedStudent;
 
+                        }
 
 
+                        return item;
 
+                    }
+                );
 
-// ===============================
-// Load Student Data Into Form
-// ===============================
 
 
-if(student){
+            // ----------------------------------
+            // Save Core
+            // ----------------------------------
 
+            saveCoreStudents(
+                updatedStudents
+            );
 
 
+            // ----------------------------------
+            // Legacy Compatibility
+            // ----------------------------------
 
+            saveLegacyStudents(
+                updatedStudents
+            );
 
-document.getElementById(
 
-"studentName"
 
-).value =
+            // ----------------------------------
+            // Keep Selected Student Reference
+            // ----------------------------------
 
-student.name || "";
+            localStorage.setItem(
 
+                "selectedStudent",
 
+                updatedStudent.studentCode
 
+            );
 
 
-document.getElementById(
+            localStorage.setItem(
 
-"fatherName"
+                "editStudent",
 
-).value =
+                updatedStudent.studentCode
 
-student.fatherName || student.father || "";
+            );
 
 
 
+            alert(
+                "Student Updated Successfully"
+            );
 
 
+            window.location.href =
+                "students.html";
 
-document.getElementById(
+        }
+    );
 
-"motherName"
-
-).value =
-
-student.motherName || student.mother || "";
-
-
-
-
-
-
-document.getElementById(
-
-"dateOfBirth"
-
-).value =
-
-student.dateOfBirth || "";
-
-
-
-
-
-
-document.getElementById(
-
-"studentClass"
-
-).value =
-
-student.admissionClass || student.className || "";
-
-
-
-
-
-
-document.getElementById(
-
-"mobile"
-
-).value =
-
-student.guardianMobile || student.mobile || "";
-
-
-
-
-
-
-document.getElementById(
-
-"address"
-
-).value =
-
-typeof student.address === "string"
-
-?
-
-student.address
-
-:
-
-"";
-
-
-
-
-
-}
-
-else{
-
-
-alert(
-
-"Student Not Found"
-
-);
-
-
-window.location.href =
-
-"students.html";
-
-
-}
-
-// ==========================================
-// Part 2/2
-// Update Student System
-// ==========================================
-
-
-
-// ===============================
-// Update Form Submit
-// ===============================
-
-
-const editForm =
-
-document.getElementById(
-
-"editForm"
-
-);
-
-
-
-
-
-if(editForm){
-
-
-
-editForm.addEventListener(
-
-"submit",
-
-function(e){
-
-
-e.preventDefault();
-
-
-
-
-
-let students = getStudents();
-
-
-
-
-
-students = students.map(function(item){
-
-
-
-
-
-if(item.studentCode === oldStudentCode){
-
-
-
-
-
-// ===============================
-// Check Class Change
-// ===============================
-
-
-let oldClass =
-
-item.admissionClass || "";
-
-
-
-let newClass =
-
-document.getElementById(
-
-"studentClass"
-
-).value;
-
-
-
-
-
-
-
-if(oldClass !== newClass){
-
-
-
-item.studentCode =
-
-generateStudentCode(
-
-newClass
-
-);
-
-
-
-item.admissionClass =
-
-newClass;
-
-
-
-}
-
-
-
-
-
-
-
-
-// ===============================
-// Update Information
-// ===============================
-
-
-item.name =
-
-document.getElementById(
-
-"studentName"
-
-).value;
-
-
-
-
-
-
-item.fatherName =
-
-document.getElementById(
-
-"fatherName"
-
-).value;
-
-
-
-
-
-
-item.motherName =
-
-document.getElementById(
-
-"motherName"
-
-).value;
-
-
-
-
-
-
-item.dateOfBirth =
-
-document.getElementById(
-
-"dateOfBirth"
-
-).value;
-
-
-
-
-
-
-
-item.guardianMobile =
-
-document.getElementById(
-
-"mobile"
-
-).value;
-
-
-
-
-
-
-item.address =
-
-document.getElementById(
-
-"address"
-
-).value;
-
-
-
-
-
-
-
-}
-
-
-
-
-
-return item;
-
-
-
-
-
-});
-
-
-
-
-
-
-
-
-// ===============================
-// Save Updated Data
-// ===============================
-
-
-localStorage.setItem(
-
-"students",
-
-JSON.stringify(
-
-students
-
-)
-
-);
-
-
-
-
-
-
-
-alert(
-
-"Student Updated Successfully"
-
-);
-
-
-
-
-
-
-
-window.location.href =
-
-"students.html";
-
-
-
-
-
-}
-
-);
-
-
-}
+})();
