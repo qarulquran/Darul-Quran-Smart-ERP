@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="bn" dir="ltr">
 
 <head>
 
@@ -10,12 +11,18 @@
     content="width=device-width, initial-scale=1.0">
 
 <title>
-Add Student - Darul Quran Smart ERP
+ISM - Add Student
 </title>
+
+
+<!-- ==========================================
+     Existing Admission Design
+========================================== -->
 
 <link
     rel="stylesheet"
     href="add-student.css">
+
 
 <link
     rel="stylesheet"
@@ -23,17 +30,166 @@ Add Student - Darul Quran Smart ERP
 
 
 <!-- ==========================================
-     Modern Date of Birth Picker
+     ISM Master Layout
+========================================== -->
+
+<link
+    rel="stylesheet"
+    href="../components/layout.css">
+
+
+
+<!-- ==========================================
+     Add Student Integration Styles
 ========================================== -->
 
 <style>
+
+/* ==========================================
+   Page Integration
+========================================== */
+
+.admission-page {
+
+    width: 100%;
+
+    min-height:
+        calc(
+            100vh - 70px
+        );
+
+}
+
+
+.admission-page .container {
+
+    width: 100%;
+
+    max-width: 1120px;
+
+    margin: 0 auto;
+
+}
+
+
+/* ==========================================
+   Admission Heading
+========================================== */
+
+.admission-page .title-card {
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+.admission-title-row {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+}
+
+
+.admission-title-main {
+
+    min-width: 0;
+
+}
+
+
+.admission-title-main h1 {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.admission-title-main p {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.current-institution {
+
+    color: #087f3d;
+
+    font-weight: 700;
+
+}
+
+
+.back-students-btn {
+
+    flex: 0 0 auto;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    min-height: 40px;
+
+    padding:
+        0 13px;
+
+    border:
+        1px solid #d8e9df;
+
+    border-radius: 11px;
+
+    background: #f2faf5;
+
+    color: #087f3d;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+.back-students-btn:hover {
+
+    background: #e8f6ed;
+
+}
+
+
+/* ==========================================
+   Modern Date of Birth
+========================================== */
 
 .dob-picker {
 
     display: grid;
 
     grid-template-columns:
-        0.8fr
+        0.75fr
         1.25fr
         1fr;
 
@@ -53,19 +209,26 @@ Add Student - Darul Quran Smart ERP
 
     height: 48px;
 
-    padding: 0 12px;
+    padding:
+        0 11px !important;
 
-    background: #ffffff;
+    border:
+        1px solid #dddddd;
 
-    border: 1px solid #d9dee3;
+    border-radius:
+        14px;
 
-    border-radius: 12px;
+    background:
+        #ffffff;
 
-    outline: none;
+    color:
+        #333333;
 
-    color: #333;
+    font-size:
+        14px;
 
-    font-size: 14px;
+    outline:
+        none;
 
 }
 
@@ -73,30 +236,19 @@ Add Student - Darul Quran Smart ERP
 .dob-picker select:focus,
 .dob-picker input:focus {
 
-    border-color: #087f3d;
+    border-color:
+        #087f3d;
 
     box-shadow:
         0 0 0 3px
-        rgba(8, 127, 61, 0.10);
+        rgba(8,127,61,0.10);
 
 }
 
 
-.dob-picker input[type="number"] {
+.dob-year {
 
-    appearance: textfield;
-
-    -moz-appearance: textfield;
-
-}
-
-
-.dob-picker input[type="number"]::-webkit-inner-spin-button,
-.dob-picker input[type="number"]::-webkit-outer-spin-button {
-
-    -webkit-appearance: none;
-
-    margin: 0;
+    text-align: center;
 
 }
 
@@ -105,23 +257,108 @@ Add Student - Darul Quran Smart ERP
 
     display: block;
 
-    margin-top: 6px;
+    margin-top: 7px;
 
     color: #7a7f85;
 
     font-size: 11px;
 
+    line-height: 1.4;
+
 }
 
 
-@media (max-width: 430px) {
+/* ==========================================
+   Required Indicator
+========================================== */
+
+.required {
+
+    color: #c62828;
+
+}
+
+
+/* ==========================================
+   Save Area
+========================================== */
+
+.submit-area {
+
+    padding-bottom: 25px;
+
+}
+
+
+/* ==========================================
+   RTL Form Support
+========================================== */
+
+html[dir="rtl"] {
+
+    direction: rtl;
+
+}
+
+
+html[dir="rtl"]
+.form-card h2 {
+
+    border-left: 0;
+
+    border-right:
+        5px solid #076b3a;
+
+    padding-left: 0;
+
+    padding-right: 12px;
+
+}
+
+
+html[dir="rtl"]
+.admission-title-row {
+
+    direction: rtl;
+
+}
+
+
+html[dir="rtl"]
+.check {
+
+    direction: rtl;
+
+}
+
+
+/* ==========================================
+   Mobile
+========================================== */
+
+@media
+(max-width: 700px) {
+
+    .admission-title-row {
+
+        flex-direction: column;
+
+    }
+
+
+    .back-students-btn {
+
+        width: 100%;
+
+    }
+
 
     .dob-picker {
 
         grid-template-columns:
-            0.75fr
+            0.72fr
             1.2fr
-            1fr;
+            0.95fr;
 
         gap: 6px;
 
@@ -131,11 +368,32 @@ Add Student - Darul Quran Smart ERP
     .dob-picker select,
     .dob-picker input {
 
-        height: 46px;
+        height: 45px;
 
-        padding: 0 8px;
+        padding:
+            0 7px !important;
 
-        font-size: 13px;
+        font-size: 12px;
+
+    }
+
+}
+
+
+@media
+(max-width: 360px) {
+
+    .dob-picker {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .dob-year {
+
+        text-align: start;
 
     }
 
@@ -146,35 +404,113 @@ Add Student - Darul Quran Smart ERP
 </head>
 
 
+
 <body>
 
 
-<div class="header">
+<!-- ==========================================
+     Page Title Translation Hook
+========================================== -->
 
-<button id="menuBtn">
-☰
-</button>
-
-<h2>
-Add New Student
-</h2>
-
+<div
+    data-i18n-title="addNewStudent"
+    hidden>
 </div>
 
+
+
+<!-- ==========================================
+     ISM Master Header / Sidebar
+========================================== -->
+
+<div id="header"></div>
+
+<div id="sidebar"></div>
+
+<div id="overlay"></div>
+
+
+
+<!-- ==========================================
+     Main Admission Page
+========================================== -->
+
+<main
+    class="dashboard-container admission-page">
 
 
 <div class="container">
 
 
+
+<!-- ==========================================
+     Admission Title
+========================================== -->
+
 <div class="title-card">
 
+
+<div class="admission-title-row">
+
+
+<div class="admission-title-main">
+
+
 <h1>
-🧑‍🎓 Student Admission Form
+
+<span aria-hidden="true">
+🧑‍🎓
+</span>
+
+<span data-i18n="studentAdmissionForm">
+Student Admission Form
+</span>
+
 </h1>
 
+
 <p>
-Darul Quran Smart ERP
+
+<span>
+ISM
+</span>
+
+<span>
+·
+</span>
+
+<span
+    id="admissionInstitutionName"
+    class="current-institution">
+
+Current Institution
+
+</span>
+
 </p>
+
+
+</div>
+
+
+
+<a
+    href="students.html"
+    class="back-students-btn">
+
+<span>
+←
+</span>
+
+<span data-i18n="backToStudents">
+Back to Students
+</span>
+
+</a>
+
+
+</div>
+
 
 </div>
 
@@ -188,23 +524,48 @@ Darul Quran Smart ERP
 
 
 <h2>
-👤 Student Information
+
+<span aria-hidden="true">
+👤
+</span>
+
+<span data-i18n="studentInformation">
+Student Information
+</span>
+
 </h2>
+
 
 
 <div class="form-grid">
 
 
+
+<!-- Student Name -->
+
 <div class="field">
 
+
 <label>
-Student Name *
+
+<span data-i18n="studentName">
+Student Name
+</span>
+
+<span class="required">
+*
+</span>
+
 </label>
+
 
 <input
     id="studentName"
     type="text"
-    placeholder="Enter student name">
+    data-i18n-placeholder="enterStudentName"
+    placeholder="Enter student name"
+    autocomplete="name">
+
 
 </div>
 
@@ -216,7 +577,8 @@ Student Name *
 
 <div class="field">
 
-<label>
+
+<label data-i18n="dateOfBirth">
 Date of Birth
 </label>
 
@@ -228,8 +590,12 @@ Date of Birth
     id="dobDay"
     aria-label="Birth Day">
 
-<option value="">
+<option
+    value=""
+    data-i18n="birthDay">
+
 Day
+
 </option>
 
 </select>
@@ -240,57 +606,123 @@ Day
     id="dobMonth"
     aria-label="Birth Month">
 
-<option value="">
+
+<option
+    value=""
+    data-i18n="birthMonth">
+
 Month
+
 </option>
 
-<option value="01">
+
+<option
+    value="01"
+    data-i18n="january">
+
 January
+
 </option>
 
-<option value="02">
+
+<option
+    value="02"
+    data-i18n="february">
+
 February
+
 </option>
 
-<option value="03">
+
+<option
+    value="03"
+    data-i18n="march">
+
 March
+
 </option>
 
-<option value="04">
+
+<option
+    value="04"
+    data-i18n="april">
+
 April
+
 </option>
 
-<option value="05">
+
+<option
+    value="05"
+    data-i18n="may">
+
 May
+
 </option>
 
-<option value="06">
+
+<option
+    value="06"
+    data-i18n="june">
+
 June
+
 </option>
 
-<option value="07">
+
+<option
+    value="07"
+    data-i18n="july">
+
 July
+
 </option>
 
-<option value="08">
+
+<option
+    value="08"
+    data-i18n="august">
+
 August
+
 </option>
 
-<option value="09">
+
+<option
+    value="09"
+    data-i18n="september">
+
 September
+
 </option>
 
-<option value="10">
+
+<option
+    value="10"
+    data-i18n="october">
+
 October
+
 </option>
 
-<option value="11">
+
+<option
+    value="11"
+    data-i18n="november">
+
 November
+
 </option>
 
-<option value="12">
+
+<option
+    value="12"
+    data-i18n="december">
+
 December
+
 </option>
+
 
 </select>
 
@@ -298,102 +730,167 @@ December
 
 <input
     id="dobYear"
-    type="number"
+    class="dob-year"
+    type="text"
     inputmode="numeric"
-    min="1900"
+    maxlength="4"
+    pattern="[0-9]{4}"
+    data-i18n-placeholder="birthYear"
     placeholder="Year"
-    aria-label="Birth Year">
+    autocomplete="off">
+
 
 </div>
 
 
-<small class="dob-help">
+<small
+    class="dob-help"
+    data-i18n="birthDateExample">
+
 Example: 15 · August · 2005
+
 </small>
 
 
-<!-- Existing save system reads this value -->
+<!--
+Existing add-student.js saves this field.
+Value format remains YYYY-MM-DD.
+-->
 
 <input
     id="dateOfBirth"
     type="hidden">
 
+
 </div>
 
 
 
+<!-- Birth Registration -->
+
 <div class="field">
 
-<label>
+
+<label data-i18n="birthRegistrationNumber">
 Birth Registration Number
 </label>
+
 
 <input
     id="birthRegistration"
     type="text"
+    inputmode="numeric"
+    data-i18n-placeholder="enterBirthRegistration"
     placeholder="Enter birth registration number">
+
 
 </div>
 
 
 
+<!-- Blood Group -->
+
 <div class="field">
 
-<label>
+
+<label data-i18n="bloodGroup">
 Blood Group
 </label>
 
+
 <select id="bloodGroup">
 
-<option value="">
+
+<option
+    value=""
+    data-i18n="selectBloodGroup">
+
 Select Blood Group
+
 </option>
 
-<option>A+</option>
-<option>A-</option>
-<option>B+</option>
-<option>B-</option>
-<option>AB+</option>
-<option>AB-</option>
-<option>O+</option>
-<option>O-</option>
+
+<option value="A+">
+A+
+</option>
+
+<option value="A-">
+A-
+</option>
+
+<option value="B+">
+B+
+</option>
+
+<option value="B-">
+B-
+</option>
+
+<option value="AB+">
+AB+
+</option>
+
+<option value="AB-">
+AB-
+</option>
+
+<option value="O+">
+O+
+</option>
+
+<option value="O-">
+O-
+</option>
+
 
 </select>
+
 
 </div>
 
 
 
+<!-- Nationality -->
+
 <div class="field">
 
-<label>
+
+<label data-i18n="nationality">
 Nationality
 </label>
+
 
 <input
     id="nationality"
     type="text"
     value="Bangladeshi">
 
+
 </div>
 
 
 
+<!-- Student Photo -->
+
 <div class="field">
 
-<label>
+
+<label data-i18n="studentPhoto">
 Student Photo
 </label>
+
 
 <input
     id="studentPhoto"
     type="file"
     accept="image/*">
 
+
 </div>
 
 
 </div>
+
 
 </div>
 
@@ -407,23 +904,45 @@ Student Photo
 
 
 <h2>
-👨‍👩‍👦 Parents Information
+
+<span aria-hidden="true">
+👨‍👩‍👦
+</span>
+
+<span data-i18n="parentsInformation">
+Parents Information
+</span>
+
 </h2>
+
 
 
 <div class="form-grid">
 
 
+
 <div class="field">
 
+
 <label>
-Father Name *
+
+<span data-i18n="fatherName">
+Father Name
+</span>
+
+<span class="required">
+*
+</span>
+
 </label>
+
 
 <input
     id="fatherName"
     type="text"
+    data-i18n-placeholder="enterFatherName"
     placeholder="Enter father name">
+
 
 </div>
 
@@ -431,14 +950,19 @@ Father Name *
 
 <div class="field">
 
-<label>
+
+<label data-i18n="fatherNidNumber">
 Father NID Number
 </label>
+
 
 <input
     id="fatherNid"
     type="text"
+    inputmode="numeric"
+    data-i18n-placeholder="enterFatherNid"
     placeholder="Enter father NID">
+
 
 </div>
 
@@ -446,14 +970,26 @@ Father NID Number
 
 <div class="field">
 
+
 <label>
-Mother Name *
+
+<span data-i18n="motherName">
+Mother Name
+</span>
+
+<span class="required">
+*
+</span>
+
 </label>
+
 
 <input
     id="motherName"
     type="text"
+    data-i18n-placeholder="enterMotherName"
     placeholder="Enter mother name">
+
 
 </div>
 
@@ -461,14 +997,19 @@ Mother Name *
 
 <div class="field">
 
-<label>
+
+<label data-i18n="motherNidNumber">
 Mother NID Number
 </label>
+
 
 <input
     id="motherNid"
     type="text"
+    inputmode="numeric"
+    data-i18n-placeholder="enterMotherNid"
     placeholder="Enter mother NID">
+
 
 </div>
 
@@ -476,20 +1017,25 @@ Mother NID Number
 
 <div class="field">
 
-<label>
+
+<label data-i18n="guardianMobileNumber">
 Guardian Mobile Number
 </label>
+
 
 <input
     id="guardianMobile"
     type="tel"
-    inputmode="numeric"
+    inputmode="tel"
+    data-i18n-placeholder="enterGuardianMobile"
     placeholder="Enter mobile number">
 
+
 </div>
 
 
 </div>
+
 
 </div>
 
@@ -503,23 +1049,37 @@ Guardian Mobile Number
 
 
 <h2>
-📚 Previous Education
+
+<span aria-hidden="true">
+📚
+</span>
+
+<span data-i18n="previousEducation">
+Previous Education
+</span>
+
 </h2>
+
 
 
 <div class="form-grid">
 
 
+
 <div class="field">
 
-<label>
+
+<label data-i18n="previousInstitutionName">
 Previous Institution Name
 </label>
+
 
 <input
     id="previousInstitution"
     type="text"
+    data-i18n-placeholder="enterPreviousInstitution"
     placeholder="Enter previous institution name">
+
 
 </div>
 
@@ -527,35 +1087,81 @@ Previous Institution Name
 
 <div class="field">
 
-<label>
+
+<label data-i18n="previousClass">
 Previous Class
 </label>
 
+
 <select id="previousClass">
 
-<option value="">
+
+<option
+    value=""
+    data-i18n="selectPreviousClass">
+
 Select Previous Class
+
 </option>
 
-<option>Play</option>
-<option>Nursery</option>
-<option>Class 1</option>
-<option>Class 2</option>
-<option>Class 3</option>
-<option>Class 4</option>
-<option>Class 5</option>
-<option>Class 6</option>
-<option>Class 7</option>
-<option>Class 8</option>
-<option>Class 9</option>
-<option>Class 10</option>
+
+<option value="Play">
+Play
+</option>
+
+<option value="Nursery">
+Nursery
+</option>
+
+<option value="Class 1">
+Class 1
+</option>
+
+<option value="Class 2">
+Class 2
+</option>
+
+<option value="Class 3">
+Class 3
+</option>
+
+<option value="Class 4">
+Class 4
+</option>
+
+<option value="Class 5">
+Class 5
+</option>
+
+<option value="Class 6">
+Class 6
+</option>
+
+<option value="Class 7">
+Class 7
+</option>
+
+<option value="Class 8">
+Class 8
+</option>
+
+<option value="Class 9">
+Class 9
+</option>
+
+<option value="Class 10">
+Class 10
+</option>
+
 
 </select>
 
+
 </div>
 
 
 </div>
+
 
 </div>
 
@@ -569,39 +1175,102 @@ Select Previous Class
 
 
 <h2>
-📝 Admission Information
+
+<span aria-hidden="true">
+📝
+</span>
+
+<span data-i18n="admissionInformation">
+Admission Information
+</span>
+
 </h2>
+
 
 
 <div class="form-grid">
 
 
+
 <div class="field">
 
+
 <label>
-Admission Class *
+
+<span data-i18n="admissionClass">
+Admission Class
+</span>
+
+<span class="required">
+*
+</span>
+
 </label>
+
 
 <select id="admissionClass">
 
-<option value="">
+
+<option
+    value=""
+    data-i18n="selectClass">
+
 Select Class
+
 </option>
 
-<option>Play</option>
-<option>Nursery</option>
-<option>Class 1</option>
-<option>Class 2</option>
-<option>Class 3</option>
-<option>Class 4</option>
-<option>Class 5</option>
-<option>Class 6</option>
-<option>Class 7</option>
-<option>Class 8</option>
-<option>Class 9</option>
-<option>Class 10</option>
+
+<option value="Play">
+Play
+</option>
+
+<option value="Nursery">
+Nursery
+</option>
+
+<option value="Class 1">
+Class 1
+</option>
+
+<option value="Class 2">
+Class 2
+</option>
+
+<option value="Class 3">
+Class 3
+</option>
+
+<option value="Class 4">
+Class 4
+</option>
+
+<option value="Class 5">
+Class 5
+</option>
+
+<option value="Class 6">
+Class 6
+</option>
+
+<option value="Class 7">
+Class 7
+</option>
+
+<option value="Class 8">
+Class 8
+</option>
+
+<option value="Class 9">
+Class 9
+</option>
+
+<option value="Class 10">
+Class 10
+</option>
+
 
 </select>
+
 
 </div>
 
@@ -609,18 +1278,22 @@ Select Class
 
 <div class="field">
 
-<label>
+
+<label data-i18n="admissionDate">
 Admission Date
 </label>
+
 
 <input
     id="admissionDate"
     type="date">
 
+
 </div>
 
 
 </div>
+
 
 </div>
 
@@ -634,163 +1307,236 @@ Admission Date
 
 
 <h2>
-📍 Present Address
+
+<span aria-hidden="true">
+📍
+</span>
+
+<span data-i18n="presentAddress">
+Present Address
+</span>
+
 </h2>
+
 
 
 <div class="form-grid">
 
 
+
+<!-- Division -->
+
 <div class="field">
 
-<label>
+
+<label data-i18n="division">
 Division
 </label>
 
+
 <div class="smart-select">
+
 
 <input
     id="divisionSearch"
+    type="text"
+    data-i18n-placeholder="searchDivision"
     placeholder="Search Division"
     autocomplete="off">
+
 
 <div
     id="divisionList"
     class="dropdown-list">
 </div>
 
-</div>
 
 </div>
 
 
+</div>
+
+
+
+<!-- District -->
 
 <div class="field">
 
-<label>
+
+<label data-i18n="district">
 District
 </label>
 
+
 <div class="smart-select">
+
 
 <input
     id="districtSearch"
+    type="text"
+    data-i18n-placeholder="searchDistrict"
     placeholder="Search District"
     autocomplete="off">
+
 
 <div
     id="districtList"
     class="dropdown-list">
 </div>
 
-</div>
 
 </div>
 
 
+</div>
+
+
+
+<!-- Thana -->
 
 <div class="field">
 
-<label>
+
+<label data-i18n="thanaUpazila">
 Thana / Upazila
 </label>
 
+
 <div class="smart-select">
+
 
 <input
     id="thanaSearch"
-    placeholder="Search Thana"
+    type="text"
+    data-i18n-placeholder="searchThana"
+    placeholder="Search Thana / Upazila"
     autocomplete="off">
+
 
 <div
     id="thanaList"
     class="dropdown-list">
 </div>
 
-</div>
 
 </div>
 
 
+</div>
+
+
+
+<!-- Union -->
 
 <div class="field">
 
-<label>
+
+<label data-i18n="union">
 Union
 </label>
 
+
 <div class="smart-select">
+
 
 <input
     id="unionSearch"
+    type="text"
+    data-i18n-placeholder="searchUnion"
     placeholder="Search Union"
     autocomplete="off">
+
 
 <div
     id="unionList"
     class="dropdown-list">
 </div>
 
-</div>
 
 </div>
 
 
+</div>
+
+
+
+<!-- Ward -->
 
 <div class="field">
 
-<label>
+
+<label data-i18n="ward">
 Ward
 </label>
 
+
 <div class="smart-select">
+
 
 <input
     id="wardSearch"
+    type="text"
+    data-i18n-placeholder="searchWard"
     placeholder="Search Ward"
     autocomplete="off">
+
 
 <div
     id="wardList"
     class="dropdown-list">
 </div>
 
-</div>
 
 </div>
 
 
+</div>
+
+
+
+<!-- Village -->
 
 <div class="field">
 
-<label>
+
+<label data-i18n="villageArea">
 Village / Area
 </label>
+
 
 <input
     id="village"
     type="text"
+    data-i18n-placeholder="enterVillage"
     placeholder="Enter village name">
+
 
 </div>
 
 
+
+<!-- Details -->
 
 <div class="field">
 
-<label>
+
+<label data-i18n="houseRoadLandmark">
 House / Road / Landmark
 </label>
 
+
 <textarea
     id="presentAddress"
-    placeholder="Enter full address">
+    data-i18n-placeholder="enterPresentAddress"
+    placeholder="Enter full present address">
 </textarea>
 
+
 </div>
 
 
 </div>
+
 
 </div>
 
@@ -804,23 +1550,39 @@ House / Road / Landmark
 
 
 <h2>
-🏠 Permanent Address
+
+<span aria-hidden="true">
+🏠
+</span>
+
+<span data-i18n="permanentAddress">
+Permanent Address
+</span>
+
 </h2>
 
 
+
 <label class="check">
+
 
 <input
     id="sameAddress"
     type="checkbox">
 
+
+<span data-i18n="sameAsPresentAddress">
 Same as Present Address
+</span>
+
 
 </label>
 
 
+
 <textarea
     id="permanentAddress"
+    data-i18n-placeholder="enterPermanentAddress"
     placeholder="Enter permanent address">
 </textarea>
 
@@ -830,23 +1592,42 @@ Same as Present Address
 
 
 <!-- ==========================================
-     Save
+     Save Student
 ========================================== -->
 
 <div class="submit-area">
+
 
 <button
     type="button"
     id="saveStudentBtn">
 
-💾 Save Student
+<span aria-hidden="true">
+💾
+</span>
+
+<span data-i18n="saveStudent">
+Save Student
+</span>
 
 </button>
 
+
 </div>
 
 
 </div>
+
+
+</main>
+
+
+
+<!-- ==========================================
+     Footer
+========================================== -->
+
+<div id="footer"></div>
 
 
 
@@ -879,6 +1660,130 @@ Same as Present Address
 
 
 <!-- ==========================================
+     Session Protection
+========================================== -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    if (
+        typeof window.requireSession
+        ===
+        "function"
+    ) {
+
+        window.requireSession(
+            "index.html"
+        );
+
+    }
+
+})();
+
+</script>
+
+
+
+<!-- ==========================================
+     ISM Common Header / Sidebar
+========================================== -->
+
+<script src="../components/layout-loader.js"></script>
+
+
+
+<!-- ==========================================
+     Institution Identity
+========================================== -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    function loadAdmissionInstitution() {
+
+        const element =
+            document.getElementById(
+                "admissionInstitutionName"
+            );
+
+
+        if (!element) {
+
+            return;
+
+        }
+
+
+        if (
+            typeof window.getInstitutionName
+            ===
+            "function"
+        ) {
+
+            element.textContent =
+                window.getInstitutionName()
+                ||
+                "Current Institution";
+
+            return;
+
+        }
+
+
+        if (
+            typeof window.getInstitution
+            ===
+            "function"
+        ) {
+
+            const institution =
+                window.getInstitution();
+
+
+            if (institution) {
+
+                element.textContent =
+                    institution.name
+                    ||
+                    "Current Institution";
+
+            }
+
+        }
+
+    }
+
+
+    loadAdmissionInstitution();
+
+
+    document.addEventListener(
+        "erpReady",
+        loadAdmissionInstitution
+    );
+
+
+    document.addEventListener(
+        "ismLayoutReady",
+        loadAdmissionInstitution
+    );
+
+
+})();
+
+</script>
+
+
+
+<!-- ==========================================
      Modern DOB Controller
 ========================================== -->
 
@@ -889,35 +1794,38 @@ Same as Present Address
     "use strict";
 
 
-    const day =
+    const dayElement =
         document.getElementById(
             "dobDay"
         );
 
 
-    const month =
+    const monthElement =
         document.getElementById(
             "dobMonth"
         );
 
 
-    const year =
+    const yearElement =
         document.getElementById(
             "dobYear"
         );
 
 
-    const hiddenDate =
+    const dateElement =
         document.getElementById(
             "dateOfBirth"
         );
 
 
     if (
-        !day ||
-        !month ||
-        !year ||
-        !hiddenDate
+        !dayElement
+        ||
+        !monthElement
+        ||
+        !yearElement
+        ||
+        !dateElement
     ) {
 
         return;
@@ -930,60 +1838,162 @@ Same as Present Address
             .getFullYear();
 
 
-    year.max =
-        String(
-            currentYear
-        );
+    /* ======================================
+       Translate Helper
+    ====================================== */
+
+    function text(
+        key,
+        fallback
+    ) {
+
+        if (
+            typeof window.translate
+            ===
+            "function"
+        ) {
+
+            const result =
+                window.translate(
+                    key
+                );
 
 
-    /*
-     * Generate the correct number
-     * of days for the selected
-     * month and year.
-     */
+            if (
+                result
+                &&
+                result !== key
+            ) {
 
-    function loadDays() {
+                return result;
 
-        const selectedDay =
-            day.value;
-
-
-        const monthNumber =
-            Number(
-                month.value
-            );
-
-
-        const yearNumber =
-            Number(
-                year.value
-            );
-
-
-        let maxDays = 31;
-
-
-        if (monthNumber) {
-
-            const safeYear =
-                yearNumber
-                ||
-                2000;
-
-
-            maxDays =
-                new Date(
-                    safeYear,
-                    monthNumber,
-                    0
-                )
-                .getDate();
+            }
 
         }
 
 
-        day.innerHTML =
-            '<option value="">Day</option>';
+        return fallback;
+
+    }
+
+
+    /* ======================================
+       Year Cleaning
+    ====================================== */
+
+    yearElement.addEventListener(
+        "input",
+        function () {
+
+            yearElement.value =
+                yearElement.value
+                    .replace(
+                        /\D/g,
+                        ""
+                    )
+                    .slice(
+                        0,
+                        4
+                    );
+
+
+            refreshDays();
+
+            syncDOB();
+
+        }
+    );
+
+
+    /* ======================================
+       Days in Selected Month
+    ====================================== */
+
+    function getMaximumDays() {
+
+        const month =
+            Number(
+                monthElement.value
+            );
+
+
+        const year =
+            Number(
+                yearElement.value
+            );
+
+
+        if (!month) {
+
+            return 31;
+
+        }
+
+
+        const safeYear =
+            (
+                year >= 1900
+                &&
+                year <= currentYear
+            )
+
+                ?
+
+                year
+
+                :
+
+                2000;
+
+
+        return new Date(
+            safeYear,
+            month,
+            0
+        )
+        .getDate();
+
+    }
+
+
+    /* ======================================
+       Render Day Options
+    ====================================== */
+
+    function refreshDays() {
+
+        const oldValue =
+            dayElement.value;
+
+
+        const maxDays =
+            getMaximumDays();
+
+
+        dayElement.innerHTML =
+            "";
+
+
+        const placeholder =
+            document.createElement(
+                "option"
+            );
+
+
+        placeholder.value =
+            "";
+
+
+        placeholder.textContent =
+            text(
+                "birthDay",
+                "Day"
+            );
+
+
+        dayElement.appendChild(
+            placeholder
+        );
 
 
         for (
@@ -999,11 +2009,13 @@ Same as Present Address
 
 
             option.value =
-                String(number)
-                    .padStart(
-                        2,
-                        "0"
-                    );
+                String(
+                    number
+                )
+                .padStart(
+                    2,
+                    "0"
+                );
 
 
             option.textContent =
@@ -1012,7 +2024,7 @@ Same as Present Address
                 );
 
 
-            day.appendChild(
+            dayElement.appendChild(
                 option
             );
 
@@ -1020,74 +2032,53 @@ Same as Present Address
 
 
         if (
-            Number(selectedDay)
-            <=
-            maxDays
+            oldValue
+            &&
+            Number(oldValue)
+            <= maxDays
         ) {
 
-            day.value =
-                selectedDay;
+            dayElement.value =
+                oldValue;
 
         }
 
     }
 
 
-    /*
-     * Convert:
-     *
-     * Day + Month + Year
-     *
-     * into:
-     *
-     * YYYY-MM-DD
-     */
+    /* ======================================
+       Build YYYY-MM-DD
+    ====================================== */
 
-    function syncDateOfBirth() {
+    function syncDOB() {
 
-        const dayValue =
-            day.value;
+        const day =
+            dayElement.value;
 
 
-        const monthValue =
-            month.value;
+        const month =
+            monthElement.value;
 
 
-        const yearValue =
-            year.value.trim();
-
-
-        if (
-            !dayValue ||
-            !monthValue ||
-            !yearValue
-        ) {
-
-            hiddenDate.value =
-                "";
-
-            return;
-
-        }
-
-
-        const numericYear =
+        const year =
             Number(
-                yearValue
+                yearElement.value
             );
 
 
         if (
-            !Number.isInteger(
-                numericYear
-            )
+            !day
             ||
-            numericYear < 1900
+            !month
             ||
-            numericYear > currentYear
+            !Number.isInteger(year)
+            ||
+            year < 1900
+            ||
+            year > currentYear
         ) {
 
-            hiddenDate.value =
+            dateElement.value =
                 "";
 
             return;
@@ -1095,11 +2086,8 @@ Same as Present Address
         }
 
 
-        hiddenDate.value =
-
-            String(
-                numericYear
-            )
+        dateElement.value =
+            String(year)
 
             +
 
@@ -1107,7 +2095,7 @@ Same as Present Address
 
             +
 
-            monthValue
+            month
 
             +
 
@@ -1115,42 +2103,42 @@ Same as Present Address
 
             +
 
-            dayValue;
+            day;
 
     }
 
 
-    month.addEventListener(
+    monthElement.addEventListener(
         "change",
         function () {
 
-            loadDays();
+            refreshDays();
 
-            syncDateOfBirth();
+            syncDOB();
 
         }
     );
 
 
-    year.addEventListener(
-        "input",
-        function () {
-
-            loadDays();
-
-            syncDateOfBirth();
-
-        }
-    );
-
-
-    day.addEventListener(
+    dayElement.addEventListener(
         "change",
-        syncDateOfBirth
+        syncDOB
     );
 
 
-    loadDays();
+    document.addEventListener(
+        "ismLanguageReady",
+        refreshDays
+    );
+
+
+    document.addEventListener(
+        "ismLanguageChanged",
+        refreshDays
+    );
+
+
+    refreshDays();
 
 
 })();
@@ -1160,7 +2148,103 @@ Same as Present Address
 
 
 <!-- ==========================================
-     Existing Application Scripts
+     Same Address Helper
+========================================== -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    const checkbox =
+        document.getElementById(
+            "sameAddress"
+        );
+
+
+    const permanent =
+        document.getElementById(
+            "permanentAddress"
+        );
+
+
+    if (
+        !checkbox
+        ||
+        !permanent
+    ) {
+
+        return;
+
+    }
+
+
+    function buildPresentAddress() {
+
+        const ids = [
+
+            "village",
+            "wardSearch",
+            "unionSearch",
+            "thanaSearch",
+            "districtSearch",
+            "divisionSearch",
+            "presentAddress"
+
+        ];
+
+
+        return ids
+            .map(
+                function (id) {
+
+                    const element =
+                        document.getElementById(
+                            id
+                        );
+
+
+                    return element
+                        ?
+                        element.value.trim()
+                        :
+                        "";
+
+                }
+            )
+            .filter(Boolean)
+            .join(", ");
+
+    }
+
+
+    checkbox.addEventListener(
+        "change",
+        function () {
+
+            if (
+                checkbox.checked
+            ) {
+
+                permanent.value =
+                    buildPresentAddress();
+
+            }
+
+        }
+    );
+
+
+})();
+
+</script>
+
+
+
+<!-- ==========================================
+     Existing Admission System
 ========================================== -->
 
 <script src="student-data.js"></script>
