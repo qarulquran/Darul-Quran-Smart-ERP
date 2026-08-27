@@ -5,13 +5,32 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
 <title>
 ISM - Dashboard
 </title>
 
-<link rel="stylesheet" href="dashboard.css">
+
+<!-- ==========================================
+     ISM Master Layout
+     Header + Sidebar + Responsive System
+========================================== -->
+
+<link
+    rel="stylesheet"
+    href="../components/layout.css">
+
+
+<!-- ==========================================
+     Dashboard Design
+========================================== -->
+
+<link
+    rel="stylesheet"
+    href="dashboard.css">
 
 </head>
 
@@ -38,11 +57,15 @@ ISM - Dashboard
 <main class="dashboard-container">
 
 
-    <!-- Page Heading -->
+    <!-- ======================================
+         Page Heading
+    ======================================= -->
 
     <section class="dashboard-heading">
 
+
         <div>
+
 
             <p
                 class="eyebrow"
@@ -69,7 +92,9 @@ ISM - Dashboard
 
             </p>
 
+
         </div>
+
 
 
         <div
@@ -79,6 +104,7 @@ ISM - Dashboard
             -
 
         </div>
+
 
     </section>
 
@@ -91,175 +117,259 @@ ISM - Dashboard
     <section class="kpi-grid">
 
 
+        <!-- Total Students -->
+
         <article class="kpi-card kpi-students">
 
+
             <div class="kpi-icon">
+
                 👨‍🎓
+
             </div>
 
 
             <div class="kpi-content">
 
+
                 <p data-i18n="totalStudents">
+
                     Total Students
+
                 </p>
 
 
                 <h2 id="totalStudents">
+
                     0
+
                 </h2>
 
 
                 <span data-i18n="activeStudents">
+
                     Active Students
+
                 </span>
 
+
             </div>
+
 
         </article>
 
 
 
+        <!-- Total Teachers -->
+
         <article class="kpi-card kpi-teachers">
 
+
             <div class="kpi-icon">
+
                 👨‍🏫
+
             </div>
 
 
             <div class="kpi-content">
 
+
                 <p data-i18n="totalTeachers">
+
                     Total Teachers
+
                 </p>
 
 
                 <h2 id="totalTeachers">
+
                     0
+
                 </h2>
 
 
                 <span data-i18n="teachingStaff">
+
                     Teaching Staff
+
                 </span>
 
+
             </div>
+
 
         </article>
 
 
 
+        <!-- Monthly Collection -->
+
         <article class="kpi-card kpi-income">
 
+
             <div class="kpi-icon">
+
                 💰
+
             </div>
 
 
             <div class="kpi-content">
 
+
                 <p data-i18n="monthlyCollection">
+
                     Monthly Collection
+
                 </p>
 
 
                 <h2 id="monthlyFee">
+
                     ৳0
+
                 </h2>
 
 
                 <span data-i18n="currentMonth">
+
                     Current Month
+
                 </span>
 
+
             </div>
+
 
         </article>
 
 
 
+        <!-- Total Due -->
+
         <article class="kpi-card kpi-due">
 
+
             <div class="kpi-icon">
+
                 ⚠️
+
             </div>
 
 
             <div class="kpi-content">
 
+
                 <p data-i18n="totalDue">
+
                     Total Due
+
                 </p>
 
 
                 <h2 id="totalDueAmount">
+
                     ৳0
+
                 </h2>
 
 
                 <span data-i18n="pendingPayment">
+
                     Pending Payment
+
                 </span>
 
+
             </div>
+
 
         </article>
 
 
 
+        <!-- Attendance -->
+
         <article class="kpi-card kpi-attendance">
 
+
             <div class="kpi-icon">
+
                 📅
+
             </div>
 
 
             <div class="kpi-content">
 
+
                 <p data-i18n="attendance">
+
                     Attendance
+
                 </p>
 
 
                 <h2 id="attendance">
+
                     0%
+
                 </h2>
 
 
                 <span data-i18n="attendanceToday">
+
                     Today's Attendance
+
                 </span>
 
+
             </div>
+
 
         </article>
 
 
 
+        <!-- New Admission -->
+
         <article class="kpi-card kpi-admission">
 
+
             <div class="kpi-icon">
+
                 📝
+
             </div>
 
 
             <div class="kpi-content">
 
+
                 <p data-i18n="newAdmission">
+
                     New Admission
+
                 </p>
 
 
                 <h2 id="newAdmission">
+
                     0
+
                 </h2>
 
 
                 <span data-i18n="thisYear">
+
                     This Year
+
                 </span>
 
+
             </div>
+
 
         </article>
 
@@ -275,7 +385,10 @@ ISM - Dashboard
     <section class="insight-grid">
 
 
+        <!-- Monthly Fee Due -->
+
         <article class="insight-card">
+
 
             <div
                 class="insight-label"
@@ -294,11 +407,15 @@ ISM - Dashboard
 
             </div>
 
+
         </article>
 
 
 
+        <!-- Other Fee Due -->
+
         <article class="insight-card">
+
 
             <div
                 class="insight-label"
@@ -317,11 +434,15 @@ ISM - Dashboard
 
             </div>
 
+
         </article>
 
 
 
+        <!-- Paid This Month -->
+
         <article class="insight-card">
+
 
             <div
                 class="insight-label"
@@ -340,6 +461,7 @@ ISM - Dashboard
 
             </div>
 
+
         </article>
 
 
@@ -354,12 +476,16 @@ ISM - Dashboard
     <section class="chart-grid">
 
 
+        <!-- Student Growth -->
+
         <article class="chart-card chart-large">
 
 
             <div class="chart-header">
 
+
                 <div>
+
 
                     <p
                         class="chart-kicker"
@@ -377,7 +503,9 @@ ISM - Dashboard
 
                     </h2>
 
+
                 </div>
+
 
 
                 <span
@@ -388,14 +516,19 @@ ISM - Dashboard
 
                 </span>
 
+
             </div>
+
 
 
             <div class="chart-wrap">
 
+
                 <canvas
                     id="studentChart">
+
                 </canvas>
+
 
             </div>
 
@@ -404,12 +537,16 @@ ISM - Dashboard
 
 
 
+        <!-- Attendance Overview -->
+
         <article class="chart-card">
 
 
             <div class="chart-header">
 
+
                 <div>
+
 
                     <p
                         class="chart-kicker"
@@ -427,18 +564,25 @@ ISM - Dashboard
 
                     </h2>
 
+
                 </div>
 
+
             </div>
+
 
 
             <div class="chart-wrap chart-doughnut">
 
+
                 <canvas
                     id="attendanceChart">
+
                 </canvas>
 
+
             </div>
+
 
 
             <div
@@ -452,12 +596,16 @@ ISM - Dashboard
 
 
 
+        <!-- Income Analysis -->
+
         <article class="chart-card chart-wide">
 
 
             <div class="chart-header">
 
+
                 <div>
+
 
                     <p
                         class="chart-kicker"
@@ -475,7 +623,9 @@ ISM - Dashboard
 
                     </h2>
 
+
                 </div>
+
 
 
                 <span
@@ -486,14 +636,19 @@ ISM - Dashboard
 
                 </span>
 
+
             </div>
+
 
 
             <div class="chart-wrap">
 
+
                 <canvas
                     id="incomeChart">
+
                 </canvas>
+
 
             </div>
 
@@ -512,13 +667,18 @@ ISM - Dashboard
     <section class="activity-grid">
 
 
+        <!-- Recent Payments -->
+
         <article class="activity-card">
 
 
             <div class="activity-header">
 
+
                 <h2 data-i18n="recentPayments">
+
                     Recent Payments
+
                 </h2>
 
 
@@ -530,12 +690,15 @@ ISM - Dashboard
 
                 </a>
 
+
             </div>
+
 
 
             <div
                 id="recentPayments"
                 class="activity-list">
+
 
                 <div
                     class="empty-state"
@@ -545,6 +708,7 @@ ISM - Dashboard
 
                 </div>
 
+
             </div>
 
 
@@ -552,13 +716,18 @@ ISM - Dashboard
 
 
 
+        <!-- Recent Admissions -->
+
         <article class="activity-card">
 
 
             <div class="activity-header">
 
+
                 <h2 data-i18n="recentAdmission">
+
                     Recent Admissions
+
                 </h2>
 
 
@@ -570,12 +739,15 @@ ISM - Dashboard
 
                 </a>
 
+
             </div>
+
 
 
             <div
                 id="recentAdmission"
                 class="activity-list">
+
 
                 <div
                     class="empty-state"
@@ -584,6 +756,7 @@ ISM - Dashboard
                     No Data Found
 
                 </div>
+
 
             </div>
 
@@ -599,18 +772,30 @@ ISM - Dashboard
 
 
 <!-- ==========================================
-     Chart Library
+     Common Footer
 ========================================== -->
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<div id="footer"></div>
 
 
 
 <!-- ==========================================
-     Common Layout
+     Chart Library
 ========================================== -->
 
-<script src="../components/layout-loader.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/chart.js">
+</script>
+
+
+
+<!-- ==========================================
+     ISM Common Layout Loader
+========================================== -->
+
+<script
+    src="../components/layout-loader.js">
+</script>
 
 
 
@@ -618,7 +803,9 @@ ISM - Dashboard
      Dashboard Logic
 ========================================== -->
 
-<script src="dashboard.js"></script>
+<script
+    src="dashboard.js">
+</script>
 
 
 </body>
