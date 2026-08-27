@@ -5,6 +5,12 @@
 
 const ISM_AR = {
 
+    // ======================================
+    // Common / Navigation
+    // ======================================
+
+    menu: "القائمة",
+
     dashboard: "لوحة التحكم",
     dashboardOverview: "نظرة عامة على لوحة التحكم",
     welcomeDashboard: "مرحبًا بك في لوحة تحكم ISM",
@@ -13,6 +19,7 @@ const ISM_AR = {
     studentProfile: "ملف الطالب",
     admission: "القبول",
     academic: "الأكاديمية",
+
     classManagement: "إدارة الصفوف",
     subjectManagement: "إدارة المواد",
     routine: "الجدول الدراسي",
@@ -28,76 +35,200 @@ const ISM_AR = {
 
     teachers: "المعلمون",
     payroll: "الرواتب",
+
     finance: "الإدارة المالية",
     reports: "التقارير",
+
     library: "المكتبة",
     inventory: "المخزون",
     hostel: "الإقامة الداخلية",
     discipline: "الانضباط والسلوك",
     guardianPortal: "بوابة أولياء الأمور",
     services: "خدمات الطلاب",
+
     notifications: "الإشعارات",
     auditLog: "سجل التدقيق",
     settings: "الإعدادات",
+
     language: "اللغة",
     institution: "المؤسسة",
     admin: "المسؤول",
     logout: "تسجيل الخروج",
 
+
+    // ======================================
+    // Dashboard
+    // ======================================
+
     totalStudents: "إجمالي الطلاب",
     activeStudents: "الطلاب النشطون",
+
     totalTeachers: "إجمالي المعلمين",
     teachingStaff: "هيئة التدريس",
+
     monthlyCollection: "التحصيل الشهري",
     currentMonth: "الشهر الحالي",
+
     totalDue: "إجمالي المستحق",
     pendingPayment: "المدفوعات المعلقة",
+
     attendanceToday: "حضور اليوم",
+
     newAdmission: "القبول الجديد",
     thisYear: "هذا العام",
+
     paidThisMonth: "المدفوع هذا الشهر",
 
     analytics: "التحليلات",
     studentGrowth: "نمو الطلاب",
     attendanceOverview: "نظرة عامة على الحضور",
     incomeAnalysis: "تحليل الإيرادات",
+
     recentPayments: "المدفوعات الأخيرة",
     recentAdmission: "القبول الأخير",
+
     viewAll: "عرض الكل",
+
+
+    // ======================================
+    // Student Common
+    // ======================================
 
     studentName: "اسم الطالب",
     fatherName: "اسم الأب",
     motherName: "اسم الأم",
+
     className: "الصف",
     studentCode: "رمز الطالب",
+
     mobile: "رقم الهاتف",
     admissionDate: "تاريخ القبول",
+
     payment: "الدفع",
     receipt: "الإيصال",
+
     monthlyDue: "الرسوم الشهرية المستحقة",
     otherDue: "الرسوم الأخرى المستحقة",
 
-    save: "حفظ",
-    search: "بحث",
-    edit: "تعديل",
-    delete: "حذف",
-    view: "عرض",
-    print: "طباعة",
-    close: "إغلاق",
-    cancel: "إلغاء",
-    confirm: "تأكيد",
 
-    certificateNo: "رقم الشهادة",
-    issueDate: "تاريخ الإصدار",
+    // ======================================
+    // Add Student / Admission
+    // ======================================
 
-    valid: "صالح",
-    pending: "قيد الانتظار",
-    paid: "مدفوع",
-    due: "مستحق",
+    addStudent: "إضافة طالب",
 
-    noData: "لا توجد بيانات"
+    addNewStudent:
+        "إضافة طالب جديد",
 
-};
+    studentAdmissionForm:
+        "نموذج قبول الطالب",
+
+    admissionFormSubtitle:
+        "تسجيل معلومات طالب جديد",
+
+    studentInformation:
+        "معلومات الطالب",
+
+    dateOfBirth:
+        "تاريخ الميلاد",
+
+    birthDay:
+        "اليوم",
+
+    birthMonth:
+        "الشهر",
+
+    birthYear:
+        "السنة",
+
+    birthDateExample:
+        "مثال: 15 · أغسطس · 2005",
+
+    birthRegistrationNumber:
+        "رقم تسجيل الميلاد",
+
+    bloodGroup:
+        "فصيلة الدم",
+
+    selectBloodGroup:
+        "اختر فصيلة الدم",
+
+    nationality:
+        "الجنسية",
+
+    bangladeshi:
+        "بنغلاديشي",
+
+    studentPhoto:
+        "صورة الطالب",
 
 
-window.ISM_AR = ISM_AR;
+    // ======================================
+    // Parents / Guardian
+    // ======================================
+
+    parentsInformation:
+        "معلومات الوالدين",
+
+    fatherNidNumber:
+        "رقم الهوية الوطنية للأب",
+
+    motherNidNumber:
+        "رقم الهوية الوطنية للأم",
+
+    guardianMobileNumber:
+        "رقم هاتف ولي الأمر",
+
+
+    // ======================================
+    // Previous Education
+    // ======================================
+
+    previousEducation:
+        "التعليم السابق",
+
+    previousInstitutionName:
+        "اسم المؤسسة السابقة",
+
+    previousClass:
+        "الصف السابق",
+
+    selectPreviousClass:
+        "اختر الصف السابق",
+
+
+    // ======================================
+    // Admission Information
+    // ======================================
+
+    admissionInformation:
+        "معلومات القبول",
+
+    admissionClass:
+        "صف القبول",
+
+    selectClass:
+        "اختر الصف",
+
+
+    // ======================================
+    // Address
+    // ======================================
+
+    presentAddress:
+        "العنوان الحالي",
+
+    permanentAddress:
+        "العنوان الدائم",
+
+    sameAsPresentAddress:
+        "نفس العنوان الحالي",
+
+    division:
+        "القسم الإداري",
+
+    district:
+        "المنطقة",
+
+    thanaUpazila:
+        "الثانا / الأ
