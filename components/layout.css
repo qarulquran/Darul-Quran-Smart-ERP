@@ -1,57 +1,57 @@
 /* ==========================================
    ISM - Islamic School Management
-   Master Layout System
+   MASTER LAYOUT SYSTEM
    Header + Sidebar + Overlay
-   Responsive + RTL/LTR
+   Desktop + Tablet + Mobile
+   LTR + RTL
 ========================================== */
 
 
 /* ==========================================
-   Layout Variables
+   Variables
 ========================================== */
 
 :root {
 
-    --layout-primary: #087f3d;
-    --layout-primary-dark: #05642f;
-    --layout-primary-soft: #eaf7ef;
+    --ism-layout-primary: #087f3d;
+    --ism-layout-primary-dark: #05642f;
+    --ism-layout-primary-soft: #eaf7ef;
 
-    --layout-text: #1f2937;
-    --layout-muted: #6b7280;
+    --ism-layout-text: #1f2937;
+    --ism-layout-muted: #6b7280;
 
-    --layout-border: #e5e7eb;
-    --layout-bg: #ffffff;
+    --ism-layout-border: #e5e7eb;
 
-    --layout-header-height: 72px;
-    --layout-sidebar-width: 275px;
+    --ism-layout-white: #ffffff;
 
-    --layout-shadow:
-        0 8px 28px rgba(15, 23, 42, 0.08);
+    --ism-header-height: 72px;
+    --ism-sidebar-width: 270px;
 
 }
 
 
 /* ==========================================
-   Global Layout Safety
+   Basic Safety
 ========================================== */
+
+* {
+    box-sizing: border-box;
+}
 
 html,
 body {
-
     width: 100%;
     min-height: 100%;
-
 }
 
 body {
-
+    margin: 0;
     overflow-x: hidden;
-
 }
 
 
 /* ==========================================
-   Header Container
+   HEADER HOLDER
 ========================================== */
 
 body > #header {
@@ -60,25 +60,19 @@ body > #header {
 
     top: 0;
 
-    left: 0;
-
-    right: 0;
-
-    z-index: 1200;
+    z-index: 1300;
 
     width: 100%;
-
 }
 
 
 /* ==========================================
-   Header
+   HEADER
 ========================================== */
 
 .erp-header {
 
-    width: 100%;
-    min-height: var(--layout-header-height);
+    min-height: var(--ism-header-height);
 
     display: flex;
 
@@ -86,26 +80,23 @@ body > #header {
 
     justify-content: space-between;
 
-    gap: 18px;
+    gap: 16px;
 
-    padding: 10px 20px;
+    padding: 10px 18px;
 
-    background:
-        rgba(255, 255, 255, 0.97);
+    background: rgba(255,255,255,0.98);
 
     border-bottom:
-        1px solid var(--layout-border);
+        1px solid var(--ism-layout-border);
 
     box-shadow:
-        0 2px 12px rgba(15, 23, 42, 0.05);
-
-    backdrop-filter: blur(12px);
+        0 3px 14px rgba(15,23,42,0.06);
 
 }
 
 
 /* ==========================================
-   Header Left
+   HEADER LEFT
 ========================================== */
 
 .header-left {
@@ -114,16 +105,18 @@ body > #header {
 
     align-items: center;
 
-    gap: 14px;
+    gap: 12px;
 
     min-width: 0;
-
 }
 
+
+/* Menu Button */
 
 #menuToggle {
 
     width: 42px;
+
     height: 42px;
 
     min-width: 42px;
@@ -134,39 +127,25 @@ body > #header {
 
     justify-content: center;
 
-    border: 1px solid var(--layout-border);
+    border:
+        1px solid var(--ism-layout-border);
 
     border-radius: 12px;
 
-    background: #ffffff;
+    background:
+        var(--ism-layout-primary-soft);
 
-    color: var(--layout-text);
+    color:
+        var(--ism-layout-primary-dark);
 
-    font-size: 21px;
+    font-size: 20px;
 
     cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease;
-
-}
-
-
-#menuToggle:hover {
-
-    background: var(--layout-primary-soft);
-
-    border-color: #cce8d7;
-
-    color: var(--layout-primary);
-
 }
 
 
 /* ==========================================
-   Platform Brand
+   PLATFORM BRAND
 ========================================== */
 
 .platform-brand {
@@ -178,36 +157,30 @@ body > #header {
     gap: 10px;
 
     min-width: 0;
-
 }
 
 
 .platform-logo {
 
-    width: 42px;
+    width: 40px;
 
-    height: 42px;
+    height: 40px;
 
-    min-width: 42px;
+    min-width: 40px;
 
     object-fit: contain;
-
-    border-radius: 10px;
-
 }
 
 
 .platform-logo[src=""] {
 
     display: none;
-
 }
 
 
 .brand-text {
 
     min-width: 0;
-
 }
 
 
@@ -215,14 +188,14 @@ body > #header {
 
     margin: 0;
 
-    color: var(--layout-primary);
+    color:
+        var(--ism-layout-primary);
 
-    font-size: 20px;
+    font-size: 19px;
 
     line-height: 1.1;
 
     font-weight: 800;
-
 }
 
 
@@ -232,17 +205,17 @@ body > #header {
 
     margin-top: 3px;
 
-    color: var(--layout-muted);
+    color:
+        var(--ism-layout-muted);
 
-    font-size: 11px;
+    font-size: 10px;
 
     white-space: nowrap;
-
 }
 
 
 /* ==========================================
-   Header Right
+   HEADER RIGHT
 ========================================== */
 
 .header-right {
@@ -253,48 +226,47 @@ body > #header {
 
     justify-content: flex-end;
 
-    gap: 12px;
+    gap: 9px;
 
     min-width: 0;
-
 }
 
 
 /* ==========================================
-   Language
+   LANGUAGE
 ========================================== */
 
 .language-control {
+
+    height: 40px;
 
     display: flex;
 
     align-items: center;
 
-    gap: 6px;
+    gap: 5px;
 
-    height: 40px;
+    padding: 0 9px;
 
-    padding: 0 10px;
+    background:
+        var(--ism-layout-white);
 
-    background: #ffffff;
-
-    border: 1px solid var(--layout-border);
+    border:
+        1px solid var(--ism-layout-border);
 
     border-radius: 11px;
-
 }
 
 
 .language-icon {
 
-    font-size: 15px;
-
+    font-size: 14px;
 }
 
 
 .language-control select {
 
-    max-width: 100px;
+    max-width: 90px;
 
     border: none;
 
@@ -302,33 +274,32 @@ body > #header {
 
     background: transparent;
 
-    color: var(--layout-text);
+    color:
+        var(--ism-layout-text);
 
-    font-size: 12px;
-
-    cursor: pointer;
-
+    font-size: 11px;
 }
 
 
 /* ==========================================
-   Institution
+   INSTITUTION DISPLAY
 ========================================== */
 
 .institution-display {
 
-    max-width: 230px;
+    min-width: 145px;
 
-    min-width: 150px;
+    max-width: 220px;
 
-    padding: 6px 11px;
+    padding: 6px 10px;
 
-    background: var(--layout-primary-soft);
+    background:
+        var(--ism-layout-primary-soft);
 
-    border: 1px solid #d4ebdc;
+    border:
+        1px solid #d4ebdc;
 
     border-radius: 11px;
-
 }
 
 
@@ -338,12 +309,10 @@ body > #header {
 
     margin-bottom: 2px;
 
-    color: var(--layout-muted);
+    color:
+        var(--ism-layout-muted);
 
-    font-size: 9px;
-
-    font-weight: 600;
-
+    font-size: 8px;
 }
 
 
@@ -353,21 +322,21 @@ body > #header {
 
     overflow: hidden;
 
-    color: var(--layout-primary-dark);
+    color:
+        var(--ism-layout-primary-dark);
 
-    font-size: 12px;
+    font-size: 11px;
 
     font-weight: 700;
 
     text-overflow: ellipsis;
 
     white-space: nowrap;
-
 }
 
 
 /* ==========================================
-   Notifications
+   NOTIFICATION
 ========================================== */
 
 .notification-btn {
@@ -384,35 +353,35 @@ body > #header {
 
     justify-content: center;
 
-    border: 1px solid var(--layout-border);
+    border:
+        1px solid var(--ism-layout-border);
 
     border-radius: 11px;
 
-    background: #ffffff;
+    background:
+        var(--ism-layout-white);
 
-    font-size: 17px;
+    font-size: 16px;
 
     cursor: pointer;
-
 }
 
 
 /* ==========================================
-   User Profile
+   USER PROFILE
 ========================================== */
 
 .profile {
+
+    min-width: 105px;
+
+    max-width: 170px;
 
     display: flex;
 
     flex-direction: column;
 
     justify-content: center;
-
-    min-width: 110px;
-
-    max-width: 180px;
-
 }
 
 
@@ -420,16 +389,16 @@ body > #header {
 
     overflow: hidden;
 
-    color: var(--layout-text);
+    color:
+        var(--ism-layout-text);
 
-    font-size: 12px;
+    font-size: 11px;
 
     font-weight: 700;
 
     text-overflow: ellipsis;
 
     white-space: nowrap;
-
 }
 
 
@@ -439,24 +408,24 @@ body > #header {
 
     margin-top: 2px;
 
-    color: var(--layout-muted);
+    color:
+        var(--ism-layout-muted);
 
-    font-size: 9px;
+    font-size: 8px;
 
     text-overflow: ellipsis;
 
     white-space: nowrap;
-
 }
 
 
 /* ==========================================
-   Logout
+   LOGOUT
 ========================================== */
 
 .logout-btn {
 
-    min-height: 40px;
+    height: 40px;
 
     display: flex;
 
@@ -464,9 +433,9 @@ body > #header {
 
     justify-content: center;
 
-    gap: 6px;
+    gap: 5px;
 
-    padding: 0 12px;
+    padding: 0 11px;
 
     border: none;
 
@@ -476,56 +445,46 @@ body > #header {
 
     color: #b42318;
 
-    font-size: 12px;
+    font-size: 11px;
 
     font-weight: 700;
 
     cursor: pointer;
-
-    transition:
-        background 0.2s ease;
-
-}
-
-
-.logout-btn:hover {
-
-    background: #ffe2e2;
-
 }
 
 
 /* ==========================================
-   Sidebar Outer Container
+   SIDEBAR HOLDER
 ========================================== */
 
 body > #sidebar {
 
     position: fixed;
 
-    top: var(--layout-header-height);
+    top: var(--ism-header-height);
 
     left: 0;
 
     bottom: 0;
 
-    z-index: 1150;
+    z-index: 1200;
 
-    width: var(--layout-sidebar-width);
+    width:
+        var(--ism-sidebar-width);
 
-    background: #ffffff;
+    background:
+        var(--ism-layout-white);
 
     border-right:
-        1px solid var(--layout-border);
+        1px solid var(--ism-layout-border);
 
     box-shadow:
-        4px 0 20px rgba(15, 23, 42, 0.04);
-
+        5px 0 22px rgba(15,23,42,0.05);
 }
 
 
 /* ==========================================
-   Actual Sidebar
+   SIDEBAR
 ========================================== */
 
 .erp-sidebar {
@@ -538,25 +497,22 @@ body > #sidebar {
 
     flex-direction: column;
 
-    background: #ffffff;
+    background:
+        var(--ism-layout-white);
 
     overflow: hidden;
-
 }
 
 
 /* ==========================================
-   Sidebar Brand
+   SIDEBAR BRAND
 ========================================== */
 
 .sidebar-brand {
 
     flex: 0 0 auto;
 
-    padding: 18px 17px;
-
-    border-bottom:
-        1px solid var(--layout-border);
+    padding: 16px 14px;
 
     background:
         linear-gradient(
@@ -565,6 +521,8 @@ body > #sidebar {
             #f3faf5
         );
 
+    border-bottom:
+        1px solid var(--ism-layout-border);
 }
 
 
@@ -574,58 +532,58 @@ body > #sidebar {
 
     flex-direction: column;
 
-    gap: 3px;
-
+    gap: 2px;
 }
 
 
 .sidebar-platform strong {
 
-    color: var(--layout-primary);
+    color:
+        var(--ism-layout-primary);
 
-    font-size: 22px;
+    font-size: 20px;
 
     font-weight: 800;
-
 }
 
 
 .sidebar-platform span {
 
-    color: var(--layout-muted);
+    color:
+        var(--ism-layout-muted);
 
-    font-size: 10px;
-
+    font-size: 9px;
 }
 
 
 .sidebar-institution {
 
-    margin-top: 11px;
+    margin-top: 10px;
 
-    padding: 8px 10px;
+    padding: 7px 9px;
 
     overflow: hidden;
 
-    background: var(--layout-primary-soft);
+    background:
+        var(--ism-layout-primary-soft);
 
-    border-radius: 9px;
+    border-radius: 8px;
 
-    color: var(--layout-primary-dark);
+    color:
+        var(--ism-layout-primary-dark);
 
-    font-size: 11px;
+    font-size: 10px;
 
     font-weight: 700;
 
     text-overflow: ellipsis;
 
     white-space: nowrap;
-
 }
 
 
 /* ==========================================
-   Sidebar Navigation
+   SIDEBAR NAV
 ========================================== */
 
 .sidebar-nav {
@@ -636,107 +594,684 @@ body > #sidebar {
 
     overflow-x: hidden;
 
-    padding: 12px 10px 20px;
+    padding: 10px 8px 18px;
 
     scrollbar-width: thin;
-
-    scrollbar-color:
-        #cbd5e1 transparent;
-
 }
 
 
 .sidebar-nav::-webkit-scrollbar {
 
     width: 5px;
-
 }
 
 
 .sidebar-nav::-webkit-scrollbar-thumb {
 
-    background: #d1d5db;
+    background: #d4d8dd;
 
     border-radius: 20px;
-
 }
 
 
 /* ==========================================
-   Main Navigation Item
+   MAIN NAV ITEM
 ========================================== */
 
 .nav-item {
 
-    min-height: 43px;
+    min-height: 42px;
 
     display: flex;
 
     align-items: center;
 
-    gap: 10px;
+    gap: 9px;
 
-    padding: 9px 11px;
+    padding: 9px 10px;
 
     margin-bottom: 6px;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
-    color: var(--layout-text);
+    color:
+        var(--ism-layout-text);
 
     text-decoration: none;
 
-    font-size: 13px;
+    font-size: 12px;
 
     font-weight: 700;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease;
-
 }
 
 
 .nav-item:hover {
 
-    background: var(--layout-primary-soft);
+    background:
+        var(--ism-layout-primary-soft);
 
-    color: var(--layout-primary-dark);
-
+    color:
+        var(--ism-layout-primary-dark);
 }
 
 
 .nav-item.active {
 
-    background: var(--layout-primary);
+    background:
+        var(--ism-layout-primary);
 
     color: #ffffff;
-
 }
 
 
 .nav-icon {
 
-    width: 24px;
+    width: 22px;
 
-    min-width: 24px;
+    min-width: 22px;
 
     text-align: center;
 
-    font-size: 17px;
+    font-size: 15px;
+}
+
+
+/* ==========================================
+   NAVIGATION SECTIONS
+========================================== */
+
+.nav-section {
+
+    margin-top: 7px;
+
+    padding-top: 7px;
+
+    border-top:
+        1px solid #f0f2f4;
+}
+
+
+.nav-section-title {
+
+    min-height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 6px 9px;
+
+    color:
+        var(--ism-layout-text);
+
+    font-size: 11px;
+
+    font-weight: 800;
+}
+
+
+/* ==========================================
+   SUB MENU
+========================================== */
+
+.nav-subitem {
+
+    position: relative;
+
+    min-height: 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    margin: 1px 0;
+
+    padding:
+        6px
+        8px
+        6px
+        32px;
+
+    border-radius: 7px;
+
+    color:
+        var(--ism-layout-muted);
+
+    text-decoration: none !important;
+
+    font-size: 10px;
+
+    line-height: 1.35;
+
+    font-weight: 600;
+}
+
+
+.nav-subitem::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 18px;
+
+    width: 5px;
+
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #cbd5e1;
+}
+
+
+.nav-subitem:hover {
+
+    background: #f5faf7;
+
+    color:
+        var(--ism-layout-primary-dark);
+
+    text-decoration: none !important;
+}
+
+
+.nav-subitem:hover::before {
+
+    background:
+        var(--ism-layout-primary);
+}
+
+
+.nav-subitem.active {
+
+    background:
+        var(--ism-layout-primary-soft);
+
+    color:
+        var(--ism-layout-primary-dark);
+
+    font-weight: 700;
+}
+
+
+.nav-subitem.active::before {
+
+    background:
+        var(--ism-layout-primary);
+}
+
+
+/* ==========================================
+   SIDEBAR FOOTER
+========================================== */
+
+.sidebar-footer {
+
+    flex: 0 0 auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 8px;
+
+    padding: 10px 12px;
+
+    background: #fafcfa;
+
+    border-top:
+        1px solid var(--ism-layout-border);
+}
+
+
+.platform-footer {
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.platform-footer strong {
+
+    color:
+        var(--ism-layout-primary);
+
+    font-size: 12px;
+}
+
+
+.platform-footer small {
+
+    overflow: hidden;
+
+    color:
+        var(--ism-layout-muted);
+
+    font-size: 7px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+.version {
+
+    flex: 0 0 auto;
+
+    color:
+        var(--ism-layout-muted);
+
+    font-size: 8px;
+}
+
+
+/* ==========================================
+   DESKTOP CONTENT OFFSET
+========================================== */
+
+body > #sidebar
++ #overlay
++ .dashboard-container {
+
+    width:
+        calc(
+            100% - var(--ism-sidebar-width)
+        );
+
+    max-width: none;
+
+    margin-left:
+        var(--ism-sidebar-width);
+}
+
+
+/* ==========================================
+   OVERLAY
+========================================== */
+
+body > #overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1150;
+
+    display: none;
+
+    background:
+        rgba(15,23,42,0.45);
+}
+
+
+body > #overlay.active {
+
+    display: block;
+}
+
+
+/* ==========================================
+   RTL
+========================================== */
+
+html[dir="rtl"]
+body > #sidebar {
+
+    left: auto;
+
+    right: 0;
+
+    border-right: none;
+
+    border-left:
+        1px solid var(--ism-layout-border);
+}
+
+
+html[dir="rtl"]
+body > #sidebar
++ #overlay
++ .dashboard-container {
+
+    margin-left: 0;
+
+    margin-right:
+        var(--ism-sidebar-width);
+}
+
+
+html[dir="rtl"]
+.nav-subitem {
+
+    padding:
+        6px
+        32px
+        6px
+        8px;
+}
+
+
+html[dir="rtl"]
+.nav-subitem::before {
+
+    left: auto;
+
+    right: 18px;
+}
+
+
+/* ==========================================
+   TABLET / MOBILE
+========================================== */
+
+@media (max-width: 1024px) {
+
+    :root {
+
+        --ism-header-height: 66px;
+
+    }
+
+
+    body > #sidebar {
+
+        width: 280px;
+
+        transform:
+            translateX(-105%);
+
+        transition:
+            transform 0.25s ease;
+
+        box-shadow:
+            10px 0 30px
+            rgba(15,23,42,0.16);
+    }
+
+
+    body > #sidebar.active {
+
+        transform:
+            translateX(0);
+    }
+
+
+    html[dir="rtl"]
+    body > #sidebar {
+
+        transform:
+            translateX(105%);
+    }
+
+
+    html[dir="rtl"]
+    body > #sidebar.active {
+
+        transform:
+            translateX(0);
+    }
+
+
+    body > #sidebar
+    + #overlay
+    + .dashboard-container {
+
+        width: 100%;
+
+        margin-left: 0;
+
+        margin-right: 0;
+    }
+
+
+    .erp-header {
+
+        min-height:
+            var(--ism-header-height);
+
+        padding:
+            8px 12px;
+    }
+
+
+    .institution-display {
+
+        min-width: 120px;
+
+        max-width: 170px;
+    }
+
+
+    .profile {
+
+        min-width: 85px;
+    }
 
 }
 
 
 /* ==========================================
-   Navigation Sections
+   MOBILE HEADER
 ========================================== */
 
-.nav-section {
+@media (max-width: 760px) {
 
-    margin-top: 8px;
+    .erp-header {
 
-    padding-top: 8px;
+        gap: 7px;
 
-    border-top:
-        1px solid #
+        padding:
+            8px 9px;
+    }
+
+
+    .header-left {
+
+        gap: 7px;
+    }
+
+
+    #menuToggle {
+
+        width: 38px;
+
+        height: 38px;
+
+        min-width: 38px;
+
+        font-size: 18px;
+    }
+
+
+    .platform-logo {
+
+        width: 34px;
+
+        height: 34px;
+
+        min-width: 34px;
+    }
+
+
+    .brand-text h3 {
+
+        font-size: 16px;
+    }
+
+
+    .brand-text small {
+
+        display: none;
+    }
+
+
+    .header-right {
+
+        gap: 6px;
+    }
+
+
+    .institution-display {
+
+        display: none;
+    }
+
+
+    .profile {
+
+        display: none;
+    }
+
+
+    .notification-btn {
+
+        width: 36px;
+
+        height: 36px;
+
+        min-width: 36px;
+
+        font-size: 15px;
+    }
+
+
+    .language-control {
+
+        height: 36px;
+
+        padding:
+            0 6px;
+    }
+
+
+    .language-icon {
+
+        display: none;
+    }
+
+
+    .language-control select {
+
+        max-width: 70px;
+
+        font-size: 9px;
+    }
+
+
+    .logout-btn {
+
+        width: 36px;
+
+        height: 36px;
+
+        min-width: 36px;
+
+        padding: 0;
+    }
+
+
+    .logout-btn span {
+
+        display: none;
+    }
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media (max-width: 430px) {
+
+    .erp-header {
+
+        padding:
+            7px 7px;
+    }
+
+
+    .platform-brand {
+
+        gap: 5px;
+    }
+
+
+    .brand-text h3 {
+
+        font-size: 15px;
+    }
+
+
+    .notification-btn {
+
+        display: none;
+    }
+
+
+    .language-control select {
+
+        max-width: 60px;
+    }
+
+
+    body > #sidebar {
+
+        width:
+            min(
+                86vw,
+                290px
+            );
+    }
+
+}
+
+
+/* ==========================================
+   VERY SMALL MOBILE
+========================================== */
+
+@media (max-width: 350px) {
+
+    .brand-text {
+
+        display: none;
+    }
+
+
+    .language-control {
+
+        padding:
+            0 4px;
+    }
+
+
+    .language-control select {
+
+        max-width: 55px;
+    }
+
+}
+
+
+/* ==========================================
+   Reduced Motion
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    body > #sidebar {
+
+        transition: none;
+    }
+
+}
