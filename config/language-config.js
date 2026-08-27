@@ -2,6 +2,7 @@
 // ISM - Islamic School Management
 // Global Language & Translation Engine
 // Bengali / English / Arabic
+// Live Translation + RTL + Cache Control
 // ==========================================
 
 (function () {
@@ -21,24 +22,59 @@
         "bn";
 
 
+    /*
+     * Change this value whenever
+     * language resource files are updated.
+     *
+     * This prevents GitHub Pages/browser
+     * from serving an old bn/en/ar file.
+     */
+
+    const LANGUAGE_RESOURCE_VERSION =
+        "20260827-2056";
+
+
     const SUPPORTED_LANGUAGES = {
 
         bn: {
-            name: "বাংলা",
-            direction: "ltr",
-            file: "bn.js"
+
+            name:
+                "বাংলা",
+
+            direction:
+                "ltr",
+
+            file:
+                "bn.js"
+
         },
+
 
         en: {
-            name: "English",
-            direction: "ltr",
-            file: "en.js"
+
+            name:
+                "English",
+
+            direction:
+                "ltr",
+
+            file:
+                "en.js"
+
         },
 
+
         ar: {
-            name: "العربية",
-            direction: "rtl",
-            file: "ar.js"
+
+            name:
+                "العربية",
+
+            direction:
+                "rtl",
+
+            file:
+                "ar.js"
+
         }
 
     };
@@ -64,7 +100,8 @@
 
 
         if (
-            saved &&
+            saved
+            &&
             SUPPORTED_LANGUAGES[saved]
         ) {
 
@@ -79,7 +116,7 @@
 
 
     // ======================================
-    // Language Direction
+    // Apply Language Direction
     // ======================================
 
     function applyLanguageDirection(
@@ -87,42 +124,95 @@
     ) {
 
         const lang =
-            language ||
+            language
+            ||
             getCurrentLanguage();
 
 
         const config =
-            SUPPORTED_LANGUAGES[lang];
+            SUPPORTED_LANGUAGES[
+                lang
+            ];
 
 
         if (!config) {
-            return;
+
+            return false;
+
         }
 
+
+        // ----------------------------------
+        // HTML language
+        // ----------------------------------
 
         document.documentElement.lang =
             lang;
 
 
+        // ----------------------------------
+        // RTL / LTR
+        // ----------------------------------
+
         document.documentElement.dir =
             config.direction;
 
 
-        document.body.classList.toggle(
-            "rtl-mode",
-            config.direction === "rtl"
-        );
+        // ----------------------------------
+        // Body class
+        // ----------------------------------
+
+        if (
+            document.body
+        ) {
+
+            document.body.classList.toggle(
+                "rtl-mode",
+                config.direction ===
+                "rtl"
+            );
+
+
+            document.body.classList.toggle(
+                "ltr-mode",
+                config.direction ===
+                "ltr"
+            );
+
+
+            document.body.setAttribute(
+                "dir",
+                config.direction
+            );
+
+        }
+
+
+        return true;
 
     }
 
 
     // ======================================
-    // Find Translation Resource Path
+    // Find Language File Path
     // ======================================
 
     function getLanguageFilePath(
         language
     ) {
+
+        const config =
+            SUPPORTED_LANGUAGES[
+                language
+            ];
+
+
+        if (!config) {
+
+            return null;
+
+        }
+
 
         const configScript =
             document.querySelector(
@@ -131,7 +221,8 @@
 
 
         if (
-            !configScript ||
+            !configScript
+            ||
             !configScript.src
         ) {
 
@@ -142,18 +233,43 @@
 
         try {
 
-            return new URL(
-                "../languages/" +
-                SUPPORTED_LANGUAGES[language].file,
-                configScript.src
-            ).href;
+            const url =
+                new URL(
 
-        } catch (error) {
+                    "../languages/"
+                    +
+                    config.file,
+
+                    configScript.src
+
+                );
+
+
+            /*
+             * Cache busting.
+             *
+             * Example:
+             *
+             * ar.js?v=20260827-2056
+             */
+
+            url.searchParams.set(
+                "v",
+                LANGUAGE_RESOURCE_VERSION
+            );
+
+
+            return url.href;
+
+        }
+
+        catch (error) {
 
             console.error(
                 "Language path error:",
                 error
             );
+
 
             return null;
 
@@ -163,35 +279,49 @@
 
 
     // ======================================
-    // Get Global Resource Name
+    // Get Global Resource
     // ======================================
 
     function getResource(
         language
     ) {
 
-        if (language === "bn") {
+        switch (
+            language
+        ) {
 
-            return window.ISM_BN || null;
+            case "bn":
+
+                return (
+                    window.ISM_BN
+                    ||
+                    null
+                );
+
+
+            case "en":
+
+                return (
+                    window.ISM_EN
+                    ||
+                    null
+                );
+
+
+            case "ar":
+
+                return (
+                    window.ISM_AR
+                    ||
+                    null
+                );
+
+
+            default:
+
+                return null;
 
         }
-
-
-        if (language === "en") {
-
-            return window.ISM_EN || null;
-
-        }
-
-
-        if (language === "ar") {
-
-            return window.ISM_AR || null;
-
-        }
-
-
-        return null;
 
     }
 
@@ -205,22 +335,56 @@
     ) {
 
         return new Promise(
-            function (resolve, reject) {
+            function (
+                resolve,
+                reject
+            ) {
 
                 if (
-                    !SUPPORTED_LANGUAGES[language]
+                    !SUPPORTED_LANGUAGES[
+                        language
+                    ]
                 ) {
 
                     reject(
                         new Error(
-                            "Unsupported language"
+                            "Unsupported language: "
+                            +
+                            language
                         )
                     );
+
 
                     return;
 
                 }
 
+
+                // ----------------------------------
+                // Already cached internally
+                // ----------------------------------
+
+                if (
+                    translations[
+                        language
+                    ]
+                ) {
+
+                    resolve(
+                        translations[
+                            language
+                        ]
+                    );
+
+
+                    return;
+
+                }
+
+
+                // ----------------------------------
+                // Already loaded globally
+                // ----------------------------------
 
                 const existing =
                     getResource(
@@ -228,17 +392,29 @@
                     );
 
 
-                if (existing) {
+                if (
+                    existing
+                ) {
 
-                    translations[language] =
+                    translations[
+                        language
+                    ] =
                         existing;
 
-                    resolve(existing);
+
+                    resolve(
+                        existing
+                    );
+
 
                     return;
 
                 }
 
+
+                // ----------------------------------
+                // Build resource URL
+                // ----------------------------------
 
                 const src =
                     getLanguageFilePath(
@@ -254,10 +430,15 @@
                         )
                     );
 
+
                     return;
 
                 }
 
+
+                // ----------------------------------
+                // Load Script
+                // ----------------------------------
 
                 const script =
                     document.createElement(
@@ -269,7 +450,12 @@
                     src;
 
 
-                script.async = false;
+                script.async =
+                    false;
+
+
+                script.dataset.language =
+                    language;
 
 
                 script.onload =
@@ -281,24 +467,33 @@
                             );
 
 
-                        if (!resource) {
+                        if (
+                            !resource
+                        ) {
 
                             reject(
                                 new Error(
-                                    "Translation resource not found"
+                                    "Translation resource not found: "
+                                    +
+                                    language
                                 )
                             );
+
 
                             return;
 
                         }
 
 
-                        translations[language] =
+                        translations[
+                            language
+                        ] =
                             resource;
 
 
-                        resolve(resource);
+                        resolve(
+                            resource
+                        );
 
                     };
 
@@ -337,27 +532,288 @@
     ) {
 
         const lang =
-            language ||
+            language
+            ||
             getCurrentLanguage();
 
 
         const resource =
-            translations[lang]
+            translations[
+                lang
+            ]
             ||
-            getResource(lang);
+            getResource(
+                lang
+            );
 
 
-        if (!resource) {
+        if (
+            !resource
+        ) {
 
             return key;
 
         }
 
 
-        return (
-            resource[key]
-            ||
-            key
+        if (
+            Object.prototype
+                .hasOwnProperty
+                .call(
+                    resource,
+                    key
+                )
+        ) {
+
+            return resource[
+                key
+            ];
+
+        }
+
+
+        return key;
+
+    }
+
+
+    // ======================================
+    // Translate Text Elements
+    // ======================================
+
+    function translateTextElements(
+        language
+    ) {
+
+        const elements =
+            document.querySelectorAll(
+                "[data-i18n]"
+            );
+
+
+        elements.forEach(
+            function (
+                element
+            ) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n"
+                    );
+
+
+                if (!key) {
+
+                    return;
+
+                }
+
+
+                const translated =
+                    translate(
+                        key,
+                        language
+                    );
+
+
+                /*
+                 * Keep the original text
+                 * when a translation key
+                 * is missing.
+                 */
+
+                if (
+                    translated !==
+                    key
+                ) {
+
+                    element.textContent =
+                        translated;
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // ======================================
+    // Translate Placeholders
+    // ======================================
+
+    function translatePlaceholders(
+        language
+    ) {
+
+        const elements =
+            document.querySelectorAll(
+                "[data-i18n-placeholder]"
+            );
+
+
+        elements.forEach(
+            function (
+                element
+            ) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n-placeholder"
+                    );
+
+
+                if (!key) {
+
+                    return;
+
+                }
+
+
+                const translated =
+                    translate(
+                        key,
+                        language
+                    );
+
+
+                if (
+                    translated !==
+                    key
+                ) {
+
+                    element.setAttribute(
+                        "placeholder",
+                        translated
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // ======================================
+    // Translate Tooltips / Titles
+    // ======================================
+
+    function translateTitles(
+        language
+    ) {
+
+        const elements =
+            document.querySelectorAll(
+                "[data-i18n-title]"
+            );
+
+
+        elements.forEach(
+            function (
+                element
+            ) {
+
+                const key =
+                    element.getAttribute(
+                        "data-i18n-title"
+                    );
+
+
+                if (!key) {
+
+                    return;
+
+                }
+
+
+                const translated =
+                    translate(
+                        key,
+                        language
+                    );
+
+
+                if (
+                    translated ===
+                    key
+                ) {
+
+                    return;
+
+                }
+
+
+                /*
+                 * Hidden page-title hook.
+                 *
+                 * Example:
+                 *
+                 * <div
+                 * data-i18n-title="addNewStudent"
+                 * hidden>
+                 * </div>
+                 */
+
+                if (
+                    element.hidden
+                ) {
+
+                    document.title =
+                        translated;
+
+
+                    return;
+
+                }
+
+
+                /*
+                 * Normal controls:
+                 * set tooltip/title attribute.
+                 */
+
+                element.setAttribute(
+                    "title",
+                    translated
+                );
+
+            }
+        );
+
+    }
+
+
+    // ======================================
+    // Synchronize Language Selectors
+    // ======================================
+
+    function syncLanguageSelectors(
+        language
+    ) {
+
+        const selectors =
+            document.querySelectorAll(
+                "#languageSelector"
+            );
+
+
+        selectors.forEach(
+            function (
+                selector
+            ) {
+
+                if (
+                    selector.value !==
+                    language
+                ) {
+
+                    selector.value =
+                        language;
+
+                }
+
+            }
         );
 
     }
@@ -372,96 +828,34 @@
     ) {
 
         const lang =
-            language ||
+            language
+            ||
             getCurrentLanguage();
 
 
-        const elements =
-            document.querySelectorAll(
-                "[data-i18n]"
-            );
-
-
-        elements.forEach(
-            function (element) {
-
-                const key =
-                    element.getAttribute(
-                        "data-i18n"
-                    );
-
-
-                if (!key) {
-                    return;
-                }
-
-
-                element.textContent =
-                    translate(
-                        key,
-                        lang
-                    );
-
-            }
+        translateTextElements(
+            lang
         );
 
 
-        // -------------------------------
-        // Placeholder Translation
-        // -------------------------------
-
-        const placeholders =
-            document.querySelectorAll(
-                "[data-i18n-placeholder]"
-            );
-
-
-        placeholders.forEach(
-            function (element) {
-
-                const key =
-                    element.getAttribute(
-                        "data-i18n-placeholder"
-                    );
-
-
-                element.setAttribute(
-                    "placeholder",
-                    translate(
-                        key,
-                        lang
-                    )
-                );
-
-            }
+        translatePlaceholders(
+            lang
         );
 
 
-        // -------------------------------
-        // Title Translation
-        // -------------------------------
-
-        const titleElement =
-            document.querySelector(
-                "[data-i18n-title]"
-            );
+        translateTitles(
+            lang
+        );
 
 
-        if (titleElement) {
-
-            const key =
-                titleElement.getAttribute(
-                    "data-i18n-title"
-                );
+        syncLanguageSelectors(
+            lang
+        );
 
 
-            document.title =
-                translate(
-                    key,
-                    lang
-                );
-
-        }
+        applyLanguageDirection(
+            lang
+        );
 
     }
 
@@ -475,8 +869,16 @@
     ) {
 
         if (
-            !SUPPORTED_LANGUAGES[language]
+            !SUPPORTED_LANGUAGES[
+                language
+            ]
         ) {
+
+            console.error(
+                "Unsupported language:",
+                language
+            );
+
 
             return false;
 
@@ -485,10 +887,18 @@
 
         try {
 
+            // ----------------------------------
+            // Load translation first
+            // ----------------------------------
+
             await loadLanguage(
                 language
             );
 
+
+            // ----------------------------------
+            // Save language
+            // ----------------------------------
 
             localStorage.setItem(
                 LANGUAGE_STORAGE_KEY,
@@ -496,24 +906,54 @@
             );
 
 
+            // ----------------------------------
+            // Global current language
+            // ----------------------------------
+
+            window.CURRENT_LANGUAGE =
+                language;
+
+
+            // ----------------------------------
+            // Apply RTL/LTR first
+            // ----------------------------------
+
             applyLanguageDirection(
                 language
             );
 
+
+            // ----------------------------------
+            // Translate immediately
+            // ----------------------------------
 
             translatePage(
                 language
             );
 
 
+            // ----------------------------------
+            // Notify components/pages
+            // ----------------------------------
+
             document.dispatchEvent(
                 new CustomEvent(
                     "ismLanguageChanged",
                     {
+
                         detail: {
+
                             language:
-                                language
+                                language,
+
+                            direction:
+                                SUPPORTED_LANGUAGES[
+                                    language
+                                ]
+                                .direction
+
                         }
+
                     }
                 )
             );
@@ -521,7 +961,9 @@
 
             return true;
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
             console.error(
                 "Language change failed:",
@@ -540,37 +982,20 @@
     // Change Language
     // ======================================
 
-    function changeLanguage(
+    async function changeLanguage(
         language
     ) {
 
-        if (
-            language ===
-            getCurrentLanguage()
-        ) {
+        /*
+         * Do NOT reload the page.
+         *
+         * Live translation prevents
+         * inconsistent language state,
+         * especially Arabic RTL.
+         */
 
-            applyLanguageDirection(
-                language
-            );
-
-            return;
-
-        }
-
-
-        setLanguage(
+        return await setLanguage(
             language
-        )
-        .then(
-            function (success) {
-
-                if (success) {
-
-                    window.location.reload();
-
-                }
-
-            }
         );
 
     }
@@ -593,6 +1018,10 @@
             );
 
 
+            window.CURRENT_LANGUAGE =
+                current;
+
+
             applyLanguageDirection(
                 current
             );
@@ -607,15 +1036,27 @@
                 new CustomEvent(
                     "ismLanguageReady",
                     {
+
                         detail: {
+
                             language:
-                                current
+                                current,
+
+                            direction:
+                                SUPPORTED_LANGUAGES[
+                                    current
+                                ]
+                                .direction
+
                         }
+
                     }
                 )
             );
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
             console.error(
                 "Language initialization failed:",
@@ -628,7 +1069,7 @@
 
 
     // ======================================
-    // Public API
+    // Public Configuration
     // ======================================
 
     window.LANGUAGE_CONFIG = {
@@ -637,10 +1078,20 @@
             DEFAULT_LANGUAGE,
 
         supportedLanguages:
-            SUPPORTED_LANGUAGES
+            SUPPORTED_LANGUAGES,
+
+        storageKey:
+            LANGUAGE_STORAGE_KEY,
+
+        resourceVersion:
+            LANGUAGE_RESOURCE_VERSION
 
     };
 
+
+    // ======================================
+    // Public API
+    // ======================================
 
     window.getCurrentLanguage =
         getCurrentLanguage;
@@ -670,6 +1121,10 @@
         loadLanguage;
 
 
+    window.getLanguageFilePath =
+        getLanguageFilePath;
+
+
     // ======================================
     // Start
     // ======================================
@@ -684,7 +1139,9 @@
             initializeLanguage
         );
 
-    } else {
+    }
+
+    else {
 
         initializeLanguage();
 
