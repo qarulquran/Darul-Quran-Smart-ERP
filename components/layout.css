@@ -1,0 +1,742 @@
+/* ==========================================
+   ISM - Islamic School Management
+   Master Layout System
+   Header + Sidebar + Overlay
+   Responsive + RTL/LTR
+========================================== */
+
+
+/* ==========================================
+   Layout Variables
+========================================== */
+
+:root {
+
+    --layout-primary: #087f3d;
+    --layout-primary-dark: #05642f;
+    --layout-primary-soft: #eaf7ef;
+
+    --layout-text: #1f2937;
+    --layout-muted: #6b7280;
+
+    --layout-border: #e5e7eb;
+    --layout-bg: #ffffff;
+
+    --layout-header-height: 72px;
+    --layout-sidebar-width: 275px;
+
+    --layout-shadow:
+        0 8px 28px rgba(15, 23, 42, 0.08);
+
+}
+
+
+/* ==========================================
+   Global Layout Safety
+========================================== */
+
+html,
+body {
+
+    width: 100%;
+    min-height: 100%;
+
+}
+
+body {
+
+    overflow-x: hidden;
+
+}
+
+
+/* ==========================================
+   Header Container
+========================================== */
+
+body > #header {
+
+    position: sticky;
+
+    top: 0;
+
+    left: 0;
+
+    right: 0;
+
+    z-index: 1200;
+
+    width: 100%;
+
+}
+
+
+/* ==========================================
+   Header
+========================================== */
+
+.erp-header {
+
+    width: 100%;
+    min-height: var(--layout-header-height);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 18px;
+
+    padding: 10px 20px;
+
+    background:
+        rgba(255, 255, 255, 0.97);
+
+    border-bottom:
+        1px solid var(--layout-border);
+
+    box-shadow:
+        0 2px 12px rgba(15, 23, 42, 0.05);
+
+    backdrop-filter: blur(12px);
+
+}
+
+
+/* ==========================================
+   Header Left
+========================================== */
+
+.header-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    min-width: 0;
+
+}
+
+
+#menuToggle {
+
+    width: 42px;
+    height: 42px;
+
+    min-width: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid var(--layout-border);
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    color: var(--layout-text);
+
+    font-size: 21px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+
+}
+
+
+#menuToggle:hover {
+
+    background: var(--layout-primary-soft);
+
+    border-color: #cce8d7;
+
+    color: var(--layout-primary);
+
+}
+
+
+/* ==========================================
+   Platform Brand
+========================================== */
+
+.platform-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 0;
+
+}
+
+
+.platform-logo {
+
+    width: 42px;
+
+    height: 42px;
+
+    min-width: 42px;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+
+}
+
+
+.platform-logo[src=""] {
+
+    display: none;
+
+}
+
+
+.brand-text {
+
+    min-width: 0;
+
+}
+
+
+.brand-text h3 {
+
+    margin: 0;
+
+    color: var(--layout-primary);
+
+    font-size: 20px;
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+}
+
+
+.brand-text small {
+
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--layout-muted);
+
+    font-size: 11px;
+
+    white-space: nowrap;
+
+}
+
+
+/* ==========================================
+   Header Right
+========================================== */
+
+.header-right {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    min-width: 0;
+
+}
+
+
+/* ==========================================
+   Language
+========================================== */
+
+.language-control {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    height: 40px;
+
+    padding: 0 10px;
+
+    background: #ffffff;
+
+    border: 1px solid var(--layout-border);
+
+    border-radius: 11px;
+
+}
+
+
+.language-icon {
+
+    font-size: 15px;
+
+}
+
+
+.language-control select {
+
+    max-width: 100px;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: var(--layout-text);
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+}
+
+
+/* ==========================================
+   Institution
+========================================== */
+
+.institution-display {
+
+    max-width: 230px;
+
+    min-width: 150px;
+
+    padding: 6px 11px;
+
+    background: var(--layout-primary-soft);
+
+    border: 1px solid #d4ebdc;
+
+    border-radius: 11px;
+
+}
+
+
+.institution-display small {
+
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: var(--layout-muted);
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+}
+
+
+.institution-display strong {
+
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--layout-primary-dark);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ==========================================
+   Notifications
+========================================== */
+
+.notification-btn {
+
+    width: 40px;
+
+    height: 40px;
+
+    min-width: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid var(--layout-border);
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+}
+
+
+/* ==========================================
+   User Profile
+========================================== */
+
+.profile {
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    min-width: 110px;
+
+    max-width: 180px;
+
+}
+
+
+.profile #userName {
+
+    overflow: hidden;
+
+    color: var(--layout-text);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+.profile #userRole {
+
+    overflow: hidden;
+
+    margin-top: 2px;
+
+    color: var(--layout-muted);
+
+    font-size: 9px;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ==========================================
+   Logout
+========================================== */
+
+.logout-btn {
+
+    min-height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 0 12px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: #fff1f1;
+
+    color: #b42318;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease;
+
+}
+
+
+.logout-btn:hover {
+
+    background: #ffe2e2;
+
+}
+
+
+/* ==========================================
+   Sidebar Outer Container
+========================================== */
+
+body > #sidebar {
+
+    position: fixed;
+
+    top: var(--layout-header-height);
+
+    left: 0;
+
+    bottom: 0;
+
+    z-index: 1150;
+
+    width: var(--layout-sidebar-width);
+
+    background: #ffffff;
+
+    border-right:
+        1px solid var(--layout-border);
+
+    box-shadow:
+        4px 0 20px rgba(15, 23, 42, 0.04);
+
+}
+
+
+/* ==========================================
+   Actual Sidebar
+========================================== */
+
+.erp-sidebar {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    background: #ffffff;
+
+    overflow: hidden;
+
+}
+
+
+/* ==========================================
+   Sidebar Brand
+========================================== */
+
+.sidebar-brand {
+
+    flex: 0 0 auto;
+
+    padding: 18px 17px;
+
+    border-bottom:
+        1px solid var(--layout-border);
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f3faf5
+        );
+
+}
+
+
+.sidebar-platform {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+.sidebar-platform strong {
+
+    color: var(--layout-primary);
+
+    font-size: 22px;
+
+    font-weight: 800;
+
+}
+
+
+.sidebar-platform span {
+
+    color: var(--layout-muted);
+
+    font-size: 10px;
+
+}
+
+
+.sidebar-institution {
+
+    margin-top: 11px;
+
+    padding: 8px 10px;
+
+    overflow: hidden;
+
+    background: var(--layout-primary-soft);
+
+    border-radius: 9px;
+
+    color: var(--layout-primary-dark);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+}
+
+
+/* ==========================================
+   Sidebar Navigation
+========================================== */
+
+.sidebar-nav {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    padding: 12px 10px 20px;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #cbd5e1 transparent;
+
+}
+
+
+.sidebar-nav::-webkit-scrollbar {
+
+    width: 5px;
+
+}
+
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+
+    background: #d1d5db;
+
+    border-radius: 20px;
+
+}
+
+
+/* ==========================================
+   Main Navigation Item
+========================================== */
+
+.nav-item {
+
+    min-height: 43px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 9px 11px;
+
+    margin-bottom: 6px;
+
+    border-radius: 10px;
+
+    color: var(--layout-text);
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+
+}
+
+
+.nav-item:hover {
+
+    background: var(--layout-primary-soft);
+
+    color: var(--layout-primary-dark);
+
+}
+
+
+.nav-item.active {
+
+    background: var(--layout-primary);
+
+    color: #ffffff;
+
+}
+
+
+.nav-icon {
+
+    width: 24px;
+
+    min-width: 24px;
+
+    text-align: center;
+
+    font-size: 17px;
+
+}
+
+
+/* ==========================================
+   Navigation Sections
+========================================== */
+
+.nav-section {
+
+    margin-top: 8px;
+
+    padding-top: 8px;
+
+    border-top:
+        1px solid #
