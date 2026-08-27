@@ -1,88 +1,1015 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn" dir="ltr">
 
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-<title>
-Student Management - Darul Quran Smart ERP
-</title>
+<title>ISM - Students</title>
 
-<link rel="stylesheet" href="style.css">
+
+<!-- ==========================================
+     ISM Master Layout
+========================================== -->
+
+<link
+    rel="stylesheet"
+    href="../components/layout.css">
+
+
+<!-- ==========================================
+     Students Page Design
+========================================== -->
+
+<style>
+
+/* ==========================================
+   Page Base
+========================================== */
+
+.students-page {
+
+    width: 100%;
+    min-height: 100vh;
+
+    padding: 24px;
+
+    background: #f5f7f9;
+
+    color: #1f2937;
+
+    font-family:
+        Arial,
+        "Noto Sans Bengali",
+        "Noto Sans Arabic",
+        sans-serif;
+
+}
+
+
+/* ==========================================
+   Page Heading
+========================================== */
+
+.students-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+
+    padding: 22px 24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #f3faf5
+        );
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 28px
+        rgba(15,23,42,0.06);
+
+}
+
+
+.students-heading-main {
+
+    min-width: 0;
+
+}
+
+
+.students-eyebrow {
+
+    margin: 0 0 6px;
+
+    color: #087f3d;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+}
+
+
+.students-heading h1 {
+
+    margin: 0;
+
+    color: #1f2937;
+
+    font-size: 29px;
+
+    line-height: 1.2;
+
+    font-weight: 800;
+
+}
+
+
+.students-subtitle {
+
+    margin: 8px 0 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+#studentsInstitutionName {
+
+    color: #087f3d;
+
+    font-weight: 700;
+
+}
+
+
+/* ==========================================
+   Add Student Button
+========================================== */
+
+.add-student-btn {
+
+    flex: 0 0 auto;
+
+    min-height: 44px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    padding: 0 17px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: #087f3d;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    box-shadow:
+        0 6px 18px
+        rgba(8,127,61,0.20);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+
+}
+
+
+.add-student-btn:hover {
+
+    background: #05642f;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* ==========================================
+   Student List Card
+========================================== */
+
+.students-card {
+
+    width: 100%;
+
+    padding: 20px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 28px
+        rgba(15,23,42,0.06);
+
+}
+
+
+.students-card-header {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 16px;
+
+}
+
+
+.students-card-header h2 {
+
+    margin: 0;
+
+    color: #1f2937;
+
+    font-size: 20px;
+
+    font-weight: 800;
+
+}
+
+
+.students-card-header p {
+
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+}
+
+
+/* ==========================================
+   Search
+========================================== */
+
+.search-box {
+
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        auto;
+
+    gap: 10px;
+
+    margin-bottom: 18px;
+
+}
+
+
+#searchStudent {
+
+    width: 100%;
+
+    min-height: 44px;
+
+    padding: 0 14px;
+
+    border: 1px solid #dfe3e8;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    color: #1f2937;
+
+    outline: none;
+
+    font-size: 13px;
+
+}
+
+
+#searchStudent:focus {
+
+    border-color: #087f3d;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(8,127,61,0.10);
+
+}
+
+
+#searchBtn {
+
+    min-width: 105px;
+
+    min-height: 44px;
+
+    padding: 0 18px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: #087f3d;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+}
+
+
+#searchBtn:hover {
+
+    background: #05642f;
+
+}
+
+
+/* ==========================================
+   Table
+========================================== */
+
+.table-card {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    -webkit-overflow-scrolling: touch;
+
+}
+
+
+.students-table {
+
+    width: 100%;
+
+    min-width: 900px;
+
+    margin: 0;
+
+    border: 0;
+
+    border-collapse: collapse;
+
+    table-layout: auto;
+
+}
+
+
+.students-table thead {
+
+    background:
+        linear-gradient(
+            135deg,
+            #087f3d,
+            #05642f
+        );
+
+}
+
+
+.students-table th {
+
+    padding: 13px 10px;
+
+    border: 0;
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    line-height: 1.3;
+
+    font-weight: 800;
+
+    text-align: center;
+
+    vertical-align: middle;
+
+    white-space: nowrap;
+
+}
+
+
+.students-table td {
+
+    padding: 12px 10px;
+
+    border: 0;
+
+    border-bottom:
+        1px solid #edf0f2;
+
+    color: #344054;
+
+    font-size: 11px;
+
+    line-height: 1.45;
+
+    text-align: center;
+
+    vertical-align: middle;
+
+}
+
+
+.students-table tbody tr {
+
+    background: #ffffff;
+
+    transition:
+        background 0.18s ease;
+
+}
+
+
+.students-table tbody tr:hover {
+
+    background: #f5faf7;
+
+}
+
+
+.students-table tbody tr:last-child td {
+
+    border-bottom: 0;
+
+}
+
+
+/* ==========================================
+   Student Photo
+========================================== */
+
+.students-table td:first-child img {
+
+    width: 48px !important;
+
+    height: 48px !important;
+
+    min-width: 48px;
+
+    object-fit: cover;
+
+    border: 2px solid #d8ebdf;
+
+    border-radius: 50%;
+
+    background: #eef7f1;
+
+}
+
+
+/* ==========================================
+   Action Buttons Generated by students.js
+========================================== */
+
+.students-table td:last-child {
+
+    min-width: 145px;
+
+}
+
+
+.students-table td:last-child button,
+.students-table td:last-child a {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 30px;
+
+    margin: 2px;
+
+    padding: 5px 8px;
+
+    border-radius: 7px;
+
+    text-decoration: none;
+
+    font-size: 10px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+}
+
+
+/* ==========================================
+   Empty State
+========================================== */
+
+.students-empty {
+
+    display: none;
+
+    padding: 35px 15px;
+
+    color: #6b7280;
+
+    text-align: center;
+
+    font-size: 13px;
+
+}
+
+
+/* ==========================================
+   Mobile Student Cards
+========================================== */
+
+@media (max-width: 760px) {
+
+    .students-page {
+
+        padding: 12px;
+
+    }
+
+
+    .students-heading {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+
+        padding: 18px;
+
+        border-radius: 16px;
+
+    }
+
+
+    .students-heading h1 {
+
+        font-size: 23px;
+
+    }
+
+
+    .add-student-btn {
+
+        width: 100%;
+
+    }
+
+
+    .students-card {
+
+        padding: 13px;
+
+        border-radius: 16px;
+
+    }
+
+
+    .students-card-header {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+
+    .search-box {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    #searchBtn {
+
+        width: 100%;
+
+    }
+
+
+    .table-card {
+
+        overflow: visible;
+
+        border: none;
+
+        background: transparent;
+
+    }
+
+
+    .students-table {
+
+        min-width: 0;
+
+        width: 100%;
+
+    }
+
+
+    .students-table thead {
+
+        display: none;
+
+    }
+
+
+    .students-table,
+    .students-table tbody,
+    .students-table tr,
+    .students-table td {
+
+        display: block;
+
+        width: 100%;
+
+    }
+
+
+    .students-table tbody {
+
+        display: grid;
+
+        gap: 12px;
+
+    }
+
+
+    .students-table tbody tr {
+
+        padding: 14px;
+
+        border:
+            1px solid #e5e7eb;
+
+        border-radius: 14px;
+
+        box-shadow:
+            0 5px 18px
+            rgba(15,23,42,0.05);
+
+    }
+
+
+    .students-table td {
+
+        min-height: 38px;
+
+        display: grid;
+
+        grid-template-columns:
+            105px
+            minmax(0,1fr);
+
+        align-items: center;
+
+        gap: 10px;
+
+        padding: 8px 3px;
+
+        border-bottom:
+            1px solid #edf0f2;
+
+        text-align: start;
+
+        font-size: 12px;
+
+    }
+
+
+    .students-table td::before {
+
+        content:
+            attr(data-label);
+
+        color: #6b7280;
+
+        font-size: 10px;
+
+        font-weight: 800;
+
+    }
+
+
+    .students-table td:first-child {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding-bottom: 14px;
+
+    }
+
+
+    .students-table td:first-child::before {
+
+        display: none;
+
+    }
+
+
+    .students-table td:first-child img {
+
+        width: 72px !important;
+
+        height: 72px !important;
+
+    }
+
+
+    .students-table td:last-child {
+
+        min-width: 0;
+
+        border-bottom: 0;
+
+    }
+
+}
+
+
+/* ==========================================
+   Small Mobile
+========================================== */
+
+@media (max-width: 430px) {
+
+    .students-page {
+
+        padding: 9px;
+
+    }
+
+
+    .students-heading {
+
+        padding: 15px;
+
+    }
+
+
+    .students-heading h1 {
+
+        font-size: 21px;
+
+    }
+
+
+    .students-card {
+
+        padding: 10px;
+
+    }
+
+
+    .students-table tbody tr {
+
+        padding: 12px;
+
+    }
+
+
+    .students-table td {
+
+        grid-template-columns:
+            92px
+            minmax(0,1fr);
+
+    }
+
+}
+
+
+/* ==========================================
+   RTL
+========================================== */
+
+html[dir="rtl"] .students-heading {
+
+    direction: rtl;
+
+}
+
+
+html[dir="rtl"] .students-card {
+
+    direction: rtl;
+
+}
+
+
+html[dir="rtl"] .students-table td {
+
+    text-align: right;
+
+}
+
+
+html[dir="rtl"] .search-box {
+
+    direction: rtl;
+
+}
+
+</style>
 
 </head>
+
 
 
 <body>
 
 
-<div class="main">
+<!-- ==========================================
+     ISM Master Layout
+========================================== -->
+
+<div id="header"></div>
+
+<div id="sidebar"></div>
+
+<div id="overlay"></div>
 
 
-<header class="topbar">
+
+<!-- ==========================================
+     Students Page
+========================================== -->
+
+<main
+    class="dashboard-container students-page">
 
 
-<h1>
-Student Management
+<!-- ==========================================
+     Heading
+========================================== -->
+
+<section class="students-heading">
+
+
+<div class="students-heading-main">
+
+
+<p
+    class="students-eyebrow"
+    data-i18n="students">
+
+Students
+
+</p>
+
+
+<h1 data-i18n="studentList">
+
+Student List
+
 </h1>
 
 
-<div class="admin-profile">
+<p class="students-subtitle">
 
-Admin 👤
+<span
+    data-local-i18n="manageRecords">
+
+Manage student records for
+
+</span>
+
+<strong
+    id="studentsInstitutionName">
+
+Current Institution
+
+</strong>
+
+</p>
+
 
 </div>
 
 
-</header>
 
+<a
+    href="add-student.html"
+    class="add-student-btn">
 
+<span aria-hidden="true">
+＋
+</span>
 
-
-<div class="container">
-
-
-<h2 class="page-title">
-Students List
-</h2>
-
-
-
-
-
-<a href="add-student.html">
-
-<button class="add-btn">
-+ Add Student
-</button>
+<span data-i18n="addNewStudent">
+Add New Student
+</span>
 
 </a>
 
 
+</section>
 
 
+
+<!-- ==========================================
+     Student List
+========================================== -->
+
+<section class="students-card">
+
+
+<div class="students-card-header">
+
+
+<div>
+
+
+<h2 data-i18n="studentList">
+
+Student List
+
+</h2>
+
+
+<p data-local-i18n="searchManage">
+
+Search, review and manage student information
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- ======================================
+     Search
+====================================== -->
 
 <div class="search-box">
 
 
 <input
-
-type="text"
-
-id="searchStudent"
-
-placeholder="Search by Name / Code / Mobile"
-
-autocomplete="off"
-
->
+    type="text"
+    id="searchStudent"
+    autocomplete="off"
+    placeholder="Search by Name / Code / Mobile"
+    data-local-i18n-placeholder="searchPlaceholder"
+    aria-label="Search Student">
 
 
-<button id="searchBtn">
+<button
+    type="button"
+    id="searchBtn"
+    data-i18n="search">
+
 Search
+
 </button>
 
 
@@ -90,60 +1017,64 @@ Search
 
 
 
-
+<!-- ======================================
+     Table
+====================================== -->
 
 <div class="table-card">
 
 
-<table>
+<table class="students-table">
 
 
 <thead>
 
+
 <tr>
 
 
-<th>
+<th data-local-i18n="photo">
 Photo
 </th>
 
 
-<th>
+<th data-i18n="studentCode">
 Student Code
 </th>
 
 
-<th>
+<th data-i18n="studentName">
 Name
 </th>
 
 
-<th>
+<th data-i18n="className">
 Class
 </th>
 
 
-<th>
+<th data-i18n="fatherName">
 Father Name
 </th>
 
 
-<th>
+<th data-i18n="mobile">
 Mobile
 </th>
 
 
-<th>
+<th data-local-i18n="feeStatus">
 Fee Status
 </th>
 
 
-<th>
+<th data-local-i18n="action">
 Action
 </th>
 
 
 </tr>
+
 
 </thead>
 
@@ -157,22 +1088,38 @@ Action
 </table>
 
 
+
+<div
+    id="studentsEmpty"
+    class="students-empty"
+    data-i18n="noData">
+
+No Data Found
+
 </div>
 
 
 </div>
 
 
-</div>
+</section>
 
 
+</main>
+
+
+
+<!-- ==========================================
+     Footer
+========================================== -->
+
+<div id="footer"></div>
 
 
 
 <!-- ==========================================
      Core Configuration
 ========================================== -->
-
 
 <script src="../config/app-config.js"></script>
 
@@ -185,7 +1132,6 @@ Action
 <!-- ==========================================
      Core Architecture
 ========================================== -->
-
 
 <script src="../core/institute.js"></script>
 
@@ -200,13 +1146,589 @@ Action
 
 
 <!-- ==========================================
-     Existing System
+     Login Protection
 ========================================== -->
 
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    if (
+        typeof window.requireSession
+        ===
+        "function"
+    ) {
+
+        window.requireSession(
+            "index.html"
+        );
+
+    }
+
+})();
+
+</script>
+
+
+
+<!-- ==========================================
+     ISM Header + Sidebar
+========================================== -->
+
+<script src="../components/layout-loader.js"></script>
+
+
+
+<!-- ==========================================
+     Existing Student System
+========================================== -->
 
 <script src="script.js"></script>
 
 <script src="students.js"></script>
+
+
+
+<!-- ==========================================
+     Student Page Integration
+========================================== -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* ======================================
+       Page-only Translations
+    ====================================== */
+
+    const PAGE_TEXT = {
+
+        bn: {
+
+            manageRecords:
+                "এই প্রতিষ্ঠানের শিক্ষার্থীদের তথ্য ব্যবস্থাপনা করুন:",
+
+            searchManage:
+                "শিক্ষার্থীর তথ্য খুঁজুন, দেখুন ও ব্যবস্থাপনা করুন",
+
+            searchPlaceholder:
+                "নাম / কোড / মোবাইল দিয়ে খুঁজুন",
+
+            photo:
+                "ছবি",
+
+            feeStatus:
+                "ফি অবস্থা",
+
+            action:
+                "কার্যক্রম"
+
+        },
+
+
+        en: {
+
+            manageRecords:
+                "Manage student records for:",
+
+            searchManage:
+                "Search, review and manage student information",
+
+            searchPlaceholder:
+                "Search by Name / Code / Mobile",
+
+            photo:
+                "Photo",
+
+            feeStatus:
+                "Fee Status",
+
+            action:
+                "Action"
+
+        },
+
+
+        ar: {
+
+            manageRecords:
+                "إدارة سجلات الطلاب للمؤسسة:",
+
+            searchManage:
+                "البحث عن معلومات الطلاب وعرضها وإدارتها",
+
+            searchPlaceholder:
+                "ابحث بالاسم / الرمز / الهاتف",
+
+            photo:
+                "الصورة",
+
+            feeStatus:
+                "حالة الرسوم",
+
+            action:
+                "الإجراءات"
+
+        }
+
+    };
+
+
+    /* ======================================
+       Get Language
+    ====================================== */
+
+    function currentLanguage() {
+
+        if (
+            typeof window.getCurrentLanguage
+            ===
+            "function"
+        ) {
+
+            return (
+                window.getCurrentLanguage()
+                ||
+                "bn"
+            );
+
+        }
+
+
+        return (
+            localStorage.getItem(
+                "erp_language"
+            )
+            ||
+            "bn"
+        );
+
+    }
+
+
+    /* ======================================
+       Apply Local Translation
+    ====================================== */
+
+    function translateStudentPage() {
+
+        const language =
+            currentLanguage();
+
+
+        const resource =
+            PAGE_TEXT[language]
+            ||
+            PAGE_TEXT.en;
+
+
+        document
+            .querySelectorAll(
+                "[data-local-i18n]"
+            )
+            .forEach(
+                function (element) {
+
+                    const key =
+                        element.getAttribute(
+                            "data-local-i18n"
+                        );
+
+
+                    if (
+                        resource[key]
+                    ) {
+
+                        element.textContent =
+                            resource[key];
+
+                    }
+
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                "[data-local-i18n-placeholder]"
+            )
+            .forEach(
+                function (element) {
+
+                    const key =
+                        element.getAttribute(
+                            "data-local-i18n-placeholder"
+                        );
+
+
+                    if (
+                        resource[key]
+                    ) {
+
+                        element.placeholder =
+                            resource[key];
+
+                    }
+
+                }
+            );
+
+
+        decorateStudentRows();
+
+
+        const titleText =
+            language === "bn"
+                ? "ISM - শিক্ষার্থী তালিকা"
+                : language === "ar"
+                    ? "ISM - قائمة الطلاب"
+                    : "ISM - Student List";
+
+
+        document.title =
+            titleText;
+
+    }
+
+
+    /* ======================================
+       Institution
+    ====================================== */
+
+    function loadInstitutionName() {
+
+        const element =
+            document.getElementById(
+                "studentsInstitutionName"
+            );
+
+
+        if (!element) {
+
+            return;
+
+        }
+
+
+        if (
+            typeof window.getInstitutionName
+            ===
+            "function"
+        ) {
+
+            element.textContent =
+                window.getInstitutionName()
+                ||
+                "-";
+
+            return;
+
+        }
+
+
+        if (
+            typeof window.getInstitution
+            ===
+            "function"
+        ) {
+
+            const institution =
+                window.getInstitution();
+
+
+            if (institution) {
+
+                element.textContent =
+                    institution.name
+                    ||
+                    "-";
+
+            }
+
+        }
+
+    }
+
+
+    /* ======================================
+       Mobile Table Labels
+    ====================================== */
+
+    function getTableLabels() {
+
+        const language =
+            currentLanguage();
+
+
+        const local =
+            PAGE_TEXT[language]
+            ||
+            PAGE_TEXT.en;
+
+
+        function globalText(
+            key,
+            fallback
+        ) {
+
+            if (
+                typeof window.translate
+                ===
+                "function"
+            ) {
+
+                const value =
+                    window.translate(
+                        key,
+                        language
+                    );
+
+
+                if (
+                    value
+                    &&
+                    value !== key
+                ) {
+
+                    return value;
+
+                }
+
+            }
+
+
+            return fallback;
+
+        }
+
+
+        return [
+
+            local.photo,
+
+            globalText(
+                "studentCode",
+                "Student Code"
+            ),
+
+            globalText(
+                "studentName",
+                "Name"
+            ),
+
+            globalText(
+                "className",
+                "Class"
+            ),
+
+            globalText(
+                "fatherName",
+                "Father Name"
+            ),
+
+            globalText(
+                "mobile",
+                "Mobile"
+            ),
+
+            local.feeStatus,
+
+            local.action
+
+        ];
+
+    }
+
+
+    function decorateStudentRows() {
+
+        const body =
+            document.getElementById(
+                "studentTable"
+            );
+
+
+        if (!body) {
+
+            return;
+
+        }
+
+
+        const labels =
+            getTableLabels();
+
+
+        const rows =
+            body.querySelectorAll(
+                "tr"
+            );
+
+
+        rows.forEach(
+            function (row) {
+
+                const cells =
+                    row.querySelectorAll(
+                        "td"
+                    );
+
+
+                cells.forEach(
+                    function (
+                        cell,
+                        index
+                    ) {
+
+                        cell.setAttribute(
+                            "data-label",
+                            labels[index]
+                            ||
+                            ""
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        const empty =
+            document.getElementById(
+                "studentsEmpty"
+            );
+
+
+        if (empty) {
+
+            empty.style.display =
+                rows.length === 0
+                    ? "block"
+                    : "none";
+
+        }
+
+    }
+
+
+    /* ======================================
+       Observe students.js Table Changes
+    ====================================== */
+
+    function observeStudentTable() {
+
+        const body =
+            document.getElementById(
+                "studentTable"
+            );
+
+
+        if (!body) {
+
+            return;
+
+        }
+
+
+        const observer =
+            new MutationObserver(
+                function () {
+
+                    decorateStudentRows();
+
+                }
+            );
+
+
+        observer.observe(
+            body,
+            {
+                childList: true,
+                subtree: true
+            }
+        );
+
+
+        decorateStudentRows();
+
+    }
+
+
+    /* ======================================
+       Initialize
+    ====================================== */
+
+    function initializeStudentsPage() {
+
+        loadInstitutionName();
+
+        translateStudentPage();
+
+        observeStudentTable();
+
+    }
+
+
+    if (
+        document.readyState
+        ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            initializeStudentsPage
+        );
+
+    }
+
+    else {
+
+        initializeStudentsPage();
+
+    }
+
+
+    document.addEventListener(
+        "erpReady",
+        loadInstitutionName
+    );
+
+
+    document.addEventListener(
+        "ismLayoutReady",
+        function () {
+
+            loadInstitutionName();
+
+            translateStudentPage();
+
+        }
+    );
+
+
+    document.addEventListener(
+        "ismLanguageReady",
+        translateStudentPage
+    );
+
+
+    document.addEventListener(
+        "ismLanguageChanged",
+        translateStudentPage
+    );
+
+
+})();
+
+</script>
 
 
 </body>
