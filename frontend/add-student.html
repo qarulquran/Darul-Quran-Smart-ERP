@@ -5,17 +5,143 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
 <title>
 Add Student - Darul Quran Smart ERP
 </title>
 
+<link
+    rel="stylesheet"
+    href="add-student.css">
 
-<link rel="stylesheet" href="add-student.css">
+<link
+    rel="stylesheet"
+    href="custom-dropdown.css">
 
-<link rel="stylesheet" href="custom-dropdown.css">
 
+<!-- ==========================================
+     Modern Date of Birth Picker
+========================================== -->
+
+<style>
+
+.dob-picker {
+
+    display: grid;
+
+    grid-template-columns:
+        0.8fr
+        1.25fr
+        1fr;
+
+    gap: 8px;
+
+    width: 100%;
+
+}
+
+
+.dob-picker select,
+.dob-picker input {
+
+    width: 100%;
+
+    min-width: 0;
+
+    height: 48px;
+
+    padding: 0 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #d9dee3;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    color: #333;
+
+    font-size: 14px;
+
+}
+
+
+.dob-picker select:focus,
+.dob-picker input:focus {
+
+    border-color: #087f3d;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(8, 127, 61, 0.10);
+
+}
+
+
+.dob-picker input[type="number"] {
+
+    appearance: textfield;
+
+    -moz-appearance: textfield;
+
+}
+
+
+.dob-picker input[type="number"]::-webkit-inner-spin-button,
+.dob-picker input[type="number"]::-webkit-outer-spin-button {
+
+    -webkit-appearance: none;
+
+    margin: 0;
+
+}
+
+
+.dob-help {
+
+    display: block;
+
+    margin-top: 6px;
+
+    color: #7a7f85;
+
+    font-size: 11px;
+
+}
+
+
+@media (max-width: 430px) {
+
+    .dob-picker {
+
+        grid-template-columns:
+            0.75fr
+            1.2fr
+            1fr;
+
+        gap: 6px;
+
+    }
+
+
+    .dob-picker select,
+    .dob-picker input {
+
+        height: 46px;
+
+        padding: 0 8px;
+
+        font-size: 13px;
+
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -40,7 +166,6 @@ Add New Student
 <div class="container">
 
 
-
 <div class="title-card">
 
 <h1>
@@ -55,12 +180,9 @@ Darul Quran Smart ERP
 
 
 
-
-
 <!-- ==========================================
      Student Information
 ========================================== -->
-
 
 <div class="form-card">
 
@@ -70,9 +192,7 @@ Darul Quran Smart ERP
 </h2>
 
 
-
 <div class="form-grid">
-
 
 
 <div class="field">
@@ -82,14 +202,17 @@ Student Name *
 </label>
 
 <input
-id="studentName"
-type="text"
-placeholder="Enter student name">
+    id="studentName"
+    type="text"
+    placeholder="Enter student name">
 
 </div>
 
 
 
+<!-- ======================================
+     Modern Date of Birth
+====================================== -->
 
 <div class="field">
 
@@ -97,12 +220,105 @@ placeholder="Enter student name">
 Date of Birth
 </label>
 
+
+<div class="dob-picker">
+
+
+<select
+    id="dobDay"
+    aria-label="Birth Day">
+
+<option value="">
+Day
+</option>
+
+</select>
+
+
+
+<select
+    id="dobMonth"
+    aria-label="Birth Month">
+
+<option value="">
+Month
+</option>
+
+<option value="01">
+January
+</option>
+
+<option value="02">
+February
+</option>
+
+<option value="03">
+March
+</option>
+
+<option value="04">
+April
+</option>
+
+<option value="05">
+May
+</option>
+
+<option value="06">
+June
+</option>
+
+<option value="07">
+July
+</option>
+
+<option value="08">
+August
+</option>
+
+<option value="09">
+September
+</option>
+
+<option value="10">
+October
+</option>
+
+<option value="11">
+November
+</option>
+
+<option value="12">
+December
+</option>
+
+</select>
+
+
+
 <input
-id="dateOfBirth"
-type="date">
+    id="dobYear"
+    type="number"
+    inputmode="numeric"
+    min="1900"
+    placeholder="Year"
+    aria-label="Birth Year">
 
 </div>
 
+
+<small class="dob-help">
+Example: 15 · August · 2005
+</small>
+
+
+<!-- Existing save system reads this value -->
+
+<input
+    id="dateOfBirth"
+    type="hidden">
+
+</div>
 
 
 
@@ -113,12 +329,11 @@ Birth Registration Number
 </label>
 
 <input
-id="birthRegistration"
-type="text"
-placeholder="Enter birth registration number">
+    id="birthRegistration"
+    type="text"
+    placeholder="Enter birth registration number">
 
 </div>
-
 
 
 
@@ -128,9 +343,7 @@ placeholder="Enter birth registration number">
 Blood Group
 </label>
 
-
 <select id="bloodGroup">
-
 
 <option value="">
 Select Blood Group
@@ -145,13 +358,9 @@ Select Blood Group
 <option>O+</option>
 <option>O-</option>
 
-
 </select>
 
-
 </div>
-
-
 
 
 
@@ -161,16 +370,12 @@ Select Blood Group
 Nationality
 </label>
 
-
 <input
-id="nationality"
-type="text"
-value="Bangladeshi">
-
+    id="nationality"
+    type="text"
+    value="Bangladeshi">
 
 </div>
-
-
 
 
 
@@ -180,32 +385,23 @@ value="Bangladeshi">
 Student Photo
 </label>
 
-
 <input
-id="studentPhoto"
-type="file"
-accept="image/*">
-
-
-</div>
-
-
+    id="studentPhoto"
+    type="file"
+    accept="image/*">
 
 </div>
 
 
 </div>
 
-
-
-
+</div>
 
 
 
 <!-- ==========================================
      Parents Information
 ========================================== -->
-
 
 <div class="form-card">
 
@@ -215,9 +411,7 @@ accept="image/*">
 </h2>
 
 
-
 <div class="form-grid">
-
 
 
 <div class="field">
@@ -226,15 +420,12 @@ accept="image/*">
 Father Name *
 </label>
 
-
 <input
-id="fatherName"
-type="text"
-placeholder="Enter father name">
-
+    id="fatherName"
+    type="text"
+    placeholder="Enter father name">
 
 </div>
-
 
 
 
@@ -244,15 +435,12 @@ placeholder="Enter father name">
 Father NID Number
 </label>
 
-
 <input
-id="fatherNid"
-type="text"
-placeholder="Enter father NID">
-
+    id="fatherNid"
+    type="text"
+    placeholder="Enter father NID">
 
 </div>
-
 
 
 
@@ -262,15 +450,12 @@ placeholder="Enter father NID">
 Mother Name *
 </label>
 
-
 <input
-id="motherName"
-type="text"
-placeholder="Enter mother name">
-
+    id="motherName"
+    type="text"
+    placeholder="Enter mother name">
 
 </div>
-
 
 
 
@@ -280,15 +465,12 @@ placeholder="Enter mother name">
 Mother NID Number
 </label>
 
-
 <input
-id="motherNid"
-type="text"
-placeholder="Enter mother NID">
-
+    id="motherNid"
+    type="text"
+    placeholder="Enter mother NID">
 
 </div>
-
 
 
 
@@ -298,32 +480,24 @@ placeholder="Enter mother NID">
 Guardian Mobile Number
 </label>
 
-
 <input
-id="guardianMobile"
-type="tel"
-inputmode="numeric"
-placeholder="Enter mobile number">
-
-
-</div>
-
-
+    id="guardianMobile"
+    type="tel"
+    inputmode="numeric"
+    placeholder="Enter mobile number">
 
 </div>
 
 
 </div>
 
-
-
+</div>
 
 
 
 <!-- ==========================================
      Previous Education
 ========================================== -->
-
 
 <div class="form-card">
 
@@ -342,15 +516,12 @@ placeholder="Enter mobile number">
 Previous Institution Name
 </label>
 
-
 <input
-id="previousInstitution"
-type="text"
-placeholder="Enter previous institution name">
-
+    id="previousInstitution"
+    type="text"
+    placeholder="Enter previous institution name">
 
 </div>
-
 
 
 
@@ -360,9 +531,7 @@ placeholder="Enter previous institution name">
 Previous Class
 </label>
 
-
 <select id="previousClass">
-
 
 <option value="">
 Select Previous Class
@@ -381,28 +550,20 @@ Select Previous Class
 <option>Class 9</option>
 <option>Class 10</option>
 
-
 </select>
 
-
 </div>
 
 
 </div>
 
-
 </div>
-
-
-
-
 
 
 
 <!-- ==========================================
      Admission Information
 ========================================== -->
-
 
 <div class="form-card">
 
@@ -417,19 +578,15 @@ Select Previous Class
 
 <div class="field">
 
-
 <label>
 Admission Class *
 </label>
 
-
 <select id="admissionClass">
-
 
 <option value="">
 Select Class
 </option>
-
 
 <option>Play</option>
 <option>Nursery</option>
@@ -444,49 +601,34 @@ Select Class
 <option>Class 9</option>
 <option>Class 10</option>
 
-
 </select>
 
-
 </div>
-
-
 
 
 
 <div class="field">
 
-
 <label>
 Admission Date
 </label>
 
-
 <input
-id="admissionDate"
-type="date">
-
-
-</div>
-
-
+    id="admissionDate"
+    type="date">
 
 </div>
 
 
 </div>
 
-
-
-
-
+</div>
 
 
 
 <!-- ==========================================
      Present Address
 ========================================== -->
-
 
 <div class="form-card">
 
@@ -496,11 +638,7 @@ type="date">
 </h2>
 
 
-
 <div class="form-grid">
-
-
-
 
 
 <div class="field">
@@ -509,31 +647,21 @@ type="date">
 Division
 </label>
 
-
 <div class="smart-select">
 
-
 <input
-id="divisionSearch"
-placeholder="Search Division"
-autocomplete="off">
-
+    id="divisionSearch"
+    placeholder="Search Division"
+    autocomplete="off">
 
 <div
-id="divisionList"
-class="dropdown-list">
+    id="divisionList"
+    class="dropdown-list">
+</div>
 
 </div>
 
-
 </div>
-
-
-</div>
-
-
-
-
 
 
 
@@ -543,31 +671,21 @@ class="dropdown-list">
 District
 </label>
 
-
 <div class="smart-select">
 
-
 <input
-id="districtSearch"
-placeholder="Search District"
-autocomplete="off">
-
+    id="districtSearch"
+    placeholder="Search District"
+    autocomplete="off">
 
 <div
-id="districtList"
-class="dropdown-list">
+    id="districtList"
+    class="dropdown-list">
+</div>
 
 </div>
 
-
 </div>
-
-
-</div>
-
-
-
-
 
 
 
@@ -577,31 +695,21 @@ class="dropdown-list">
 Thana / Upazila
 </label>
 
-
 <div class="smart-select">
 
-
 <input
-id="thanaSearch"
-placeholder="Search Thana"
-autocomplete="off">
-
+    id="thanaSearch"
+    placeholder="Search Thana"
+    autocomplete="off">
 
 <div
-id="thanaList"
-class="dropdown-list">
+    id="thanaList"
+    class="dropdown-list">
+</div>
 
 </div>
 
-
 </div>
-
-
-</div>
-
-
-
-
 
 
 
@@ -611,31 +719,21 @@ class="dropdown-list">
 Union
 </label>
 
-
 <div class="smart-select">
 
-
 <input
-id="unionSearch"
-placeholder="Search Union"
-autocomplete="off">
-
+    id="unionSearch"
+    placeholder="Search Union"
+    autocomplete="off">
 
 <div
-id="unionList"
-class="dropdown-list">
+    id="unionList"
+    class="dropdown-list">
+</div>
 
 </div>
 
-
 </div>
-
-
-</div>
-
-
-
-
 
 
 
@@ -645,91 +743,62 @@ class="dropdown-list">
 Ward
 </label>
 
-
 <div class="smart-select">
 
-
 <input
-id="wardSearch"
-placeholder="Search Ward"
-autocomplete="off">
-
+    id="wardSearch"
+    placeholder="Search Ward"
+    autocomplete="off">
 
 <div
-id="wardList"
-class="dropdown-list">
+    id="wardList"
+    class="dropdown-list">
+</div>
 
 </div>
 
-
 </div>
-
-
-</div>
-
-
-
-
 
 
 
 <div class="field">
-
 
 <label>
 Village / Area
 </label>
 
-
 <input
-id="village"
-type="text"
-placeholder="Enter village name">
-
+    id="village"
+    type="text"
+    placeholder="Enter village name">
 
 </div>
-
-
-
-
 
 
 
 <div class="field">
 
-
 <label>
 House / Road / Landmark
 </label>
 
-
 <textarea
-id="presentAddress"
-placeholder="Enter full address"></textarea>
-
-
-</div>
-
-
-
-
+    id="presentAddress"
+    placeholder="Enter full address">
+</textarea>
 
 </div>
 
 
 </div>
 
-
-
-
-
+</div>
 
 
 
 <!-- ==========================================
      Permanent Address
 ========================================== -->
-
 
 <div class="form-card">
 
@@ -739,37 +808,24 @@ placeholder="Enter full address"></textarea>
 </h2>
 
 
-
 <label class="check">
 
-
 <input
-id="sameAddress"
-type="checkbox">
-
+    id="sameAddress"
+    type="checkbox">
 
 Same as Present Address
-
 
 </label>
 
 
-
-
-
 <textarea
-id="permanentAddress"
-placeholder="Enter permanent address"></textarea>
-
-
+    id="permanentAddress"
+    placeholder="Enter permanent address">
+</textarea>
 
 
 </div>
-
-
-
-
-
 
 
 
@@ -777,36 +833,26 @@ placeholder="Enter permanent address"></textarea>
      Save
 ========================================== -->
 
-
 <div class="submit-area">
 
-
 <button
-type="button"
-id="saveStudentBtn">
+    type="button"
+    id="saveStudentBtn">
 
 💾 Save Student
 
 </button>
 
-
 </div>
 
 
-
-
-
 </div>
-
-
-
 
 
 
 <!-- ==========================================
      Core Configuration
 ========================================== -->
-
 
 <script src="../config/app-config.js"></script>
 
@@ -819,7 +865,6 @@ id="saveStudentBtn">
 <!-- ==========================================
      Core Architecture
 ========================================== -->
-
 
 <script src="../core/institute.js"></script>
 
@@ -834,16 +879,295 @@ id="saveStudentBtn">
 
 
 <!-- ==========================================
-     Existing Application Scripts
+     Modern DOB Controller
 ========================================== -->
 
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    const day =
+        document.getElementById(
+            "dobDay"
+        );
+
+
+    const month =
+        document.getElementById(
+            "dobMonth"
+        );
+
+
+    const year =
+        document.getElementById(
+            "dobYear"
+        );
+
+
+    const hiddenDate =
+        document.getElementById(
+            "dateOfBirth"
+        );
+
+
+    if (
+        !day ||
+        !month ||
+        !year ||
+        !hiddenDate
+    ) {
+
+        return;
+
+    }
+
+
+    const currentYear =
+        new Date()
+            .getFullYear();
+
+
+    year.max =
+        String(
+            currentYear
+        );
+
+
+    /*
+     * Generate the correct number
+     * of days for the selected
+     * month and year.
+     */
+
+    function loadDays() {
+
+        const selectedDay =
+            day.value;
+
+
+        const monthNumber =
+            Number(
+                month.value
+            );
+
+
+        const yearNumber =
+            Number(
+                year.value
+            );
+
+
+        let maxDays = 31;
+
+
+        if (monthNumber) {
+
+            const safeYear =
+                yearNumber
+                ||
+                2000;
+
+
+            maxDays =
+                new Date(
+                    safeYear,
+                    monthNumber,
+                    0
+                )
+                .getDate();
+
+        }
+
+
+        day.innerHTML =
+            '<option value="">Day</option>';
+
+
+        for (
+            let number = 1;
+            number <= maxDays;
+            number++
+        ) {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                String(number)
+                    .padStart(
+                        2,
+                        "0"
+                    );
+
+
+            option.textContent =
+                String(
+                    number
+                );
+
+
+            day.appendChild(
+                option
+            );
+
+        }
+
+
+        if (
+            Number(selectedDay)
+            <=
+            maxDays
+        ) {
+
+            day.value =
+                selectedDay;
+
+        }
+
+    }
+
+
+    /*
+     * Convert:
+     *
+     * Day + Month + Year
+     *
+     * into:
+     *
+     * YYYY-MM-DD
+     */
+
+    function syncDateOfBirth() {
+
+        const dayValue =
+            day.value;
+
+
+        const monthValue =
+            month.value;
+
+
+        const yearValue =
+            year.value.trim();
+
+
+        if (
+            !dayValue ||
+            !monthValue ||
+            !yearValue
+        ) {
+
+            hiddenDate.value =
+                "";
+
+            return;
+
+        }
+
+
+        const numericYear =
+            Number(
+                yearValue
+            );
+
+
+        if (
+            !Number.isInteger(
+                numericYear
+            )
+            ||
+            numericYear < 1900
+            ||
+            numericYear > currentYear
+        ) {
+
+            hiddenDate.value =
+                "";
+
+            return;
+
+        }
+
+
+        hiddenDate.value =
+
+            String(
+                numericYear
+            )
+
+            +
+
+            "-"
+
+            +
+
+            monthValue
+
+            +
+
+            "-"
+
+            +
+
+            dayValue;
+
+    }
+
+
+    month.addEventListener(
+        "change",
+        function () {
+
+            loadDays();
+
+            syncDateOfBirth();
+
+        }
+    );
+
+
+    year.addEventListener(
+        "input",
+        function () {
+
+            loadDays();
+
+            syncDateOfBirth();
+
+        }
+    );
+
+
+    day.addEventListener(
+        "change",
+        syncDateOfBirth
+    );
+
+
+    loadDays();
+
+
+})();
+
+</script>
+
+
+
+<!-- ==========================================
+     Existing Application Scripts
+========================================== -->
 
 <script src="student-data.js"></script>
 
 <script src="custom-dropdown.js"></script>
 
 <script src="add-student.js"></script>
-
 
 
 </body>
