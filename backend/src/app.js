@@ -9,7 +9,12 @@ const express = require("express");
 const cors = require("cors");
 
 const { corsOptions } = require("./config/cors");
+
 const { requestId } = require("./middleware/request-id");
+const {
+  instituteContext,
+} = require("./middleware/institute-context");
+
 const {
   notFoundHandler,
   errorHandler,
@@ -18,16 +23,26 @@ const {
 const app = express();
 
 /**
+ * --------------------------------------------------
  * Global Middleware
+ * --------------------------------------------------
  */
 
-// Assign a unique ID to every request.
+// Assign a unique ID to every incoming request.
 app.use(requestId);
 
 // Configure Cross-Origin Resource Sharing.
 app.use(cors(corsOptions));
 
-// Parse incoming JSON requests.
+// Detect the selected institute/tenant.
+//
+// IMPORTANT:
+// This only identifies the requested institute.
+// It does NOT authorize the user.
+// Membership authorization will be added later.
+app.use(instituteContext);
+
+// Parse incoming JSON request bodies.
 app.use(
   express.json({
     limit: "10mb",
@@ -43,8 +58,11 @@ app.use(
 );
 
 /**
- * Basic API Route
+ * --------------------------------------------------
+ * Public Routes
+ * --------------------------------------------------
  */
+
 app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
@@ -54,7 +72,7 @@ app.get("/", (req, res) => {
 });
 
 /**
- * Health Check Route
+ * Health Check
  */
 app.get("/api/v1/health", (req, res) => {
   res.status(200).json({
@@ -66,17 +84,34 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 /**
- * 404 Handler
+ * --------------------------------------------------
+ * API Routes
+ * --------------------------------------------------
  *
- * Must stay after all application routes.
+ * Future modules will be registered here:
+ *
+ * /api/v1/auth
+ * /api/v1/institutes
+ * /api/v1/students
+ * /api/v1/teachers
+ * /api/v1/classes
+ * /api/v1/subjects
+ * /api/v1/attendance
+ * /api/v1/fees
+ * /api/v1/exams
+ * /api/v1/certificates
  */
-app.use(notFoundHandler);
 
 /**
- * Global Error Handler
- *
- * Must stay as the final middleware.
+ * --------------------------------------------------
+ * Error Handling
+ * --------------------------------------------------
  */
+
+// Must stay after all application routes.
+app.use(notFoundHandler);
+
+// Must always be the final middleware.
 app.use(errorHandler);
 
 module.exports = app;
