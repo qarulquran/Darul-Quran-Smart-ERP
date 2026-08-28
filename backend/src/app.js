@@ -1,4 +1,3 @@
-
 /**
  * ISM Smart ERP
  * Express Application
@@ -10,6 +9,7 @@ const express = require("express");
 const cors = require("cors");
 
 const { corsOptions } = require("./config/cors");
+const { requestId } = require("./middleware/request-id");
 const {
   notFoundHandler,
   errorHandler,
@@ -20,14 +20,21 @@ const app = express();
 /**
  * Global Middleware
  */
+
+// Assign a unique ID to every request.
+app.use(requestId);
+
+// Configure Cross-Origin Resource Sharing.
 app.use(cors(corsOptions));
 
+// Parse incoming JSON requests.
 app.use(
   express.json({
     limit: "10mb",
   })
 );
 
+// Parse URL-encoded request bodies.
 app.use(
   express.urlencoded({
     extended: true,
@@ -42,6 +49,7 @@ app.get("/", (req, res) => {
   res.status(200).json({
     success: true,
     message: "ISM Smart ERP API is running",
+    requestId: req.requestId,
   });
 });
 
@@ -52,6 +60,7 @@ app.get("/api/v1/health", (req, res) => {
   res.status(200).json({
     success: true,
     message: "ISM Smart ERP backend is healthy",
+    requestId: req.requestId,
     timestamp: new Date().toISOString(),
   });
 });
