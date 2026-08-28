@@ -11,6 +11,7 @@ const cors = require("cors");
 const { corsOptions } = require("./config/cors");
 
 const { requestId } = require("./middleware/request-id");
+
 const {
   instituteContext,
 } = require("./middleware/institute-context");
@@ -20,36 +21,28 @@ const {
   errorHandler,
 } = require("./middleware/error-handler");
 
+const {
+  checkDatabaseConnection,
+} = require("./database/db");
+
 const app = express();
 
-/**
- * --------------------------------------------------
- * Global Middleware
- * --------------------------------------------------
- */
+// --------------------------------------------------
+// Core Middleware
+// --------------------------------------------------
 
-// Assign a unique ID to every incoming request.
 app.use(requestId);
 
-// Configure Cross-Origin Resource Sharing.
 app.use(cors(corsOptions));
 
-// Detect the selected institute/tenant.
-//
-// IMPORTANT:
-// This only identifies the requested institute.
-// It does NOT authorize the user.
-// Membership authorization will be added later.
 app.use(instituteContext);
 
-// Parse incoming JSON request bodies.
 app.use(
   express.json({
     limit: "10mb",
   })
 );
 
-// Parse URL-encoded request bodies.
 app.use(
   express.urlencoded({
     extended: true,
@@ -57,11 +50,9 @@ app.use(
   })
 );
 
-/**
- * --------------------------------------------------
- * Public Routes
- * --------------------------------------------------
- */
+// --------------------------------------------------
+// Root Route
+// --------------------------------------------------
 
 app.get("/", (req, res) => {
   res.status(200).json({
@@ -71,24 +62,44 @@ app.get("/", (req, res) => {
   });
 });
 
-/**
- * Health Check
- */
-app.get("/api/v1/health", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "ISM Smart ERP backend is healthy",
-    requestId: req.requestId,
-    timestamp: new Date().toISOString(),
-  });
+// --------------------------------------------------
+// Health Check
+// --------------------------------------------------
+
+app.get("/api/v1/health", async (req, res, next) => {
+  try {
+    const database = await checkDatabaseConnection();
+
+    res.status(200).json({
+      success: true,
+      status: "healthy",
+      message: "ISM Smart ERP backend is healthy",
+
+      services: {
+        api: {
+          status: "up",
+        },
+
+        database: {
+          status: "up",
+          name: database.database_name,
+          time: database.database_time,
+        },
+      },
+
+      requestId: req.requestId,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    error.statusCode = 503;
+    error.message = "Database health check failed";
+
+    next(error);
+  }
 });
 
 /**
- * --------------------------------------------------
- * API Routes
- * --------------------------------------------------
- *
- * Future modules will be registered here:
+ * Future modules:
  *
  * /api/v1/auth
  * /api/v1/institutes
@@ -102,16 +113,12 @@ app.get("/api/v1/health", (req, res) => {
  * /api/v1/certificates
  */
 
-/**
- * --------------------------------------------------
- * Error Handling
- * --------------------------------------------------
- */
+// --------------------------------------------------
+// Error Handling
+// --------------------------------------------------
 
-// Must stay after all application routes.
 app.use(notFoundHandler);
 
-// Must always be the final middleware.
 app.use(errorHandler);
 
 module.exports = app;
