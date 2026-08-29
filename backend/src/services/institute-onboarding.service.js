@@ -60,9 +60,7 @@ const normalizeLanguage = (language) => {
     "ar",
   ];
 
-  if (
-    allowedLanguages.includes(language)
-  ) {
+  if (allowedLanguages.includes(language)) {
     return language;
   }
 
@@ -191,11 +189,8 @@ const ensureUserDoesNotExist = async (
         id,
         email,
         phone
-
       FROM users
-
       WHERE ${conditions.join(" OR ")}
-
       LIMIT 1;
     `,
     values
@@ -243,7 +238,6 @@ const createInstitute = async (
         $4,
         $5::jsonb
       )
-
       RETURNING
         id,
         name,
@@ -302,7 +296,6 @@ const createOwnerUser = async (
         $5,
         'active'
       )
-
       RETURNING
         id,
         full_name,
@@ -354,7 +347,6 @@ const createMembership = async (
         $3,
         CURRENT_TIMESTAMP
       )
-
       RETURNING
         id,
         institute_id,
@@ -390,13 +382,10 @@ const findAdminRole = async (
         name,
         code,
         status
-
       FROM roles
-
       WHERE institute_id = $1
         AND code = 'admin'
         AND status = 'active'
-
       LIMIT 1;
     `,
     [instituteId]
@@ -420,7 +409,6 @@ const findAdminRole = async (
 const assignAdminRole = async (
   client,
   {
-    instituteId,
     membershipId,
     roleId,
     ownerUserId,
@@ -429,7 +417,6 @@ const assignAdminRole = async (
   const result = await client.query(
     `
       INSERT INTO institute_user_roles (
-        institute_id,
         institute_user_id,
         role_id,
         assigned_by,
@@ -439,20 +426,17 @@ const assignAdminRole = async (
         $1,
         $2,
         $3,
-        $4,
         'active'
       )
-
       RETURNING
         id,
-        institute_id,
         institute_user_id,
         role_id,
+        assigned_by,
         status,
         created_at;
     `,
     [
-      instituteId,
       membershipId,
       roleId,
       ownerUserId,
@@ -504,19 +488,11 @@ const onboardInstitute = async ({
 
   return withTransaction(
     async (client) => {
-      // ----------------------------------------------
-      // Prevent accidental account takeover
-      // ----------------------------------------------
-
       await ensureUserDoesNotExist(
         client,
         normalizedEmail,
         normalizedPhone
       );
-
-      // ----------------------------------------------
-      // Institute
-      // ----------------------------------------------
 
       const institute =
         await createInstitute(
@@ -526,14 +502,10 @@ const onboardInstitute = async ({
         );
 
       /*
-       * Migration 030 automatically creates
-       * the institute's default roles after
-       * the institute record is inserted.
+       * Migration 030 trigger creates
+       * default institute roles after
+       * the institute is inserted.
        */
-
-      // ----------------------------------------------
-      // Owner User
-      // ----------------------------------------------
 
       const owner =
         await createOwnerUser(
@@ -553,10 +525,6 @@ const onboardInstitute = async ({
           }
         );
 
-      // ----------------------------------------------
-      // Membership
-      // ----------------------------------------------
-
       const membership =
         await createMembership(
           client,
@@ -571,10 +539,6 @@ const onboardInstitute = async ({
           }
         );
 
-      // ----------------------------------------------
-      // Admin Role
-      // ----------------------------------------------
-
       const adminRole =
         await findAdminRole(
           client,
@@ -585,9 +549,6 @@ const onboardInstitute = async ({
         await assignAdminRole(
           client,
           {
-            instituteId:
-              institute.id,
-
             membershipId:
               membership.id,
 
@@ -598,10 +559,6 @@ const onboardInstitute = async ({
               owner.id,
           }
         );
-
-      // ----------------------------------------------
-      // Safe Result
-      // ----------------------------------------------
 
       return {
         institute: {
