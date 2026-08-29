@@ -21,6 +21,10 @@ const {
   loginRateLimit,
 } = require("../middleware/login-rate-limit");
 
+const {
+  validateLogin,
+} = require("../middleware/validate-login");
+
 const router = express.Router();
 
 // --------------------------------------------------
@@ -36,14 +40,15 @@ const router = express.Router();
  *   "password": "user-password"
  * }
  *
- * Security:
- * - Login rate limiting
- * - Account lock protection
- * - Password verification
+ * Security flow:
+ * 1. Rate limit login attempts
+ * 2. Validate request input
+ * 3. Authenticate credentials
  */
 router.post(
   "/login",
   loginRateLimit,
+  validateLogin,
   loginController
 );
 
