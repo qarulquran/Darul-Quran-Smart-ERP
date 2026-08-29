@@ -7,10 +7,24 @@
 
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
+const morgan = require("morgan");
 
-const { corsOptions } = require("./config/cors");
+const {
+  rateLimit,
+} = require("express-rate-limit");
 
-const { requestId } = require("./middleware/request-id");
+const {
+  env,
+} = require("./config/env");
+
+const {
+  corsOptions,
+} = require("./config/cors");
+
+const {
+  requestId,
+} = require("./middleware/request-id");
 
 const {
   instituteContext,
@@ -25,30 +39,108 @@ const {
   checkDatabaseConnection,
 } = require("./database/db");
 
-const authRoutes = require("./routes/auth.routes");
+const authRoutes = require(
+  "./routes/auth.routes"
+);
 
 const app = express();
 
 // --------------------------------------------------
-// Core Middleware
+// Security Headers
+// --------------------------------------------------
+
+app.use(
+  helmet({
+    crossOriginResourcePolicy: {
+      policy: "cross-origin",
+    },
+  })
+);
+
+// --------------------------------------------------
+// Request ID
 // --------------------------------------------------
 
 app.use(requestId);
 
+// --------------------------------------------------
+// Request Logging
+// --------------------------------------------------
+
+if (env.NODE_ENV === "production") {
+  app.use(morgan("combined"));
+} else {
+  app.use(morgan("dev"));
+}
+
+// --------------------------------------------------
+// CORS
+// --------------------------------------------------
+
 app.use(cors(corsOptions));
+
+// --------------------------------------------------
+// Global API Rate Limiting
+// --------------------------------------------------
+
+const apiRateLimit = rateLimit({
+  windowMs:
+    15 * 60 * 1000,
+
+  max: 500,
+
+  standardHeaders: true,
+  legacyHeaders: false,
+
+  message: {
+    success: false,
+    message:
+      "Too many requests. Please try again later.",
+    code: "API_RATE_LIMIT_EXCEEDED",
+  },
+
+  handler: (
+    req,
+    res,
+    next,
+    options
+  ) => {
+    return res
+      .status(options.statusCode)
+      .json({
+        ...options.message,
+
+        requestId:
+          req.requestId || null,
+      });
+  },
+});
+
+app.use(
+  "/api",
+  apiRateLimit
+);
+
+// --------------------------------------------------
+// Institute Context
+// --------------------------------------------------
 
 app.use(instituteContext);
 
+// --------------------------------------------------
+// Request Body Parsing
+// --------------------------------------------------
+
 app.use(
   express.json({
-    limit: "10mb",
+    limit: "1mb",
   })
 );
 
 app.use(
   express.urlencoded({
     extended: true,
-    limit: "10mb",
+    limit: "1mb",
   })
 );
 
@@ -56,49 +148,78 @@ app.use(
 // Root Route
 // --------------------------------------------------
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "ISM Smart ERP API is running",
-    requestId: req.requestId,
-  });
-});
+app.get(
+  "/",
+  (req, res) => {
+    return res.status(200).json({
+      success: true,
+
+      message:
+        "ISM Smart ERP API is running",
+
+      requestId:
+        req.requestId,
+
+      timestamp:
+        new Date().toISOString(),
+    });
+  }
+);
 
 // --------------------------------------------------
 // Health Check
 // --------------------------------------------------
 
-app.get("/api/v1/health", async (req, res, next) => {
-  try {
-    const database = await checkDatabaseConnection();
+app.get(
+  "/api/v1/health",
+  async (req, res, next) => {
+    try {
+      const database =
+        await checkDatabaseConnection();
 
-    res.status(200).json({
-      success: true,
-      status: "healthy",
-      message: "ISM Smart ERP backend is healthy",
+      return res
+        .status(200)
+        .json({
+          success: true,
+          status: "healthy",
 
-      services: {
-        api: {
-          status: "up",
-        },
+          message:
+            "ISM Smart ERP backend is healthy",
 
-        database: {
-          status: "up",
-          name: database.database_name,
-          time: database.database_time,
-        },
-      },
+          services: {
+            api: {
+              status: "up",
+            },
 
-      requestId: req.requestId,
-      timestamp: new Date().toISOString(),
-    });
-  } catch (error) {
-    error.statusCode = 503;
-    error.message = "Database health check failed";
+            database: {
+              status: "up",
 
-    next(error);
+              name:
+                database.database_name,
+
+              time:
+                database.database_time,
+            },
+          },
+
+          requestId:
+            req.requestId,
+
+          timestamp:
+            new Date().toISOString(),
+        });
+    } catch (error) {
+      error.statusCode = 503;
+      error.code =
+        "DATABASE_HEALTH_CHECK_FAILED";
+
+      error.message =
+        "Database health check failed";
+
+      return next(error);
+    }
   }
-});
+);
 
 // --------------------------------------------------
 // API Routes
@@ -124,11 +245,19 @@ app.use(
  */
 
 // --------------------------------------------------
-// Error Handling
+// 404 Handler
 // --------------------------------------------------
 
 app.use(notFoundHandler);
 
+// --------------------------------------------------
+// Global Error Handler
+// --------------------------------------------------
+
 app.use(errorHandler);
+
+// --------------------------------------------------
+// Exports
+// --------------------------------------------------
 
 module.exports = app;
