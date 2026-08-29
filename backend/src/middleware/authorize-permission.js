@@ -5,7 +5,10 @@
  * Role-Based Access Control (RBAC)
  *
  * Verifies that the authenticated institute member
- * has the required permission through an active role.
+ * has the required permission through:
+ * - an active role assignment
+ * - an active role
+ * - an active permission
  *
  * Required middleware order:
  * 1. authenticate
@@ -82,7 +85,7 @@ const authorizePermission = (...permissions) => {
         req.institute.membershipId;
 
       // --------------------------------------------------
-      // Find Granted Permissions
+      // Find Active Granted Permissions
       // --------------------------------------------------
 
       const result = await query(
@@ -94,6 +97,7 @@ const authorizePermission = (...permissions) => {
 
           INNER JOIN roles r
             ON r.id = iur.role_id
+            AND r.institute_id = iur.institute_id
 
           INNER JOIN role_permissions rp
             ON rp.role_id = r.id
@@ -102,7 +106,12 @@ const authorizePermission = (...permissions) => {
             ON p.id = rp.permission_id
 
           WHERE iur.institute_user_id = $1
-            AND r.institute_id = $2
+            AND iur.institute_id = $2
+
+            AND iur.status = 'active'
+            AND r.status = 'active'
+            AND p.status = 'active'
+
             AND p.code = ANY($3::text[]);
         `,
         [
