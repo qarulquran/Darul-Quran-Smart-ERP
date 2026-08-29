@@ -4,12 +4,18 @@
  *
  * Provides:
  * - Shared PostgreSQL connection pool
- * - Simple query helper
+ * - Centralized environment configuration
+ * - Query helper
  * - Transaction helper
+ * - Database health check
  * - Graceful shutdown support
  */
 
 const { Pool } = require("pg");
+
+const {
+  env,
+} = require("../config/env");
 
 const {
   getDatabaseConfig,
@@ -25,10 +31,10 @@ validateDatabaseConfig();
 const databaseConfig = getDatabaseConfig();
 
 // --------------------------------------------------
-// Shared PostgreSQL Pool
+// PostgreSQL Pool Configuration
 // --------------------------------------------------
 
-const pool = new Pool({
+const poolConfig = {
   host: databaseConfig.host,
   port: databaseConfig.port,
   database: databaseConfig.database,
@@ -41,19 +47,38 @@ const pool = new Pool({
       }
     : false,
 
-  max: Number(process.env.DB_POOL_MAX) || 20,
+  max: env.DB_POOL_MAX,
+
   idleTimeoutMillis:
-    Number(process.env.DB_IDLE_TIMEOUT_MS) || 30000,
+    env.DB_IDLE_TIMEOUT_MS,
+
   connectionTimeoutMillis:
-    Number(process.env.DB_CONNECTION_TIMEOUT_MS) || 10000,
-});
+    env.DB_CONNECTION_TIMEOUT_MS,
+};
+
+// --------------------------------------------------
+// Shared PostgreSQL Pool
+// --------------------------------------------------
+
+const pool = new Pool(poolConfig);
 
 // --------------------------------------------------
 // Pool Events
 // --------------------------------------------------
 
+pool.on("connect", () => {
+  if (env.NODE_ENV === "development") {
+    console.log(
+      "PostgreSQL connection established."
+    );
+  }
+});
+
 pool.on("error", (error) => {
-  console.error("Unexpected PostgreSQL pool error:");
+  console.error(
+    "Unexpected PostgreSQL pool error:"
+  );
+
   console.error(error);
 });
 
@@ -61,14 +86,21 @@ pool.on("error", (error) => {
 // Query Helper
 // --------------------------------------------------
 
-const query = async (text, params = []) => {
-  const start = Date.now();
+const query = async (
+  text,
+  params = []
+) => {
+  const startTime = Date.now();
 
   try {
-    const result = await pool.query(text, params);
+    const result = await pool.query(
+      text,
+      params
+    );
 
-    if (process.env.NODE_ENV === "development") {
-      const duration = Date.now() - start;
+    if (env.NODE_ENV === "development") {
+      const duration =
+        Date.now() - startTime;
 
       console.log(
         `Database query completed in ${duration}ms`
@@ -77,7 +109,10 @@ const query = async (text, params = []) => {
 
     return result;
   } catch (error) {
-    console.error("Database query failed:");
+    console.error(
+      "Database query failed:"
+    );
+
     console.error(error.message);
 
     throw error;
@@ -88,19 +123,38 @@ const query = async (text, params = []) => {
 // Transaction Helper
 // --------------------------------------------------
 
-const withTransaction = async (callback) => {
+const withTransaction = async (
+  callback
+) => {
+  if (typeof callback !== "function") {
+    throw new TypeError(
+      "Transaction callback must be a function"
+    );
+  }
+
   const client = await pool.connect();
 
   try {
     await client.query("BEGIN");
 
-    const result = await callback(client);
+    const result =
+      await callback(client);
 
     await client.query("COMMIT");
 
     return result;
   } catch (error) {
-    await client.query("ROLLBACK");
+    try {
+      await client.query("ROLLBACK");
+    } catch (rollbackError) {
+      console.error(
+        "Database rollback failed:"
+      );
+
+      console.error(
+        rollbackError.message
+      );
+    }
 
     throw error;
   } finally {
@@ -112,21 +166,30 @@ const withTransaction = async (callback) => {
 // Database Health Check
 // --------------------------------------------------
 
-const checkDatabaseConnection = async () => {
-  const result = await pool.query(`
-    SELECT
-      NOW() AS database_time,
-      current_database() AS database_name;
-  `);
+const checkDatabaseConnection =
+  async () => {
+    const result = await pool.query(`
+      SELECT
+        NOW() AS database_time,
+        current_database() AS database_name;
+    `);
 
-  return result.rows[0];
-};
+    return result.rows[0];
+  };
 
 // --------------------------------------------------
 // Graceful Shutdown
 // --------------------------------------------------
 
+let databaseClosed = false;
+
 const closeDatabase = async () => {
+  if (databaseClosed) {
+    return;
+  }
+
+  databaseClosed = true;
+
   await pool.end();
 };
 
