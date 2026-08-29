@@ -1,91 +1,163 @@
 /**
+ * ISM Smart ERP
+ * Database Configuration
+ *
+ * Central PostgreSQL database configuration
+ * for the multi-institution ERP backend.
+ */
 
-ISM Smart ERP
+const {
+  env,
+  getEnv,
+} = require("./env");
 
-Database Configuration
+// --------------------------------------------------
+// Shared Database Values
+// --------------------------------------------------
 
-Central database configuration for the
+const getSharedDatabaseValues = () => {
+  return {
+    host: getEnv("DB_HOST", "localhost"),
 
-multi-institution ERP backend.
-*/
+    port: Number(
+      getEnv("DB_PORT", 5432)
+    ),
 
+    user: getEnv(
+      "DB_USER",
+      "postgres"
+    ),
+
+    password: getEnv(
+      "DB_PASSWORD",
+      ""
+    ),
+  };
+};
+
+// --------------------------------------------------
+// Environment Database Configuration
+// --------------------------------------------------
 
 const DATABASE_CONFIG = {
-development: {
-host: process.env.DB_HOST || "localhost",
-port: Number(process.env.DB_PORT) || 5432,
-database: process.env.DB_NAME || "ism_smart_erp",
-user: process.env.DB_USER || "postgres",
-password: process.env.DB_PASSWORD || "",
-ssl: false,
-},
+  development: {
+    ...getSharedDatabaseValues(),
 
-production: {
-host: process.env.DB_HOST,
-port: Number(process.env.DB_PORT) || 5432,
-database: process.env.DB_NAME,
-user: process.env.DB_USER,
-password: process.env.DB_PASSWORD,
-ssl: process.env.DB_SSL === "true",
-},
+    database: getEnv(
+      "DB_NAME",
+      "ism_smart_erp"
+    ),
 
-test: {
-host: process.env.DB_HOST || "localhost",
-port: Number(process.env.DB_PORT) || 5432,
-database: process.env.DB_TEST_NAME || "ism_smart_erp_test",
-user: process.env.DB_USER || "postgres",
-password: process.env.DB_PASSWORD || "",
-ssl: false,
-},
+    ssl: false,
+  },
+
+  production: {
+    host: getEnv("DB_HOST", ""),
+
+    port: Number(
+      getEnv("DB_PORT", 5432)
+    ),
+
+    database: getEnv(
+      "DB_NAME",
+      ""
+    ),
+
+    user: getEnv(
+      "DB_USER",
+      ""
+    ),
+
+    password: getEnv(
+      "DB_PASSWORD",
+      ""
+    ),
+
+    ssl:
+      getEnv(
+        "DB_SSL",
+        "false"
+      ).toLowerCase() === "true",
+  },
+
+  test: {
+    ...getSharedDatabaseValues(),
+
+    database: getEnv(
+      "DB_TEST_NAME",
+      "ism_smart_erp_test"
+    ),
+
+    ssl: false,
+  },
 };
+
+// --------------------------------------------------
+// Current Environment
+// --------------------------------------------------
 
 const getEnvironment = () => {
-return process.env.NODE_ENV || "development";
+  return env.NODE_ENV || "development";
 };
+
+// --------------------------------------------------
+// Current Database Configuration
+// --------------------------------------------------
 
 const getDatabaseConfig = () => {
-const environment = getEnvironment();
+  const environment = getEnvironment();
 
-const config =
-DATABASE_CONFIG[environment] || DATABASE_CONFIG.development;
+  const config =
+    DATABASE_CONFIG[environment] ||
+    DATABASE_CONFIG.development;
 
-return {
-...config,
-environment,
+  return {
+    ...config,
+    environment,
+  };
 };
-};
+
+// --------------------------------------------------
+// Validate Database Configuration
+// --------------------------------------------------
 
 const validateDatabaseConfig = () => {
-const environment = getEnvironment();
-const config = getDatabaseConfig();
+  const environment = getEnvironment();
+  const config = getDatabaseConfig();
 
-if (environment !== "production") {
-return true;
-}
+  if (environment !== "production") {
+    return true;
+  }
 
-const requiredValues = [
-["DB_HOST", config.host],
-["DB_NAME", config.database],
-["DB_USER", config.user],
-["DB_PASSWORD", config.password],
-];
+  const requiredValues = [
+    ["DB_HOST", config.host],
+    ["DB_NAME", config.database],
+    ["DB_USER", config.user],
+    ["DB_PASSWORD", config.password],
+  ];
 
-const missingValues = requiredValues
-.filter(([, value]) => !value)
-.map(([name]) => name);
+  const missingValues = requiredValues
+    .filter(([, value]) => !value)
+    .map(([name]) => name);
 
-if (missingValues.length > 0) {
-throw new Error(
-Missing database environment variables: ${missingValues.join(", ")}
-);
-}
+  if (missingValues.length > 0) {
+    throw new Error(
+      `Missing database environment variables: ${missingValues.join(
+        ", "
+      )}`
+    );
+  }
 
-return true;
+  return true;
 };
 
+// --------------------------------------------------
+// Exports
+// --------------------------------------------------
+
 module.exports = {
-DATABASE_CONFIG,
-getEnvironment,
-getDatabaseConfig,
-validateDatabaseConfig,
+  DATABASE_CONFIG,
+  getEnvironment,
+  getDatabaseConfig,
+  validateDatabaseConfig,
 };
