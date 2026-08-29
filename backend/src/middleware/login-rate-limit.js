@@ -6,9 +6,9 @@
  * password guessing and brute-force attempts.
  */
 
-const rateLimit = require(
-  "express-rate-limit"
-);
+const {
+  rateLimit,
+} = require("express-rate-limit");
 
 // --------------------------------------------------
 // Login Rate Limiter
@@ -42,6 +42,7 @@ const loginRateLimit = rateLimit({
       .status(options.statusCode)
       .json({
         ...options.message,
+
         requestId:
           req.requestId || null,
       });
