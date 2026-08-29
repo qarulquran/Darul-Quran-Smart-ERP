@@ -43,6 +43,10 @@ const authRoutes = require(
   "./routes/auth.routes"
 );
 
+const instituteOnboardingRoutes = require(
+  "./routes/institute-onboarding.routes"
+);
+
 const app = express();
 
 // --------------------------------------------------
@@ -228,6 +232,11 @@ app.get(
 app.use(
   "/api/v1/auth",
   authRoutes
+);
+
+app.use(
+  "/api/v1/onboarding",
+  instituteOnboardingRoutes
 );
 
 /**
