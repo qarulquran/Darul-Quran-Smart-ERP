@@ -2,18 +2,36 @@
  * ISM Smart ERP
  * JWT Token Utility
  *
- * Handles creation and verification of
- * authentication access tokens.
+ * Handles:
+ * - JWT access token creation
+ * - JWT access token verification
+ * - Safe token decoding
+ * - Centralized JWT configuration
  */
 
 const jwt = require("jsonwebtoken");
 
+const {
+  env,
+} = require("../config/env");
+
 // --------------------------------------------------
-// JWT Configuration
+// JWT Constants
+// --------------------------------------------------
+
+const JWT_ALGORITHM = "HS256";
+const JWT_ISSUER = "ism-smart-erp";
+const JWT_AUDIENCE = "ism-smart-erp-api";
+
+// --------------------------------------------------
+// JWT Secret
 // --------------------------------------------------
 
 const getJwtSecret = () => {
-  const secret = process.env.JWT_SECRET;
+  const secret =
+    typeof env.JWT_SECRET === "string"
+      ? env.JWT_SECRET.trim()
+      : "";
 
   if (!secret) {
     throw new Error(
@@ -22,7 +40,7 @@ const getJwtSecret = () => {
   }
 
   if (
-    process.env.NODE_ENV === "production" &&
+    env.NODE_ENV === "production" &&
     secret.length < 32
   ) {
     throw new Error(
@@ -33,8 +51,39 @@ const getJwtSecret = () => {
   return secret;
 };
 
+// --------------------------------------------------
+// Access Token Expiry
+// --------------------------------------------------
+
 const getAccessTokenExpiry = () => {
-  return process.env.JWT_EXPIRES_IN || "1h";
+  return env.JWT_EXPIRES_IN || "1h";
+};
+
+// --------------------------------------------------
+// Validate Token Payload
+// --------------------------------------------------
+
+const validateTokenPayload = (payload) => {
+  if (
+    !payload ||
+    typeof payload !== "object" ||
+    Array.isArray(payload)
+  ) {
+    throw new Error(
+      "Token payload must be an object"
+    );
+  }
+
+  if (
+    typeof payload.userId !== "string" ||
+    !payload.userId.trim()
+  ) {
+    throw new Error(
+      "Token payload must contain a valid userId"
+    );
+  }
+
+  return true;
 };
 
 // --------------------------------------------------
@@ -42,26 +91,23 @@ const getAccessTokenExpiry = () => {
 // --------------------------------------------------
 
 const generateAccessToken = (payload) => {
-  if (!payload || typeof payload !== "object") {
-    throw new Error(
-      "Token payload must be an object"
-    );
-  }
-
-  if (!payload.userId) {
-    throw new Error(
-      "Token payload must contain userId"
-    );
-  }
+  validateTokenPayload(payload);
 
   return jwt.sign(
     payload,
     getJwtSecret(),
     {
-      expiresIn: getAccessTokenExpiry(),
-      algorithm: "HS256",
-      issuer: "ism-smart-erp",
-      audience: "ism-smart-erp-api",
+      expiresIn:
+        getAccessTokenExpiry(),
+
+      algorithm:
+        JWT_ALGORITHM,
+
+      issuer:
+        JWT_ISSUER,
+
+      audience:
+        JWT_AUDIENCE,
     }
   );
 };
@@ -71,33 +117,51 @@ const generateAccessToken = (payload) => {
 // --------------------------------------------------
 
 const verifyAccessToken = (token) => {
-  if (!token || typeof token !== "string") {
+  if (
+    typeof token !== "string" ||
+    !token.trim()
+  ) {
     throw new Error(
       "Access token is required"
     );
   }
 
   return jwt.verify(
-    token,
+    token.trim(),
     getJwtSecret(),
     {
-      algorithms: ["HS256"],
-      issuer: "ism-smart-erp",
-      audience: "ism-smart-erp-api",
+      algorithms: [
+        JWT_ALGORITHM,
+      ],
+
+      issuer:
+        JWT_ISSUER,
+
+      audience:
+        JWT_AUDIENCE,
     }
   );
 };
 
 // --------------------------------------------------
-// Decode Token
+// Decode Access Token
 // --------------------------------------------------
 
 const decodeAccessToken = (token) => {
-  if (!token || typeof token !== "string") {
+  if (
+    typeof token !== "string" ||
+    !token.trim()
+  ) {
     return null;
   }
 
-  return jwt.decode(token);
+  try {
+    return jwt.decode(
+      token.trim()
+    );
+  } catch (error) {
+    return null;
+  }
 };
 
 // --------------------------------------------------
@@ -108,4 +172,5 @@ module.exports = {
   generateAccessToken,
   verifyAccessToken,
   decodeAccessToken,
+  validateTokenPayload,
 };
