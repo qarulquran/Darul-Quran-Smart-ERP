@@ -4,9 +4,10 @@
   "description": "Backend API for ISM Smart ERP Multi-Tenant Management System",
   "main": "src/server.js",
   "scripts": {
+    "migrate": "node src/database/migrate.js",
+    "prestart": "npm run migrate",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "migrate": "node src/database/migrate.js"
+    "dev": "nodemon src/server.js"
   },
   "engines": {
     "node": ">=20.0.0"
