@@ -25,6 +25,8 @@ const {
   checkDatabaseConnection,
 } = require("./database/db");
 
+const authRoutes = require("./routes/auth.routes");
+
 const app = express();
 
 // --------------------------------------------------
@@ -98,10 +100,18 @@ app.get("/api/v1/health", async (req, res, next) => {
   }
 });
 
+// --------------------------------------------------
+// API Routes
+// --------------------------------------------------
+
+app.use(
+  "/api/v1/auth",
+  authRoutes
+);
+
 /**
  * Future modules:
  *
- * /api/v1/auth
  * /api/v1/institutes
  * /api/v1/students
  * /api/v1/teachers
