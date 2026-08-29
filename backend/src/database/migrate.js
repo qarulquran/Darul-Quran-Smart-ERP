@@ -8,34 +8,14 @@
 
 const fs = require("fs");
 const path = require("path");
-const { Pool } = require("pg");
 
 const {
-  getDatabaseConfig,
-  validateDatabaseConfig,
-} = require("../config/database");
+  pool,
+} = require("./db");
 
 // --------------------------------------------------
-// Configuration
+// Migration Directory
 // --------------------------------------------------
-
-validateDatabaseConfig();
-
-const databaseConfig = getDatabaseConfig();
-
-const pool = new Pool({
-  host: databaseConfig.host,
-  port: databaseConfig.port,
-  database: databaseConfig.database,
-  user: databaseConfig.user,
-  password: databaseConfig.password,
-
-  ssl: databaseConfig.ssl
-    ? {
-        rejectUnauthorized: false,
-      }
-    : false,
-});
 
 const migrationsDirectory = path.join(
   __dirname,
@@ -79,7 +59,7 @@ const getMigrationFiles = () => {
 };
 
 // --------------------------------------------------
-// Read Completed Migrations
+// Completed Migrations
 // --------------------------------------------------
 
 const getCompletedMigrations = async (client) => {
@@ -90,7 +70,9 @@ const getCompletedMigrations = async (client) => {
   `);
 
   return new Set(
-    result.rows.map((row) => row.migration_name)
+    result.rows.map(
+      (row) => row.migration_name
+    )
   );
 };
 
@@ -98,13 +80,19 @@ const getCompletedMigrations = async (client) => {
 // Run One Migration
 // --------------------------------------------------
 
-const runMigration = async (client, fileName) => {
+const runMigration = async (
+  client,
+  fileName
+) => {
   const filePath = path.join(
     migrationsDirectory,
     fileName
   );
 
-  const sql = fs.readFileSync(filePath, "utf8");
+  const sql = fs.readFileSync(
+    filePath,
+    "utf8"
+  );
 
   if (!sql.trim()) {
     throw new Error(
@@ -112,7 +100,9 @@ const runMigration = async (client, fileName) => {
     );
   }
 
-  console.log(`Running: ${fileName}`);
+  console.log(
+    `Running migration: ${fileName}`
+  );
 
   await client.query("BEGIN");
 
@@ -131,7 +121,9 @@ const runMigration = async (client, fileName) => {
 
     await client.query("COMMIT");
 
-    console.log(`Completed: ${fileName}`);
+    console.log(
+      `Completed migration: ${fileName}`
+    );
   } catch (error) {
     await client.query("ROLLBACK");
 
@@ -142,15 +134,124 @@ const runMigration = async (client, fileName) => {
 };
 
 // --------------------------------------------------
-// Run All Pending Migrations
+// Run Pending Migrations
 // --------------------------------------------------
 
 const migrate = async () => {
   let client;
 
   try {
-    console.log("==========================================");
-    console.log(" ISM Smart ERP Database Migration");
-    console.log("==========================================");
+    console.log(
+      "=========================================="
+    );
+    console.log(
+      " ISM Smart ERP Database Migration"
+    );
+    console.log(
+      "=========================================="
+    );
 
-    client =
+    client = await pool.connect();
+
+    console.log(
+      "Database connection established."
+    );
+
+    await ensureMigrationsTable(client);
+
+    const migrationFiles =
+      getMigrationFiles();
+
+    if (migrationFiles.length === 0) {
+      console.log(
+        "No migration files found."
+      );
+
+      return;
+    }
+
+    const completedMigrations =
+      await getCompletedMigrations(client);
+
+    const pendingMigrations =
+      migrationFiles.filter(
+        (file) =>
+          !completedMigrations.has(file)
+      );
+
+    console.log(
+      `Total migrations: ${migrationFiles.length}`
+    );
+
+    console.log(
+      `Completed migrations: ${completedMigrations.size}`
+    );
+
+    console.log(
+      `Pending migrations: ${pendingMigrations.length}`
+    );
+
+    if (pendingMigrations.length === 0) {
+      console.log(
+        "Database is already up to date."
+      );
+
+      return;
+    }
+
+    for (const fileName of pendingMigrations) {
+      await runMigration(
+        client,
+        fileName
+      );
+    }
+
+    console.log(
+      "=========================================="
+    );
+    console.log(
+      " All migrations completed successfully."
+    );
+    console.log(
+      "=========================================="
+    );
+  } catch (error) {
+    console.error(
+      "=========================================="
+    );
+    console.error(
+      " Database migration failed"
+    );
+    console.error(
+      "=========================================="
+    );
+
+    console.error(
+      error.message
+    );
+
+    process.exitCode = 1;
+  } finally {
+    if (client) {
+      client.release();
+    }
+
+    try {
+      await pool.end();
+    } catch (error) {
+      console.error(
+        "Failed to close database pool:"
+      );
+
+      console.error(
+        error.message
+      );
+    }
+  }
+};
+
+// --------------------------------------------------
+// Execute
+// --------------------------------------------------
+
+migrate();
