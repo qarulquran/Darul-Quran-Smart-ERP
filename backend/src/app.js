@@ -51,6 +51,10 @@ const tenantRoutes = require(
   "./routes/tenant.routes"
 );
 
+const studentRoutes = require(
+  "./routes/student.routes"
+);
+
 const app = express();
 
 // --------------------------------------------------
@@ -248,11 +252,15 @@ app.use(
   tenantRoutes
 );
 
+app.use(
+  "/api/v1/students",
+  studentRoutes
+);
+
 /**
  * Future modules:
  *
  * /api/v1/institutes
- * /api/v1/students
  * /api/v1/teachers
  * /api/v1/classes
  * /api/v1/subjects
