@@ -2,13 +2,15 @@
  * ISM Smart ERP
  * Tenant Protected Routes
  *
- * Temporary protected endpoint for verifying:
- * 1. JWT authentication
- * 2. Institute selection
- * 3. Institute membership authorization
+ * Handles authenticated tenant discovery
+ * and tenant membership verification.
  */
 
 const express = require("express");
+
+const {
+  query,
+} = require("../database/db");
 
 const {
   authenticate,
@@ -19,6 +21,97 @@ const {
 } = require("../middleware/authorize-institute");
 
 const router = express.Router();
+
+// --------------------------------------------------
+// List Institutes Available To Logged-In User
+// --------------------------------------------------
+
+router.get(
+  "/institutes",
+  authenticate,
+  async (req, res, next) => {
+    try {
+      const result = await query(
+        `
+          SELECT
+            i.id,
+            i.name,
+            i.slug,
+            i.institute_code,
+            i.status,
+            i.default_language,
+            i.supported_languages,
+
+            iu.id AS membership_id,
+            iu.membership_status,
+            iu.designation,
+            iu.preferred_language
+
+          FROM institute_users iu
+
+          INNER JOIN institutes i
+            ON i.id = iu.institute_id
+
+          WHERE iu.user_id = $1
+            AND iu.membership_status = 'active'
+            AND i.status = 'active'
+
+          ORDER BY i.name ASC;
+        `,
+        [
+          req.auth.userId,
+        ]
+      );
+
+      return res.status(200).json({
+        success: true,
+
+        message:
+          "Institutes retrieved successfully",
+
+        data: {
+          institutes:
+            result.rows.map(
+              (row) => ({
+                id: row.id,
+                name: row.name,
+                slug: row.slug,
+                code:
+                  row.institute_code,
+                status:
+                  row.status,
+
+                defaultLanguage:
+                  row.default_language,
+
+                supportedLanguages:
+                  row.supported_languages,
+
+                membership: {
+                  id:
+                    row.membership_id,
+
+                  status:
+                    row.membership_status,
+
+                  designation:
+                    row.designation,
+
+                  preferredLanguage:
+                    row.preferred_language,
+                },
+              })
+            ),
+        },
+
+        requestId:
+          req.requestId,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
+);
 
 // --------------------------------------------------
 // Authorized Tenant Context Test
@@ -37,7 +130,8 @@ router.get(
 
       data: {
         user: {
-          id: req.auth.userId,
+          id:
+            req.auth.userId,
         },
 
         institute: {
