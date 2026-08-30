@@ -2,8 +2,10 @@
  * ISM Smart ERP
  * Tenant Protected Routes
  *
- * Handles authenticated tenant discovery
- * and tenant membership verification.
+ * Handles:
+ * - Authenticated institute discovery
+ * - Tenant membership authorization
+ * - RBAC permission authorization testing
  */
 
 const express = require("express");
@@ -19,6 +21,10 @@ const {
 const {
   authorizeInstitute,
 } = require("../middleware/authorize-institute");
+
+const {
+  authorizePermission,
+} = require("../middleware/authorize-permission");
 
 const router = express.Router();
 
@@ -162,6 +168,47 @@ router.get(
           userPreferredLanguage:
             req.institute.userPreferredLanguage,
         },
+      },
+
+      requestId:
+        req.requestId,
+    });
+  }
+);
+
+// --------------------------------------------------
+// RBAC Permission Test
+// --------------------------------------------------
+
+router.get(
+  "/permission-test",
+  authenticate,
+  authorizeInstitute,
+  authorizePermission(
+    "dashboard.view"
+  ),
+  (req, res) => {
+    return res.status(200).json({
+      success: true,
+
+      message:
+        "Permission access authorized",
+
+      data: {
+        user: {
+          id:
+            req.auth.userId,
+        },
+
+        institute: {
+          id:
+            req.institute.id,
+          name:
+            req.institute.name,
+        },
+
+        permissions:
+          req.permissions,
       },
 
       requestId:
