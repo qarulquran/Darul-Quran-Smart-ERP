@@ -47,6 +47,10 @@ const instituteOnboardingRoutes = require(
   "./routes/institute-onboarding.routes"
 );
 
+const tenantRoutes = require(
+  "./routes/tenant.routes"
+);
+
 const app = express();
 
 // --------------------------------------------------
@@ -237,6 +241,11 @@ app.use(
 app.use(
   "/api/v1/onboarding",
   instituteOnboardingRoutes
+);
+
+app.use(
+  "/api/v1/tenant",
+  tenantRoutes
 );
 
 /**
