@@ -60,7 +60,9 @@ const normalizeLanguage = (language) => {
     "ar",
   ];
 
-  if (allowedLanguages.includes(language)) {
+  if (
+    allowedLanguages.includes(language)
+  ) {
     return language;
   }
 
@@ -409,6 +411,7 @@ const findAdminRole = async (
 const assignAdminRole = async (
   client,
   {
+    instituteId,
     membershipId,
     roleId,
     ownerUserId,
@@ -417,6 +420,7 @@ const assignAdminRole = async (
   const result = await client.query(
     `
       INSERT INTO institute_user_roles (
+        institute_id,
         institute_user_id,
         role_id,
         assigned_by,
@@ -426,10 +430,12 @@ const assignAdminRole = async (
         $1,
         $2,
         $3,
+        $4,
         'active'
       )
       RETURNING
         id,
+        institute_id,
         institute_user_id,
         role_id,
         assigned_by,
@@ -437,6 +443,7 @@ const assignAdminRole = async (
         created_at;
     `,
     [
+      instituteId,
       membershipId,
       roleId,
       ownerUserId,
@@ -549,6 +556,9 @@ const onboardInstitute = async ({
         await assignAdminRole(
           client,
           {
+            instituteId:
+              institute.id,
+
             membershipId:
               membership.id,
 
