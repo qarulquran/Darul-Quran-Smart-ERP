@@ -11,7 +11,9 @@
  * This middleware is a core part of tenant isolation.
  */
 
-const { query } = require("../database/db");
+const {
+  query,
+} = require("../database/db");
 
 // --------------------------------------------------
 // Institute Membership Authorization
@@ -24,32 +26,43 @@ const authorizeInstitute = async (
 ) => {
   try {
     // Authentication middleware must run first.
-    if (!req.auth || !req.auth.userId) {
+    if (
+      !req.auth ||
+      !req.auth.userId
+    ) {
       const error = new Error(
         "Authentication required"
       );
 
       error.statusCode = 401;
-      error.code = "AUTHENTICATION_REQUIRED";
+      error.code =
+        "AUTHENTICATION_REQUIRED";
 
       return next(error);
     }
 
     // Institute context middleware must provide
     // the selected institute.
-    if (!req.institute || !req.institute.id) {
+    if (
+      !req.institute ||
+      !req.institute.id
+    ) {
       const error = new Error(
         "Institute identifier is required"
       );
 
       error.statusCode = 400;
-      error.code = "INSTITUTE_REQUIRED";
+      error.code =
+        "INSTITUTE_REQUIRED";
 
       return next(error);
     }
 
-    const userId = req.auth.userId;
-    const instituteId = req.institute.id;
+    const userId =
+      req.auth.userId;
+
+    const instituteId =
+      req.institute.id;
 
     // --------------------------------------------------
     // Verify Institute + Membership
@@ -61,7 +74,7 @@ const authorizeInstitute = async (
           iu.id AS membership_id,
           iu.institute_id,
           iu.user_id,
-          iu.status AS membership_status,
+          iu.membership_status,
           iu.designation,
           iu.preferred_language,
 
@@ -92,30 +105,38 @@ const authorizeInstitute = async (
     // Membership Not Found
     // --------------------------------------------------
 
-    if (result.rows.length === 0) {
+    if (
+      result.rows.length === 0
+    ) {
       const error = new Error(
         "You do not have access to this institute"
       );
 
       error.statusCode = 403;
-      error.code = "INSTITUTE_ACCESS_DENIED";
+      error.code =
+        "INSTITUTE_ACCESS_DENIED";
 
       return next(error);
     }
 
-    const membership = result.rows[0];
+    const membership =
+      result.rows[0];
 
     // --------------------------------------------------
     // Membership Status
     // --------------------------------------------------
 
-    if (membership.membership_status !== "active") {
+    if (
+      membership.membership_status !==
+      "active"
+    ) {
       const error = new Error(
         "Institute membership is not active"
       );
 
       error.statusCode = 403;
-      error.code = "INSTITUTE_MEMBERSHIP_INACTIVE";
+      error.code =
+        "INSTITUTE_MEMBERSHIP_INACTIVE";
 
       return next(error);
     }
@@ -124,13 +145,17 @@ const authorizeInstitute = async (
     // Institute Status
     // --------------------------------------------------
 
-    if (membership.institute_status !== "active") {
+    if (
+      membership.institute_status !==
+      "active"
+    ) {
       const error = new Error(
         "Institute is not active"
       );
 
       error.statusCode = 403;
-      error.code = "INSTITUTE_INACTIVE";
+      error.code =
+        "INSTITUTE_INACTIVE";
 
       return next(error);
     }
@@ -140,12 +165,20 @@ const authorizeInstitute = async (
     // --------------------------------------------------
 
     req.institute = {
-      id: membership.institute_id,
-      membershipId: membership.membership_id,
+      id:
+        membership.institute_id,
 
-      name: membership.institute_name,
-      slug: membership.institute_slug,
-      code: membership.institute_code,
+      membershipId:
+        membership.membership_id,
+
+      name:
+        membership.institute_name,
+
+      slug:
+        membership.institute_slug,
+
+      code:
+        membership.institute_code,
 
       defaultLanguage:
         membership.default_language,
