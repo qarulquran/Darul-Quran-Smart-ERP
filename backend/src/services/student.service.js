@@ -9,6 +9,7 @@
  * - Class must belong to the same institute
  * - Section must belong to the same institute
  * - Section must belong to the selected class
+ * - A student can only be retrieved inside the authorized institute
  */
 
 const {
@@ -255,9 +256,12 @@ const createStudent = async ({
     await query(
       `
         SELECT id
+
         FROM students
+
         WHERE institute_id = $1
           AND student_code = $2
+
         LIMIT 1;
       `,
       [
@@ -592,12 +596,132 @@ const listStudents = async ({
 };
 
 // --------------------------------------------------
+// Get Student By ID
+// --------------------------------------------------
+
+const getStudentById = async ({
+  instituteId,
+  studentId,
+}) => {
+  if (!instituteId) {
+    throw createStudentError(
+      "Institute is required",
+      400,
+      "STUDENT_INSTITUTE_REQUIRED"
+    );
+  }
+
+  if (!studentId) {
+    throw createStudentError(
+      "Student ID is required",
+      400,
+      "STUDENT_ID_REQUIRED"
+    );
+  }
+
+  const result = await query(
+    `
+      SELECT
+        s.id,
+        s.institute_id,
+        s.student_code,
+
+        s.full_name,
+        s.full_name_bn,
+        s.full_name_ar,
+
+        s.father_name,
+        s.father_name_bn,
+        s.father_name_ar,
+
+        s.mother_name,
+        s.mother_name_bn,
+        s.mother_name_ar,
+
+        s.date_of_birth,
+        s.gender,
+        s.blood_group,
+
+        s.phone,
+        s.email,
+
+        s.present_address,
+        s.permanent_address,
+
+        s.guardian_name,
+        s.guardian_relation,
+        s.guardian_phone,
+        s.guardian_email,
+        s.guardian_address,
+
+        s.admission_date,
+        s.previous_institute,
+
+        s.class_id,
+        c.class_code,
+        c.name AS class_name,
+        c.name_bn AS class_name_bn,
+        c.name_ar AS class_name_ar,
+        c.academic_year,
+
+        s.section_id,
+        sec.section_code,
+        sec.name AS section_name,
+        sec.name_bn AS section_name_bn,
+        sec.name_ar AS section_name_ar,
+
+        s.photo_url,
+        s.preferred_language,
+        s.status,
+        s.metadata,
+
+        s.created_at,
+        s.updated_at
+
+      FROM students s
+
+      LEFT JOIN classes c
+        ON c.id = s.class_id
+        AND c.institute_id = s.institute_id
+
+      LEFT JOIN sections sec
+        ON sec.id = s.section_id
+        AND sec.institute_id = s.institute_id
+        AND sec.class_id = s.class_id
+
+      WHERE s.id = $1
+        AND s.institute_id = $2
+
+      LIMIT 1;
+    `,
+    [
+      studentId,
+      instituteId,
+    ]
+  );
+
+  const student =
+    result.rows[0];
+
+  if (!student) {
+    throw createStudentError(
+      "Student not found",
+      404,
+      "STUDENT_NOT_FOUND"
+    );
+  }
+
+  return student;
+};
+
+// --------------------------------------------------
 // Exports
 // --------------------------------------------------
 
 module.exports = {
   createStudent,
   listStudents,
+  getStudentById,
   verifyClass,
   verifySection,
 };
