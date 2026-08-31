@@ -55,6 +55,10 @@ const studentRoutes = require(
   "./routes/student.routes"
 );
 
+const academicRoutes = require(
+  "./routes/academic.routes"
+);
+
 const app = express();
 
 // --------------------------------------------------
@@ -255,6 +259,11 @@ app.use(
 app.use(
   "/api/v1/students",
   studentRoutes
+);
+
+app.use(
+  "/api/v1/academic",
+  academicRoutes
 );
 
 /**
