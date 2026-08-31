@@ -12,6 +12,7 @@ const {
   createStudentController,
   listStudentsController,
   getStudentByIdController,
+  updateStudentController,
 } = require(
   "../controllers/student.controller"
 );
@@ -36,6 +37,7 @@ const {
 
 const {
   validateCreateStudent,
+  validateUpdateStudent,
 } = require(
   "../middleware/validate-student"
 );
@@ -83,6 +85,21 @@ router.post(
   ),
   validateCreateStudent,
   createStudentController
+);
+
+// --------------------------------------------------
+// Update Student
+// --------------------------------------------------
+
+router.patch(
+  "/:id",
+  authenticate,
+  authorizeInstitute,
+  authorizePermission(
+    "students.update"
+  ),
+  validateUpdateStudent,
+  updateStudentController
 );
 
 // --------------------------------------------------
