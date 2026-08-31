@@ -9,7 +9,7 @@
  * - Class must belong to the same institute
  * - Section must belong to the same institute
  * - Section must belong to the selected class
- * - A student can only be retrieved inside the authorized institute
+ * - Student lookup is restricted to the authorized institute
  */
 
 const {
