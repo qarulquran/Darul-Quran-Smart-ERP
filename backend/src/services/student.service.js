@@ -240,10 +240,6 @@ const createStudent = async ({
     metadata,
   } = data;
 
-  // --------------------------------------------------
-  // Academic Validation
-  // --------------------------------------------------
-
   await verifyClass(
     instituteId,
     classId
@@ -255,20 +251,13 @@ const createStudent = async ({
     classId
   );
 
-  // --------------------------------------------------
-  // Duplicate Student Code Check
-  // --------------------------------------------------
-
   const duplicateResult =
     await query(
       `
         SELECT id
-
         FROM students
-
         WHERE institute_id = $1
           AND student_code = $2
-
         LIMIT 1;
       `,
       [
@@ -286,10 +275,6 @@ const createStudent = async ({
       "STUDENT_CODE_ALREADY_EXISTS"
     );
   }
-
-  // --------------------------------------------------
-  // Insert Student
-  // --------------------------------------------------
 
   try {
     const result = await query(
@@ -510,7 +495,6 @@ const createStudent = async ({
 
     return result.rows[0];
   } catch (error) {
-    // PostgreSQL unique violation.
     if (
       error.code === "23505"
     ) {
@@ -526,11 +510,94 @@ const createStudent = async ({
 };
 
 // --------------------------------------------------
+// List Students
+// --------------------------------------------------
+
+const listStudents = async ({
+  instituteId,
+}) => {
+  if (!instituteId) {
+    throw createStudentError(
+      "Institute is required",
+      400,
+      "STUDENT_INSTITUTE_REQUIRED"
+    );
+  }
+
+  const result = await query(
+    `
+      SELECT
+        s.id,
+        s.institute_id,
+        s.student_code,
+
+        s.full_name,
+        s.full_name_bn,
+        s.full_name_ar,
+
+        s.father_name,
+        s.mother_name,
+
+        s.date_of_birth,
+        s.gender,
+        s.blood_group,
+
+        s.phone,
+        s.email,
+
+        s.guardian_name,
+        s.guardian_relation,
+        s.guardian_phone,
+        s.guardian_email,
+
+        s.admission_date,
+
+        s.class_id,
+        c.class_code,
+        c.name AS class_name,
+
+        s.section_id,
+        sec.section_code,
+        sec.name AS section_name,
+
+        s.photo_url,
+        s.preferred_language,
+        s.status,
+
+        s.created_at,
+        s.updated_at
+
+      FROM students s
+
+      LEFT JOIN classes c
+        ON c.id = s.class_id
+        AND c.institute_id = s.institute_id
+
+      LEFT JOIN sections sec
+        ON sec.id = s.section_id
+        AND sec.institute_id = s.institute_id
+
+      WHERE s.institute_id = $1
+
+      ORDER BY
+        s.created_at DESC,
+        s.student_code ASC;
+    `,
+    [
+      instituteId,
+    ]
+  );
+
+  return result.rows;
+};
+
+// --------------------------------------------------
 // Exports
 // --------------------------------------------------
 
 module.exports = {
   createStudent,
+  listStudents,
   verifyClass,
   verifySection,
 };
