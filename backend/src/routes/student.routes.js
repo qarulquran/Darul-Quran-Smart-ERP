@@ -11,6 +11,7 @@ const express = require("express");
 const {
   createStudentController,
   listStudentsController,
+  getStudentByIdController,
 } = require(
   "../controllers/student.controller"
 );
@@ -53,6 +54,20 @@ router.get(
     "students.view"
   ),
   listStudentsController
+);
+
+// --------------------------------------------------
+// Get Student By ID
+// --------------------------------------------------
+
+router.get(
+  "/:id",
+  authenticate,
+  authorizeInstitute,
+  authorizePermission(
+    "students.view"
+  ),
+  getStudentByIdController
 );
 
 // --------------------------------------------------
