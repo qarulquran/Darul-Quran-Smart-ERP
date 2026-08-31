@@ -10,6 +10,7 @@ const express = require("express");
 
 const {
   createStudentController,
+  listStudentsController,
 } = require(
   "../controllers/student.controller"
 );
@@ -39,6 +40,20 @@ const {
 );
 
 const router = express.Router();
+
+// --------------------------------------------------
+// List Students
+// --------------------------------------------------
+
+router.get(
+  "/",
+  authenticate,
+  authorizeInstitute,
+  authorizePermission(
+    "students.view"
+  ),
+  listStudentsController
+);
 
 // --------------------------------------------------
 // Create Student
