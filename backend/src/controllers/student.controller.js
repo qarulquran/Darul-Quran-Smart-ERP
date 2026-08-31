@@ -9,6 +9,7 @@
 const {
   createStudent,
   listStudents,
+  getStudentById,
 } = require("../services/student.service");
 
 // --------------------------------------------------
@@ -85,10 +86,48 @@ const listStudentsController = async (
 };
 
 // --------------------------------------------------
+// Get Student By ID Controller
+// --------------------------------------------------
+
+const getStudentByIdController = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const student =
+      await getStudentById({
+        instituteId:
+          req.institute.id,
+
+        studentId:
+          req.params.id,
+      });
+
+    return res.status(200).json({
+      success: true,
+
+      message:
+        "Student retrieved successfully",
+
+      data: {
+        student,
+      },
+
+      requestId:
+        req.requestId,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+// --------------------------------------------------
 // Exports
 // --------------------------------------------------
 
 module.exports = {
   createStudentController,
   listStudentsController,
+  getStudentByIdController,
 };
