@@ -33,7 +33,6 @@ const createStudentController = async (
 
     return res.status(201).json({
       success: true,
-
       message:
         "Student created successfully",
 
@@ -67,7 +66,6 @@ const listStudentsController = async (
 
     return res.status(200).json({
       success: true,
-
       message:
         "Students retrieved successfully",
 
@@ -106,7 +104,6 @@ const getStudentByIdController = async (
 
     return res.status(200).json({
       success: true,
-
       message:
         "Student retrieved successfully",
 
