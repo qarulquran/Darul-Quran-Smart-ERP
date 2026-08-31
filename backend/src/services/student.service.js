@@ -9,7 +9,7 @@
  * - Class must belong to the same institute
  * - Section must belong to the same institute
  * - Section must belong to the selected class
- * - Student lookup is restricted to the authorized institute
+ * - Student lookup/update is restricted to the authorized institute
  */
 
 const {
@@ -362,131 +362,47 @@ const createStudent = async ({
         )
 
         RETURNING
-          id,
-          institute_id,
-          student_code,
-
-          full_name,
-          full_name_bn,
-          full_name_ar,
-
-          father_name,
-          father_name_bn,
-          father_name_ar,
-
-          mother_name,
-          mother_name_bn,
-          mother_name_ar,
-
-          date_of_birth,
-          gender,
-          blood_group,
-
-          phone,
-          email,
-
-          present_address,
-          permanent_address,
-
-          guardian_name,
-          guardian_relation,
-          guardian_phone,
-          guardian_email,
-          guardian_address,
-
-          admission_date,
-          previous_institute,
-
-          class_id,
-          section_id,
-
-          photo_url,
-          preferred_language,
-          status,
-          metadata,
-
-          created_at,
-          updated_at;
+          *;
       `,
       [
         instituteId,
         studentCode,
 
         fullName,
-        normalizeOptionalText(
-          fullNameBn
-        ),
-        normalizeOptionalText(
-          fullNameAr
-        ),
+        normalizeOptionalText(fullNameBn),
+        normalizeOptionalText(fullNameAr),
 
-        normalizeOptionalText(
-          fatherName
-        ),
-        normalizeOptionalText(
-          fatherNameBn
-        ),
-        normalizeOptionalText(
-          fatherNameAr
-        ),
+        normalizeOptionalText(fatherName),
+        normalizeOptionalText(fatherNameBn),
+        normalizeOptionalText(fatherNameAr),
 
-        normalizeOptionalText(
-          motherName
-        ),
-        normalizeOptionalText(
-          motherNameBn
-        ),
-        normalizeOptionalText(
-          motherNameAr
-        ),
+        normalizeOptionalText(motherName),
+        normalizeOptionalText(motherNameBn),
+        normalizeOptionalText(motherNameAr),
 
         dateOfBirth || null,
         gender || null,
-        normalizeOptionalText(
-          bloodGroup
-        ),
+        normalizeOptionalText(bloodGroup),
 
-        normalizeOptionalText(
-          phone
-        ),
-        normalizeOptionalText(
-          email
-        ),
+        normalizeOptionalText(phone),
+        normalizeOptionalText(email),
 
-        normalizeOptionalText(
-          presentAddress
-        ),
-        normalizeOptionalText(
-          permanentAddress
-        ),
+        normalizeOptionalText(presentAddress),
+        normalizeOptionalText(permanentAddress),
 
-        normalizeOptionalText(
-          guardianName
-        ),
-        normalizeOptionalText(
-          guardianRelation
-        ),
-        normalizeOptionalText(
-          guardianPhone
-        ),
-        normalizeOptionalText(
-          guardianEmail
-        ),
-        normalizeOptionalText(
-          guardianAddress
-        ),
+        normalizeOptionalText(guardianName),
+        normalizeOptionalText(guardianRelation),
+        normalizeOptionalText(guardianPhone),
+        normalizeOptionalText(guardianEmail),
+        normalizeOptionalText(guardianAddress),
 
         admissionDate || null,
-        normalizeOptionalText(
-          previousInstitute
-        ),
+        normalizeOptionalText(previousInstitute),
 
         classId || null,
         sectionId || null,
 
-        normalizeOptionalText(
-          photoUrl
-        ),
+        normalizeOptionalText(photoUrl),
 
         preferredLanguage || "bn",
         status || "active",
@@ -715,6 +631,280 @@ const getStudentById = async ({
 };
 
 // --------------------------------------------------
+// Update Student
+// --------------------------------------------------
+
+const updateStudent = async ({
+  instituteId,
+  studentId,
+  data,
+}) => {
+  const currentStudent =
+    await getStudentById({
+      instituteId,
+      studentId,
+    });
+
+  const studentCode =
+    data.studentCode !== undefined
+      ? data.studentCode
+      : currentStudent.student_code;
+
+  const fullName =
+    data.fullName !== undefined
+      ? data.fullName
+      : currentStudent.full_name;
+
+  const classId =
+    data.classId !== undefined
+      ? data.classId || null
+      : currentStudent.class_id;
+
+  const sectionId =
+    data.sectionId !== undefined
+      ? data.sectionId || null
+      : currentStudent.section_id;
+
+  await verifyClass(
+    instituteId,
+    classId
+  );
+
+  await verifySection(
+    instituteId,
+    sectionId,
+    classId
+  );
+
+  const duplicateResult =
+    await query(
+      `
+        SELECT id
+
+        FROM students
+
+        WHERE institute_id = $1
+          AND student_code = $2
+          AND id <> $3
+
+        LIMIT 1;
+      `,
+      [
+        instituteId,
+        studentCode,
+        studentId,
+      ]
+    );
+
+  if (
+    duplicateResult.rows.length > 0
+  ) {
+    throw createStudentError(
+      "Student code already exists in this institute",
+      409,
+      "STUDENT_CODE_ALREADY_EXISTS"
+    );
+  }
+
+  try {
+    const result = await query(
+      `
+        UPDATE students
+
+        SET
+          student_code = $3,
+          full_name = $4,
+          full_name_bn = $5,
+          full_name_ar = $6,
+
+          father_name = $7,
+          father_name_bn = $8,
+          father_name_ar = $9,
+
+          mother_name = $10,
+          mother_name_bn = $11,
+          mother_name_ar = $12,
+
+          date_of_birth = $13,
+          gender = $14,
+          blood_group = $15,
+
+          phone = $16,
+          email = $17,
+
+          present_address = $18,
+          permanent_address = $19,
+
+          guardian_name = $20,
+          guardian_relation = $21,
+          guardian_phone = $22,
+          guardian_email = $23,
+          guardian_address = $24,
+
+          admission_date = $25,
+          previous_institute = $26,
+
+          class_id = $27,
+          section_id = $28,
+
+          photo_url = $29,
+          preferred_language = $30,
+          status = $31,
+          metadata = $32::jsonb,
+
+          updated_at = CURRENT_TIMESTAMP
+
+        WHERE id = $1
+          AND institute_id = $2
+
+        RETURNING *;
+      `,
+      [
+        studentId,
+        instituteId,
+
+        studentCode,
+        fullName,
+
+        data.fullNameBn !== undefined
+          ? normalizeOptionalText(data.fullNameBn)
+          : currentStudent.full_name_bn,
+
+        data.fullNameAr !== undefined
+          ? normalizeOptionalText(data.fullNameAr)
+          : currentStudent.full_name_ar,
+
+        data.fatherName !== undefined
+          ? normalizeOptionalText(data.fatherName)
+          : currentStudent.father_name,
+
+        data.fatherNameBn !== undefined
+          ? normalizeOptionalText(data.fatherNameBn)
+          : currentStudent.father_name_bn,
+
+        data.fatherNameAr !== undefined
+          ? normalizeOptionalText(data.fatherNameAr)
+          : currentStudent.father_name_ar,
+
+        data.motherName !== undefined
+          ? normalizeOptionalText(data.motherName)
+          : currentStudent.mother_name,
+
+        data.motherNameBn !== undefined
+          ? normalizeOptionalText(data.motherNameBn)
+          : currentStudent.mother_name_bn,
+
+        data.motherNameAr !== undefined
+          ? normalizeOptionalText(data.motherNameAr)
+          : currentStudent.mother_name_ar,
+
+        data.dateOfBirth !== undefined
+          ? data.dateOfBirth || null
+          : currentStudent.date_of_birth,
+
+        data.gender !== undefined
+          ? data.gender || null
+          : currentStudent.gender,
+
+        data.bloodGroup !== undefined
+          ? normalizeOptionalText(data.bloodGroup)
+          : currentStudent.blood_group,
+
+        data.phone !== undefined
+          ? normalizeOptionalText(data.phone)
+          : currentStudent.phone,
+
+        data.email !== undefined
+          ? normalizeOptionalText(data.email)
+          : currentStudent.email,
+
+        data.presentAddress !== undefined
+          ? normalizeOptionalText(data.presentAddress)
+          : currentStudent.present_address,
+
+        data.permanentAddress !== undefined
+          ? normalizeOptionalText(data.permanentAddress)
+          : currentStudent.permanent_address,
+
+        data.guardianName !== undefined
+          ? normalizeOptionalText(data.guardianName)
+          : currentStudent.guardian_name,
+
+        data.guardianRelation !== undefined
+          ? normalizeOptionalText(data.guardianRelation)
+          : currentStudent.guardian_relation,
+
+        data.guardianPhone !== undefined
+          ? normalizeOptionalText(data.guardianPhone)
+          : currentStudent.guardian_phone,
+
+        data.guardianEmail !== undefined
+          ? normalizeOptionalText(data.guardianEmail)
+          : currentStudent.guardian_email,
+
+        data.guardianAddress !== undefined
+          ? normalizeOptionalText(data.guardianAddress)
+          : currentStudent.guardian_address,
+
+        data.admissionDate !== undefined
+          ? data.admissionDate
+          : currentStudent.admission_date,
+
+        data.previousInstitute !== undefined
+          ? normalizeOptionalText(data.previousInstitute)
+          : currentStudent.previous_institute,
+
+        classId,
+        sectionId,
+
+        data.photoUrl !== undefined
+          ? normalizeOptionalText(data.photoUrl)
+          : currentStudent.photo_url,
+
+        data.preferredLanguage !== undefined
+          ? data.preferredLanguage
+          : currentStudent.preferred_language,
+
+        data.status !== undefined
+          ? data.status
+          : currentStudent.status,
+
+        JSON.stringify(
+          data.metadata !== undefined
+            ? data.metadata
+            : currentStudent.metadata || {}
+        ),
+      ]
+    );
+
+    const student =
+      result.rows[0];
+
+    if (!student) {
+      throw createStudentError(
+        "Student not found",
+        404,
+        "STUDENT_NOT_FOUND"
+      );
+    }
+
+    return student;
+  } catch (error) {
+    if (
+      error.code === "23505"
+    ) {
+      throw createStudentError(
+        "Student code already exists in this institute",
+        409,
+        "STUDENT_CODE_ALREADY_EXISTS"
+      );
+    }
+
+    throw error;
+  }
+};
+
+// --------------------------------------------------
 // Exports
 // --------------------------------------------------
 
@@ -722,6 +912,7 @@ module.exports = {
   createStudent,
   listStudents,
   getStudentById,
+  updateStudent,
   verifyClass,
   verifySection,
 };
