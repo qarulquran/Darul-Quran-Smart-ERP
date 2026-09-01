@@ -10,6 +10,7 @@ const express = require("express");
 
 const {
   listClasses,
+  listClassSections,
   listClassCurriculum,
   listHifzStages,
 } = require(
@@ -39,6 +40,17 @@ router.get(
   authenticate,
   authorizeInstitute,
   listClasses
+);
+
+// --------------------------------------------------
+// Class Sections
+// --------------------------------------------------
+
+router.get(
+  "/classes/:classId/sections",
+  authenticate,
+  authorizeInstitute,
+  listClassSections
 );
 
 // --------------------------------------------------
