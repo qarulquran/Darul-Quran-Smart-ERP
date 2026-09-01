@@ -8,7 +8,7 @@ const {
 } = require("zod");
 
 // --------------------------------------------------
-// Create Enrollment
+// Create Enrollment Schema
 // --------------------------------------------------
 
 const createHifzEnrollmentSchema =
@@ -47,7 +47,7 @@ const createHifzEnrollmentSchema =
     .strict();
 
 // --------------------------------------------------
-// Stage Progression
+// Stage Progression Schema
 // --------------------------------------------------
 
 const updateHifzStageSchema =
@@ -57,6 +57,24 @@ const updateHifzStageSchema =
         "HIFZ",
         "HIFZ_REVISION",
       ]),
+    })
+    .strict();
+
+// --------------------------------------------------
+// Complete Enrollment Schema
+// --------------------------------------------------
+
+const completeHifzEnrollmentSchema =
+  z
+    .object({
+      completionDate: z
+        .string()
+        .trim()
+        .regex(
+          /^\d{4}-\d{2}-\d{2}$/,
+          "Date must use YYYY-MM-DD format"
+        )
+        .optional(),
     })
     .strict();
 
@@ -100,7 +118,7 @@ const handleValidationResult = (
 };
 
 // --------------------------------------------------
-// Validate Create
+// Validate Create Enrollment
 // --------------------------------------------------
 
 const validateCreateHifzEnrollment =
@@ -150,13 +168,40 @@ const validateUpdateHifzStage =
   };
 
 // --------------------------------------------------
+// Validate Completion
+// --------------------------------------------------
+
+const validateCompleteHifzEnrollment =
+  (
+    req,
+    res,
+    next
+  ) => {
+    const result =
+      completeHifzEnrollmentSchema
+        .safeParse(
+          req.body || {}
+        );
+
+    return handleValidationResult(
+      result,
+      req,
+      next,
+      "Invalid Hifz completion request",
+      "INVALID_HIFZ_COMPLETION_REQUEST"
+    );
+  };
+
+// --------------------------------------------------
 // Exports
 // --------------------------------------------------
 
 module.exports = {
   validateCreateHifzEnrollment,
   validateUpdateHifzStage,
+  validateCompleteHifzEnrollment,
 
   createHifzEnrollmentSchema,
   updateHifzStageSchema,
+  completeHifzEnrollmentSchema,
 };
