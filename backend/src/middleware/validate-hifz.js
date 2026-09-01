@@ -7,6 +7,10 @@ const {
   z,
 } = require("zod");
 
+// --------------------------------------------------
+// Create Enrollment
+// --------------------------------------------------
+
 const createHifzEnrollmentSchema =
   z
     .object({
@@ -42,6 +46,63 @@ const createHifzEnrollmentSchema =
     })
     .strict();
 
+// --------------------------------------------------
+// Stage Progression
+// --------------------------------------------------
+
+const updateHifzStageSchema =
+  z
+    .object({
+      stageCode: z.enum([
+        "HIFZ",
+        "HIFZ_REVISION",
+      ]),
+    })
+    .strict();
+
+// --------------------------------------------------
+// Validation Helper
+// --------------------------------------------------
+
+const handleValidationResult = (
+  result,
+  req,
+  next,
+  message,
+  code
+) => {
+  if (!result.success) {
+    const error =
+      new Error(message);
+
+    error.statusCode = 400;
+    error.code = code;
+
+    error.validationErrors =
+      result.error.issues.map(
+        (issue) => ({
+          field:
+            issue.path.join(".") ||
+            "body",
+
+          message:
+            issue.message,
+        })
+      );
+
+    return next(error);
+  }
+
+  req.body =
+    result.data;
+
+  return next();
+};
+
+// --------------------------------------------------
+// Validate Create
+// --------------------------------------------------
+
 const validateCreateHifzEnrollment =
   (
     req,
@@ -54,38 +115,48 @@ const validateCreateHifzEnrollment =
           req.body || {}
         );
 
-    if (!result.success) {
-      const error =
-        new Error(
-          "Invalid Hifz enrollment request"
-        );
-
-      error.statusCode = 400;
-      error.code =
-        "INVALID_HIFZ_ENROLLMENT_REQUEST";
-
-      error.validationErrors =
-        result.error.issues.map(
-          (issue) => ({
-            field:
-              issue.path.join(".") ||
-              "body",
-
-            message:
-              issue.message,
-          })
-        );
-
-      return next(error);
-    }
-
-    req.body =
-      result.data;
-
-    return next();
+    return handleValidationResult(
+      result,
+      req,
+      next,
+      "Invalid Hifz enrollment request",
+      "INVALID_HIFZ_ENROLLMENT_REQUEST"
+    );
   };
+
+// --------------------------------------------------
+// Validate Stage Update
+// --------------------------------------------------
+
+const validateUpdateHifzStage =
+  (
+    req,
+    res,
+    next
+  ) => {
+    const result =
+      updateHifzStageSchema
+        .safeParse(
+          req.body || {}
+        );
+
+    return handleValidationResult(
+      result,
+      req,
+      next,
+      "Invalid Hifz stage update request",
+      "INVALID_HIFZ_STAGE_UPDATE_REQUEST"
+    );
+  };
+
+// --------------------------------------------------
+// Exports
+// --------------------------------------------------
 
 module.exports = {
   validateCreateHifzEnrollment,
+  validateUpdateHifzStage,
+
   createHifzEnrollmentSchema,
+  updateHifzStageSchema,
 };
