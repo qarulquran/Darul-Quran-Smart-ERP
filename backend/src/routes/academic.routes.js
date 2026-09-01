@@ -11,6 +11,7 @@ const express = require("express");
 const {
   listClasses,
   listClassSections,
+  createClassSectionController,
   listClassCurriculum,
   listHifzStages,
 } = require(
@@ -32,7 +33,7 @@ const {
 const router = express.Router();
 
 // --------------------------------------------------
-// List Classes
+// Classes
 // --------------------------------------------------
 
 router.get(
@@ -51,6 +52,13 @@ router.get(
   authenticate,
   authorizeInstitute,
   listClassSections
+);
+
+router.post(
+  "/classes/:classId/sections",
+  authenticate,
+  authorizeInstitute,
+  createClassSectionController
 );
 
 // --------------------------------------------------
