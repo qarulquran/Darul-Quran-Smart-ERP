@@ -4,6 +4,7 @@
  *
  * Handles academic structure operations:
  * - Classes
+ * - Class sections
  * - Class curriculum / subjects / kitab
  * - Hifz stages
  */
@@ -29,6 +30,42 @@ const getClasses = async (instituteId) => {
         c.id ASC;
     `,
     [instituteId]
+  );
+
+  return result.rows;
+};
+
+// --------------------------------------------------
+// Get Class Sections
+// --------------------------------------------------
+
+const getClassSections = async (
+  instituteId,
+  classId
+) => {
+  const result = await query(
+    `
+      SELECT
+        sec.*
+      FROM sections sec
+
+      INNER JOIN classes c
+        ON c.institute_id = sec.institute_id
+       AND c.id = sec.class_id
+
+      WHERE sec.institute_id = $1
+        AND sec.class_id = $2
+        AND sec.status = 'active'
+        AND c.status = 'active'
+
+      ORDER BY
+        sec.name ASC,
+        sec.id ASC;
+    `,
+    [
+      instituteId,
+      classId,
+    ]
   );
 
   return result.rows;
@@ -81,7 +118,10 @@ const getClassCurriculum = async (
         cc.sort_order ASC,
         s.name_en ASC;
     `,
-    [instituteId, classId]
+    [
+      instituteId,
+      classId,
+    ]
   );
 
   return result.rows;
@@ -123,6 +163,7 @@ const getHifzStages = async (instituteId) => {
 
 module.exports = {
   getClasses,
+  getClassSections,
   getClassCurriculum,
   getHifzStages,
 };
