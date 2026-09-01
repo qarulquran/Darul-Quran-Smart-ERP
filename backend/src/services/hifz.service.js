@@ -6,6 +6,7 @@
  * - Nazera
  * - Hifz
  * - Hifz Revision
+ * - Completion
  */
 
 const {
@@ -150,7 +151,7 @@ const getHifzStudent = async (
 };
 
 // --------------------------------------------------
-// Get Stage By Code
+// Get Hifz Stage
 // --------------------------------------------------
 
 const getHifzStageByCode =
@@ -539,7 +540,94 @@ const updateHifzEnrollmentStage =
   };
 
 // --------------------------------------------------
-// Student Enrollment History
+// Complete Hifz Enrollment
+// --------------------------------------------------
+
+const completeHifzEnrollment =
+  async ({
+    instituteId,
+    enrollmentId,
+    completionDate,
+  }) => {
+    const current =
+      await getHifzEnrollmentById({
+        instituteId,
+        enrollmentId,
+      });
+
+    if (
+      current.enrollment_status !==
+      "active"
+    ) {
+      throw createHifzError(
+        "Only active Hifz enrollment can be completed",
+        400,
+        "HIFZ_ENROLLMENT_NOT_ACTIVE"
+      );
+    }
+
+    if (
+      current.stage_code !==
+      "HIFZ_REVISION"
+    ) {
+      throw createHifzError(
+        "Hifz enrollment can only be completed after Hifz Revision",
+        400,
+        "HIFZ_REVISION_REQUIRED_FOR_COMPLETION"
+      );
+    }
+
+    try {
+      await query(
+        `
+          UPDATE student_department_enrollments
+
+          SET
+            enrollment_status =
+              'completed',
+
+            completion_date =
+              COALESCE(
+                $3::date,
+                CURRENT_DATE
+              ),
+
+            updated_at =
+              CURRENT_TIMESTAMP
+
+          WHERE institute_id = $1
+            AND id = $2;
+        `,
+        [
+          instituteId,
+          enrollmentId,
+          completionDate ||
+            null,
+        ]
+      );
+    } catch (error) {
+      if (
+        error.code ===
+        "23514"
+      ) {
+        throw createHifzError(
+          "Completion date cannot be before enrollment date",
+          400,
+          "INVALID_HIFZ_COMPLETION_DATE"
+        );
+      }
+
+      throw error;
+    }
+
+    return getHifzEnrollmentById({
+      instituteId,
+      enrollmentId,
+    });
+  };
+
+// --------------------------------------------------
+// Student Hifz History
 // --------------------------------------------------
 
 const getStudentHifzEnrollments =
@@ -634,5 +722,6 @@ module.exports = {
 
   createHifzEnrollment,
   updateHifzEnrollmentStage,
+  completeHifzEnrollment,
   getStudentHifzEnrollments,
 };
