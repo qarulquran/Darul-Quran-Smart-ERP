@@ -104,9 +104,7 @@ app.use(cors(corsOptions));
 // --------------------------------------------------
 
 const apiRateLimit = rateLimit({
-  windowMs:
-    15 * 60 * 1000,
-
+  windowMs: 15 * 60 * 1000,
   max: 500,
 
   standardHeaders: true,
@@ -129,7 +127,6 @@ const apiRateLimit = rateLimit({
       .status(options.statusCode)
       .json({
         ...options.message,
-
         requestId:
           req.requestId || null,
       });
@@ -173,13 +170,10 @@ app.get(
   (req, res) => {
     return res.status(200).json({
       success: true,
-
       message:
         "ISM Smart ERP API is running",
-
       requestId:
         req.requestId,
-
       timestamp:
         new Date().toISOString(),
     });
@@ -202,7 +196,6 @@ app.get(
         .json({
           success: true,
           status: "healthy",
-
           message:
             "ISM Smart ERP backend is healthy",
 
@@ -213,10 +206,8 @@ app.get(
 
             database: {
               status: "up",
-
               name:
                 database.database_name,
-
               time:
                 database.database_time,
             },
@@ -230,6 +221,7 @@ app.get(
         });
     } catch (error) {
       error.statusCode = 503;
+
       error.code =
         "DATABASE_HEALTH_CHECK_FAILED";
 
@@ -275,10 +267,20 @@ app.use(
   hifzRoutes
 );
 
-/**
- * Future modules:
- *
- * /api/v1/institutes
- * /api/v1/teachers
- * /api/v1/classes
- * /api/v1/subjects
+// --------------------------------------------------
+// 404 Handler
+// --------------------------------------------------
+
+app.use(notFoundHandler);
+
+// --------------------------------------------------
+// Global Error Handler
+// --------------------------------------------------
+
+app.use(errorHandler);
+
+// --------------------------------------------------
+// Exports
+// --------------------------------------------------
+
+module.exports = app;
