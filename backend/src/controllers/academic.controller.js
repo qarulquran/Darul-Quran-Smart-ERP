@@ -1,40 +1,99 @@
-
 /**
  * ISM Smart ERP
  * Academic Controller
  *
  * Handles academic API requests:
  * - Classes
+ * - Class sections
  * - Class curriculum
  * - Hifz stages
  */
 
 const {
   getClasses,
+  getClassSections,
   getClassCurriculum,
   getHifzStages,
-} = require("../services/academic.service");
+} = require(
+  "../services/academic.service"
+);
 
 // --------------------------------------------------
 // Get Classes
 // --------------------------------------------------
 
-const listClasses = async (req, res, next) => {
+const listClasses = async (
+  req,
+  res,
+  next
+) => {
   try {
-    const instituteId = req.institute?.id;
+    const instituteId =
+      req.institute?.id;
 
     if (!instituteId) {
       return res.status(400).json({
         success: false,
-        message: "Institute context is required.",
+        message:
+          "Institute context is required.",
       });
     }
 
-    const classes = await getClasses(instituteId);
+    const classes =
+      await getClasses(
+        instituteId
+      );
 
     return res.status(200).json({
       success: true,
       data: classes,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
+// --------------------------------------------------
+// Get Class Sections
+// --------------------------------------------------
+
+const listClassSections = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const instituteId =
+      req.institute?.id;
+
+    const classId =
+      req.params.classId;
+
+    if (!instituteId) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Institute context is required.",
+      });
+    }
+
+    if (!classId) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Class ID is required.",
+      });
+    }
+
+    const sections =
+      await getClassSections(
+        instituteId,
+        classId
+      );
+
+    return res.status(200).json({
+      success: true,
+      data: sections,
     });
   } catch (error) {
     return next(error);
@@ -51,20 +110,25 @@ const listClassCurriculum = async (
   next
 ) => {
   try {
-    const instituteId = req.institute?.id;
-    const classId = req.params.classId;
+    const instituteId =
+      req.institute?.id;
+
+    const classId =
+      req.params.classId;
 
     if (!instituteId) {
       return res.status(400).json({
         success: false,
-        message: "Institute context is required.",
+        message:
+          "Institute context is required.",
       });
     }
 
     if (!classId) {
       return res.status(400).json({
         success: false,
-        message: "Class ID is required.",
+        message:
+          "Class ID is required.",
       });
     }
 
@@ -93,17 +157,21 @@ const listHifzStages = async (
   next
 ) => {
   try {
-    const instituteId = req.institute?.id;
+    const instituteId =
+      req.institute?.id;
 
     if (!instituteId) {
       return res.status(400).json({
         success: false,
-        message: "Institute context is required.",
+        message:
+          "Institute context is required.",
       });
     }
 
     const stages =
-      await getHifzStages(instituteId);
+      await getHifzStages(
+        instituteId
+      );
 
     return res.status(200).json({
       success: true,
@@ -120,6 +188,7 @@ const listHifzStages = async (
 
 module.exports = {
   listClasses,
+  listClassSections,
   listClassCurriculum,
   listHifzStages,
 };
