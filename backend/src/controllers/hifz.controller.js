@@ -7,6 +7,7 @@ const {
   createHifzEnrollment,
   getHifzEnrollmentById,
   updateHifzEnrollmentStage,
+  completeHifzEnrollment,
   getStudentHifzEnrollments,
 } = require(
   "../services/hifz.service"
@@ -143,6 +144,49 @@ const updateHifzStageController =
   };
 
 // --------------------------------------------------
+// Complete Enrollment
+// --------------------------------------------------
+
+const completeHifzEnrollmentController =
+  async (
+    req,
+    res,
+    next
+  ) => {
+    try {
+      const enrollment =
+        await completeHifzEnrollment({
+          instituteId:
+            req.institute?.id,
+
+          enrollmentId:
+            req.params.enrollmentId,
+
+          completionDate:
+            req.body.completionDate,
+        });
+
+      return res
+        .status(200)
+        .json({
+          success: true,
+
+          message:
+            "Hifz enrollment completed successfully",
+
+          data: {
+            enrollment,
+          },
+
+          requestId:
+            req.requestId,
+        });
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+// --------------------------------------------------
 // Student Hifz History
 // --------------------------------------------------
 
@@ -189,5 +233,6 @@ module.exports = {
   createHifzEnrollmentController,
   getHifzEnrollmentController,
   updateHifzStageController,
+  completeHifzEnrollmentController,
   listStudentHifzEnrollmentsController,
 };
