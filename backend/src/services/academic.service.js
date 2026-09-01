@@ -14,10 +14,80 @@ const {
 } = require("../database/db");
 
 // --------------------------------------------------
+// Academic Error Helper
+// --------------------------------------------------
+
+const createAcademicError = (
+  message,
+  statusCode,
+  code
+) => {
+  const error = new Error(message);
+
+  error.statusCode = statusCode;
+  error.code = code;
+
+  return error;
+};
+
+// --------------------------------------------------
+// Verify Class
+// --------------------------------------------------
+
+const verifyAcademicClass = async (
+  instituteId,
+  classId
+) => {
+  const result = await query(
+    `
+      SELECT
+        id,
+        institute_id,
+        class_code,
+        name,
+        status
+      FROM classes
+      WHERE institute_id = $1
+        AND id = $2
+      LIMIT 1;
+    `,
+    [
+      instituteId,
+      classId,
+    ]
+  );
+
+  const academicClass =
+    result.rows[0];
+
+  if (!academicClass) {
+    throw createAcademicError(
+      "Class not found in this institute",
+      404,
+      "ACADEMIC_CLASS_NOT_FOUND"
+    );
+  }
+
+  if (
+    academicClass.status !== "active"
+  ) {
+    throw createAcademicError(
+      "Selected class is not active",
+      400,
+      "ACADEMIC_CLASS_NOT_ACTIVE"
+    );
+  }
+
+  return academicClass;
+};
+
+// --------------------------------------------------
 // Get Classes
 // --------------------------------------------------
 
-const getClasses = async (instituteId) => {
+const getClasses = async (
+  instituteId
+) => {
   const result = await query(
     `
       SELECT
@@ -43,22 +113,21 @@ const getClassSections = async (
   instituteId,
   classId
 ) => {
+  await verifyAcademicClass(
+    instituteId,
+    classId
+  );
+
   const result = await query(
     `
       SELECT
         sec.*
       FROM sections sec
-
-      INNER JOIN classes c
-        ON c.institute_id = sec.institute_id
-       AND c.id = sec.class_id
-
       WHERE sec.institute_id = $1
         AND sec.class_id = $2
         AND sec.status = 'active'
-        AND c.status = 'active'
-
       ORDER BY
+        sec.sort_order ASC,
         sec.name ASC,
         sec.id ASC;
     `,
@@ -69,6 +138,112 @@ const getClassSections = async (
   );
 
   return result.rows;
+};
+
+// --------------------------------------------------
+// Create Class Section
+// --------------------------------------------------
+
+const createClassSection = async ({
+  instituteId,
+  classId,
+  data,
+}) => {
+  await verifyAcademicClass(
+    instituteId,
+    classId
+  );
+
+  const {
+    sectionCode,
+    name,
+    nameBn,
+    nameEn,
+    nameAr,
+    description,
+    capacity,
+    sortOrder,
+    status,
+    settings,
+  } = data;
+
+  try {
+    const result = await query(
+      `
+        INSERT INTO sections (
+          institute_id,
+          class_id,
+          section_code,
+
+          name,
+          name_bn,
+          name_en,
+          name_ar,
+
+          description,
+          capacity,
+          sort_order,
+          status,
+          settings
+        )
+        VALUES (
+          $1,
+          $2,
+          $3,
+          $4,
+          $5,
+          $6,
+          $7,
+          $8,
+          $9,
+          $10,
+          $11,
+          $12::jsonb
+        )
+        RETURNING *;
+      `,
+      [
+        instituteId,
+        classId,
+        sectionCode,
+        name,
+        nameBn || null,
+        nameEn || name,
+        nameAr || null,
+        description || null,
+        capacity ?? null,
+        sortOrder ?? 0,
+        status || "active",
+        JSON.stringify(
+          settings || {}
+        ),
+      ]
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    if (
+      error.code === "23505"
+    ) {
+      throw createAcademicError(
+        "Section code already exists for this class",
+        409,
+        "SECTION_CODE_ALREADY_EXISTS"
+      );
+    }
+
+    if (
+      error.code === "23514"
+    ) {
+      throw createAcademicError(
+        "Invalid section configuration",
+        400,
+        "INVALID_SECTION_CONFIGURATION"
+      );
+    }
+
+    throw error;
+  }
 };
 
 // --------------------------------------------------
@@ -131,7 +306,9 @@ const getClassCurriculum = async (
 // Get Hifz Stages
 // --------------------------------------------------
 
-const getHifzStages = async (instituteId) => {
+const getHifzStages = async (
+  instituteId
+) => {
   const result = await query(
     `
       SELECT
@@ -140,7 +317,8 @@ const getHifzStages = async (instituteId) => {
 
       INNER JOIN academic_departments ad
         ON ad.institute_id = ads.institute_id
-       AND ad.id = ads.academic_department_id
+       AND ad.id =
+         ads.academic_department_id
 
       WHERE ads.institute_id = $1
         AND ad.department_code = 'HIFZ'
@@ -164,6 +342,8 @@ const getHifzStages = async (instituteId) => {
 module.exports = {
   getClasses,
   getClassSections,
+  createClassSection,
   getClassCurriculum,
   getHifzStages,
+  verifyAcademicClass,
 };
