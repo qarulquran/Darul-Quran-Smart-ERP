@@ -1,26 +1,28 @@
 /**
  * ISM Smart ERP
  * Academic Controller
- *
- * Handles:
- * - Classes
- * - Sections
- * - Curriculum
- * - Hifz stages
  */
 
 const {
   getClasses,
   getClassSections,
   createClassSection,
+
+  getAcademicSubjects,
+  createAcademicSubject,
+  updateAcademicSubject,
+
   getClassCurriculum,
+  assignSubjectToClass,
+  removeSubjectFromClass,
+
   getHifzStages,
 } = require(
   "../services/academic.service"
 );
 
 // --------------------------------------------------
-// List Classes
+// Classes
 // --------------------------------------------------
 
 const listClasses = async (
@@ -29,37 +31,22 @@ const listClasses = async (
   next
 ) => {
   try {
-    const instituteId =
-      req.institute?.id;
-
-    if (!instituteId) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message:
-            "Institute context is required.",
-        });
-    }
-
-    const classes =
+    const data =
       await getClasses(
-        instituteId
+        req.institute?.id
       );
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        data: classes,
-      });
+    return res.status(200).json({
+      success: true,
+      data,
+    });
   } catch (error) {
     return next(error);
   }
 };
 
 // --------------------------------------------------
-// List Class Sections
+// Sections
 // --------------------------------------------------
 
 const listClassSections = async (
@@ -68,32 +55,20 @@ const listClassSections = async (
   next
 ) => {
   try {
-    const instituteId =
-      req.institute?.id;
-
-    const classId =
-      req.params.classId;
-
-    const sections =
+    const data =
       await getClassSections(
-        instituteId,
-        classId
+        req.institute?.id,
+        req.params.classId
       );
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        data: sections,
-      });
+    return res.status(200).json({
+      success: true,
+      data,
+    });
   } catch (error) {
     return next(error);
   }
 };
-
-// --------------------------------------------------
-// Create Class Section
-// --------------------------------------------------
 
 const createClassSectionController =
   async (
@@ -102,172 +77,162 @@ const createClassSectionController =
     next
   ) => {
     try {
-      const instituteId =
-        req.institute?.id;
-
-      const classId =
-        req.params.classId;
-
-      const {
-        sectionCode,
-        name,
-        nameBn,
-        nameEn,
-        nameAr,
-        description,
-        capacity,
-        sortOrder,
-        status,
-        settings,
-      } = req.body || {};
-
-      if (!instituteId) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message:
-              "Institute context is required.",
-          });
-      }
-
-      if (!classId) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message:
-              "Class ID is required.",
-          });
-      }
-
-      if (
-        !sectionCode ||
-        typeof sectionCode !== "string"
-      ) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message:
-              "Section code is required.",
-          });
-      }
-
-      if (
-        !name ||
-        typeof name !== "string"
-      ) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message:
-              "Section name is required.",
-          });
-      }
-
-      if (
-        capacity !== undefined &&
-        capacity !== null &&
-        (
-          !Number.isInteger(capacity) ||
-          capacity < 0
-        )
-      ) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message:
-              "Capacity must be a non-negative integer.",
-          });
-      }
-
-      if (
-        sortOrder !== undefined &&
-        (
-          !Number.isInteger(sortOrder) ||
-          sortOrder < 0
-        )
-      ) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message:
-              "Sort order must be a non-negative integer.",
-          });
-      }
-
-      const allowedStatuses = [
-        "active",
-        "inactive",
-        "archived",
-      ];
-
-      if (
-        status !== undefined &&
-        !allowedStatuses.includes(
-          status
-        )
-      ) {
-        return res
-          .status(400)
-          .json({
-            success: false,
-            message:
-              "Invalid section status.",
-          });
-      }
-
       const section =
         await createClassSection({
-          instituteId,
-          classId,
-          data: {
-            sectionCode:
-              sectionCode.trim(),
+          instituteId:
+            req.institute?.id,
 
-            name:
-              name.trim(),
+          classId:
+            req.params.classId,
 
-            nameBn:
-              nameBn?.trim(),
-
-            nameEn:
-              nameEn?.trim(),
-
-            nameAr:
-              nameAr?.trim(),
-
-            description:
-              description?.trim(),
-
-            capacity,
-            sortOrder,
-            status,
-            settings,
-          },
+          data: req.body,
         });
 
-      return res
-        .status(201)
-        .json({
-          success: true,
-          message:
-            "Section created successfully",
-          data: {
-            section,
-          },
-        });
+      return res.status(201).json({
+        success: true,
+        message:
+          "Section created successfully",
+        data: {
+          section,
+        },
+      });
     } catch (error) {
       return next(error);
     }
   };
 
 // --------------------------------------------------
-// List Class Curriculum
+// Subjects
+// --------------------------------------------------
+
+const listAcademicSubjectsController =
+  async (
+    req,
+    res,
+    next
+  ) => {
+    try {
+      const subjects =
+        await getAcademicSubjects(
+          req.institute?.id
+        );
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          subjects,
+          total:
+            subjects.length,
+        },
+      });
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+const createAcademicSubjectController =
+  async (
+    req,
+    res,
+    next
+  ) => {
+    try {
+      const {
+        subjectCode,
+        subjectType = "subject",
+        nameBn,
+        nameEn,
+        nameAr,
+      } = req.body || {};
+
+      if (
+        !subjectCode ||
+        !nameBn ||
+        !nameEn ||
+        !nameAr
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Subject code and all three language names are required.",
+        });
+      }
+
+      const allowedTypes = [
+        "subject",
+        "book",
+        "quran",
+        "memorization",
+        "language",
+        "general",
+      ];
+
+      if (
+        !allowedTypes.includes(
+          subjectType
+        )
+      ) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Invalid subject type.",
+        });
+      }
+
+      const subject =
+        await createAcademicSubject({
+          instituteId:
+            req.institute?.id,
+
+          data: req.body,
+        });
+
+      return res.status(201).json({
+        success: true,
+        message:
+          "Academic subject created successfully",
+        data: {
+          subject,
+        },
+      });
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+const updateAcademicSubjectController =
+  async (
+    req,
+    res,
+    next
+  ) => {
+    try {
+      const subject =
+        await updateAcademicSubject({
+          instituteId:
+            req.institute?.id,
+
+          subjectId:
+            req.params.subjectId,
+
+          data: req.body || {},
+        });
+
+      return res.status(200).json({
+        success: true,
+        message:
+          "Academic subject updated successfully",
+        data: {
+          subject,
+        },
+      });
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+// --------------------------------------------------
+// Curriculum
 // --------------------------------------------------
 
 const listClassCurriculum = async (
@@ -276,31 +241,94 @@ const listClassCurriculum = async (
   next
 ) => {
   try {
-    const instituteId =
-      req.institute?.id;
-
-    const classId =
-      req.params.classId;
-
-    const curriculum =
+    const data =
       await getClassCurriculum(
-        instituteId,
-        classId
+        req.institute?.id,
+        req.params.classId
       );
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        data: curriculum,
-      });
+    return res.status(200).json({
+      success: true,
+      data,
+    });
   } catch (error) {
     return next(error);
   }
 };
 
+const assignSubjectToClassController =
+  async (
+    req,
+    res,
+    next
+  ) => {
+    try {
+      const {
+        subjectId,
+      } = req.body || {};
+
+      if (!subjectId) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Subject ID is required.",
+        });
+      }
+
+      const curriculum =
+        await assignSubjectToClass({
+          instituteId:
+            req.institute?.id,
+
+          classId:
+            req.params.classId,
+
+          data: req.body,
+        });
+
+      return res.status(201).json({
+        success: true,
+        message:
+          "Subject assigned to class successfully",
+        data: {
+          curriculum,
+        },
+      });
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+const removeSubjectFromClassController =
+  async (
+    req,
+    res,
+    next
+  ) => {
+    try {
+      await removeSubjectFromClass({
+        instituteId:
+          req.institute?.id,
+
+        classId:
+          req.params.classId,
+
+        subjectId:
+          req.params.subjectId,
+      });
+
+      return res.status(200).json({
+        success: true,
+        message:
+          "Subject removed from class curriculum successfully",
+      });
+    } catch (error) {
+      return next(error);
+    }
+  };
+
 // --------------------------------------------------
-// List Hifz Stages
+// Hifz Stages
 // --------------------------------------------------
 
 const listHifzStages = async (
@@ -309,20 +337,15 @@ const listHifzStages = async (
   next
 ) => {
   try {
-    const instituteId =
-      req.institute?.id;
-
-    const stages =
+    const data =
       await getHifzStages(
-        instituteId
+        req.institute?.id
       );
 
-    return res
-      .status(200)
-      .json({
-        success: true,
-        data: stages,
-      });
+    return res.status(200).json({
+      success: true,
+      data,
+    });
   } catch (error) {
     return next(error);
   }
@@ -334,8 +357,17 @@ const listHifzStages = async (
 
 module.exports = {
   listClasses,
+
   listClassSections,
   createClassSectionController,
+
+  listAcademicSubjectsController,
+  createAcademicSubjectController,
+  updateAcademicSubjectController,
+
   listClassCurriculum,
+  assignSubjectToClassController,
+  removeSubjectFromClassController,
+
   listHifzStages,
 };
