@@ -13,6 +13,7 @@ const {
   createHifzEnrollmentController,
   getHifzEnrollmentController,
   updateHifzStageController,
+  completeHifzEnrollmentController,
   listStudentHifzEnrollmentsController,
 } = require(
   "../controllers/hifz.controller"
@@ -39,6 +40,7 @@ const {
 const {
   validateCreateHifzEnrollment,
   validateUpdateHifzStage,
+  validateCompleteHifzEnrollment,
 } = require(
   "../middleware/validate-hifz"
 );
@@ -76,7 +78,7 @@ router.get(
 );
 
 // --------------------------------------------------
-// Progress Enrollment Stage
+// Progress Stage
 // --------------------------------------------------
 
 router.patch(
@@ -88,6 +90,21 @@ router.patch(
   ),
   validateUpdateHifzStage,
   updateHifzStageController
+);
+
+// --------------------------------------------------
+// Complete Enrollment
+// --------------------------------------------------
+
+router.patch(
+  "/enrollments/:enrollmentId/complete",
+  authenticate,
+  authorizeInstitute,
+  authorizePermission(
+    "students.update"
+  ),
+  validateCompleteHifzEnrollment,
+  completeHifzEnrollmentController
 );
 
 // --------------------------------------------------
