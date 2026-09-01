@@ -100,7 +100,7 @@ const getHifzStages = async (instituteId) => {
 
       INNER JOIN academic_departments ad
         ON ad.institute_id = ads.institute_id
-       AND ad.id = ads.department_id
+       AND ad.id = ads.academic_department_id
 
       WHERE ads.institute_id = $1
         AND ad.department_code = 'HIFZ'
