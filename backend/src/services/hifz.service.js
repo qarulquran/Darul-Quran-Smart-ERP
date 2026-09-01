@@ -150,7 +150,7 @@ const getHifzStudent = async (
 };
 
 // --------------------------------------------------
-// Get Hifz Stage
+// Get Stage By Code
 // --------------------------------------------------
 
 const getHifzStageByCode =
@@ -318,7 +318,7 @@ const getHifzEnrollmentById =
   };
 
 // --------------------------------------------------
-// Create Hifz Enrollment
+// Create Enrollment
 // --------------------------------------------------
 
 const createHifzEnrollment =
@@ -350,8 +350,6 @@ const createHifzEnrollment =
         department.id,
         stageCode
       );
-
-    // Prevent more than one open Hifz enrollment.
 
     const existingResult =
       await query(
@@ -453,7 +451,95 @@ const createHifzEnrollment =
   };
 
 // --------------------------------------------------
-// Get Student Hifz Enrollment History
+// Update Hifz Stage
+// --------------------------------------------------
+
+const updateHifzEnrollmentStage =
+  async ({
+    instituteId,
+    enrollmentId,
+    stageCode,
+  }) => {
+    const current =
+      await getHifzEnrollmentById({
+        instituteId,
+        enrollmentId,
+      });
+
+    if (
+      current.enrollment_status !==
+      "active"
+    ) {
+      throw createHifzError(
+        "Only active Hifz enrollment can progress to another stage",
+        400,
+        "HIFZ_ENROLLMENT_NOT_ACTIVE"
+      );
+    }
+
+    const allowedTransitions = {
+      NAZERA: "HIFZ",
+      HIFZ: "HIFZ_REVISION",
+    };
+
+    const expectedNextStage =
+      allowedTransitions[
+        current.stage_code
+      ];
+
+    if (!expectedNextStage) {
+      throw createHifzError(
+        "This enrollment is already at the final Hifz stage",
+        400,
+        "HIFZ_FINAL_STAGE_REACHED"
+      );
+    }
+
+    if (
+      stageCode !==
+      expectedNextStage
+    ) {
+      throw createHifzError(
+        `Next Hifz stage must be ${expectedNextStage}`,
+        400,
+        "INVALID_HIFZ_STAGE_TRANSITION"
+      );
+    }
+
+    const stage =
+      await getHifzStageByCode(
+        instituteId,
+        current.academic_department_id,
+        stageCode
+      );
+
+    await query(
+      `
+        UPDATE student_department_enrollments
+
+        SET
+          stage_id = $3,
+          updated_at =
+            CURRENT_TIMESTAMP
+
+        WHERE institute_id = $1
+          AND id = $2;
+      `,
+      [
+        instituteId,
+        enrollmentId,
+        stage.id,
+      ]
+    );
+
+    return getHifzEnrollmentById({
+      instituteId,
+      enrollmentId,
+    });
+  };
+
+// --------------------------------------------------
+// Student Enrollment History
 // --------------------------------------------------
 
 const getStudentHifzEnrollments =
@@ -545,6 +631,8 @@ module.exports = {
   getHifzStudent,
   getHifzStageByCode,
   getHifzEnrollmentById,
+
   createHifzEnrollment,
+  updateHifzEnrollmentStage,
   getStudentHifzEnrollments,
 };
