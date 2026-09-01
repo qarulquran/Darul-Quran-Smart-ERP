@@ -59,6 +59,10 @@ const academicRoutes = require(
   "./routes/academic.routes"
 );
 
+const hifzRoutes = require(
+  "./routes/hifz.routes"
+);
+
 const app = express();
 
 // --------------------------------------------------
@@ -266,6 +270,11 @@ app.use(
   academicRoutes
 );
 
+app.use(
+  "/api/v1/hifz",
+  hifzRoutes
+);
+
 /**
  * Future modules:
  *
@@ -273,26 +282,3 @@ app.use(
  * /api/v1/teachers
  * /api/v1/classes
  * /api/v1/subjects
- * /api/v1/attendance
- * /api/v1/fees
- * /api/v1/exams
- * /api/v1/certificates
- */
-
-// --------------------------------------------------
-// 404 Handler
-// --------------------------------------------------
-
-app.use(notFoundHandler);
-
-// --------------------------------------------------
-// Global Error Handler
-// --------------------------------------------------
-
-app.use(errorHandler);
-
-// --------------------------------------------------
-// Exports
-// --------------------------------------------------
-
-module.exports = app;
