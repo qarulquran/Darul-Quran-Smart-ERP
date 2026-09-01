@@ -12,6 +12,7 @@ const express =
 const {
   createHifzEnrollmentController,
   getHifzEnrollmentController,
+  updateHifzStageController,
   listStudentHifzEnrollmentsController,
 } = require(
   "../controllers/hifz.controller"
@@ -37,6 +38,7 @@ const {
 
 const {
   validateCreateHifzEnrollment,
+  validateUpdateHifzStage,
 } = require(
   "../middleware/validate-hifz"
 );
@@ -45,7 +47,7 @@ const router =
   express.Router();
 
 // --------------------------------------------------
-// Create Hifz Enrollment
+// Create Enrollment
 // --------------------------------------------------
 
 router.post(
@@ -71,6 +73,21 @@ router.get(
     "students.view"
   ),
   getHifzEnrollmentController
+);
+
+// --------------------------------------------------
+// Progress Enrollment Stage
+// --------------------------------------------------
+
+router.patch(
+  "/enrollments/:enrollmentId/stage",
+  authenticate,
+  authorizeInstitute,
+  authorizePermission(
+    "students.update"
+  ),
+  validateUpdateHifzStage,
+  updateHifzStageController
 );
 
 // --------------------------------------------------
