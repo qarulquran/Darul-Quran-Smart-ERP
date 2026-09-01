@@ -5,7 +5,7 @@
  * Handles academic structure operations:
  * - Classes
  * - Class curriculum / subjects / kitab
- * - Hifz department stages
+ * - Hifz stages
  */
 
 const {
@@ -95,22 +95,7 @@ const getHifzStages = async (instituteId) => {
   const result = await query(
     `
       SELECT
-        ads.id,
-        ads.institute_id,
-        ads.department_id,
-        ads.stage_code,
-        ads.name_bn,
-        ads.name_en,
-        ads.name_ar,
-        ads.description_bn,
-        ads.description_en,
-        ads.description_ar,
-        ads.sort_order,
-        ads.status,
-        ads.metadata,
-        ads.created_at,
-        ads.updated_at
-
+        ads.*
       FROM academic_department_stages ads
 
       INNER JOIN academic_departments ad
