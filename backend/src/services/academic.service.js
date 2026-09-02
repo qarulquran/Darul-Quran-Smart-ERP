@@ -127,8 +127,7 @@ const getClasses = async (
 ) => {
   const result = await query(
     `
-      SELECT
-        c.*
+      SELECT c.*
       FROM classes c
       WHERE c.institute_id = $1
         AND c.status = 'active'
@@ -157,8 +156,7 @@ const getClassSections = async (
 
   const result = await query(
     `
-      SELECT
-        sec.*
+      SELECT sec.*
       FROM sections sec
       WHERE sec.institute_id = $1
         AND sec.class_id = $2
@@ -268,7 +266,7 @@ const createClassSection = async ({
 };
 
 // --------------------------------------------------
-// List Subjects / Kitab
+// Subjects
 // --------------------------------------------------
 
 const getAcademicSubjects = async (
@@ -289,10 +287,6 @@ const getAcademicSubjects = async (
 
   return result.rows;
 };
-
-// --------------------------------------------------
-// Create Subject / Kitab
-// --------------------------------------------------
 
 const createAcademicSubject = async ({
   instituteId,
@@ -375,10 +369,6 @@ const createAcademicSubject = async ({
   }
 };
 
-// --------------------------------------------------
-// Update Subject / Kitab
-// --------------------------------------------------
-
 const updateAcademicSubject = async ({
   instituteId,
   subjectId,
@@ -390,75 +380,86 @@ const updateAcademicSubject = async ({
       subjectId
     );
 
-  const result = await query(
-    `
-      UPDATE academic_subjects
-      SET
-        subject_code = $3,
-        subject_type = $4,
-        name_bn = $5,
-        name_en = $6,
-        name_ar = $7,
-        description_bn = $8,
-        description_en = $9,
-        description_ar = $10,
-        status = $11,
-        metadata = $12::jsonb,
-        updated_at = CURRENT_TIMESTAMP
-      WHERE institute_id = $1
-        AND id = $2
-      RETURNING *;
-    `,
-    [
-      instituteId,
-      subjectId,
+  try {
+    const result = await query(
+      `
+        UPDATE academic_subjects
+        SET
+          subject_code = $3,
+          subject_type = $4,
+          name_bn = $5,
+          name_en = $6,
+          name_ar = $7,
+          description_bn = $8,
+          description_en = $9,
+          description_ar = $10,
+          status = $11,
+          metadata = $12::jsonb,
+          updated_at = CURRENT_TIMESTAMP
+        WHERE institute_id = $1
+          AND id = $2
+        RETURNING *;
+      `,
+      [
+        instituteId,
+        subjectId,
 
-      data.subjectCode ??
-        current.subject_code,
+        data.subjectCode ??
+          current.subject_code,
 
-      data.subjectType ??
-        current.subject_type,
+        data.subjectType ??
+          current.subject_type,
 
-      data.nameBn ??
-        current.name_bn,
+        data.nameBn ??
+          current.name_bn,
 
-      data.nameEn ??
-        current.name_en,
+        data.nameEn ??
+          current.name_en,
 
-      data.nameAr ??
-        current.name_ar,
+        data.nameAr ??
+          current.name_ar,
 
-      data.descriptionBn !==
-      undefined
-        ? data.descriptionBn || null
-        : current.description_bn,
+        data.descriptionBn !== undefined
+          ? data.descriptionBn || null
+          : current.description_bn,
 
-      data.descriptionEn !==
-      undefined
-        ? data.descriptionEn || null
-        : current.description_en,
+        data.descriptionEn !== undefined
+          ? data.descriptionEn || null
+          : current.description_en,
 
-      data.descriptionAr !==
-      undefined
-        ? data.descriptionAr || null
-        : current.description_ar,
+        data.descriptionAr !== undefined
+          ? data.descriptionAr || null
+          : current.description_ar,
 
-      data.status ??
-        current.status,
+        data.status ??
+          current.status,
 
-      JSON.stringify(
-        data.metadata !== undefined
-          ? data.metadata
-          : current.metadata || {}
-      ),
-    ]
-  );
+        JSON.stringify(
+          data.metadata !== undefined
+            ? data.metadata
+            : current.metadata || {}
+        ),
+      ]
+    );
 
-  return result.rows[0];
+    return result.rows[0];
+  } catch (error) {
+    if (
+      error.code === "23505"
+    ) {
+      throw createAcademicError(
+        "Subject code already exists",
+        409,
+        "ACADEMIC_SUBJECT_CODE_EXISTS"
+      );
+    }
+
+    throw error;
+  }
 };
 
 // --------------------------------------------------
-// Class Curriculum
+// Curriculum
 // --------------------------------------------------
 
 const getClassCurriculum = async (
@@ -496,4 +497,205 @@ const getClassCurriculum = async (
 
       FROM class_curriculum cc
 
-      INNER JOIN
+      INNER JOIN academic_subjects s
+        ON s.institute_id =
+           cc.institute_id
+       AND s.id =
+           cc.subject_id
+
+      WHERE cc.institute_id = $1
+        AND cc.class_id = $2
+        AND cc.status = 'active'
+        AND s.status = 'active'
+
+      ORDER BY
+        cc.sort_order ASC,
+        s.name_en ASC;
+    `,
+    [
+      instituteId,
+      classId,
+    ]
+  );
+
+  return result.rows;
+};
+
+const assignSubjectToClass = async ({
+  instituteId,
+  classId,
+  data,
+}) => {
+  await verifyAcademicClass(
+    instituteId,
+    classId
+  );
+
+  await verifyAcademicSubject(
+    instituteId,
+    data.subjectId
+  );
+
+  const isOptional =
+    data.isOptional === true;
+
+  const result = await query(
+    `
+      INSERT INTO class_curriculum (
+        institute_id,
+        class_id,
+        subject_id,
+        is_required,
+        is_optional,
+        sort_order,
+        status,
+        metadata
+      )
+      VALUES (
+        $1,
+        $2,
+        $3,
+        $4,
+        $5,
+        $6,
+        'active',
+        $7::jsonb
+      )
+
+      ON CONFLICT (
+        institute_id,
+        class_id,
+        subject_id
+      )
+
+      DO UPDATE SET
+        is_required =
+          EXCLUDED.is_required,
+
+        is_optional =
+          EXCLUDED.is_optional,
+
+        sort_order =
+          EXCLUDED.sort_order,
+
+        status =
+          'active',
+
+        metadata =
+          EXCLUDED.metadata,
+
+        updated_at =
+          CURRENT_TIMESTAMP
+
+      RETURNING *;
+    `,
+    [
+      instituteId,
+      classId,
+      data.subjectId,
+      !isOptional,
+      isOptional,
+      data.sortOrder ?? 0,
+      JSON.stringify(
+        data.metadata || {}
+      ),
+    ]
+  );
+
+  return result.rows[0];
+};
+
+const removeSubjectFromClass = async ({
+  instituteId,
+  classId,
+  subjectId,
+}) => {
+  await verifyAcademicClass(
+    instituteId,
+    classId
+  );
+
+  const result = await query(
+    `
+      DELETE FROM class_curriculum
+      WHERE institute_id = $1
+        AND class_id = $2
+        AND subject_id = $3
+      RETURNING id;
+    `,
+    [
+      instituteId,
+      classId,
+      subjectId,
+    ]
+  );
+
+  if (
+    result.rows.length === 0
+  ) {
+    throw createAcademicError(
+      "Subject is not assigned to this class",
+      404,
+      "CLASS_CURRICULUM_NOT_FOUND"
+    );
+  }
+
+  return true;
+};
+
+// --------------------------------------------------
+// Hifz Stages
+// --------------------------------------------------
+
+const getHifzStages = async (
+  instituteId
+) => {
+  const result = await query(
+    `
+      SELECT ads.*
+      FROM academic_department_stages ads
+
+      INNER JOIN academic_departments ad
+        ON ad.institute_id =
+           ads.institute_id
+       AND ad.id =
+           ads.academic_department_id
+
+      WHERE ads.institute_id = $1
+        AND ad.department_code = 'HIFZ'
+        AND ads.status = 'active'
+        AND ad.status = 'active'
+
+      ORDER BY
+        ads.sort_order ASC,
+        ads.id ASC;
+    `,
+    [instituteId]
+  );
+
+  return result.rows;
+};
+
+// --------------------------------------------------
+// Exports
+// --------------------------------------------------
+
+module.exports = {
+  getClasses,
+
+  getClassSections,
+  createClassSection,
+
+  getAcademicSubjects,
+  createAcademicSubject,
+  updateAcademicSubject,
+
+  getClassCurriculum,
+  assignSubjectToClass,
+  removeSubjectFromClass,
+
+  getHifzStages,
+
+  verifyAcademicClass,
+  verifyAcademicSubject,
+};
